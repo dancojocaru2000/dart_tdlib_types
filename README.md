@@ -1,19 +1,14 @@
-A library for Dart developers.
+Generated TDLib types for Dart
 
 ## Usage
 
 A simple usage example:
 
 ```dart
-import 'package:tdlib_types/tdlib_types.dart';
+import 'package:tdlib_types/base.dart' show TdBase;
+import 'package:tdlib_types/fn.dart' as tdfn;
 
 main() {
-  var awesome = new Awesome();
+  print(tdfn.SetLogVerbosityLevel(newVerbosityLevel: 2).toJson());
 }
 ```
-
-## Features and bugs
-
-Please file feature requests and bugs at the [issue tracker][tracker].
-
-[tracker]: http://example.com/issues/replaceme

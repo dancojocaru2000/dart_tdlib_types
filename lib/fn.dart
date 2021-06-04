@@ -35,7 +35,7 @@ class GetAuthorizationState extends TdFunction {
 /// Sets the parameters for TDLib initialization. Works only when the current authorization state is authorizationStateWaitTdlibParameters
 class SetTdlibParameters extends TdFunction {
   /// Parameters
-  final o.TdlibParameters parameters;
+  final o.TdlibParameters? parameters;
 
   SetTdlibParameters({
     required this.parameters,
@@ -57,11 +57,11 @@ class SetTdlibParameters extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setTdlibParameters',
-    'parameters': parameters.toJson(),
+    'parameters': parameters?.toJson(),
   };
 
   factory SetTdlibParameters.fromJson(Map<String, dynamic> json) => SetTdlibParameters(
-    parameters: b.TdBase.fromJson(json['parameters']) as o.TdlibParameters,
+    parameters: b.TdBase.fromJson(json['parameters']) as o.TdlibParameters?,
   );
 }
 
@@ -103,7 +103,7 @@ class SetAuthenticationPhoneNumber extends TdFunction {
   /// The phone number of the user, in international format
   final String phoneNumber;
   /// Settings for the authentication of the user's phone number
-  final o.PhoneNumberAuthenticationSettings settings;
+  final o.PhoneNumberAuthenticationSettings? settings;
 
   SetAuthenticationPhoneNumber({
     required this.phoneNumber,
@@ -128,12 +128,12 @@ class SetAuthenticationPhoneNumber extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setAuthenticationPhoneNumber',
     'phone_number': phoneNumber,
-    'settings': settings.toJson(),
+    'settings': settings?.toJson(),
   };
 
   factory SetAuthenticationPhoneNumber.fromJson(Map<String, dynamic> json) => SetAuthenticationPhoneNumber(
     phoneNumber: json['phone_number'],
-    settings: b.TdBase.fromJson(json['settings']) as o.PhoneNumberAuthenticationSettings,
+    settings: b.TdBase.fromJson(json['settings']) as o.PhoneNumberAuthenticationSettings?,
   );
 }
 
@@ -1491,7 +1491,7 @@ class GetRemoteFile extends TdFunction {
   /// Remote identifier of the file to get
   final String remoteFileId;
   /// File type, if known
-  final a.FileType fileType;
+  final a.FileType? fileType;
 
   GetRemoteFile({
     required this.remoteFileId,
@@ -1516,19 +1516,19 @@ class GetRemoteFile extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'getRemoteFile',
     'remote_file_id': remoteFileId,
-    'file_type': fileType.toJson(),
+    'file_type': fileType?.toJson(),
   };
 
   factory GetRemoteFile.fromJson(Map<String, dynamic> json) => GetRemoteFile(
     remoteFileId: json['remote_file_id'],
-    fileType: b.TdBase.fromJson(json['file_type']) as a.FileType,
+    fileType: b.TdBase.fromJson(json['file_type']) as a.FileType?,
   );
 }
 
 /// Returns an ordered list of chats in a chat list. Chats are sorted by the pair (chat.position.order, chat.id) in descending order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1).
 class GetChats extends TdFunction {
   /// The chat list in which to return chats
-  final a.ChatList chatList;
+  final a.ChatList? chatList;
   /// Chat order to return chats from
   final int offsetOrder;
   /// Chat identifier to return chats from
@@ -1562,14 +1562,14 @@ class GetChats extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChats',
-    'chat_list': chatList.toJson(),
+    'chat_list': chatList?.toJson(),
     'offset_order': offsetOrder.toString(),
     'offset_chat_id': offsetChatId,
     'limit': limit,
   };
 
   factory GetChats.fromJson(Map<String, dynamic> json) => GetChats(
-    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList,
+    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
     offsetOrder: int.parse(json['offset_order']),
     offsetChatId: json['offset_chat_id'],
     limit: json['limit'],
@@ -1723,7 +1723,7 @@ class SearchChatsOnServer extends TdFunction {
 /// Returns a list of users and location-based supergroups nearby. The list of users nearby will be updated for 60 seconds after the request by the updates updateUsersNearby. The request should be sent again every 25 seconds with adjusted location to not miss new chats
 class SearchChatsNearby extends TdFunction {
   /// Current user location
-  final o.Location location;
+  final o.Location? location;
 
   SearchChatsNearby({
     required this.location,
@@ -1745,18 +1745,18 @@ class SearchChatsNearby extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchChatsNearby',
-    'location': location.toJson(),
+    'location': location?.toJson(),
   };
 
   factory SearchChatsNearby.fromJson(Map<String, dynamic> json) => SearchChatsNearby(
-    location: b.TdBase.fromJson(json['location']) as o.Location,
+    location: b.TdBase.fromJson(json['location']) as o.Location?,
   );
 }
 
 /// Returns a list of frequently used chats. Supported only if the chat info database is enabled
 class GetTopChats extends TdFunction {
   /// Category of chats to be returned
-  final a.TopChatCategory category;
+  final a.TopChatCategory? category;
   /// The maximum number of chats to be returned; up to 30
   final int limit;
 
@@ -1782,12 +1782,12 @@ class GetTopChats extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getTopChats',
-    'category': category.toJson(),
+    'category': category?.toJson(),
     'limit': limit,
   };
 
   factory GetTopChats.fromJson(Map<String, dynamic> json) => GetTopChats(
-    category: b.TdBase.fromJson(json['category']) as a.TopChatCategory,
+    category: b.TdBase.fromJson(json['category']) as a.TopChatCategory?,
     limit: json['limit'],
   );
 }
@@ -1795,7 +1795,7 @@ class GetTopChats extends TdFunction {
 /// Removes a chat from the list of frequently used chats. Supported only if the chat info database is enabled
 class RemoveTopChat extends TdFunction {
   /// Category of frequently used chats
-  final a.TopChatCategory category;
+  final a.TopChatCategory? category;
   /// Chat identifier
   final int chatId;
 
@@ -1821,12 +1821,12 @@ class RemoveTopChat extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeTopChat',
-    'category': category.toJson(),
+    'category': category?.toJson(),
     'chat_id': chatId,
   };
 
   factory RemoveTopChat.fromJson(Map<String, dynamic> json) => RemoveTopChat(
-    category: b.TdBase.fromJson(json['category']) as a.TopChatCategory,
+    category: b.TdBase.fromJson(json['category']) as a.TopChatCategory?,
     chatId: json['chat_id'],
   );
 }
@@ -1964,7 +1964,7 @@ class CheckChatUsername extends TdFunction {
 /// Returns a list of public chats of the specified type, owned by the user
 class GetCreatedPublicChats extends TdFunction {
   /// Type of the public chats to return
-  final a.PublicChatType type;
+  final a.PublicChatType? type;
 
   GetCreatedPublicChats({
     required this.type,
@@ -1986,18 +1986,18 @@ class GetCreatedPublicChats extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getCreatedPublicChats',
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory GetCreatedPublicChats.fromJson(Map<String, dynamic> json) => GetCreatedPublicChats(
-    type: b.TdBase.fromJson(json['type']) as a.PublicChatType,
+    type: b.TdBase.fromJson(json['type']) as a.PublicChatType?,
   );
 }
 
 /// Checks whether the maximum number of owned public chats has been reached. Returns corresponding error if the limit was reached
 class CheckCreatedPublicChatsLimit extends TdFunction {
   /// Type of the public chats, for which to check the limit
-  final a.PublicChatType type;
+  final a.PublicChatType? type;
 
   CheckCreatedPublicChatsLimit({
     required this.type,
@@ -2019,11 +2019,11 @@ class CheckCreatedPublicChatsLimit extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkCreatedPublicChatsLimit',
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory CheckCreatedPublicChatsLimit.fromJson(Map<String, dynamic> json) => CheckCreatedPublicChatsLimit(
-    type: b.TdBase.fromJson(json['type']) as a.PublicChatType,
+    type: b.TdBase.fromJson(json['type']) as a.PublicChatType?,
   );
 }
 
@@ -2321,7 +2321,7 @@ class SearchChatMessages extends TdFunction {
   /// Query to search for
   final String query;
   /// If not null, only messages sent by the specified sender will be returned. Not supported in secret chats
-  final a.MessageSender sender;
+  final a.MessageSender? sender;
   /// Identifier of the message starting from which history must be fetched; use 0 to get results from the last message
   final int fromMessageId;
   /// Specify 0 to get results from exactly the from_message_id or a negative offset to get the specified message and some newer messages
@@ -2329,7 +2329,7 @@ class SearchChatMessages extends TdFunction {
   /// The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
   final int limit;
   /// Filter for message content in the search results
-  final a.SearchMessagesFilter filter;
+  final a.SearchMessagesFilter? filter;
   /// If not 0, only messages in the specified thread will be returned; supergroups only
   final int messageThreadId;
 
@@ -2369,22 +2369,22 @@ class SearchChatMessages extends TdFunction {
     '@type': 'searchChatMessages',
     'chat_id': chatId,
     'query': query,
-    'sender': sender.toJson(),
+    'sender': sender?.toJson(),
     'from_message_id': fromMessageId,
     'offset': offset,
     'limit': limit,
-    'filter': filter.toJson(),
+    'filter': filter?.toJson(),
     'message_thread_id': messageThreadId,
   };
 
   factory SearchChatMessages.fromJson(Map<String, dynamic> json) => SearchChatMessages(
     chatId: json['chat_id'],
     query: json['query'],
-    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender,
+    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
     fromMessageId: json['from_message_id'],
     offset: json['offset'],
     limit: json['limit'],
-    filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter,
+    filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter?,
     messageThreadId: json['message_thread_id'],
   );
 }
@@ -2392,7 +2392,7 @@ class SearchChatMessages extends TdFunction {
 /// Searches for messages in all chats except secret chats. Returns the results in reverse chronological order (i.e., in order of decreasing (date, chat_id, message_id)).
 class SearchMessages extends TdFunction {
   /// Chat list in which to search messages; pass null to search in all chats regardless of their chat list. Only Main and Archive chat lists are supported
-  final a.ChatList chatList;
+  final a.ChatList? chatList;
   /// Query to search for
   final String query;
   /// The date of the message starting from which the results should be fetched. Use 0 or any date in the future to get results from the last message
@@ -2404,7 +2404,7 @@ class SearchMessages extends TdFunction {
   /// The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
   final int limit;
   /// Filter for message content in the search results; searchMessagesFilterCall, searchMessagesFilterMissedCall, searchMessagesFilterMention, searchMessagesFilterUnreadMention, searchMessagesFilterFailedToSend and searchMessagesFilterPinned are unsupported in this function
-  final a.SearchMessagesFilter filter;
+  final a.SearchMessagesFilter? filter;
   /// If not 0, the minimum date of the messages to return
   final int minDate;
   /// If not 0, the maximum date of the messages to return
@@ -2446,25 +2446,25 @@ class SearchMessages extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchMessages',
-    'chat_list': chatList.toJson(),
+    'chat_list': chatList?.toJson(),
     'query': query,
     'offset_date': offsetDate,
     'offset_chat_id': offsetChatId,
     'offset_message_id': offsetMessageId,
     'limit': limit,
-    'filter': filter.toJson(),
+    'filter': filter?.toJson(),
     'min_date': minDate,
     'max_date': maxDate,
   };
 
   factory SearchMessages.fromJson(Map<String, dynamic> json) => SearchMessages(
-    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList,
+    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
     query: json['query'],
     offsetDate: json['offset_date'],
     offsetChatId: json['offset_chat_id'],
     offsetMessageId: json['offset_message_id'],
     limit: json['limit'],
-    filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter,
+    filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter?,
     minDate: json['min_date'],
     maxDate: json['max_date'],
   );
@@ -2481,7 +2481,7 @@ class SearchSecretMessages extends TdFunction {
   /// The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
   final int limit;
   /// A filter for message content in the search results
-  final a.SearchMessagesFilter filter;
+  final a.SearchMessagesFilter? filter;
 
   SearchSecretMessages({
     required this.chatId,
@@ -2515,7 +2515,7 @@ class SearchSecretMessages extends TdFunction {
     'query': query,
     'offset': offset,
     'limit': limit,
-    'filter': filter.toJson(),
+    'filter': filter?.toJson(),
   };
 
   factory SearchSecretMessages.fromJson(Map<String, dynamic> json) => SearchSecretMessages(
@@ -2523,7 +2523,7 @@ class SearchSecretMessages extends TdFunction {
     query: json['query'],
     offset: json['offset'],
     limit: json['limit'],
-    filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter,
+    filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter?,
   );
 }
 
@@ -2713,7 +2713,7 @@ class GetChatMessageCount extends TdFunction {
   /// Identifier of the chat in which to count messages
   final int chatId;
   /// Filter for message content; searchMessagesFilterEmpty is unsupported in this function
-  final a.SearchMessagesFilter filter;
+  final a.SearchMessagesFilter? filter;
   /// If true, returns count that is available locally without sending network requests, returning -1 if the number of messages is unknown
   final bool returnLocal;
 
@@ -2742,13 +2742,13 @@ class GetChatMessageCount extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'getChatMessageCount',
     'chat_id': chatId,
-    'filter': filter.toJson(),
+    'filter': filter?.toJson(),
     'return_local': returnLocal,
   };
 
   factory GetChatMessageCount.fromJson(Map<String, dynamic> json) => GetChatMessageCount(
     chatId: json['chat_id'],
-    filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter,
+    filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter?,
     returnLocal: json['return_local'],
   );
 }
@@ -3053,11 +3053,11 @@ class SendMessage extends TdFunction {
   /// Identifier of the message to reply to or 0
   final int replyToMessageId;
   /// Options to be used to send the message
-  final o.MessageSendOptions options;
+  final o.MessageSendOptions? options;
   /// Markup for replying to the message; for bots only
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   SendMessage({
     required this.chatId,
@@ -3092,18 +3092,18 @@ class SendMessage extends TdFunction {
     'chat_id': chatId,
     'message_thread_id': messageThreadId,
     'reply_to_message_id': replyToMessageId,
-    'options': options.toJson(),
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'options': options?.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory SendMessage.fromJson(Map<String, dynamic> json) => SendMessage(
     chatId: json['chat_id'],
     messageThreadId: json['message_thread_id'],
     replyToMessageId: json['reply_to_message_id'],
-    options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions,
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions?,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -3116,9 +3116,9 @@ class SendMessageAlbum extends TdFunction {
   /// Identifier of a message to reply to or 0
   final int replyToMessageId;
   /// Options to be used to send the messages
-  final o.MessageSendOptions options;
+  final o.MessageSendOptions? options;
   /// Contents of messages to be sent. At most 10 messages can be added to an album
-  final List<a.InputMessageContent> inputMessageContents;
+  final List<a.InputMessageContent?> inputMessageContents;
 
   SendMessageAlbum({
     required this.chatId,
@@ -3151,16 +3151,16 @@ class SendMessageAlbum extends TdFunction {
     'chat_id': chatId,
     'message_thread_id': messageThreadId,
     'reply_to_message_id': replyToMessageId,
-    'options': options.toJson(),
-    'input_message_contents': inputMessageContents.map((_e1) => _e1.toJson()).toList(growable: false),
+    'options': options?.toJson(),
+    'input_message_contents': inputMessageContents.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory SendMessageAlbum.fromJson(Map<String, dynamic> json) => SendMessageAlbum(
     chatId: json['chat_id'],
     messageThreadId: json['message_thread_id'],
     replyToMessageId: json['reply_to_message_id'],
-    options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions,
-    inputMessageContents: (json['input_message_contents'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputMessageContent).toList(growable: false),
+    options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions?,
+    inputMessageContents: (json['input_message_contents'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputMessageContent?).toList(growable: false),
   );
 }
 
@@ -3218,7 +3218,7 @@ class SendInlineQueryResultMessage extends TdFunction {
   /// Identifier of a message to reply to or 0
   final int replyToMessageId;
   /// Options to be used to send the message
-  final o.MessageSendOptions options;
+  final o.MessageSendOptions? options;
   /// Identifier of the inline query
   final int queryId;
   /// Identifier of the inline result
@@ -3261,7 +3261,7 @@ class SendInlineQueryResultMessage extends TdFunction {
     'chat_id': chatId,
     'message_thread_id': messageThreadId,
     'reply_to_message_id': replyToMessageId,
-    'options': options.toJson(),
+    'options': options?.toJson(),
     'query_id': queryId.toString(),
     'result_id': resultId,
     'hide_via_bot': hideViaBot,
@@ -3271,7 +3271,7 @@ class SendInlineQueryResultMessage extends TdFunction {
     chatId: json['chat_id'],
     messageThreadId: json['message_thread_id'],
     replyToMessageId: json['reply_to_message_id'],
-    options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions,
+    options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions?,
     queryId: int.parse(json['query_id']),
     resultId: json['result_id'],
     hideViaBot: json['hide_via_bot'],
@@ -3287,7 +3287,7 @@ class ForwardMessages extends TdFunction {
   /// Identifiers of the messages to forward. Message identifiers must be in a strictly increasing order. At most 100 messages can be forwarded simultaneously
   final List<int> messageIds;
   /// Options to be used to send the messages
-  final o.MessageSendOptions options;
+  final o.MessageSendOptions? options;
   /// True, if content of the messages needs to be copied without links to the original messages. Always true if the messages are forwarded to a secret chat
   final bool sendCopy;
   /// True, if media caption of message copies needs to be removed. Ignored if send_copy is false
@@ -3326,7 +3326,7 @@ class ForwardMessages extends TdFunction {
     'chat_id': chatId,
     'from_chat_id': fromChatId,
     'message_ids': messageIds.map((_e1) => _e1).toList(growable: false),
-    'options': options.toJson(),
+    'options': options?.toJson(),
     'send_copy': sendCopy,
     'remove_caption': removeCaption,
   };
@@ -3335,7 +3335,7 @@ class ForwardMessages extends TdFunction {
     chatId: json['chat_id'],
     fromChatId: json['from_chat_id'],
     messageIds: (json['message_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions,
+    options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions?,
     sendCopy: json['send_copy'],
     removeCaption: json['remove_caption'],
   );
@@ -3418,13 +3418,13 @@ class AddLocalMessage extends TdFunction {
   /// Target chat
   final int chatId;
   /// The sender sender of the message
-  final a.MessageSender sender;
+  final a.MessageSender? sender;
   /// Identifier of the message to reply to or 0
   final int replyToMessageId;
   /// Pass true to disable notification for the message
   final bool disableNotification;
   /// The content of the message to be added
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   AddLocalMessage({
     required this.chatId,
@@ -3455,18 +3455,18 @@ class AddLocalMessage extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'addLocalMessage',
     'chat_id': chatId,
-    'sender': sender.toJson(),
+    'sender': sender?.toJson(),
     'reply_to_message_id': replyToMessageId,
     'disable_notification': disableNotification,
-    'input_message_content': inputMessageContent.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory AddLocalMessage.fromJson(Map<String, dynamic> json) => AddLocalMessage(
     chatId: json['chat_id'],
-    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender,
+    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
     replyToMessageId: json['reply_to_message_id'],
     disableNotification: json['disable_notification'],
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -3561,9 +3561,9 @@ class EditMessageText extends TdFunction {
   /// Identifier of the message
   final int messageId;
   /// The new message reply markup; for bots only
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// New text content of the message. Should be of type inputMessageText
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   EditMessageText({
     required this.chatId,
@@ -3593,15 +3593,15 @@ class EditMessageText extends TdFunction {
     '@type': 'editMessageText',
     'chat_id': chatId,
     'message_id': messageId,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory EditMessageText.fromJson(Map<String, dynamic> json) => EditMessageText(
     chatId: json['chat_id'],
     messageId: json['message_id'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -3612,9 +3612,9 @@ class EditMessageLiveLocation extends TdFunction {
   /// Identifier of the message
   final int messageId;
   /// The new message reply markup; for bots only
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// New location content of the message; may be null. Pass null to stop sharing the live location
-  final o.Location location;
+  final o.Location? location;
   /// The new direction in which the location moves, in degrees; 1-360. Pass 0 if unknown
   final int heading;
   /// The new maximum distance for proximity alerts, in meters (0-100000). Pass 0 if the notification is disabled
@@ -3652,8 +3652,8 @@ class EditMessageLiveLocation extends TdFunction {
     '@type': 'editMessageLiveLocation',
     'chat_id': chatId,
     'message_id': messageId,
-    'reply_markup': replyMarkup.toJson(),
-    'location': location.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'location': location?.toJson(),
     'heading': heading,
     'proximity_alert_radius': proximityAlertRadius,
   };
@@ -3661,8 +3661,8 @@ class EditMessageLiveLocation extends TdFunction {
   factory EditMessageLiveLocation.fromJson(Map<String, dynamic> json) => EditMessageLiveLocation(
     chatId: json['chat_id'],
     messageId: json['message_id'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    location: b.TdBase.fromJson(json['location']) as o.Location,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    location: b.TdBase.fromJson(json['location']) as o.Location?,
     heading: json['heading'],
     proximityAlertRadius: json['proximity_alert_radius'],
   );
@@ -3675,9 +3675,9 @@ class EditMessageMedia extends TdFunction {
   /// Identifier of the message
   final int messageId;
   /// The new message reply markup; for bots only
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto or inputMessageVideo
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   EditMessageMedia({
     required this.chatId,
@@ -3707,15 +3707,15 @@ class EditMessageMedia extends TdFunction {
     '@type': 'editMessageMedia',
     'chat_id': chatId,
     'message_id': messageId,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory EditMessageMedia.fromJson(Map<String, dynamic> json) => EditMessageMedia(
     chatId: json['chat_id'],
     messageId: json['message_id'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -3726,9 +3726,9 @@ class EditMessageCaption extends TdFunction {
   /// Identifier of the message
   final int messageId;
   /// The new message reply markup; for bots only
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// New message content caption; 0-GetOption("message_caption_length_max") characters
-  final o.FormattedText caption;
+  final o.FormattedText? caption;
 
   EditMessageCaption({
     required this.chatId,
@@ -3758,15 +3758,15 @@ class EditMessageCaption extends TdFunction {
     '@type': 'editMessageCaption',
     'chat_id': chatId,
     'message_id': messageId,
-    'reply_markup': replyMarkup.toJson(),
-    'caption': caption.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'caption': caption?.toJson(),
   };
 
   factory EditMessageCaption.fromJson(Map<String, dynamic> json) => EditMessageCaption(
     chatId: json['chat_id'],
     messageId: json['message_id'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    caption: b.TdBase.fromJson(json['caption']) as o.FormattedText,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    caption: b.TdBase.fromJson(json['caption']) as o.FormattedText?,
   );
 }
 
@@ -3777,7 +3777,7 @@ class EditMessageReplyMarkup extends TdFunction {
   /// Identifier of the message
   final int messageId;
   /// The new message reply markup
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
 
   EditMessageReplyMarkup({
     required this.chatId,
@@ -3805,13 +3805,13 @@ class EditMessageReplyMarkup extends TdFunction {
     '@type': 'editMessageReplyMarkup',
     'chat_id': chatId,
     'message_id': messageId,
-    'reply_markup': replyMarkup.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
   };
 
   factory EditMessageReplyMarkup.fromJson(Map<String, dynamic> json) => EditMessageReplyMarkup(
     chatId: json['chat_id'],
     messageId: json['message_id'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
   );
 }
 
@@ -3820,9 +3820,9 @@ class EditInlineMessageText extends TdFunction {
   /// Inline message identifier
   final String inlineMessageId;
   /// The new message reply markup
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// New text content of the message. Should be of type inputMessageText
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   EditInlineMessageText({
     required this.inlineMessageId,
@@ -3849,14 +3849,14 @@ class EditInlineMessageText extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'editInlineMessageText',
     'inline_message_id': inlineMessageId,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory EditInlineMessageText.fromJson(Map<String, dynamic> json) => EditInlineMessageText(
     inlineMessageId: json['inline_message_id'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -3865,9 +3865,9 @@ class EditInlineMessageLiveLocation extends TdFunction {
   /// Inline message identifier
   final String inlineMessageId;
   /// The new message reply markup
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// New location content of the message; may be null. Pass null to stop sharing the live location
-  final o.Location location;
+  final o.Location? location;
   /// The new direction in which the location moves, in degrees; 1-360. Pass 0 if unknown
   final int heading;
   /// The new maximum distance for proximity alerts, in meters (0-100000). Pass 0 if the notification is disabled
@@ -3902,16 +3902,16 @@ class EditInlineMessageLiveLocation extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'editInlineMessageLiveLocation',
     'inline_message_id': inlineMessageId,
-    'reply_markup': replyMarkup.toJson(),
-    'location': location.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'location': location?.toJson(),
     'heading': heading,
     'proximity_alert_radius': proximityAlertRadius,
   };
 
   factory EditInlineMessageLiveLocation.fromJson(Map<String, dynamic> json) => EditInlineMessageLiveLocation(
     inlineMessageId: json['inline_message_id'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    location: b.TdBase.fromJson(json['location']) as o.Location,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    location: b.TdBase.fromJson(json['location']) as o.Location?,
     heading: json['heading'],
     proximityAlertRadius: json['proximity_alert_radius'],
   );
@@ -3922,9 +3922,9 @@ class EditInlineMessageMedia extends TdFunction {
   /// Inline message identifier
   final String inlineMessageId;
   /// The new message reply markup; for bots only
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto or inputMessageVideo
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   EditInlineMessageMedia({
     required this.inlineMessageId,
@@ -3951,14 +3951,14 @@ class EditInlineMessageMedia extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'editInlineMessageMedia',
     'inline_message_id': inlineMessageId,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory EditInlineMessageMedia.fromJson(Map<String, dynamic> json) => EditInlineMessageMedia(
     inlineMessageId: json['inline_message_id'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -3967,9 +3967,9 @@ class EditInlineMessageCaption extends TdFunction {
   /// Inline message identifier
   final String inlineMessageId;
   /// The new message reply markup
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// New message content caption; 0-GetOption("message_caption_length_max") characters
-  final o.FormattedText caption;
+  final o.FormattedText? caption;
 
   EditInlineMessageCaption({
     required this.inlineMessageId,
@@ -3996,14 +3996,14 @@ class EditInlineMessageCaption extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'editInlineMessageCaption',
     'inline_message_id': inlineMessageId,
-    'reply_markup': replyMarkup.toJson(),
-    'caption': caption.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'caption': caption?.toJson(),
   };
 
   factory EditInlineMessageCaption.fromJson(Map<String, dynamic> json) => EditInlineMessageCaption(
     inlineMessageId: json['inline_message_id'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    caption: b.TdBase.fromJson(json['caption']) as o.FormattedText,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    caption: b.TdBase.fromJson(json['caption']) as o.FormattedText?,
   );
 }
 
@@ -4012,7 +4012,7 @@ class EditInlineMessageReplyMarkup extends TdFunction {
   /// Inline message identifier
   final String inlineMessageId;
   /// The new message reply markup
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
 
   EditInlineMessageReplyMarkup({
     required this.inlineMessageId,
@@ -4037,12 +4037,12 @@ class EditInlineMessageReplyMarkup extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'editInlineMessageReplyMarkup',
     'inline_message_id': inlineMessageId,
-    'reply_markup': replyMarkup.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
   };
 
   factory EditInlineMessageReplyMarkup.fromJson(Map<String, dynamic> json) => EditInlineMessageReplyMarkup(
     inlineMessageId: json['inline_message_id'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
   );
 }
 
@@ -4053,7 +4053,7 @@ class EditMessageSchedulingState extends TdFunction {
   /// Identifier of the message
   final int messageId;
   /// The new message scheduling state. Pass null to send the message immediately
-  final a.MessageSchedulingState schedulingState;
+  final a.MessageSchedulingState? schedulingState;
 
   EditMessageSchedulingState({
     required this.chatId,
@@ -4081,13 +4081,13 @@ class EditMessageSchedulingState extends TdFunction {
     '@type': 'editMessageSchedulingState',
     'chat_id': chatId,
     'message_id': messageId,
-    'scheduling_state': schedulingState.toJson(),
+    'scheduling_state': schedulingState?.toJson(),
   };
 
   factory EditMessageSchedulingState.fromJson(Map<String, dynamic> json) => EditMessageSchedulingState(
     chatId: json['chat_id'],
     messageId: json['message_id'],
-    schedulingState: b.TdBase.fromJson(json['scheduling_state']) as a.MessageSchedulingState,
+    schedulingState: b.TdBase.fromJson(json['scheduling_state']) as a.MessageSchedulingState?,
   );
 }
 
@@ -4129,7 +4129,7 @@ class ParseTextEntities extends TdFunction {
   /// The text to parse
   final String text;
   /// Text parse mode
-  final a.TextParseMode parseMode;
+  final a.TextParseMode? parseMode;
 
   ParseTextEntities({
     required this.text,
@@ -4154,19 +4154,19 @@ class ParseTextEntities extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'parseTextEntities',
     'text': text,
-    'parse_mode': parseMode.toJson(),
+    'parse_mode': parseMode?.toJson(),
   };
 
   factory ParseTextEntities.fromJson(Map<String, dynamic> json) => ParseTextEntities(
     text: json['text'],
-    parseMode: b.TdBase.fromJson(json['parse_mode']) as a.TextParseMode,
+    parseMode: b.TdBase.fromJson(json['parse_mode']) as a.TextParseMode?,
   );
 }
 
 /// Parses Markdown entities in a human-friendly format, ignoring markup errors. Can be called synchronously
 class ParseMarkdown extends TdFunction {
   /// The text to parse. For example, "__italic__ ~~strikethrough~~ **bold** `code` ```pre``` __[italic__ text_url](telegram.org) __italic**bold italic__bold**"
-  final o.FormattedText text;
+  final o.FormattedText? text;
 
   ParseMarkdown({
     required this.text,
@@ -4188,18 +4188,18 @@ class ParseMarkdown extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'parseMarkdown',
-    'text': text.toJson(),
+    'text': text?.toJson(),
   };
 
   factory ParseMarkdown.fromJson(Map<String, dynamic> json) => ParseMarkdown(
-    text: b.TdBase.fromJson(json['text']) as o.FormattedText,
+    text: b.TdBase.fromJson(json['text']) as o.FormattedText?,
   );
 }
 
 /// Replaces text entities with Markdown formatting in a human-friendly format. Entities that can't be represented in Markdown unambiguously are kept as is. Can be called synchronously
 class GetMarkdownText extends TdFunction {
   /// The text
-  final o.FormattedText text;
+  final o.FormattedText? text;
 
   GetMarkdownText({
     required this.text,
@@ -4221,11 +4221,11 @@ class GetMarkdownText extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMarkdownText',
-    'text': text.toJson(),
+    'text': text?.toJson(),
   };
 
   factory GetMarkdownText.fromJson(Map<String, dynamic> json) => GetMarkdownText(
-    text: b.TdBase.fromJson(json['text']) as o.FormattedText,
+    text: b.TdBase.fromJson(json['text']) as o.FormattedText?,
   );
 }
 
@@ -4415,7 +4415,7 @@ class GetJsonValue extends TdFunction {
 /// Converts a JsonValue object to corresponding JSON-serialized string. Can be called synchronously
 class GetJsonString extends TdFunction {
   /// The JsonValue object
-  final a.JsonValue jsonValue;
+  final a.JsonValue? jsonValue;
 
   GetJsonString({
     required this.jsonValue,
@@ -4437,11 +4437,11 @@ class GetJsonString extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getJsonString',
-    'json_value': jsonValue.toJson(),
+    'json_value': jsonValue?.toJson(),
   };
 
   factory GetJsonString.fromJson(Map<String, dynamic> json) => GetJsonString(
-    jsonValue: b.TdBase.fromJson(json['json_value']) as a.JsonValue,
+    jsonValue: b.TdBase.fromJson(json['json_value']) as a.JsonValue?,
   );
 }
 
@@ -4554,7 +4554,7 @@ class StopPoll extends TdFunction {
   /// Identifier of the message containing the poll
   final int messageId;
   /// The new message reply markup; for bots only
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
 
   StopPoll({
     required this.chatId,
@@ -4582,20 +4582,20 @@ class StopPoll extends TdFunction {
     '@type': 'stopPoll',
     'chat_id': chatId,
     'message_id': messageId,
-    'reply_markup': replyMarkup.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
   };
 
   factory StopPoll.fromJson(Map<String, dynamic> json) => StopPoll(
     chatId: json['chat_id'],
     messageId: json['message_id'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
   );
 }
 
 /// Hides a suggested action
 class HideSuggestedAction extends TdFunction {
   /// Suggested action to hide
-  final a.SuggestedAction action;
+  final a.SuggestedAction? action;
 
   HideSuggestedAction({
     required this.action,
@@ -4617,11 +4617,11 @@ class HideSuggestedAction extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'hideSuggestedAction',
-    'action': action.toJson(),
+    'action': action?.toJson(),
   };
 
   factory HideSuggestedAction.fromJson(Map<String, dynamic> json) => HideSuggestedAction(
-    action: b.TdBase.fromJson(json['action']) as a.SuggestedAction,
+    action: b.TdBase.fromJson(json['action']) as a.SuggestedAction?,
   );
 }
 
@@ -4728,7 +4728,7 @@ class GetInlineQueryResults extends TdFunction {
   /// Identifier of the chat where the query was sent
   final int chatId;
   /// Location of the user, only if needed
-  final o.Location userLocation;
+  final o.Location? userLocation;
   /// Text of the query
   final String query;
   /// Offset of the first entry to return
@@ -4764,7 +4764,7 @@ class GetInlineQueryResults extends TdFunction {
     '@type': 'getInlineQueryResults',
     'bot_user_id': botUserId,
     'chat_id': chatId,
-    'user_location': userLocation.toJson(),
+    'user_location': userLocation?.toJson(),
     'query': query,
     'offset': offset,
   };
@@ -4772,7 +4772,7 @@ class GetInlineQueryResults extends TdFunction {
   factory GetInlineQueryResults.fromJson(Map<String, dynamic> json) => GetInlineQueryResults(
     botUserId: json['bot_user_id'],
     chatId: json['chat_id'],
-    userLocation: b.TdBase.fromJson(json['user_location']) as o.Location,
+    userLocation: b.TdBase.fromJson(json['user_location']) as o.Location?,
     query: json['query'],
     offset: json['offset'],
   );
@@ -4785,7 +4785,7 @@ class AnswerInlineQuery extends TdFunction {
   /// True, if the result of the query can be cached for the specified user
   final bool isPersonal;
   /// The results of the query
-  final List<a.InputInlineQueryResult> results;
+  final List<a.InputInlineQueryResult?> results;
   /// Allowed time to cache the results of the query, in seconds
   final int cacheTime;
   /// Offset for the next inline query; pass an empty string if there are no more results
@@ -4829,7 +4829,7 @@ class AnswerInlineQuery extends TdFunction {
     '@type': 'answerInlineQuery',
     'inline_query_id': inlineQueryId.toString(),
     'is_personal': isPersonal,
-    'results': results.map((_e1) => _e1.toJson()).toList(growable: false),
+    'results': results.map((_e1) => _e1?.toJson()).toList(growable: false),
     'cache_time': cacheTime,
     'next_offset': nextOffset,
     'switch_pm_text': switchPmText,
@@ -4839,7 +4839,7 @@ class AnswerInlineQuery extends TdFunction {
   factory AnswerInlineQuery.fromJson(Map<String, dynamic> json) => AnswerInlineQuery(
     inlineQueryId: int.parse(json['inline_query_id']),
     isPersonal: json['is_personal'],
-    results: (json['results'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputInlineQueryResult).toList(growable: false),
+    results: (json['results'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputInlineQueryResult?).toList(growable: false),
     cacheTime: json['cache_time'],
     nextOffset: json['next_offset'],
     switchPmText: json['switch_pm_text'],
@@ -4854,7 +4854,7 @@ class GetCallbackQueryAnswer extends TdFunction {
   /// Identifier of the message from which the query originated
   final int messageId;
   /// Query payload
-  final a.CallbackQueryPayload payload;
+  final a.CallbackQueryPayload? payload;
 
   GetCallbackQueryAnswer({
     required this.chatId,
@@ -4882,13 +4882,13 @@ class GetCallbackQueryAnswer extends TdFunction {
     '@type': 'getCallbackQueryAnswer',
     'chat_id': chatId,
     'message_id': messageId,
-    'payload': payload.toJson(),
+    'payload': payload?.toJson(),
   };
 
   factory GetCallbackQueryAnswer.fromJson(Map<String, dynamic> json) => GetCallbackQueryAnswer(
     chatId: json['chat_id'],
     messageId: json['message_id'],
-    payload: b.TdBase.fromJson(json['payload']) as a.CallbackQueryPayload,
+    payload: b.TdBase.fromJson(json['payload']) as a.CallbackQueryPayload?,
   );
 }
 
@@ -4954,7 +4954,7 @@ class AnswerShippingQuery extends TdFunction {
   /// Identifier of the shipping query
   final int shippingQueryId;
   /// Available shipping options
-  final List<o.ShippingOption> shippingOptions;
+  final List<o.ShippingOption?> shippingOptions;
   /// An error message, empty on success
   final String errorMessage;
 
@@ -4983,13 +4983,13 @@ class AnswerShippingQuery extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'answerShippingQuery',
     'shipping_query_id': shippingQueryId.toString(),
-    'shipping_options': shippingOptions.map((_e1) => _e1.toJson()).toList(growable: false),
+    'shipping_options': shippingOptions.map((_e1) => _e1?.toJson()).toList(growable: false),
     'error_message': errorMessage,
   };
 
   factory AnswerShippingQuery.fromJson(Map<String, dynamic> json) => AnswerShippingQuery(
     shippingQueryId: int.parse(json['shipping_query_id']),
-    shippingOptions: (json['shipping_options'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.ShippingOption).toList(growable: false),
+    shippingOptions: (json['shipping_options'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.ShippingOption?).toList(growable: false),
     errorMessage: json['error_message'],
   );
 }
@@ -5283,7 +5283,7 @@ class SendChatAction extends TdFunction {
   /// If not 0, a message thread identifier in which the action was performed
   final int messageThreadId;
   /// The action description
-  final a.ChatAction action;
+  final a.ChatAction? action;
 
   SendChatAction({
     required this.chatId,
@@ -5311,13 +5311,13 @@ class SendChatAction extends TdFunction {
     '@type': 'sendChatAction',
     'chat_id': chatId,
     'message_thread_id': messageThreadId,
-    'action': action.toJson(),
+    'action': action?.toJson(),
   };
 
   factory SendChatAction.fromJson(Map<String, dynamic> json) => SendChatAction(
     chatId: json['chat_id'],
     messageThreadId: json['message_thread_id'],
-    action: b.TdBase.fromJson(json['action']) as a.ChatAction,
+    action: b.TdBase.fromJson(json['action']) as a.ChatAction?,
   );
 }
 
@@ -5780,7 +5780,7 @@ class CreateNewSupergroupChat extends TdFunction {
   /// Chat description; 0-255 characters
   final String description;
   /// Chat location if a location-based supergroup is being created
-  final o.ChatLocation location;
+  final o.ChatLocation? location;
   /// True, if the supergroup is created for importing messages using importMessage
   final bool forImport;
 
@@ -5815,7 +5815,7 @@ class CreateNewSupergroupChat extends TdFunction {
     'title': title,
     'is_channel': isChannel,
     'description': description,
-    'location': location.toJson(),
+    'location': location?.toJson(),
     'for_import': forImport,
   };
 
@@ -5823,7 +5823,7 @@ class CreateNewSupergroupChat extends TdFunction {
     title: json['title'],
     isChannel: json['is_channel'],
     description: json['description'],
-    location: b.TdBase.fromJson(json['location']) as o.ChatLocation,
+    location: b.TdBase.fromJson(json['location']) as o.ChatLocation?,
     forImport: json['for_import'],
   );
 }
@@ -5932,7 +5932,7 @@ class AddChatToList extends TdFunction {
   /// Chat identifier
   final int chatId;
   /// The chat list. Use getChatListsToAddChat to get suitable chat lists
-  final a.ChatList chatList;
+  final a.ChatList? chatList;
 
   AddChatToList({
     required this.chatId,
@@ -5957,12 +5957,12 @@ class AddChatToList extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'addChatToList',
     'chat_id': chatId,
-    'chat_list': chatList.toJson(),
+    'chat_list': chatList?.toJson(),
   };
 
   factory AddChatToList.fromJson(Map<String, dynamic> json) => AddChatToList(
     chatId: json['chat_id'],
-    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList,
+    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
   );
 }
 
@@ -6002,7 +6002,7 @@ class GetChatFilter extends TdFunction {
 /// Creates new chat filter. Returns information about the created chat filter
 class CreateChatFilter extends TdFunction {
   /// Chat filter
-  final o.ChatFilter filter;
+  final o.ChatFilter? filter;
 
   CreateChatFilter({
     required this.filter,
@@ -6024,11 +6024,11 @@ class CreateChatFilter extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'createChatFilter',
-    'filter': filter.toJson(),
+    'filter': filter?.toJson(),
   };
 
   factory CreateChatFilter.fromJson(Map<String, dynamic> json) => CreateChatFilter(
-    filter: b.TdBase.fromJson(json['filter']) as o.ChatFilter,
+    filter: b.TdBase.fromJson(json['filter']) as o.ChatFilter?,
   );
 }
 
@@ -6037,7 +6037,7 @@ class EditChatFilter extends TdFunction {
   /// Chat filter identifier
   final int chatFilterId;
   /// The edited chat filter
-  final o.ChatFilter filter;
+  final o.ChatFilter? filter;
 
   EditChatFilter({
     required this.chatFilterId,
@@ -6062,12 +6062,12 @@ class EditChatFilter extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'editChatFilter',
     'chat_filter_id': chatFilterId,
-    'filter': filter.toJson(),
+    'filter': filter?.toJson(),
   };
 
   factory EditChatFilter.fromJson(Map<String, dynamic> json) => EditChatFilter(
     chatFilterId: json['chat_filter_id'],
-    filter: b.TdBase.fromJson(json['filter']) as o.ChatFilter,
+    filter: b.TdBase.fromJson(json['filter']) as o.ChatFilter?,
   );
 }
 
@@ -6165,7 +6165,7 @@ class GetRecommendedChatFilters extends TdFunction {
 /// Returns default icon name for a filter. Can be called synchronously
 class GetChatFilterDefaultIconName extends TdFunction {
   /// Chat filter
-  final o.ChatFilter filter;
+  final o.ChatFilter? filter;
 
   GetChatFilterDefaultIconName({
     required this.filter,
@@ -6187,11 +6187,11 @@ class GetChatFilterDefaultIconName extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatFilterDefaultIconName',
-    'filter': filter.toJson(),
+    'filter': filter?.toJson(),
   };
 
   factory GetChatFilterDefaultIconName.fromJson(Map<String, dynamic> json) => GetChatFilterDefaultIconName(
-    filter: b.TdBase.fromJson(json['filter']) as o.ChatFilter,
+    filter: b.TdBase.fromJson(json['filter']) as o.ChatFilter?,
   );
 }
 
@@ -6239,7 +6239,7 @@ class SetChatPhoto extends TdFunction {
   /// Chat identifier
   final int chatId;
   /// New chat photo. Pass null to delete the chat photo
-  final a.InputChatPhoto photo;
+  final a.InputChatPhoto? photo;
 
   SetChatPhoto({
     required this.chatId,
@@ -6264,12 +6264,12 @@ class SetChatPhoto extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setChatPhoto',
     'chat_id': chatId,
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
   };
 
   factory SetChatPhoto.fromJson(Map<String, dynamic> json) => SetChatPhoto(
     chatId: json['chat_id'],
-    photo: b.TdBase.fromJson(json['photo']) as a.InputChatPhoto,
+    photo: b.TdBase.fromJson(json['photo']) as a.InputChatPhoto?,
   );
 }
 
@@ -6317,7 +6317,7 @@ class SetChatPermissions extends TdFunction {
   /// Chat identifier
   final int chatId;
   /// New non-administrator members permissions in the chat
-  final o.ChatPermissions permissions;
+  final o.ChatPermissions? permissions;
 
   SetChatPermissions({
     required this.chatId,
@@ -6342,12 +6342,12 @@ class SetChatPermissions extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setChatPermissions',
     'chat_id': chatId,
-    'permissions': permissions.toJson(),
+    'permissions': permissions?.toJson(),
   };
 
   factory SetChatPermissions.fromJson(Map<String, dynamic> json) => SetChatPermissions(
     chatId: json['chat_id'],
-    permissions: b.TdBase.fromJson(json['permissions']) as o.ChatPermissions,
+    permissions: b.TdBase.fromJson(json['permissions']) as o.ChatPermissions?,
   );
 }
 
@@ -6358,7 +6358,7 @@ class SetChatDraftMessage extends TdFunction {
   /// If not 0, a message thread identifier in which the draft was changed
   final int messageThreadId;
   /// New draft message; may be null
-  final o.DraftMessage draftMessage;
+  final o.DraftMessage? draftMessage;
 
   SetChatDraftMessage({
     required this.chatId,
@@ -6386,13 +6386,13 @@ class SetChatDraftMessage extends TdFunction {
     '@type': 'setChatDraftMessage',
     'chat_id': chatId,
     'message_thread_id': messageThreadId,
-    'draft_message': draftMessage.toJson(),
+    'draft_message': draftMessage?.toJson(),
   };
 
   factory SetChatDraftMessage.fromJson(Map<String, dynamic> json) => SetChatDraftMessage(
     chatId: json['chat_id'],
     messageThreadId: json['message_thread_id'],
-    draftMessage: b.TdBase.fromJson(json['draft_message']) as o.DraftMessage,
+    draftMessage: b.TdBase.fromJson(json['draft_message']) as o.DraftMessage?,
   );
 }
 
@@ -6401,7 +6401,7 @@ class SetChatNotificationSettings extends TdFunction {
   /// Chat identifier
   final int chatId;
   /// New notification settings for the chat. If the chat is muted for more than 1 week, it is considered to be muted forever
-  final o.ChatNotificationSettings notificationSettings;
+  final o.ChatNotificationSettings? notificationSettings;
 
   SetChatNotificationSettings({
     required this.chatId,
@@ -6426,12 +6426,12 @@ class SetChatNotificationSettings extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setChatNotificationSettings',
     'chat_id': chatId,
-    'notification_settings': notificationSettings.toJson(),
+    'notification_settings': notificationSettings?.toJson(),
   };
 
   factory SetChatNotificationSettings.fromJson(Map<String, dynamic> json) => SetChatNotificationSettings(
     chatId: json['chat_id'],
-    notificationSettings: b.TdBase.fromJson(json['notification_settings']) as o.ChatNotificationSettings,
+    notificationSettings: b.TdBase.fromJson(json['notification_settings']) as o.ChatNotificationSettings?,
   );
 }
 
@@ -6635,7 +6635,7 @@ class SetChatLocation extends TdFunction {
   /// Chat identifier
   final int chatId;
   /// New location for the chat; must be valid and not null
-  final o.ChatLocation location;
+  final o.ChatLocation? location;
 
   SetChatLocation({
     required this.chatId,
@@ -6660,12 +6660,12 @@ class SetChatLocation extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setChatLocation',
     'chat_id': chatId,
-    'location': location.toJson(),
+    'location': location?.toJson(),
   };
 
   factory SetChatLocation.fromJson(Map<String, dynamic> json) => SetChatLocation(
     chatId: json['chat_id'],
-    location: b.TdBase.fromJson(json['location']) as o.ChatLocation,
+    location: b.TdBase.fromJson(json['location']) as o.ChatLocation?,
   );
 }
 
@@ -6986,9 +6986,9 @@ class SetChatMemberStatus extends TdFunction {
   /// Chat identifier
   final int chatId;
   /// Member identifier. Chats can be only banned and unbanned in supergroups and channels
-  final a.MessageSender memberId;
+  final a.MessageSender? memberId;
   /// The new status of the member in the chat
-  final a.ChatMemberStatus status;
+  final a.ChatMemberStatus? status;
 
   SetChatMemberStatus({
     required this.chatId,
@@ -7015,14 +7015,14 @@ class SetChatMemberStatus extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setChatMemberStatus',
     'chat_id': chatId,
-    'member_id': memberId.toJson(),
-    'status': status.toJson(),
+    'member_id': memberId?.toJson(),
+    'status': status?.toJson(),
   };
 
   factory SetChatMemberStatus.fromJson(Map<String, dynamic> json) => SetChatMemberStatus(
     chatId: json['chat_id'],
-    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender,
-    status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus,
+    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
+    status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
   );
 }
 
@@ -7031,7 +7031,7 @@ class BanChatMember extends TdFunction {
   /// Chat identifier
   final int chatId;
   /// Member identifier
-  final a.MessageSender memberId;
+  final a.MessageSender? memberId;
   /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Ignored in basic groups
   final int bannedUntilDate;
   /// Pass true to delete all messages in the chat for the user. Always true for supergroups and channels
@@ -7064,14 +7064,14 @@ class BanChatMember extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'banChatMember',
     'chat_id': chatId,
-    'member_id': memberId.toJson(),
+    'member_id': memberId?.toJson(),
     'banned_until_date': bannedUntilDate,
     'revoke_messages': revokeMessages,
   };
 
   factory BanChatMember.fromJson(Map<String, dynamic> json) => BanChatMember(
     chatId: json['chat_id'],
-    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender,
+    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
     bannedUntilDate: json['banned_until_date'],
     revokeMessages: json['revoke_messages'],
   );
@@ -7152,7 +7152,7 @@ class GetChatMember extends TdFunction {
   /// Chat identifier
   final int chatId;
   /// Member identifier
-  final a.MessageSender memberId;
+  final a.MessageSender? memberId;
 
   GetChatMember({
     required this.chatId,
@@ -7177,12 +7177,12 @@ class GetChatMember extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'getChatMember',
     'chat_id': chatId,
-    'member_id': memberId.toJson(),
+    'member_id': memberId?.toJson(),
   };
 
   factory GetChatMember.fromJson(Map<String, dynamic> json) => GetChatMember(
     chatId: json['chat_id'],
-    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender,
+    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
   );
 }
 
@@ -7195,7 +7195,7 @@ class SearchChatMembers extends TdFunction {
   /// The maximum number of users to be returned
   final int limit;
   /// The type of users to return. By default, chatMembersFilterMembers
-  final a.ChatMembersFilter filter;
+  final a.ChatMembersFilter? filter;
 
   SearchChatMembers({
     required this.chatId,
@@ -7226,14 +7226,14 @@ class SearchChatMembers extends TdFunction {
     'chat_id': chatId,
     'query': query,
     'limit': limit,
-    'filter': filter.toJson(),
+    'filter': filter?.toJson(),
   };
 
   factory SearchChatMembers.fromJson(Map<String, dynamic> json) => SearchChatMembers(
     chatId: json['chat_id'],
     query: json['query'],
     limit: json['limit'],
-    filter: b.TdBase.fromJson(json['filter']) as a.ChatMembersFilter,
+    filter: b.TdBase.fromJson(json['filter']) as a.ChatMembersFilter?,
   );
 }
 
@@ -7306,7 +7306,7 @@ class ClearAllDraftMessages extends TdFunction {
 /// Returns list of chats with non-default notification settings
 class GetChatNotificationSettingsExceptions extends TdFunction {
   /// If specified, only chats from the specified scope will be returned
-  final a.NotificationSettingsScope scope;
+  final a.NotificationSettingsScope? scope;
   /// If true, also chats with non-default sound will be returned
   final bool compareSound;
 
@@ -7332,12 +7332,12 @@ class GetChatNotificationSettingsExceptions extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatNotificationSettingsExceptions',
-    'scope': scope.toJson(),
+    'scope': scope?.toJson(),
     'compare_sound': compareSound,
   };
 
   factory GetChatNotificationSettingsExceptions.fromJson(Map<String, dynamic> json) => GetChatNotificationSettingsExceptions(
-    scope: b.TdBase.fromJson(json['scope']) as a.NotificationSettingsScope,
+    scope: b.TdBase.fromJson(json['scope']) as a.NotificationSettingsScope?,
     compareSound: json['compare_sound'],
   );
 }
@@ -7345,7 +7345,7 @@ class GetChatNotificationSettingsExceptions extends TdFunction {
 /// Returns the notification settings for chats of a given type
 class GetScopeNotificationSettings extends TdFunction {
   /// Types of chats for which to return the notification settings information
-  final a.NotificationSettingsScope scope;
+  final a.NotificationSettingsScope? scope;
 
   GetScopeNotificationSettings({
     required this.scope,
@@ -7367,20 +7367,20 @@ class GetScopeNotificationSettings extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getScopeNotificationSettings',
-    'scope': scope.toJson(),
+    'scope': scope?.toJson(),
   };
 
   factory GetScopeNotificationSettings.fromJson(Map<String, dynamic> json) => GetScopeNotificationSettings(
-    scope: b.TdBase.fromJson(json['scope']) as a.NotificationSettingsScope,
+    scope: b.TdBase.fromJson(json['scope']) as a.NotificationSettingsScope?,
   );
 }
 
 /// Changes notification settings for chats of a given type
 class SetScopeNotificationSettings extends TdFunction {
   /// Types of chats for which to change the notification settings
-  final a.NotificationSettingsScope scope;
+  final a.NotificationSettingsScope? scope;
   /// The new notification settings for the given scope
-  final o.ScopeNotificationSettings notificationSettings;
+  final o.ScopeNotificationSettings? notificationSettings;
 
   SetScopeNotificationSettings({
     required this.scope,
@@ -7404,13 +7404,13 @@ class SetScopeNotificationSettings extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setScopeNotificationSettings',
-    'scope': scope.toJson(),
-    'notification_settings': notificationSettings.toJson(),
+    'scope': scope?.toJson(),
+    'notification_settings': notificationSettings?.toJson(),
   };
 
   factory SetScopeNotificationSettings.fromJson(Map<String, dynamic> json) => SetScopeNotificationSettings(
-    scope: b.TdBase.fromJson(json['scope']) as a.NotificationSettingsScope,
-    notificationSettings: b.TdBase.fromJson(json['notification_settings']) as o.ScopeNotificationSettings,
+    scope: b.TdBase.fromJson(json['scope']) as a.NotificationSettingsScope?,
+    notificationSettings: b.TdBase.fromJson(json['notification_settings']) as o.ScopeNotificationSettings?,
   );
 }
 
@@ -7442,7 +7442,7 @@ class ResetAllNotificationSettings extends TdFunction {
 /// Changes the pinned state of a chat. There can be up to GetOption("pinned_chat_count_max")/GetOption("pinned_archived_chat_count_max") pinned non-secret chats and the same number of secret chats in the main/arhive chat list
 class ToggleChatIsPinned extends TdFunction {
   /// Chat list in which to change the pinned state of the chat
-  final a.ChatList chatList;
+  final a.ChatList? chatList;
   /// Chat identifier
   final int chatId;
   /// True, if the chat is pinned
@@ -7472,13 +7472,13 @@ class ToggleChatIsPinned extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleChatIsPinned',
-    'chat_list': chatList.toJson(),
+    'chat_list': chatList?.toJson(),
     'chat_id': chatId,
     'is_pinned': isPinned,
   };
 
   factory ToggleChatIsPinned.fromJson(Map<String, dynamic> json) => ToggleChatIsPinned(
-    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList,
+    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
     chatId: json['chat_id'],
     isPinned: json['is_pinned'],
   );
@@ -7487,7 +7487,7 @@ class ToggleChatIsPinned extends TdFunction {
 /// Changes the order of pinned chats
 class SetPinnedChats extends TdFunction {
   /// Chat list in which to change the order of pinned chats
-  final a.ChatList chatList;
+  final a.ChatList? chatList;
   /// The new list of pinned chats
   final List<int> chatIds;
 
@@ -7513,12 +7513,12 @@ class SetPinnedChats extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setPinnedChats',
-    'chat_list': chatList.toJson(),
+    'chat_list': chatList?.toJson(),
     'chat_ids': chatIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory SetPinnedChats.fromJson(Map<String, dynamic> json) => SetPinnedChats(
-    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList,
+    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
     chatIds: (json['chat_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
   );
 }
@@ -7661,9 +7661,9 @@ class CancelDownloadFile extends TdFunction {
 /// Asynchronously uploads a file to the cloud without sending it in a message. updateFile will be used to notify about upload progress and successful completion of the upload. The file will not have a persistent remote identifier until it will be sent in a message
 class UploadFile extends TdFunction {
   /// File to upload
-  final a.InputFile file;
+  final a.InputFile? file;
   /// File type
-  final a.FileType fileType;
+  final a.FileType? fileType;
   /// Priority of the upload (1-32). The higher the priority, the earlier the file will be uploaded. If the priorities of two files are equal, then the first one for which uploadFile was called will be uploaded first
   final int priority;
 
@@ -7691,14 +7691,14 @@ class UploadFile extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'uploadFile',
-    'file': file.toJson(),
-    'file_type': fileType.toJson(),
+    'file': file?.toJson(),
+    'file_type': fileType?.toJson(),
     'priority': priority,
   };
 
   factory UploadFile.fromJson(Map<String, dynamic> json) => UploadFile(
-    file: b.TdBase.fromJson(json['file']) as a.InputFile,
-    fileType: b.TdBase.fromJson(json['file_type']) as a.FileType,
+    file: b.TdBase.fromJson(json['file']) as a.InputFile?,
+    fileType: b.TdBase.fromJson(json['file_type']) as a.FileType?,
     priority: json['priority'],
   );
 }
@@ -7831,7 +7831,7 @@ class FinishFileGeneration extends TdFunction {
   /// The identifier of the generation process
   final int generationId;
   /// If set, means that file generation has failed and should be terminated
-  final o.Error error;
+  final o.Error? error;
 
   FinishFileGeneration({
     required this.generationId,
@@ -7856,12 +7856,12 @@ class FinishFileGeneration extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'finishFileGeneration',
     'generation_id': generationId.toString(),
-    'error': error.toJson(),
+    'error': error?.toJson(),
   };
 
   factory FinishFileGeneration.fromJson(Map<String, dynamic> json) => FinishFileGeneration(
     generationId: int.parse(json['generation_id']),
-    error: b.TdBase.fromJson(json['error']) as o.Error,
+    error: b.TdBase.fromJson(json['error']) as o.Error?,
   );
 }
 
@@ -8014,9 +8014,9 @@ class ImportMessages extends TdFunction {
   /// Identifier of a chat to which the messages will be imported. It must be an identifier of a private chat with a mutual contact or an identifier of a supergroup chat with can_change_info administrator right
   final int chatId;
   /// File with messages to import. Only inputFileLocal and inputFileGenerated are supported. The file must not be previously uploaded
-  final a.InputFile messageFile;
+  final a.InputFile? messageFile;
   /// Files used in the imported messages. Only inputFileLocal and inputFileGenerated are supported. The files must not be previously uploaded
-  final List<a.InputFile> attachedFiles;
+  final List<a.InputFile?> attachedFiles;
 
   ImportMessages({
     required this.chatId,
@@ -8043,14 +8043,14 @@ class ImportMessages extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'importMessages',
     'chat_id': chatId,
-    'message_file': messageFile.toJson(),
-    'attached_files': attachedFiles.map((_e1) => _e1.toJson()).toList(growable: false),
+    'message_file': messageFile?.toJson(),
+    'attached_files': attachedFiles.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ImportMessages.fromJson(Map<String, dynamic> json) => ImportMessages(
     chatId: json['chat_id'],
-    messageFile: b.TdBase.fromJson(json['message_file']) as a.InputFile,
-    attachedFiles: (json['attached_files'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputFile).toList(growable: false),
+    messageFile: b.TdBase.fromJson(json['message_file']) as a.InputFile?,
+    attachedFiles: (json['attached_files'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputFile?).toList(growable: false),
   );
 }
 
@@ -8325,7 +8325,7 @@ class GetChatInviteLinkMembers extends TdFunction {
   /// Invite link for which to return chat members
   final String inviteLink;
   /// A chat member from which to return next chat members; use null to get results from the beginning
-  final o.ChatInviteLinkMember offsetMember;
+  final o.ChatInviteLinkMember? offsetMember;
   /// The maximum number of chat members to return
   final int limit;
 
@@ -8357,14 +8357,14 @@ class GetChatInviteLinkMembers extends TdFunction {
     '@type': 'getChatInviteLinkMembers',
     'chat_id': chatId,
     'invite_link': inviteLink,
-    'offset_member': offsetMember.toJson(),
+    'offset_member': offsetMember?.toJson(),
     'limit': limit,
   };
 
   factory GetChatInviteLinkMembers.fromJson(Map<String, dynamic> json) => GetChatInviteLinkMembers(
     chatId: json['chat_id'],
     inviteLink: json['invite_link'],
-    offsetMember: b.TdBase.fromJson(json['offset_member']) as o.ChatInviteLinkMember,
+    offsetMember: b.TdBase.fromJson(json['offset_member']) as o.ChatInviteLinkMember?,
     limit: json['limit'],
   );
 }
@@ -8557,7 +8557,7 @@ class CreateCall extends TdFunction {
   /// Identifier of the user to be called
   final int userId;
   /// Description of the call protocols supported by the application
-  final o.CallProtocol protocol;
+  final o.CallProtocol? protocol;
   /// True, if a video call needs to be created
   final bool isVideo;
 
@@ -8586,13 +8586,13 @@ class CreateCall extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'createCall',
     'user_id': userId,
-    'protocol': protocol.toJson(),
+    'protocol': protocol?.toJson(),
     'is_video': isVideo,
   };
 
   factory CreateCall.fromJson(Map<String, dynamic> json) => CreateCall(
     userId: json['user_id'],
-    protocol: b.TdBase.fromJson(json['protocol']) as o.CallProtocol,
+    protocol: b.TdBase.fromJson(json['protocol']) as o.CallProtocol?,
     isVideo: json['is_video'],
   );
 }
@@ -8602,7 +8602,7 @@ class AcceptCall extends TdFunction {
   /// Call identifier
   final int callId;
   /// Description of the call protocols supported by the application
-  final o.CallProtocol protocol;
+  final o.CallProtocol? protocol;
 
   AcceptCall({
     required this.callId,
@@ -8627,12 +8627,12 @@ class AcceptCall extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'acceptCall',
     'call_id': callId,
-    'protocol': protocol.toJson(),
+    'protocol': protocol?.toJson(),
   };
 
   factory AcceptCall.fromJson(Map<String, dynamic> json) => AcceptCall(
     callId: json['call_id'],
-    protocol: b.TdBase.fromJson(json['protocol']) as o.CallProtocol,
+    protocol: b.TdBase.fromJson(json['protocol']) as o.CallProtocol?,
   );
 }
 
@@ -8741,7 +8741,7 @@ class SendCallRating extends TdFunction {
   /// An optional user comment if the rating is less than 5
   final String comment;
   /// List of the exact types of problems with the call, specified by the user
-  final List<a.CallProblem> problems;
+  final List<a.CallProblem?> problems;
 
   SendCallRating({
     required this.callId,
@@ -8772,14 +8772,14 @@ class SendCallRating extends TdFunction {
     'call_id': callId,
     'rating': rating,
     'comment': comment,
-    'problems': problems.map((_e1) => _e1.toJson()).toList(growable: false),
+    'problems': problems.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory SendCallRating.fromJson(Map<String, dynamic> json) => SendCallRating(
     callId: json['call_id'],
     rating: json['rating'],
     comment: json['comment'],
-    problems: (json['problems'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.CallProblem).toList(growable: false),
+    problems: (json['problems'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.CallProblem?).toList(growable: false),
   );
 }
 
@@ -8860,7 +8860,7 @@ class SetVoiceChatDefaultParticipant extends TdFunction {
   /// Chat identifier
   final int chatId;
   /// Default group call participant identifier to join the voice chats
-  final a.MessageSender defaultParticipantId;
+  final a.MessageSender? defaultParticipantId;
 
   SetVoiceChatDefaultParticipant({
     required this.chatId,
@@ -8885,12 +8885,12 @@ class SetVoiceChatDefaultParticipant extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setVoiceChatDefaultParticipant',
     'chat_id': chatId,
-    'default_participant_id': defaultParticipantId.toJson(),
+    'default_participant_id': defaultParticipantId?.toJson(),
   };
 
   factory SetVoiceChatDefaultParticipant.fromJson(Map<String, dynamic> json) => SetVoiceChatDefaultParticipant(
     chatId: json['chat_id'],
-    defaultParticipantId: b.TdBase.fromJson(json['default_participant_id']) as a.MessageSender,
+    defaultParticipantId: b.TdBase.fromJson(json['default_participant_id']) as a.MessageSender?,
   );
 }
 
@@ -9049,9 +9049,9 @@ class JoinGroupCall extends TdFunction {
   /// Group call identifier
   final int groupCallId;
   /// Identifier of a group call participant, which will be used to join the call; voice chats only
-  final a.MessageSender participantId;
+  final a.MessageSender? participantId;
   /// Group join payload; received from tgcalls
-  final o.GroupCallPayload payload;
+  final o.GroupCallPayload? payload;
   /// Caller synchronization source identifier; received from tgcalls
   final int source;
   /// True, if the user's microphone is muted
@@ -9090,8 +9090,8 @@ class JoinGroupCall extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'joinGroupCall',
     'group_call_id': groupCallId,
-    'participant_id': participantId.toJson(),
-    'payload': payload.toJson(),
+    'participant_id': participantId?.toJson(),
+    'payload': payload?.toJson(),
     'source': source,
     'is_muted': isMuted,
     'invite_hash': inviteHash,
@@ -9099,8 +9099,8 @@ class JoinGroupCall extends TdFunction {
 
   factory JoinGroupCall.fromJson(Map<String, dynamic> json) => JoinGroupCall(
     groupCallId: json['group_call_id'],
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender,
-    payload: b.TdBase.fromJson(json['payload']) as o.GroupCallPayload,
+    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
+    payload: b.TdBase.fromJson(json['payload']) as o.GroupCallPayload?,
     source: json['source'],
     isMuted: json['is_muted'],
     inviteHash: json['invite_hash'],
@@ -9418,7 +9418,7 @@ class ToggleGroupCallParticipantIsMuted extends TdFunction {
   /// Group call identifier
   final int groupCallId;
   /// Participant identifier
-  final a.MessageSender participantId;
+  final a.MessageSender? participantId;
   /// Pass true if the user must be muted and false otherwise
   final bool isMuted;
 
@@ -9447,13 +9447,13 @@ class ToggleGroupCallParticipantIsMuted extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'toggleGroupCallParticipantIsMuted',
     'group_call_id': groupCallId,
-    'participant_id': participantId.toJson(),
+    'participant_id': participantId?.toJson(),
     'is_muted': isMuted,
   };
 
   factory ToggleGroupCallParticipantIsMuted.fromJson(Map<String, dynamic> json) => ToggleGroupCallParticipantIsMuted(
     groupCallId: json['group_call_id'],
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender,
+    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
     isMuted: json['is_muted'],
   );
 }
@@ -9463,7 +9463,7 @@ class SetGroupCallParticipantVolumeLevel extends TdFunction {
   /// Group call identifier
   final int groupCallId;
   /// Participant identifier
-  final a.MessageSender participantId;
+  final a.MessageSender? participantId;
   /// New participant's volume level; 1-20000 in hundreds of percents
   final int volumeLevel;
 
@@ -9492,13 +9492,13 @@ class SetGroupCallParticipantVolumeLevel extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setGroupCallParticipantVolumeLevel',
     'group_call_id': groupCallId,
-    'participant_id': participantId.toJson(),
+    'participant_id': participantId?.toJson(),
     'volume_level': volumeLevel,
   };
 
   factory SetGroupCallParticipantVolumeLevel.fromJson(Map<String, dynamic> json) => SetGroupCallParticipantVolumeLevel(
     groupCallId: json['group_call_id'],
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender,
+    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
     volumeLevel: json['volume_level'],
   );
 }
@@ -9508,7 +9508,7 @@ class ToggleGroupCallParticipantIsHandRaised extends TdFunction {
   /// Group call identifier
   final int groupCallId;
   /// Participant identifier
-  final a.MessageSender participantId;
+  final a.MessageSender? participantId;
   /// Pass true if the user's hand should be raised. Only self hand can be raised. Requires groupCall.can_be_managed group call flag to lower other's hand
   final bool isHandRaised;
 
@@ -9537,13 +9537,13 @@ class ToggleGroupCallParticipantIsHandRaised extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'toggleGroupCallParticipantIsHandRaised',
     'group_call_id': groupCallId,
-    'participant_id': participantId.toJson(),
+    'participant_id': participantId?.toJson(),
     'is_hand_raised': isHandRaised,
   };
 
   factory ToggleGroupCallParticipantIsHandRaised.fromJson(Map<String, dynamic> json) => ToggleGroupCallParticipantIsHandRaised(
     groupCallId: json['group_call_id'],
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender,
+    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
     isHandRaised: json['is_hand_raised'],
   );
 }
@@ -9701,7 +9701,7 @@ class GetGroupCallStreamSegment extends TdFunction {
 /// Changes the block state of a message sender. Currently, only users and supergroup chats can be blocked
 class ToggleMessageSenderIsBlocked extends TdFunction {
   /// Message Sender
-  final a.MessageSender sender;
+  final a.MessageSender? sender;
   /// New value of is_blocked
   final bool isBlocked;
 
@@ -9727,12 +9727,12 @@ class ToggleMessageSenderIsBlocked extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleMessageSenderIsBlocked',
-    'sender': sender.toJson(),
+    'sender': sender?.toJson(),
     'is_blocked': isBlocked,
   };
 
   factory ToggleMessageSenderIsBlocked.fromJson(Map<String, dynamic> json) => ToggleMessageSenderIsBlocked(
-    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender,
+    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
     isBlocked: json['is_blocked'],
   );
 }
@@ -9830,7 +9830,7 @@ class GetBlockedMessageSenders extends TdFunction {
 /// Adds a user to the contact list or edits an existing contact by their user identifier
 class AddContact extends TdFunction {
   /// The contact to add or edit; phone number can be empty and needs to be specified only if known, vCard is ignored
-  final o.Contact contact;
+  final o.Contact? contact;
   /// True, if the new contact needs to be allowed to see current user's phone number. A corresponding rule to userPrivacySettingShowPhoneNumber will be added if needed. Use the field UserFullInfo.need_phone_number_privacy_exception to check whether the current user needs to be asked to share their phone number
   final bool sharePhoneNumber;
 
@@ -9856,12 +9856,12 @@ class AddContact extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'addContact',
-    'contact': contact.toJson(),
+    'contact': contact?.toJson(),
     'share_phone_number': sharePhoneNumber,
   };
 
   factory AddContact.fromJson(Map<String, dynamic> json) => AddContact(
-    contact: b.TdBase.fromJson(json['contact']) as o.Contact,
+    contact: b.TdBase.fromJson(json['contact']) as o.Contact?,
     sharePhoneNumber: json['share_phone_number'],
   );
 }
@@ -9869,7 +9869,7 @@ class AddContact extends TdFunction {
 /// Adds new contacts or edits existing contacts by their phone numbers; contacts' user identifiers are ignored
 class ImportContacts extends TdFunction {
   /// The list of contacts to import or edit; contacts' vCard are ignored and are not imported
-  final List<o.Contact> contacts;
+  final List<o.Contact?> contacts;
 
   ImportContacts({
     required this.contacts,
@@ -9891,11 +9891,11 @@ class ImportContacts extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'importContacts',
-    'contacts': contacts.map((_e1) => _e1.toJson()).toList(growable: false),
+    'contacts': contacts.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ImportContacts.fromJson(Map<String, dynamic> json) => ImportContacts(
-    contacts: (json['contacts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.Contact).toList(growable: false),
+    contacts: (json['contacts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.Contact?).toList(growable: false),
   );
 }
 
@@ -10024,7 +10024,7 @@ class GetImportedContactCount extends TdFunction {
 /// Changes imported contacts using the list of contacts saved on the device. Imports newly added contacts and, if at least the file database is enabled, deletes recently deleted contacts.
 class ChangeImportedContacts extends TdFunction {
   /// The new list of contacts, contact's vCard are ignored and are not imported
-  final List<o.Contact> contacts;
+  final List<o.Contact?> contacts;
 
   ChangeImportedContacts({
     required this.contacts,
@@ -10046,11 +10046,11 @@ class ChangeImportedContacts extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'changeImportedContacts',
-    'contacts': contacts.map((_e1) => _e1.toJson()).toList(growable: false),
+    'contacts': contacts.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ChangeImportedContacts.fromJson(Map<String, dynamic> json) => ChangeImportedContacts(
-    contacts: (json['contacts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.Contact).toList(growable: false),
+    contacts: (json['contacts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.Contact?).toList(growable: false),
   );
 }
 
@@ -10684,7 +10684,7 @@ class AddRecentSticker extends TdFunction {
   /// Pass true to add the sticker to the list of stickers recently attached to photo or video files; pass false to add the sticker to the list of recently sent stickers
   final bool isAttached;
   /// Sticker file to add
-  final a.InputFile sticker;
+  final a.InputFile? sticker;
 
   AddRecentSticker({
     required this.isAttached,
@@ -10709,12 +10709,12 @@ class AddRecentSticker extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'addRecentSticker',
     'is_attached': isAttached,
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
   };
 
   factory AddRecentSticker.fromJson(Map<String, dynamic> json) => AddRecentSticker(
     isAttached: json['is_attached'],
-    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile,
+    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
   );
 }
 
@@ -10723,7 +10723,7 @@ class RemoveRecentSticker extends TdFunction {
   /// Pass true to remove the sticker from the list of stickers recently attached to photo or video files; pass false to remove the sticker from the list of recently sent stickers
   final bool isAttached;
   /// Sticker file to delete
-  final a.InputFile sticker;
+  final a.InputFile? sticker;
 
   RemoveRecentSticker({
     required this.isAttached,
@@ -10748,12 +10748,12 @@ class RemoveRecentSticker extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'removeRecentSticker',
     'is_attached': isAttached,
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
   };
 
   factory RemoveRecentSticker.fromJson(Map<String, dynamic> json) => RemoveRecentSticker(
     isAttached: json['is_attached'],
-    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile,
+    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
   );
 }
 
@@ -10818,7 +10818,7 @@ class GetFavoriteStickers extends TdFunction {
 /// Adds a new sticker to the list of favorite stickers. The new sticker is added to the top of the list. If the sticker was already in the list, it is removed from the list first. Only stickers belonging to a sticker set can be added to this list
 class AddFavoriteSticker extends TdFunction {
   /// Sticker file to add
-  final a.InputFile sticker;
+  final a.InputFile? sticker;
 
   AddFavoriteSticker({
     required this.sticker,
@@ -10840,18 +10840,18 @@ class AddFavoriteSticker extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'addFavoriteSticker',
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
   };
 
   factory AddFavoriteSticker.fromJson(Map<String, dynamic> json) => AddFavoriteSticker(
-    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile,
+    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
   );
 }
 
 /// Removes a sticker from the list of favorite stickers
 class RemoveFavoriteSticker extends TdFunction {
   /// Sticker file to delete from the list
-  final a.InputFile sticker;
+  final a.InputFile? sticker;
 
   RemoveFavoriteSticker({
     required this.sticker,
@@ -10873,18 +10873,18 @@ class RemoveFavoriteSticker extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeFavoriteSticker',
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
   };
 
   factory RemoveFavoriteSticker.fromJson(Map<String, dynamic> json) => RemoveFavoriteSticker(
-    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile,
+    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
   );
 }
 
 /// Returns emoji corresponding to a sticker. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object
 class GetStickerEmojis extends TdFunction {
   /// Sticker file identifier
-  final a.InputFile sticker;
+  final a.InputFile? sticker;
 
   GetStickerEmojis({
     required this.sticker,
@@ -10906,11 +10906,11 @@ class GetStickerEmojis extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getStickerEmojis',
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
   };
 
   factory GetStickerEmojis.fromJson(Map<String, dynamic> json) => GetStickerEmojis(
-    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile,
+    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
   );
 }
 
@@ -11020,7 +11020,7 @@ class GetSavedAnimations extends TdFunction {
 /// Manually adds a new animation to the list of saved animations. The new animation is added to the beginning of the list. If the animation was already in the list, it is removed first. Only non-secret video animations with MIME type "video/mp4" can be added to the list
 class AddSavedAnimation extends TdFunction {
   /// The animation file to be added. Only animations known to the server (i.e. successfully sent via a message) can be added to the list
-  final a.InputFile animation;
+  final a.InputFile? animation;
 
   AddSavedAnimation({
     required this.animation,
@@ -11042,18 +11042,18 @@ class AddSavedAnimation extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'addSavedAnimation',
-    'animation': animation.toJson(),
+    'animation': animation?.toJson(),
   };
 
   factory AddSavedAnimation.fromJson(Map<String, dynamic> json) => AddSavedAnimation(
-    animation: b.TdBase.fromJson(json['animation']) as a.InputFile,
+    animation: b.TdBase.fromJson(json['animation']) as a.InputFile?,
   );
 }
 
 /// Removes an animation from the list of saved animations
 class RemoveSavedAnimation extends TdFunction {
   /// Animation file to be removed
-  final a.InputFile animation;
+  final a.InputFile? animation;
 
   RemoveSavedAnimation({
     required this.animation,
@@ -11075,11 +11075,11 @@ class RemoveSavedAnimation extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeSavedAnimation',
-    'animation': animation.toJson(),
+    'animation': animation?.toJson(),
   };
 
   factory RemoveSavedAnimation.fromJson(Map<String, dynamic> json) => RemoveSavedAnimation(
-    animation: b.TdBase.fromJson(json['animation']) as a.InputFile,
+    animation: b.TdBase.fromJson(json['animation']) as a.InputFile?,
   );
 }
 
@@ -11183,7 +11183,7 @@ class RemoveRecentHashtag extends TdFunction {
 /// Returns a web page preview by the text of the message. Do not call this function too often. Returns a 404 error if the web page has no preview
 class GetWebPagePreview extends TdFunction {
   /// Message text with formatting
-  final o.FormattedText text;
+  final o.FormattedText? text;
 
   GetWebPagePreview({
     required this.text,
@@ -11205,11 +11205,11 @@ class GetWebPagePreview extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getWebPagePreview',
-    'text': text.toJson(),
+    'text': text?.toJson(),
   };
 
   factory GetWebPagePreview.fromJson(Map<String, dynamic> json) => GetWebPagePreview(
-    text: b.TdBase.fromJson(json['text']) as o.FormattedText,
+    text: b.TdBase.fromJson(json['text']) as o.FormattedText?,
   );
 }
 
@@ -11255,7 +11255,7 @@ class GetWebPageInstantView extends TdFunction {
 /// Changes a profile photo for the current user
 class SetProfilePhoto extends TdFunction {
   /// Profile photo to set
-  final a.InputChatPhoto photo;
+  final a.InputChatPhoto? photo;
 
   SetProfilePhoto({
     required this.photo,
@@ -11277,11 +11277,11 @@ class SetProfilePhoto extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setProfilePhoto',
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
   };
 
   factory SetProfilePhoto.fromJson(Map<String, dynamic> json) => SetProfilePhoto(
-    photo: b.TdBase.fromJson(json['photo']) as a.InputChatPhoto,
+    photo: b.TdBase.fromJson(json['photo']) as a.InputChatPhoto?,
   );
 }
 
@@ -11426,7 +11426,7 @@ class SetUsername extends TdFunction {
 /// Changes the location of the current user. Needs to be called if GetOption("is_location_visible") is true and location changes for more than 1 kilometer
 class SetLocation extends TdFunction {
   /// The new location of the user
-  final o.Location location;
+  final o.Location? location;
 
   SetLocation({
     required this.location,
@@ -11448,11 +11448,11 @@ class SetLocation extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setLocation',
-    'location': location.toJson(),
+    'location': location?.toJson(),
   };
 
   factory SetLocation.fromJson(Map<String, dynamic> json) => SetLocation(
-    location: b.TdBase.fromJson(json['location']) as o.Location,
+    location: b.TdBase.fromJson(json['location']) as o.Location?,
   );
 }
 
@@ -11461,7 +11461,7 @@ class ChangePhoneNumber extends TdFunction {
   /// The new phone number of the user in international format
   final String phoneNumber;
   /// Settings for the authentication of the user's phone number
-  final o.PhoneNumberAuthenticationSettings settings;
+  final o.PhoneNumberAuthenticationSettings? settings;
 
   ChangePhoneNumber({
     required this.phoneNumber,
@@ -11486,12 +11486,12 @@ class ChangePhoneNumber extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'changePhoneNumber',
     'phone_number': phoneNumber,
-    'settings': settings.toJson(),
+    'settings': settings?.toJson(),
   };
 
   factory ChangePhoneNumber.fromJson(Map<String, dynamic> json) => ChangePhoneNumber(
     phoneNumber: json['phone_number'],
-    settings: b.TdBase.fromJson(json['settings']) as o.PhoneNumberAuthenticationSettings,
+    settings: b.TdBase.fromJson(json['settings']) as o.PhoneNumberAuthenticationSettings?,
   );
 }
 
@@ -11556,7 +11556,7 @@ class CheckChangePhoneNumberCode extends TdFunction {
 /// Sets the list of commands supported by the bot; for bots only
 class SetCommands extends TdFunction {
   /// List of the bot's commands
-  final List<o.BotCommand> commands;
+  final List<o.BotCommand?> commands;
 
   SetCommands({
     required this.commands,
@@ -11578,11 +11578,11 @@ class SetCommands extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setCommands',
-    'commands': commands.map((_e1) => _e1.toJson()).toList(growable: false),
+    'commands': commands.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory SetCommands.fromJson(Map<String, dynamic> json) => SetCommands(
-    commands: (json['commands'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.BotCommand).toList(growable: false),
+    commands: (json['commands'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.BotCommand?).toList(growable: false),
   );
 }
 
@@ -11991,7 +11991,7 @@ class GetSupergroupMembers extends TdFunction {
   /// Identifier of the supergroup or channel
   final int supergroupId;
   /// The type of users to return. By default, supergroupMembersFilterRecent
-  final a.SupergroupMembersFilter filter;
+  final a.SupergroupMembersFilter? filter;
   /// Number of users to skip
   final int offset;
   /// The maximum number of users be returned; up to 200
@@ -12024,14 +12024,14 @@ class GetSupergroupMembers extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'getSupergroupMembers',
     'supergroup_id': supergroupId,
-    'filter': filter.toJson(),
+    'filter': filter?.toJson(),
     'offset': offset,
     'limit': limit,
   };
 
   factory GetSupergroupMembers.fromJson(Map<String, dynamic> json) => GetSupergroupMembers(
     supergroupId: json['supergroup_id'],
-    filter: b.TdBase.fromJson(json['filter']) as a.SupergroupMembersFilter,
+    filter: b.TdBase.fromJson(json['filter']) as a.SupergroupMembersFilter?,
     offset: json['offset'],
     limit: json['limit'],
   );
@@ -12081,7 +12081,7 @@ class GetChatEventLog extends TdFunction {
   /// The maximum number of events to return; up to 100
   final int limit;
   /// The types of events to return. By default, all types will be returned
-  final o.ChatEventLogFilters filters;
+  final o.ChatEventLogFilters? filters;
   /// User identifiers by which to filter events. By default, events relating to all users will be returned
   final List<int> userIds;
 
@@ -12119,7 +12119,7 @@ class GetChatEventLog extends TdFunction {
     'query': query,
     'from_event_id': fromEventId.toString(),
     'limit': limit,
-    'filters': filters.toJson(),
+    'filters': filters?.toJson(),
     'user_ids': userIds.map((_e1) => _e1).toList(growable: false),
   };
 
@@ -12128,7 +12128,7 @@ class GetChatEventLog extends TdFunction {
     query: json['query'],
     fromEventId: int.parse(json['from_event_id']),
     limit: json['limit'],
-    filters: b.TdBase.fromJson(json['filters']) as o.ChatEventLogFilters,
+    filters: b.TdBase.fromJson(json['filters']) as o.ChatEventLogFilters?,
     userIds: (json['user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
   );
 }
@@ -12140,7 +12140,7 @@ class GetPaymentForm extends TdFunction {
   /// Message identifier
   final int messageId;
   /// Preferred payment form theme
-  final o.PaymentFormTheme theme;
+  final o.PaymentFormTheme? theme;
 
   GetPaymentForm({
     required this.chatId,
@@ -12168,13 +12168,13 @@ class GetPaymentForm extends TdFunction {
     '@type': 'getPaymentForm',
     'chat_id': chatId,
     'message_id': messageId,
-    'theme': theme.toJson(),
+    'theme': theme?.toJson(),
   };
 
   factory GetPaymentForm.fromJson(Map<String, dynamic> json) => GetPaymentForm(
     chatId: json['chat_id'],
     messageId: json['message_id'],
-    theme: b.TdBase.fromJson(json['theme']) as o.PaymentFormTheme,
+    theme: b.TdBase.fromJson(json['theme']) as o.PaymentFormTheme?,
   );
 }
 
@@ -12185,7 +12185,7 @@ class ValidateOrderInfo extends TdFunction {
   /// Message identifier
   final int messageId;
   /// The order information, provided by the user
-  final o.OrderInfo orderInfo;
+  final o.OrderInfo? orderInfo;
   /// True, if the order information can be saved
   final bool allowSave;
 
@@ -12217,14 +12217,14 @@ class ValidateOrderInfo extends TdFunction {
     '@type': 'validateOrderInfo',
     'chat_id': chatId,
     'message_id': messageId,
-    'order_info': orderInfo.toJson(),
+    'order_info': orderInfo?.toJson(),
     'allow_save': allowSave,
   };
 
   factory ValidateOrderInfo.fromJson(Map<String, dynamic> json) => ValidateOrderInfo(
     chatId: json['chat_id'],
     messageId: json['message_id'],
-    orderInfo: b.TdBase.fromJson(json['order_info']) as o.OrderInfo,
+    orderInfo: b.TdBase.fromJson(json['order_info']) as o.OrderInfo?,
     allowSave: json['allow_save'],
   );
 }
@@ -12242,7 +12242,7 @@ class SendPaymentForm extends TdFunction {
   /// Identifier of a chosen shipping option, if applicable
   final String shippingOptionId;
   /// The credentials chosen by user for payment
-  final a.InputCredentials credentials;
+  final a.InputCredentials? credentials;
   /// Chosen by the user amount of tip in the smallest units of the currency
   final int tipAmount;
 
@@ -12283,7 +12283,7 @@ class SendPaymentForm extends TdFunction {
     'payment_form_id': paymentFormId.toString(),
     'order_info_id': orderInfoId,
     'shipping_option_id': shippingOptionId,
-    'credentials': credentials.toJson(),
+    'credentials': credentials?.toJson(),
     'tip_amount': tipAmount,
   };
 
@@ -12293,7 +12293,7 @@ class SendPaymentForm extends TdFunction {
     paymentFormId: int.parse(json['payment_form_id']),
     orderInfoId: json['order_info_id'],
     shippingOptionId: json['shipping_option_id'],
-    credentials: b.TdBase.fromJson(json['credentials']) as a.InputCredentials,
+    credentials: b.TdBase.fromJson(json['credentials']) as a.InputCredentials?,
     tipAmount: json['tip_amount'],
   );
 }
@@ -12475,7 +12475,7 @@ class GetBackgroundUrl extends TdFunction {
   /// Background name
   final String name;
   /// Background type
-  final a.BackgroundType type;
+  final a.BackgroundType? type;
 
   GetBackgroundUrl({
     required this.name,
@@ -12500,12 +12500,12 @@ class GetBackgroundUrl extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'getBackgroundUrl',
     'name': name,
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory GetBackgroundUrl.fromJson(Map<String, dynamic> json) => GetBackgroundUrl(
     name: json['name'],
-    type: b.TdBase.fromJson(json['type']) as a.BackgroundType,
+    type: b.TdBase.fromJson(json['type']) as a.BackgroundType?,
   );
 }
 
@@ -12545,9 +12545,9 @@ class SearchBackground extends TdFunction {
 /// Changes the background selected by the user; adds background to the list of installed backgrounds
 class SetBackground extends TdFunction {
   /// The input background to use, null for filled backgrounds
-  final a.InputBackground background;
+  final a.InputBackground? background;
   /// Background type; null for default background. The method will return error 404 if type is null
-  final a.BackgroundType type;
+  final a.BackgroundType? type;
   /// True, if the background is chosen for dark theme
   final bool forDarkTheme;
 
@@ -12575,14 +12575,14 @@ class SetBackground extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setBackground',
-    'background': background.toJson(),
-    'type': type.toJson(),
+    'background': background?.toJson(),
+    'type': type?.toJson(),
     'for_dark_theme': forDarkTheme,
   };
 
   factory SetBackground.fromJson(Map<String, dynamic> json) => SetBackground(
-    background: b.TdBase.fromJson(json['background']) as a.InputBackground,
-    type: b.TdBase.fromJson(json['type']) as a.BackgroundType,
+    background: b.TdBase.fromJson(json['background']) as a.InputBackground?,
+    type: b.TdBase.fromJson(json['type']) as a.BackgroundType?,
     forDarkTheme: json['for_dark_theme'],
   );
 }
@@ -12819,9 +12819,9 @@ class AddCustomServerLanguagePack extends TdFunction {
 /// Adds or changes a custom local language pack to the current localization target
 class SetCustomLanguagePack extends TdFunction {
   /// Information about the language pack. Language pack ID must start with 'X', consist only of English letters, digits and hyphens, and must not exceed 64 characters. Can be called before authorization
-  final o.LanguagePackInfo info;
+  final o.LanguagePackInfo? info;
   /// Strings of the new language pack
-  final List<o.LanguagePackString> strings;
+  final List<o.LanguagePackString?> strings;
 
   SetCustomLanguagePack({
     required this.info,
@@ -12845,20 +12845,20 @@ class SetCustomLanguagePack extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setCustomLanguagePack',
-    'info': info.toJson(),
-    'strings': strings.map((_e1) => _e1.toJson()).toList(growable: false),
+    'info': info?.toJson(),
+    'strings': strings.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory SetCustomLanguagePack.fromJson(Map<String, dynamic> json) => SetCustomLanguagePack(
-    info: b.TdBase.fromJson(json['info']) as o.LanguagePackInfo,
-    strings: (json['strings'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.LanguagePackString).toList(growable: false),
+    info: b.TdBase.fromJson(json['info']) as o.LanguagePackInfo?,
+    strings: (json['strings'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.LanguagePackString?).toList(growable: false),
   );
 }
 
 /// Edits information about a custom local language pack in the current localization target. Can be called before authorization
 class EditCustomLanguagePackInfo extends TdFunction {
   /// New information about the custom local language pack
-  final o.LanguagePackInfo info;
+  final o.LanguagePackInfo? info;
 
   EditCustomLanguagePackInfo({
     required this.info,
@@ -12880,11 +12880,11 @@ class EditCustomLanguagePackInfo extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'editCustomLanguagePackInfo',
-    'info': info.toJson(),
+    'info': info?.toJson(),
   };
 
   factory EditCustomLanguagePackInfo.fromJson(Map<String, dynamic> json) => EditCustomLanguagePackInfo(
-    info: b.TdBase.fromJson(json['info']) as o.LanguagePackInfo,
+    info: b.TdBase.fromJson(json['info']) as o.LanguagePackInfo?,
   );
 }
 
@@ -12893,7 +12893,7 @@ class SetCustomLanguagePackString extends TdFunction {
   /// Identifier of a previously added custom local language pack in the current localization target
   final String languagePackId;
   /// New language pack string
-  final o.LanguagePackString newString;
+  final o.LanguagePackString? newString;
 
   SetCustomLanguagePackString({
     required this.languagePackId,
@@ -12918,12 +12918,12 @@ class SetCustomLanguagePackString extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setCustomLanguagePackString',
     'language_pack_id': languagePackId,
-    'new_string': newString.toJson(),
+    'new_string': newString?.toJson(),
   };
 
   factory SetCustomLanguagePackString.fromJson(Map<String, dynamic> json) => SetCustomLanguagePackString(
     languagePackId: json['language_pack_id'],
-    newString: b.TdBase.fromJson(json['new_string']) as o.LanguagePackString,
+    newString: b.TdBase.fromJson(json['new_string']) as o.LanguagePackString?,
   );
 }
 
@@ -12963,7 +12963,7 @@ class DeleteLanguagePack extends TdFunction {
 /// Registers the currently used device for receiving push notifications. Returns a globally unique identifier of the push notification subscription
 class RegisterDevice extends TdFunction {
   /// Device token
-  final a.DeviceToken deviceToken;
+  final a.DeviceToken? deviceToken;
   /// List of user identifiers of other users currently using the application
   final List<int> otherUserIds;
 
@@ -12989,12 +12989,12 @@ class RegisterDevice extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'registerDevice',
-    'device_token': deviceToken.toJson(),
+    'device_token': deviceToken?.toJson(),
     'other_user_ids': otherUserIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory RegisterDevice.fromJson(Map<String, dynamic> json) => RegisterDevice(
-    deviceToken: b.TdBase.fromJson(json['device_token']) as a.DeviceToken,
+    deviceToken: b.TdBase.fromJson(json['device_token']) as a.DeviceToken?,
     otherUserIds: (json['other_user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
   );
 }
@@ -13101,9 +13101,9 @@ class GetRecentlyVisitedTMeUrls extends TdFunction {
 /// Changes user privacy settings
 class SetUserPrivacySettingRules extends TdFunction {
   /// The privacy setting
-  final a.UserPrivacySetting setting;
+  final a.UserPrivacySetting? setting;
   /// The new privacy rules
-  final o.UserPrivacySettingRules rules;
+  final o.UserPrivacySettingRules? rules;
 
   SetUserPrivacySettingRules({
     required this.setting,
@@ -13127,20 +13127,20 @@ class SetUserPrivacySettingRules extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setUserPrivacySettingRules',
-    'setting': setting.toJson(),
-    'rules': rules.toJson(),
+    'setting': setting?.toJson(),
+    'rules': rules?.toJson(),
   };
 
   factory SetUserPrivacySettingRules.fromJson(Map<String, dynamic> json) => SetUserPrivacySettingRules(
-    setting: b.TdBase.fromJson(json['setting']) as a.UserPrivacySetting,
-    rules: b.TdBase.fromJson(json['rules']) as o.UserPrivacySettingRules,
+    setting: b.TdBase.fromJson(json['setting']) as a.UserPrivacySetting?,
+    rules: b.TdBase.fromJson(json['rules']) as o.UserPrivacySettingRules?,
   );
 }
 
 /// Returns the current privacy settings
 class GetUserPrivacySettingRules extends TdFunction {
   /// The privacy setting
-  final a.UserPrivacySetting setting;
+  final a.UserPrivacySetting? setting;
 
   GetUserPrivacySettingRules({
     required this.setting,
@@ -13162,11 +13162,11 @@ class GetUserPrivacySettingRules extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getUserPrivacySettingRules',
-    'setting': setting.toJson(),
+    'setting': setting?.toJson(),
   };
 
   factory GetUserPrivacySettingRules.fromJson(Map<String, dynamic> json) => GetUserPrivacySettingRules(
-    setting: b.TdBase.fromJson(json['setting']) as a.UserPrivacySetting,
+    setting: b.TdBase.fromJson(json['setting']) as a.UserPrivacySetting?,
   );
 }
 
@@ -13208,7 +13208,7 @@ class SetOption extends TdFunction {
   /// The name of the option
   final String name;
   /// The new value of the option
-  final a.OptionValue value;
+  final a.OptionValue? value;
 
   SetOption({
     required this.name,
@@ -13233,19 +13233,19 @@ class SetOption extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setOption',
     'name': name,
-    'value': value.toJson(),
+    'value': value?.toJson(),
   };
 
   factory SetOption.fromJson(Map<String, dynamic> json) => SetOption(
     name: json['name'],
-    value: b.TdBase.fromJson(json['value']) as a.OptionValue,
+    value: b.TdBase.fromJson(json['value']) as a.OptionValue?,
   );
 }
 
 /// Changes the period of inactivity after which the account of the current user will automatically be deleted
 class SetAccountTtl extends TdFunction {
   /// New account TTL
-  final o.AccountTtl ttl;
+  final o.AccountTtl? ttl;
 
   SetAccountTtl({
     required this.ttl,
@@ -13267,11 +13267,11 @@ class SetAccountTtl extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setAccountTtl',
-    'ttl': ttl.toJson(),
+    'ttl': ttl?.toJson(),
   };
 
   factory SetAccountTtl.fromJson(Map<String, dynamic> json) => SetAccountTtl(
-    ttl: b.TdBase.fromJson(json['ttl']) as o.AccountTtl,
+    ttl: b.TdBase.fromJson(json['ttl']) as o.AccountTtl?,
   );
 }
 
@@ -13373,7 +13373,7 @@ class ReportChat extends TdFunction {
   /// Identifiers of reported messages, if any
   final List<int> messageIds;
   /// The reason for reporting the chat
-  final a.ChatReportReason reason;
+  final a.ChatReportReason? reason;
   /// Additional report details; 0-1024 characters
   final String text;
 
@@ -13405,14 +13405,14 @@ class ReportChat extends TdFunction {
     '@type': 'reportChat',
     'chat_id': chatId,
     'message_ids': messageIds.map((_e1) => _e1).toList(growable: false),
-    'reason': reason.toJson(),
+    'reason': reason?.toJson(),
     'text': text,
   };
 
   factory ReportChat.fromJson(Map<String, dynamic> json) => ReportChat(
     chatId: json['chat_id'],
     messageIds: (json['message_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    reason: b.TdBase.fromJson(json['reason']) as a.ChatReportReason,
+    reason: b.TdBase.fromJson(json['reason']) as a.ChatReportReason?,
     text: json['text'],
   );
 }
@@ -13424,7 +13424,7 @@ class ReportChatPhoto extends TdFunction {
   /// Identifier of the photo to report. Only full photos from chatPhoto can be reported
   final int fileId;
   /// The reason for reporting the chat photo
-  final a.ChatReportReason reason;
+  final a.ChatReportReason? reason;
   /// Additional report details; 0-1024 characters
   final String text;
 
@@ -13456,14 +13456,14 @@ class ReportChatPhoto extends TdFunction {
     '@type': 'reportChatPhoto',
     'chat_id': chatId,
     'file_id': fileId,
-    'reason': reason.toJson(),
+    'reason': reason?.toJson(),
     'text': text,
   };
 
   factory ReportChatPhoto.fromJson(Map<String, dynamic> json) => ReportChatPhoto(
     chatId: json['chat_id'],
     fileId: json['file_id'],
-    reason: b.TdBase.fromJson(json['reason']) as a.ChatReportReason,
+    reason: b.TdBase.fromJson(json['reason']) as a.ChatReportReason?,
     text: json['text'],
   );
 }
@@ -13736,7 +13736,7 @@ class OptimizeStorage extends TdFunction {
   /// The amount of time after the creation of a file during which it can't be deleted, in seconds. Pass -1 to use the default value
   final int immunityDelay;
   /// If not empty, only files with the given type(s) are considered. By default, all types except thumbnails, profile photos, stickers and wallpapers are deleted
-  final List<a.FileType> fileTypes;
+  final List<a.FileType?> fileTypes;
   /// If not empty, only files from the given chats are considered. Use 0 as chat identifier to delete files not belonging to any chat (e.g., profile photos)
   final List<int> chatIds;
   /// If not empty, files from the given chats are excluded. Use 0 as chat identifier to exclude all files not belonging to any chat (e.g., profile photos)
@@ -13786,7 +13786,7 @@ class OptimizeStorage extends TdFunction {
     'ttl': ttl,
     'count': count,
     'immunity_delay': immunityDelay,
-    'file_types': fileTypes.map((_e1) => _e1.toJson()).toList(growable: false),
+    'file_types': fileTypes.map((_e1) => _e1?.toJson()).toList(growable: false),
     'chat_ids': chatIds.map((_e1) => _e1).toList(growable: false),
     'exclude_chat_ids': excludeChatIds.map((_e1) => _e1).toList(growable: false),
     'return_deleted_file_statistics': returnDeletedFileStatistics,
@@ -13798,7 +13798,7 @@ class OptimizeStorage extends TdFunction {
     ttl: json['ttl'],
     count: json['count'],
     immunityDelay: json['immunity_delay'],
-    fileTypes: (json['file_types'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.FileType).toList(growable: false),
+    fileTypes: (json['file_types'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.FileType?).toList(growable: false),
     chatIds: (json['chat_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
     excludeChatIds: (json['exclude_chat_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
     returnDeletedFileStatistics: json['return_deleted_file_statistics'],
@@ -13809,7 +13809,7 @@ class OptimizeStorage extends TdFunction {
 /// Sets the current network type. Can be called before authorization. Calling this method forces all network connections to reopen, mitigating the delay in switching between different networks, so it should be called whenever the network is changed, even if the network type remains the same.
 class SetNetworkType extends TdFunction {
   /// The new network type. By default, networkTypeOther
-  final a.NetworkType type;
+  final a.NetworkType? type;
 
   SetNetworkType({
     required this.type,
@@ -13831,11 +13831,11 @@ class SetNetworkType extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setNetworkType',
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory SetNetworkType.fromJson(Map<String, dynamic> json) => SetNetworkType(
-    type: b.TdBase.fromJson(json['type']) as a.NetworkType,
+    type: b.TdBase.fromJson(json['type']) as a.NetworkType?,
   );
 }
 
@@ -13875,7 +13875,7 @@ class GetNetworkStatistics extends TdFunction {
 /// Adds the specified data to data usage statistics. Can be called before authorization
 class AddNetworkStatistics extends TdFunction {
   /// The network statistics entry with the data to be added to statistics
-  final a.NetworkStatisticsEntry entry;
+  final a.NetworkStatisticsEntry? entry;
 
   AddNetworkStatistics({
     required this.entry,
@@ -13897,11 +13897,11 @@ class AddNetworkStatistics extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'addNetworkStatistics',
-    'entry': entry.toJson(),
+    'entry': entry?.toJson(),
   };
 
   factory AddNetworkStatistics.fromJson(Map<String, dynamic> json) => AddNetworkStatistics(
-    entry: b.TdBase.fromJson(json['entry']) as a.NetworkStatisticsEntry,
+    entry: b.TdBase.fromJson(json['entry']) as a.NetworkStatisticsEntry?,
   );
 }
 
@@ -13958,9 +13958,9 @@ class GetAutoDownloadSettingsPresets extends TdFunction {
 /// Sets auto-download settings
 class SetAutoDownloadSettings extends TdFunction {
   /// New user auto-download settings
-  final o.AutoDownloadSettings settings;
+  final o.AutoDownloadSettings? settings;
   /// Type of the network for which the new settings are applied
-  final a.NetworkType type;
+  final a.NetworkType? type;
 
   SetAutoDownloadSettings({
     required this.settings,
@@ -13984,13 +13984,13 @@ class SetAutoDownloadSettings extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setAutoDownloadSettings',
-    'settings': settings.toJson(),
-    'type': type.toJson(),
+    'settings': settings?.toJson(),
+    'type': type?.toJson(),
   };
 
   factory SetAutoDownloadSettings.fromJson(Map<String, dynamic> json) => SetAutoDownloadSettings(
-    settings: b.TdBase.fromJson(json['settings']) as o.AutoDownloadSettings,
-    type: b.TdBase.fromJson(json['type']) as a.NetworkType,
+    settings: b.TdBase.fromJson(json['settings']) as o.AutoDownloadSettings?,
+    type: b.TdBase.fromJson(json['type']) as a.NetworkType?,
   );
 }
 
@@ -14030,7 +14030,7 @@ class GetBankCardInfo extends TdFunction {
 /// Returns one of the available Telegram Passport elements
 class GetPassportElement extends TdFunction {
   /// Telegram Passport element type
-  final a.PassportElementType type;
+  final a.PassportElementType? type;
   /// Password of the current user
   final String password;
 
@@ -14056,12 +14056,12 @@ class GetPassportElement extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getPassportElement',
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'password': password,
   };
 
   factory GetPassportElement.fromJson(Map<String, dynamic> json) => GetPassportElement(
-    type: b.TdBase.fromJson(json['type']) as a.PassportElementType,
+    type: b.TdBase.fromJson(json['type']) as a.PassportElementType?,
     password: json['password'],
   );
 }
@@ -14102,7 +14102,7 @@ class GetAllPassportElements extends TdFunction {
 /// Adds an element to the user's Telegram Passport. May return an error with a message "PHONE_VERIFICATION_NEEDED" or "EMAIL_VERIFICATION_NEEDED" if the chosen phone number or the chosen email address must be verified first
 class SetPassportElement extends TdFunction {
   /// Input Telegram Passport element
-  final a.InputPassportElement element;
+  final a.InputPassportElement? element;
   /// Password of the current user
   final String password;
 
@@ -14128,12 +14128,12 @@ class SetPassportElement extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setPassportElement',
-    'element': element.toJson(),
+    'element': element?.toJson(),
     'password': password,
   };
 
   factory SetPassportElement.fromJson(Map<String, dynamic> json) => SetPassportElement(
-    element: b.TdBase.fromJson(json['element']) as a.InputPassportElement,
+    element: b.TdBase.fromJson(json['element']) as a.InputPassportElement?,
     password: json['password'],
   );
 }
@@ -14141,7 +14141,7 @@ class SetPassportElement extends TdFunction {
 /// Deletes a Telegram Passport element
 class DeletePassportElement extends TdFunction {
   /// Element type
-  final a.PassportElementType type;
+  final a.PassportElementType? type;
 
   DeletePassportElement({
     required this.type,
@@ -14163,11 +14163,11 @@ class DeletePassportElement extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'deletePassportElement',
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory DeletePassportElement.fromJson(Map<String, dynamic> json) => DeletePassportElement(
-    type: b.TdBase.fromJson(json['type']) as a.PassportElementType,
+    type: b.TdBase.fromJson(json['type']) as a.PassportElementType?,
   );
 }
 
@@ -14176,7 +14176,7 @@ class SetPassportElementErrors extends TdFunction {
   /// User identifier
   final int userId;
   /// The errors
-  final List<o.InputPassportElementError> errors;
+  final List<o.InputPassportElementError?> errors;
 
   SetPassportElementErrors({
     required this.userId,
@@ -14201,12 +14201,12 @@ class SetPassportElementErrors extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setPassportElementErrors',
     'user_id': userId,
-    'errors': errors.map((_e1) => _e1.toJson()).toList(growable: false),
+    'errors': errors.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory SetPassportElementErrors.fromJson(Map<String, dynamic> json) => SetPassportElementErrors(
     userId: json['user_id'],
-    errors: (json['errors'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.InputPassportElementError).toList(growable: false),
+    errors: (json['errors'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.InputPassportElementError?).toList(growable: false),
   );
 }
 
@@ -14248,7 +14248,7 @@ class SendPhoneNumberVerificationCode extends TdFunction {
   /// The phone number of the user, in international format
   final String phoneNumber;
   /// Settings for the authentication of the user's phone number
-  final o.PhoneNumberAuthenticationSettings settings;
+  final o.PhoneNumberAuthenticationSettings? settings;
 
   SendPhoneNumberVerificationCode({
     required this.phoneNumber,
@@ -14273,12 +14273,12 @@ class SendPhoneNumberVerificationCode extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'sendPhoneNumberVerificationCode',
     'phone_number': phoneNumber,
-    'settings': settings.toJson(),
+    'settings': settings?.toJson(),
   };
 
   factory SendPhoneNumberVerificationCode.fromJson(Map<String, dynamic> json) => SendPhoneNumberVerificationCode(
     phoneNumber: json['phone_number'],
-    settings: b.TdBase.fromJson(json['settings']) as o.PhoneNumberAuthenticationSettings,
+    settings: b.TdBase.fromJson(json['settings']) as o.PhoneNumberAuthenticationSettings?,
   );
 }
 
@@ -14526,7 +14526,7 @@ class SendPassportAuthorizationForm extends TdFunction {
   /// Authorization form identifier
   final int autorizationFormId;
   /// Types of Telegram Passport elements chosen by user to complete the authorization form
-  final List<a.PassportElementType> types;
+  final List<a.PassportElementType?> types;
 
   SendPassportAuthorizationForm({
     required this.autorizationFormId,
@@ -14551,12 +14551,12 @@ class SendPassportAuthorizationForm extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'sendPassportAuthorizationForm',
     'autorization_form_id': autorizationFormId,
-    'types': types.map((_e1) => _e1.toJson()).toList(growable: false),
+    'types': types.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory SendPassportAuthorizationForm.fromJson(Map<String, dynamic> json) => SendPassportAuthorizationForm(
     autorizationFormId: json['autorization_form_id'],
-    types: (json['types'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PassportElementType).toList(growable: false),
+    types: (json['types'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PassportElementType?).toList(growable: false),
   );
 }
 
@@ -14567,7 +14567,7 @@ class SendPhoneNumberConfirmationCode extends TdFunction {
   /// Value of the "phone" parameter from the link
   final String phoneNumber;
   /// Settings for the authentication of the user's phone number
-  final o.PhoneNumberAuthenticationSettings settings;
+  final o.PhoneNumberAuthenticationSettings? settings;
 
   SendPhoneNumberConfirmationCode({
     required this.hash,
@@ -14595,13 +14595,13 @@ class SendPhoneNumberConfirmationCode extends TdFunction {
     '@type': 'sendPhoneNumberConfirmationCode',
     'hash': hash,
     'phone_number': phoneNumber,
-    'settings': settings.toJson(),
+    'settings': settings?.toJson(),
   };
 
   factory SendPhoneNumberConfirmationCode.fromJson(Map<String, dynamic> json) => SendPhoneNumberConfirmationCode(
     hash: json['hash'],
     phoneNumber: json['phone_number'],
-    settings: b.TdBase.fromJson(json['settings']) as o.PhoneNumberAuthenticationSettings,
+    settings: b.TdBase.fromJson(json['settings']) as o.PhoneNumberAuthenticationSettings?,
   );
 }
 
@@ -14707,7 +14707,7 @@ class UploadStickerFile extends TdFunction {
   /// Sticker file owner
   final int userId;
   /// PNG image with the sticker; must be up to 512 KB in size and fit in 512x512 square
-  final a.InputFile pngSticker;
+  final a.InputFile? pngSticker;
 
   UploadStickerFile({
     required this.userId,
@@ -14732,12 +14732,12 @@ class UploadStickerFile extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'uploadStickerFile',
     'user_id': userId,
-    'png_sticker': pngSticker.toJson(),
+    'png_sticker': pngSticker?.toJson(),
   };
 
   factory UploadStickerFile.fromJson(Map<String, dynamic> json) => UploadStickerFile(
     userId: json['user_id'],
-    pngSticker: b.TdBase.fromJson(json['png_sticker']) as a.InputFile,
+    pngSticker: b.TdBase.fromJson(json['png_sticker']) as a.InputFile?,
   );
 }
 
@@ -14752,7 +14752,7 @@ class CreateNewStickerSet extends TdFunction {
   /// True, if stickers are masks. Animated stickers can't be masks
   final bool isMasks;
   /// List of stickers to be added to the set; must be non-empty. All stickers must be of the same type
-  final List<a.InputSticker> stickers;
+  final List<a.InputSticker?> stickers;
 
   CreateNewStickerSet({
     required this.userId,
@@ -14786,7 +14786,7 @@ class CreateNewStickerSet extends TdFunction {
     'title': title,
     'name': name,
     'is_masks': isMasks,
-    'stickers': stickers.map((_e1) => _e1.toJson()).toList(growable: false),
+    'stickers': stickers.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory CreateNewStickerSet.fromJson(Map<String, dynamic> json) => CreateNewStickerSet(
@@ -14794,7 +14794,7 @@ class CreateNewStickerSet extends TdFunction {
     title: json['title'],
     name: json['name'],
     isMasks: json['is_masks'],
-    stickers: (json['stickers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputSticker).toList(growable: false),
+    stickers: (json['stickers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputSticker?).toList(growable: false),
   );
 }
 
@@ -14805,7 +14805,7 @@ class AddStickerToSet extends TdFunction {
   /// Sticker set name
   final String name;
   /// Sticker to add to the set
-  final a.InputSticker sticker;
+  final a.InputSticker? sticker;
 
   AddStickerToSet({
     required this.userId,
@@ -14833,13 +14833,13 @@ class AddStickerToSet extends TdFunction {
     '@type': 'addStickerToSet',
     'user_id': userId,
     'name': name,
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
   };
 
   factory AddStickerToSet.fromJson(Map<String, dynamic> json) => AddStickerToSet(
     userId: json['user_id'],
     name: json['name'],
-    sticker: b.TdBase.fromJson(json['sticker']) as a.InputSticker,
+    sticker: b.TdBase.fromJson(json['sticker']) as a.InputSticker?,
   );
 }
 
@@ -14850,7 +14850,7 @@ class SetStickerSetThumbnail extends TdFunction {
   /// Sticker set name
   final String name;
   /// Thumbnail to set in PNG or TGS format. Animated thumbnail must be set for animated sticker sets and only for them. Pass a zero InputFileId to delete the thumbnail
-  final a.InputFile thumbnail;
+  final a.InputFile? thumbnail;
 
   SetStickerSetThumbnail({
     required this.userId,
@@ -14878,20 +14878,20 @@ class SetStickerSetThumbnail extends TdFunction {
     '@type': 'setStickerSetThumbnail',
     'user_id': userId,
     'name': name,
-    'thumbnail': thumbnail.toJson(),
+    'thumbnail': thumbnail?.toJson(),
   };
 
   factory SetStickerSetThumbnail.fromJson(Map<String, dynamic> json) => SetStickerSetThumbnail(
     userId: json['user_id'],
     name: json['name'],
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as a.InputFile,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as a.InputFile?,
   );
 }
 
 /// Changes the position of a sticker in the set to which it belongs; for bots only. The sticker set must have been created by the bot
 class SetStickerPositionInSet extends TdFunction {
   /// Sticker
-  final a.InputFile sticker;
+  final a.InputFile? sticker;
   /// New position of the sticker in the set, zero-based
   final int position;
 
@@ -14917,12 +14917,12 @@ class SetStickerPositionInSet extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setStickerPositionInSet',
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
     'position': position,
   };
 
   factory SetStickerPositionInSet.fromJson(Map<String, dynamic> json) => SetStickerPositionInSet(
-    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile,
+    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
     position: json['position'],
   );
 }
@@ -14930,7 +14930,7 @@ class SetStickerPositionInSet extends TdFunction {
 /// Removes a sticker from the set to which it belongs; for bots only. The sticker set must have been created by the bot
 class RemoveStickerFromSet extends TdFunction {
   /// Sticker
-  final a.InputFile sticker;
+  final a.InputFile? sticker;
 
   RemoveStickerFromSet({
     required this.sticker,
@@ -14952,18 +14952,18 @@ class RemoveStickerFromSet extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeStickerFromSet',
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
   };
 
   factory RemoveStickerFromSet.fromJson(Map<String, dynamic> json) => RemoveStickerFromSet(
-    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile,
+    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
   );
 }
 
 /// Returns information about a file with a map thumbnail in PNG format. Only map thumbnail files with size less than 1MB can be downloaded
 class GetMapThumbnailFile extends TdFunction {
   /// Location of the map center
-  final o.Location location;
+  final o.Location? location;
   /// Map zoom level; 13-20
   final int zoom;
   /// Map width in pixels before applying scale; 16-1024
@@ -15005,7 +15005,7 @@ class GetMapThumbnailFile extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMapThumbnailFile',
-    'location': location.toJson(),
+    'location': location?.toJson(),
     'zoom': zoom,
     'width': width,
     'height': height,
@@ -15014,7 +15014,7 @@ class GetMapThumbnailFile extends TdFunction {
   };
 
   factory GetMapThumbnailFile.fromJson(Map<String, dynamic> json) => GetMapThumbnailFile(
-    location: b.TdBase.fromJson(json['location']) as o.Location,
+    location: b.TdBase.fromJson(json['location']) as o.Location?,
     zoom: json['zoom'],
     width: json['width'],
     height: json['height'],
@@ -15340,7 +15340,7 @@ class SaveApplicationLogEvent extends TdFunction {
   /// Optional chat identifier, associated with the event
   final int chatId;
   /// The log event data
-  final a.JsonValue data;
+  final a.JsonValue? data;
 
   SaveApplicationLogEvent({
     required this.type,
@@ -15368,13 +15368,13 @@ class SaveApplicationLogEvent extends TdFunction {
     '@type': 'saveApplicationLogEvent',
     'type': type,
     'chat_id': chatId,
-    'data': data.toJson(),
+    'data': data?.toJson(),
   };
 
   factory SaveApplicationLogEvent.fromJson(Map<String, dynamic> json) => SaveApplicationLogEvent(
     type: json['type'],
     chatId: json['chat_id'],
-    data: b.TdBase.fromJson(json['data']) as a.JsonValue,
+    data: b.TdBase.fromJson(json['data']) as a.JsonValue?,
   );
 }
 
@@ -15387,7 +15387,7 @@ class AddProxy extends TdFunction {
   /// True, if the proxy should be enabled
   final bool enable;
   /// Proxy type
-  final a.ProxyType type;
+  final a.ProxyType? type;
 
   AddProxy({
     required this.server,
@@ -15418,14 +15418,14 @@ class AddProxy extends TdFunction {
     'server': server,
     'port': port,
     'enable': enable,
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory AddProxy.fromJson(Map<String, dynamic> json) => AddProxy(
     server: json['server'],
     port: json['port'],
     enable: json['enable'],
-    type: b.TdBase.fromJson(json['type']) as a.ProxyType,
+    type: b.TdBase.fromJson(json['type']) as a.ProxyType?,
   );
 }
 
@@ -15440,7 +15440,7 @@ class EditProxy extends TdFunction {
   /// True, if the proxy should be enabled
   final bool enable;
   /// Proxy type
-  final a.ProxyType type;
+  final a.ProxyType? type;
 
   EditProxy({
     required this.proxyId,
@@ -15474,7 +15474,7 @@ class EditProxy extends TdFunction {
     'server': server,
     'port': port,
     'enable': enable,
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory EditProxy.fromJson(Map<String, dynamic> json) => EditProxy(
@@ -15482,7 +15482,7 @@ class EditProxy extends TdFunction {
     server: json['server'],
     port: json['port'],
     enable: json['enable'],
-    type: b.TdBase.fromJson(json['type']) as a.ProxyType,
+    type: b.TdBase.fromJson(json['type']) as a.ProxyType?,
   );
 }
 
@@ -15671,7 +15671,7 @@ class PingProxy extends TdFunction {
 /// Sets new log stream for internal logging of TDLib. Can be called synchronously
 class SetLogStream extends TdFunction {
   /// New log stream
-  final a.LogStream logStream;
+  final a.LogStream? logStream;
 
   SetLogStream({
     required this.logStream,
@@ -15693,11 +15693,11 @@ class SetLogStream extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setLogStream',
-    'log_stream': logStream.toJson(),
+    'log_stream': logStream?.toJson(),
   };
 
   factory SetLogStream.fromJson(Map<String, dynamic> json) => SetLogStream(
-    logStream: b.TdBase.fromJson(json['log_stream']) as a.LogStream,
+    logStream: b.TdBase.fromJson(json['log_stream']) as a.LogStream?,
   );
 }
 
@@ -16047,7 +16047,7 @@ class TestCallVectorInt extends TdFunction {
 /// Returns the received vector of objects containing a number; for testing only. This is an offline method. Can be called before authorization
 class TestCallVectorIntObject extends TdFunction {
   /// Vector of objects to return
-  final List<o.TestInt> x;
+  final List<o.TestInt?> x;
 
   TestCallVectorIntObject({
     required this.x,
@@ -16069,11 +16069,11 @@ class TestCallVectorIntObject extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testCallVectorIntObject',
-    'x': x.map((_e1) => _e1.toJson()).toList(growable: false),
+    'x': x.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory TestCallVectorIntObject.fromJson(Map<String, dynamic> json) => TestCallVectorIntObject(
-    x: (json['x'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.TestInt).toList(growable: false),
+    x: (json['x'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.TestInt?).toList(growable: false),
   );
 }
 
@@ -16113,7 +16113,7 @@ class TestCallVectorString extends TdFunction {
 /// Returns the received vector of objects containing a string; for testing only. This is an offline method. Can be called before authorization
 class TestCallVectorStringObject extends TdFunction {
   /// Vector of objects to return
-  final List<o.TestString> x;
+  final List<o.TestString?> x;
 
   TestCallVectorStringObject({
     required this.x,
@@ -16135,11 +16135,11 @@ class TestCallVectorStringObject extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testCallVectorStringObject',
-    'x': x.map((_e1) => _e1.toJson()).toList(growable: false),
+    'x': x.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory TestCallVectorStringObject.fromJson(Map<String, dynamic> json) => TestCallVectorStringObject(
-    x: (json['x'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.TestString).toList(growable: false),
+    x: (json['x'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.TestString?).toList(growable: false),
   );
 }
 
@@ -16208,7 +16208,7 @@ class TestProxy extends TdFunction {
   /// Proxy server port
   final int port;
   /// Proxy type
-  final a.ProxyType type;
+  final a.ProxyType? type;
   /// Identifier of a datacenter, with which to test connection
   final int dcId;
   /// The maximum overall timeout for the request
@@ -16244,7 +16244,7 @@ class TestProxy extends TdFunction {
     '@type': 'testProxy',
     'server': server,
     'port': port,
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'dc_id': dcId,
     'timeout': timeout,
   };
@@ -16252,7 +16252,7 @@ class TestProxy extends TdFunction {
   factory TestProxy.fromJson(Map<String, dynamic> json) => TestProxy(
     server: json['server'],
     port: json['port'],
-    type: b.TdBase.fromJson(json['type']) as a.ProxyType,
+    type: b.TdBase.fromJson(json['type']) as a.ProxyType?,
     dcId: json['dc_id'],
     timeout: json['timeout'],
   );
@@ -16311,7 +16311,7 @@ class TestUseUpdate extends TdFunction {
 /// Returns the specified error and ensures that the Error object is used; for testing only. Can be called synchronously
 class TestReturnError extends TdFunction {
   /// The error to be returned
-  final o.Error error;
+  final o.Error? error;
 
   TestReturnError({
     required this.error,
@@ -16333,11 +16333,11 @@ class TestReturnError extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testReturnError',
-    'error': error.toJson(),
+    'error': error?.toJson(),
   };
 
   factory TestReturnError.fromJson(Map<String, dynamic> json) => TestReturnError(
-    error: b.TdBase.fromJson(json['error']) as o.Error,
+    error: b.TdBase.fromJson(json['error']) as o.Error?,
   );
 }
 

@@ -322,9 +322,9 @@ class AuthenticationCodeInfo extends a.AuthenticationCodeInfo {
   /// A phone number that is being authenticated
   final String phoneNumber;
   /// Describes the way the code was sent to the user
-  final a.AuthenticationCodeType type;
+  final a.AuthenticationCodeType? type;
   /// Describes the way the next code will be sent to the user; may be null
-  final a.AuthenticationCodeType nextType;
+  final a.AuthenticationCodeType? nextType;
   /// Timeout before the code should be re-sent, in seconds
   final int timeout;
 
@@ -355,15 +355,15 @@ class AuthenticationCodeInfo extends a.AuthenticationCodeInfo {
   Map<String, dynamic> toJson() => {
     '@type': 'authenticationCodeInfo',
     'phone_number': phoneNumber,
-    'type': type.toJson(),
-    'next_type': nextType.toJson(),
+    'type': type?.toJson(),
+    'next_type': nextType?.toJson(),
     'timeout': timeout,
   };
 
   factory AuthenticationCodeInfo.fromJson(Map<String, dynamic> json) => AuthenticationCodeInfo(
     phoneNumber: json['phone_number'],
-    type: b.TdBase.fromJson(json['type']) as a.AuthenticationCodeType,
-    nextType: b.TdBase.fromJson(json['next_type']) as a.AuthenticationCodeType,
+    type: b.TdBase.fromJson(json['type']) as a.AuthenticationCodeType?,
+    nextType: b.TdBase.fromJson(json['next_type']) as a.AuthenticationCodeType?,
     timeout: json['timeout'],
   );
 }
@@ -414,7 +414,7 @@ class TextEntity extends a.TextEntity {
   /// Length of the entity, in UTF-16 code units
   final int length;
   /// Type of the entity
-  final a.TextEntityType type;
+  final a.TextEntityType? type;
 
   TextEntity({
     required this.offset,
@@ -442,20 +442,20 @@ class TextEntity extends a.TextEntity {
     '@type': 'textEntity',
     'offset': offset,
     'length': length,
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory TextEntity.fromJson(Map<String, dynamic> json) => TextEntity(
     offset: json['offset'],
     length: json['length'],
-    type: b.TdBase.fromJson(json['type']) as a.TextEntityType,
+    type: b.TdBase.fromJson(json['type']) as a.TextEntityType?,
   );
 }
 
 /// Contains a list of text entities
 class TextEntities extends a.TextEntities {
   /// List of text entities
-  final List<TextEntity> entities;
+  final List<TextEntity?> entities;
 
   TextEntities({
     required this.entities,
@@ -477,11 +477,11 @@ class TextEntities extends a.TextEntities {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'textEntities',
-    'entities': entities.map((_e1) => _e1.toJson()).toList(growable: false),
+    'entities': entities.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory TextEntities.fromJson(Map<String, dynamic> json) => TextEntities(
-    entities: (json['entities'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TextEntity).toList(growable: false),
+    entities: (json['entities'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TextEntity?).toList(growable: false),
   );
 }
 
@@ -490,7 +490,7 @@ class FormattedText extends a.FormattedText {
   /// The text
   final String text;
   /// Entities contained in the text. Entities can be nested, but must not mutually intersect with each other.
-  final List<TextEntity> entities;
+  final List<TextEntity?> entities;
 
   FormattedText({
     required this.text,
@@ -515,19 +515,19 @@ class FormattedText extends a.FormattedText {
   Map<String, dynamic> toJson() => {
     '@type': 'formattedText',
     'text': text,
-    'entities': entities.map((_e1) => _e1.toJson()).toList(growable: false),
+    'entities': entities.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory FormattedText.fromJson(Map<String, dynamic> json) => FormattedText(
     text: json['text'],
-    entities: (json['entities'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TextEntity).toList(growable: false),
+    entities: (json['entities'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TextEntity?).toList(growable: false),
   );
 }
 
 /// Contains Telegram terms of service
 class TermsOfService extends a.TermsOfService {
   /// Text of the terms of service
-  final FormattedText text;
+  final FormattedText? text;
   /// The minimum age of a user to be able to accept the terms; 0 if any
   final int minUserAge;
   /// True, if a blocking popup with terms of service must be shown to the user
@@ -557,13 +557,13 @@ class TermsOfService extends a.TermsOfService {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'termsOfService',
-    'text': text.toJson(),
+    'text': text?.toJson(),
     'min_user_age': minUserAge,
     'show_popup': showPopup,
   };
 
   factory TermsOfService.fromJson(Map<String, dynamic> json) => TermsOfService(
-    text: b.TdBase.fromJson(json['text']) as FormattedText,
+    text: b.TdBase.fromJson(json['text']) as FormattedText?,
     minUserAge: json['min_user_age'],
     showPopup: json['show_popup'],
   );
@@ -655,7 +655,7 @@ class AuthorizationStateWaitPhoneNumber extends a.AuthorizationState {
 /// TDLib needs the user's authentication code to authorize
 class AuthorizationStateWaitCode extends a.AuthorizationState {
   /// Information about the authorization code that was sent
-  final AuthenticationCodeInfo codeInfo;
+  final AuthenticationCodeInfo? codeInfo;
 
   AuthorizationStateWaitCode({
     required this.codeInfo,
@@ -677,11 +677,11 @@ class AuthorizationStateWaitCode extends a.AuthorizationState {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'authorizationStateWaitCode',
-    'code_info': codeInfo.toJson(),
+    'code_info': codeInfo?.toJson(),
   };
 
   factory AuthorizationStateWaitCode.fromJson(Map<String, dynamic> json) => AuthorizationStateWaitCode(
-    codeInfo: b.TdBase.fromJson(json['code_info']) as AuthenticationCodeInfo,
+    codeInfo: b.TdBase.fromJson(json['code_info']) as AuthenticationCodeInfo?,
   );
 }
 
@@ -721,7 +721,7 @@ class AuthorizationStateWaitOtherDeviceConfirmation extends a.AuthorizationState
 /// The user is unregistered and need to accept terms of service and enter their first name and last name to finish registration
 class AuthorizationStateWaitRegistration extends a.AuthorizationState {
   /// Telegram terms of service
-  final TermsOfService termsOfService;
+  final TermsOfService? termsOfService;
 
   AuthorizationStateWaitRegistration({
     required this.termsOfService,
@@ -743,11 +743,11 @@ class AuthorizationStateWaitRegistration extends a.AuthorizationState {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'authorizationStateWaitRegistration',
-    'terms_of_service': termsOfService.toJson(),
+    'terms_of_service': termsOfService?.toJson(),
   };
 
   factory AuthorizationStateWaitRegistration.fromJson(Map<String, dynamic> json) => AuthorizationStateWaitRegistration(
-    termsOfService: b.TdBase.fromJson(json['terms_of_service']) as TermsOfService,
+    termsOfService: b.TdBase.fromJson(json['terms_of_service']) as TermsOfService?,
   );
 }
 
@@ -907,7 +907,7 @@ class PasswordState extends a.PasswordState {
   /// True, if some Telegram Passport elements were saved
   final bool hasPassportData;
   /// Information about the recovery email address to which the confirmation email was sent; may be null
-  final EmailAddressAuthenticationCodeInfo recoveryEmailAddressCodeInfo;
+  final EmailAddressAuthenticationCodeInfo? recoveryEmailAddressCodeInfo;
 
   PasswordState({
     required this.hasPassword,
@@ -941,7 +941,7 @@ class PasswordState extends a.PasswordState {
     'password_hint': passwordHint,
     'has_recovery_email_address': hasRecoveryEmailAddress,
     'has_passport_data': hasPassportData,
-    'recovery_email_address_code_info': recoveryEmailAddressCodeInfo.toJson(),
+    'recovery_email_address_code_info': recoveryEmailAddressCodeInfo?.toJson(),
   };
 
   factory PasswordState.fromJson(Map<String, dynamic> json) => PasswordState(
@@ -949,7 +949,7 @@ class PasswordState extends a.PasswordState {
     passwordHint: json['password_hint'],
     hasRecoveryEmailAddress: json['has_recovery_email_address'],
     hasPassportData: json['has_passport_data'],
-    recoveryEmailAddressCodeInfo: b.TdBase.fromJson(json['recovery_email_address_code_info']) as EmailAddressAuthenticationCodeInfo,
+    recoveryEmailAddressCodeInfo: b.TdBase.fromJson(json['recovery_email_address_code_info']) as EmailAddressAuthenticationCodeInfo?,
   );
 }
 
@@ -1166,9 +1166,9 @@ class File extends a.File {
   /// Expected file size in case the exact file size is unknown, but an approximate size is known. Can be used to show download/upload progress
   final int expectedSize;
   /// Information about the local copy of the file
-  final LocalFile local;
+  final LocalFile? local;
   /// Information about the remote copy of the file
-  final RemoteFile remote;
+  final RemoteFile? remote;
 
   File({
     required this.id,
@@ -1201,16 +1201,16 @@ class File extends a.File {
     'id': id,
     'size': size,
     'expected_size': expectedSize,
-    'local': local.toJson(),
-    'remote': remote.toJson(),
+    'local': local?.toJson(),
+    'remote': remote?.toJson(),
   };
 
   factory File.fromJson(Map<String, dynamic> json) => File(
     id: json['id'],
     size: json['size'],
     expectedSize: json['expected_size'],
-    local: b.TdBase.fromJson(json['local']) as LocalFile,
-    remote: b.TdBase.fromJson(json['remote']) as RemoteFile,
+    local: b.TdBase.fromJson(json['local']) as LocalFile?,
+    remote: b.TdBase.fromJson(json['remote']) as RemoteFile?,
   );
 }
 
@@ -1363,7 +1363,7 @@ class PhotoSize extends a.PhotoSize {
   /// Image type (see https://core.telegram.org/constructor/photoSize)
   final String type;
   /// Information about the image file
-  final File photo;
+  final File? photo;
   /// Image width
   final int width;
   /// Image height
@@ -1400,7 +1400,7 @@ class PhotoSize extends a.PhotoSize {
   Map<String, dynamic> toJson() => {
     '@type': 'photoSize',
     'type': type,
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
     'width': width,
     'height': height,
     'progressive_sizes': progressiveSizes.map((_e1) => _e1).toList(growable: false),
@@ -1408,7 +1408,7 @@ class PhotoSize extends a.PhotoSize {
 
   factory PhotoSize.fromJson(Map<String, dynamic> json) => PhotoSize(
     type: json['type'],
-    photo: b.TdBase.fromJson(json['photo']) as File,
+    photo: b.TdBase.fromJson(json['photo']) as File?,
     width: json['width'],
     height: json['height'],
     progressiveSizes: (json['progressive_sizes'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
@@ -1613,13 +1613,13 @@ class ThumbnailFormatMpeg4 extends a.ThumbnailFormat {
 /// Represents a thumbnail
 class Thumbnail extends a.Thumbnail {
   /// Thumbnail format
-  final a.ThumbnailFormat format;
+  final a.ThumbnailFormat? format;
   /// Thumbnail width
   final int width;
   /// Thumbnail height
   final int height;
   /// The thumbnail
-  final File file;
+  final File? file;
 
   Thumbnail({
     required this.format,
@@ -1647,17 +1647,17 @@ class Thumbnail extends a.Thumbnail {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'thumbnail',
-    'format': format.toJson(),
+    'format': format?.toJson(),
     'width': width,
     'height': height,
-    'file': file.toJson(),
+    'file': file?.toJson(),
   };
 
   factory Thumbnail.fromJson(Map<String, dynamic> json) => Thumbnail(
-    format: b.TdBase.fromJson(json['format']) as a.ThumbnailFormat,
+    format: b.TdBase.fromJson(json['format']) as a.ThumbnailFormat?,
     width: json['width'],
     height: json['height'],
-    file: b.TdBase.fromJson(json['file']) as File,
+    file: b.TdBase.fromJson(json['file']) as File?,
   );
 }
 
@@ -1764,7 +1764,7 @@ class MaskPointChin extends a.MaskPoint {
 /// Position on a photo where a mask should be placed
 class MaskPosition extends a.MaskPosition {
   /// Part of the face, relative to which the mask should be placed
-  final a.MaskPoint point;
+  final a.MaskPoint? point;
   /// Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. (For example, -1.0 will place the mask just to the left of the default mask position)
   final double xShift;
   /// Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom. (For example, 1.0 will place the mask just below the default mask position)
@@ -1798,14 +1798,14 @@ class MaskPosition extends a.MaskPosition {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'maskPosition',
-    'point': point.toJson(),
+    'point': point?.toJson(),
     'x_shift': xShift,
     'y_shift': yShift,
     'scale': scale,
   };
 
   factory MaskPosition.fromJson(Map<String, dynamic> json) => MaskPosition(
-    point: b.TdBase.fromJson(json['point']) as a.MaskPoint,
+    point: b.TdBase.fromJson(json['point']) as a.MaskPoint?,
     xShift: json['x_shift'],
     yShift: json['y_shift'],
     scale: json['scale'],
@@ -1815,7 +1815,7 @@ class MaskPosition extends a.MaskPosition {
 /// Represents a closed vector path. The path begins at the end point of the last command
 class ClosedVectorPath extends a.ClosedVectorPath {
   /// List of vector path commands
-  final List<a.VectorPathCommand> commands;
+  final List<a.VectorPathCommand?> commands;
 
   ClosedVectorPath({
     required this.commands,
@@ -1837,11 +1837,11 @@ class ClosedVectorPath extends a.ClosedVectorPath {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'closedVectorPath',
-    'commands': commands.map((_e1) => _e1.toJson()).toList(growable: false),
+    'commands': commands.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ClosedVectorPath.fromJson(Map<String, dynamic> json) => ClosedVectorPath(
-    commands: (json['commands'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.VectorPathCommand).toList(growable: false),
+    commands: (json['commands'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.VectorPathCommand?).toList(growable: false),
   );
 }
 
@@ -1940,7 +1940,7 @@ class PollTypeQuiz extends a.PollType {
   /// 0-based identifier of the correct answer option; -1 for a yet unanswered poll
   final int correctOptionId;
   /// Text that is shown when the user chooses an incorrect answer or taps on the lamp icon; 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
-  final FormattedText explanation;
+  final FormattedText? explanation;
 
   PollTypeQuiz({
     required this.correctOptionId,
@@ -1965,12 +1965,12 @@ class PollTypeQuiz extends a.PollType {
   Map<String, dynamic> toJson() => {
     '@type': 'pollTypeQuiz',
     'correct_option_id': correctOptionId,
-    'explanation': explanation.toJson(),
+    'explanation': explanation?.toJson(),
   };
 
   factory PollTypeQuiz.fromJson(Map<String, dynamic> json) => PollTypeQuiz(
     correctOptionId: json['correct_option_id'],
-    explanation: b.TdBase.fromJson(json['explanation']) as FormattedText,
+    explanation: b.TdBase.fromJson(json['explanation']) as FormattedText?,
   );
 }
 
@@ -1989,11 +1989,11 @@ class Animation extends a.Animation {
   /// True, if stickers were added to the animation. The list of corresponding sticker set can be received using getAttachedStickerSets
   final bool hasStickers;
   /// Animation minithumbnail; may be null
-  final Minithumbnail minithumbnail;
+  final Minithumbnail? minithumbnail;
   /// Animation thumbnail in JPEG or MPEG4 format; may be null
-  final Thumbnail thumbnail;
+  final Thumbnail? thumbnail;
   /// File containing the animation
-  final File animation;
+  final File? animation;
 
   Animation({
     required this.duration,
@@ -2037,9 +2037,9 @@ class Animation extends a.Animation {
     'file_name': fileName,
     'mime_type': mimeType,
     'has_stickers': hasStickers,
-    'minithumbnail': minithumbnail.toJson(),
-    'thumbnail': thumbnail.toJson(),
-    'animation': animation.toJson(),
+    'minithumbnail': minithumbnail?.toJson(),
+    'thumbnail': thumbnail?.toJson(),
+    'animation': animation?.toJson(),
   };
 
   factory Animation.fromJson(Map<String, dynamic> json) => Animation(
@@ -2049,9 +2049,9 @@ class Animation extends a.Animation {
     fileName: json['file_name'],
     mimeType: json['mime_type'],
     hasStickers: json['has_stickers'],
-    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail,
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail,
-    animation: b.TdBase.fromJson(json['animation']) as File,
+    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
+    animation: b.TdBase.fromJson(json['animation']) as File?,
   );
 }
 
@@ -2068,11 +2068,11 @@ class Audio extends a.Audio {
   /// The MIME type of the file; as defined by the sender
   final String mimeType;
   /// The minithumbnail of the album cover; may be null
-  final Minithumbnail albumCoverMinithumbnail;
+  final Minithumbnail? albumCoverMinithumbnail;
   /// The thumbnail of the album cover in JPEG format; as defined by the sender. The full size thumbnail should be extracted from the downloaded file; may be null
-  final Thumbnail albumCoverThumbnail;
+  final Thumbnail? albumCoverThumbnail;
   /// File containing the audio
-  final File audio;
+  final File? audio;
 
   Audio({
     required this.duration,
@@ -2113,9 +2113,9 @@ class Audio extends a.Audio {
     'performer': performer,
     'file_name': fileName,
     'mime_type': mimeType,
-    'album_cover_minithumbnail': albumCoverMinithumbnail.toJson(),
-    'album_cover_thumbnail': albumCoverThumbnail.toJson(),
-    'audio': audio.toJson(),
+    'album_cover_minithumbnail': albumCoverMinithumbnail?.toJson(),
+    'album_cover_thumbnail': albumCoverThumbnail?.toJson(),
+    'audio': audio?.toJson(),
   };
 
   factory Audio.fromJson(Map<String, dynamic> json) => Audio(
@@ -2124,9 +2124,9 @@ class Audio extends a.Audio {
     performer: json['performer'],
     fileName: json['file_name'],
     mimeType: json['mime_type'],
-    albumCoverMinithumbnail: b.TdBase.fromJson(json['album_cover_minithumbnail']) as Minithumbnail,
-    albumCoverThumbnail: b.TdBase.fromJson(json['album_cover_thumbnail']) as Thumbnail,
-    audio: b.TdBase.fromJson(json['audio']) as File,
+    albumCoverMinithumbnail: b.TdBase.fromJson(json['album_cover_minithumbnail']) as Minithumbnail?,
+    albumCoverThumbnail: b.TdBase.fromJson(json['album_cover_thumbnail']) as Thumbnail?,
+    audio: b.TdBase.fromJson(json['audio']) as File?,
   );
 }
 
@@ -2137,11 +2137,11 @@ class Document extends a.Document {
   /// MIME type of the file; as defined by the sender
   final String mimeType;
   /// Document minithumbnail; may be null
-  final Minithumbnail minithumbnail;
+  final Minithumbnail? minithumbnail;
   /// Document thumbnail in JPEG or PNG format (PNG will be used only for background patterns); as defined by the sender; may be null
-  final Thumbnail thumbnail;
+  final Thumbnail? thumbnail;
   /// File containing the document
-  final File document;
+  final File? document;
 
   Document({
     required this.fileName,
@@ -2173,17 +2173,17 @@ class Document extends a.Document {
     '@type': 'document',
     'file_name': fileName,
     'mime_type': mimeType,
-    'minithumbnail': minithumbnail.toJson(),
-    'thumbnail': thumbnail.toJson(),
-    'document': document.toJson(),
+    'minithumbnail': minithumbnail?.toJson(),
+    'thumbnail': thumbnail?.toJson(),
+    'document': document?.toJson(),
   };
 
   factory Document.fromJson(Map<String, dynamic> json) => Document(
     fileName: json['file_name'],
     mimeType: json['mime_type'],
-    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail,
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail,
-    document: b.TdBase.fromJson(json['document']) as File,
+    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
+    document: b.TdBase.fromJson(json['document']) as File?,
   );
 }
 
@@ -2192,9 +2192,9 @@ class Photo extends a.Photo {
   /// True, if stickers were added to the photo. The list of corresponding sticker sets can be received using getAttachedStickerSets
   final bool hasStickers;
   /// Photo minithumbnail; may be null
-  final Minithumbnail minithumbnail;
+  final Minithumbnail? minithumbnail;
   /// Available variants of the photo, in different sizes
-  final List<PhotoSize> sizes;
+  final List<PhotoSize?> sizes;
 
   Photo({
     required this.hasStickers,
@@ -2221,14 +2221,14 @@ class Photo extends a.Photo {
   Map<String, dynamic> toJson() => {
     '@type': 'photo',
     'has_stickers': hasStickers,
-    'minithumbnail': minithumbnail.toJson(),
-    'sizes': sizes.map((_e1) => _e1.toJson()).toList(growable: false),
+    'minithumbnail': minithumbnail?.toJson(),
+    'sizes': sizes.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory Photo.fromJson(Map<String, dynamic> json) => Photo(
     hasStickers: json['has_stickers'],
-    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail,
-    sizes: (json['sizes'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PhotoSize).toList(growable: false),
+    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
+    sizes: (json['sizes'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PhotoSize?).toList(growable: false),
   );
 }
 
@@ -2247,13 +2247,13 @@ class Sticker extends a.Sticker {
   /// True, if the sticker is a mask
   final bool isMask;
   /// Position where the mask should be placed; may be null
-  final MaskPosition maskPosition;
+  final MaskPosition? maskPosition;
   /// Sticker's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
-  final List<ClosedVectorPath> outline;
+  final List<ClosedVectorPath?> outline;
   /// Sticker thumbnail in WEBP or JPEG format; may be null
-  final Thumbnail thumbnail;
+  final Thumbnail? thumbnail;
   /// File containing the sticker
-  final File sticker;
+  final File? sticker;
 
   Sticker({
     required this.setId,
@@ -2299,10 +2299,10 @@ class Sticker extends a.Sticker {
     'emoji': emoji,
     'is_animated': isAnimated,
     'is_mask': isMask,
-    'mask_position': maskPosition.toJson(),
-    'outline': outline.map((_e1) => _e1.toJson()).toList(growable: false),
-    'thumbnail': thumbnail.toJson(),
-    'sticker': sticker.toJson(),
+    'mask_position': maskPosition?.toJson(),
+    'outline': outline.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'thumbnail': thumbnail?.toJson(),
+    'sticker': sticker?.toJson(),
   };
 
   factory Sticker.fromJson(Map<String, dynamic> json) => Sticker(
@@ -2312,10 +2312,10 @@ class Sticker extends a.Sticker {
     emoji: json['emoji'],
     isAnimated: json['is_animated'],
     isMask: json['is_mask'],
-    maskPosition: b.TdBase.fromJson(json['mask_position']) as MaskPosition,
-    outline: (json['outline'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ClosedVectorPath).toList(growable: false),
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail,
-    sticker: b.TdBase.fromJson(json['sticker']) as File,
+    maskPosition: b.TdBase.fromJson(json['mask_position']) as MaskPosition?,
+    outline: (json['outline'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ClosedVectorPath?).toList(growable: false),
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
+    sticker: b.TdBase.fromJson(json['sticker']) as File?,
   );
 }
 
@@ -2336,11 +2336,11 @@ class Video extends a.Video {
   /// True, if the video should be tried to be streamed
   final bool supportsStreaming;
   /// Video minithumbnail; may be null
-  final Minithumbnail minithumbnail;
+  final Minithumbnail? minithumbnail;
   /// Video thumbnail in JPEG or MPEG4 format; as defined by the sender; may be null
-  final Thumbnail thumbnail;
+  final Thumbnail? thumbnail;
   /// File containing the video
-  final File video;
+  final File? video;
 
   Video({
     required this.duration,
@@ -2387,9 +2387,9 @@ class Video extends a.Video {
     'mime_type': mimeType,
     'has_stickers': hasStickers,
     'supports_streaming': supportsStreaming,
-    'minithumbnail': minithumbnail.toJson(),
-    'thumbnail': thumbnail.toJson(),
-    'video': video.toJson(),
+    'minithumbnail': minithumbnail?.toJson(),
+    'thumbnail': thumbnail?.toJson(),
+    'video': video?.toJson(),
   };
 
   factory Video.fromJson(Map<String, dynamic> json) => Video(
@@ -2400,9 +2400,9 @@ class Video extends a.Video {
     mimeType: json['mime_type'],
     hasStickers: json['has_stickers'],
     supportsStreaming: json['supports_streaming'],
-    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail,
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail,
-    video: b.TdBase.fromJson(json['video']) as File,
+    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
+    video: b.TdBase.fromJson(json['video']) as File?,
   );
 }
 
@@ -2413,11 +2413,11 @@ class VideoNote extends a.VideoNote {
   /// Video width and height; as defined by the sender
   final int length;
   /// Video minithumbnail; may be null
-  final Minithumbnail minithumbnail;
+  final Minithumbnail? minithumbnail;
   /// Video thumbnail in JPEG format; as defined by the sender; may be null
-  final Thumbnail thumbnail;
+  final Thumbnail? thumbnail;
   /// File containing the video
-  final File video;
+  final File? video;
 
   VideoNote({
     required this.duration,
@@ -2449,17 +2449,17 @@ class VideoNote extends a.VideoNote {
     '@type': 'videoNote',
     'duration': duration,
     'length': length,
-    'minithumbnail': minithumbnail.toJson(),
-    'thumbnail': thumbnail.toJson(),
-    'video': video.toJson(),
+    'minithumbnail': minithumbnail?.toJson(),
+    'thumbnail': thumbnail?.toJson(),
+    'video': video?.toJson(),
   };
 
   factory VideoNote.fromJson(Map<String, dynamic> json) => VideoNote(
     duration: json['duration'],
     length: json['length'],
-    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail,
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail,
-    video: b.TdBase.fromJson(json['video']) as File,
+    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
+    video: b.TdBase.fromJson(json['video']) as File?,
   );
 }
 
@@ -2472,7 +2472,7 @@ class VoiceNote extends a.VoiceNote {
   /// MIME type of the file; as defined by the sender
   final String mimeType;
   /// File containing the voice note
-  final File voice;
+  final File? voice;
 
   VoiceNote({
     required this.duration,
@@ -2503,14 +2503,14 @@ class VoiceNote extends a.VoiceNote {
     'duration': duration,
     'waveform': base64.encode(waveform),
     'mime_type': mimeType,
-    'voice': voice.toJson(),
+    'voice': voice?.toJson(),
   };
 
   factory VoiceNote.fromJson(Map<String, dynamic> json) => VoiceNote(
     duration: json['duration'],
     waveform: base64.decode(json['waveform']),
     mimeType: json['mime_type'],
-    voice: b.TdBase.fromJson(json['voice']) as File,
+    voice: b.TdBase.fromJson(json['voice']) as File?,
   );
 }
 
@@ -2619,7 +2619,7 @@ class Location extends a.Location {
 /// Describes a venue
 class Venue extends a.Venue {
   /// Venue location; as defined by the sender
-  final Location location;
+  final Location? location;
   /// Venue name; as defined by the sender
   final String title;
   /// Venue address; as defined by the sender
@@ -2661,7 +2661,7 @@ class Venue extends a.Venue {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'venue',
-    'location': location.toJson(),
+    'location': location?.toJson(),
     'title': title,
     'address': address,
     'provider': provider,
@@ -2670,7 +2670,7 @@ class Venue extends a.Venue {
   };
 
   factory Venue.fromJson(Map<String, dynamic> json) => Venue(
-    location: b.TdBase.fromJson(json['location']) as Location,
+    location: b.TdBase.fromJson(json['location']) as Location?,
     title: json['title'],
     address: json['address'],
     provider: json['provider'],
@@ -2688,13 +2688,13 @@ class Game extends a.Game {
   /// Game title
   final String title;
   /// Game text, usually containing scoreboards for a game
-  final FormattedText text;
+  final FormattedText? text;
   /// Game description
   final String description;
   /// Game photo
-  final Photo photo;
+  final Photo? photo;
   /// Game animation; may be null
-  final Animation animation;
+  final Animation? animation;
 
   Game({
     required this.id,
@@ -2731,20 +2731,20 @@ class Game extends a.Game {
     'id': id.toString(),
     'short_name': shortName,
     'title': title,
-    'text': text.toJson(),
+    'text': text?.toJson(),
     'description': description,
-    'photo': photo.toJson(),
-    'animation': animation.toJson(),
+    'photo': photo?.toJson(),
+    'animation': animation?.toJson(),
   };
 
   factory Game.fromJson(Map<String, dynamic> json) => Game(
     id: int.parse(json['id']),
     shortName: json['short_name'],
     title: json['title'],
-    text: b.TdBase.fromJson(json['text']) as FormattedText,
+    text: b.TdBase.fromJson(json['text']) as FormattedText?,
     description: json['description'],
-    photo: b.TdBase.fromJson(json['photo']) as Photo,
-    animation: b.TdBase.fromJson(json['animation']) as Animation,
+    photo: b.TdBase.fromJson(json['photo']) as Photo?,
+    animation: b.TdBase.fromJson(json['animation']) as Animation?,
   );
 }
 
@@ -2755,7 +2755,7 @@ class Poll extends a.Poll {
   /// Poll question; 1-300 characters
   final String question;
   /// List of poll answer options
-  final List<PollOption> options;
+  final List<PollOption?> options;
   /// Total number of voters, participating in the poll
   final int totalVoterCount;
   /// User identifiers of recent voters, if the poll is non-anonymous
@@ -2763,7 +2763,7 @@ class Poll extends a.Poll {
   /// True, if the poll is anonymous
   final bool isAnonymous;
   /// Type of the poll
-  final a.PollType type;
+  final a.PollType? type;
   /// Amount of time the poll will be active after creation, in seconds
   final int openPeriod;
   /// Point in time (Unix timestamp) when the poll will be automatically closed
@@ -2811,11 +2811,11 @@ class Poll extends a.Poll {
     '@type': 'poll',
     'id': id.toString(),
     'question': question,
-    'options': options.map((_e1) => _e1.toJson()).toList(growable: false),
+    'options': options.map((_e1) => _e1?.toJson()).toList(growable: false),
     'total_voter_count': totalVoterCount,
     'recent_voter_user_ids': recentVoterUserIds.map((_e1) => _e1).toList(growable: false),
     'is_anonymous': isAnonymous,
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'open_period': openPeriod,
     'close_date': closeDate,
     'is_closed': isClosed,
@@ -2824,11 +2824,11 @@ class Poll extends a.Poll {
   factory Poll.fromJson(Map<String, dynamic> json) => Poll(
     id: int.parse(json['id']),
     question: json['question'],
-    options: (json['options'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PollOption).toList(growable: false),
+    options: (json['options'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PollOption?).toList(growable: false),
     totalVoterCount: json['total_voter_count'],
     recentVoterUserIds: (json['recent_voter_user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
     isAnonymous: json['is_anonymous'],
-    type: b.TdBase.fromJson(json['type']) as a.PollType,
+    type: b.TdBase.fromJson(json['type']) as a.PollType?,
     openPeriod: json['open_period'],
     closeDate: json['close_date'],
     isClosed: json['is_closed'],
@@ -2840,11 +2840,11 @@ class ProfilePhoto extends a.ProfilePhoto {
   /// Photo identifier; 0 for an empty photo. Can be used to find a photo in a list of user profile photos
   final int id;
   /// A small (160x160) user profile photo. The file can be downloaded only before the photo is changed
-  final File small;
+  final File? small;
   /// A big (640x640) user profile photo. The file can be downloaded only before the photo is changed
-  final File big;
+  final File? big;
   /// User profile photo minithumbnail; may be null
-  final Minithumbnail minithumbnail;
+  final Minithumbnail? minithumbnail;
   /// True, if the photo has animated variant
   final bool hasAnimation;
 
@@ -2877,17 +2877,17 @@ class ProfilePhoto extends a.ProfilePhoto {
   Map<String, dynamic> toJson() => {
     '@type': 'profilePhoto',
     'id': id.toString(),
-    'small': small.toJson(),
-    'big': big.toJson(),
-    'minithumbnail': minithumbnail.toJson(),
+    'small': small?.toJson(),
+    'big': big?.toJson(),
+    'minithumbnail': minithumbnail?.toJson(),
     'has_animation': hasAnimation,
   };
 
   factory ProfilePhoto.fromJson(Map<String, dynamic> json) => ProfilePhoto(
     id: int.parse(json['id']),
-    small: b.TdBase.fromJson(json['small']) as File,
-    big: b.TdBase.fromJson(json['big']) as File,
-    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail,
+    small: b.TdBase.fromJson(json['small']) as File?,
+    big: b.TdBase.fromJson(json['big']) as File?,
+    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
     hasAnimation: json['has_animation'],
   );
 }
@@ -2895,11 +2895,11 @@ class ProfilePhoto extends a.ProfilePhoto {
 /// Contains basic information about the photo of a chat
 class ChatPhotoInfo extends a.ChatPhotoInfo {
   /// A small (160x160) chat photo variant in JPEG format. The file can be downloaded only before the photo is changed
-  final File small;
+  final File? small;
   /// A big (640x640) chat photo variant in JPEG format. The file can be downloaded only before the photo is changed
-  final File big;
+  final File? big;
   /// Chat photo minithumbnail; may be null
-  final Minithumbnail minithumbnail;
+  final Minithumbnail? minithumbnail;
   /// True, if the photo has animated variant
   final bool hasAnimation;
 
@@ -2929,16 +2929,16 @@ class ChatPhotoInfo extends a.ChatPhotoInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatPhotoInfo',
-    'small': small.toJson(),
-    'big': big.toJson(),
-    'minithumbnail': minithumbnail.toJson(),
+    'small': small?.toJson(),
+    'big': big?.toJson(),
+    'minithumbnail': minithumbnail?.toJson(),
     'has_animation': hasAnimation,
   };
 
   factory ChatPhotoInfo.fromJson(Map<String, dynamic> json) => ChatPhotoInfo(
-    small: b.TdBase.fromJson(json['small']) as File,
-    big: b.TdBase.fromJson(json['big']) as File,
-    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail,
+    small: b.TdBase.fromJson(json['small']) as File?,
+    big: b.TdBase.fromJson(json['big']) as File?,
+    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
     hasAnimation: json['has_animation'],
   );
 }
@@ -3119,7 +3119,7 @@ class BotInfo extends a.BotInfo {
   /// Long description shown on the user info page
   final String description;
   /// A list of commands supported by the bot
-  final List<BotCommand> commands;
+  final List<BotCommand?> commands;
 
   BotInfo({
     required this.description,
@@ -3144,19 +3144,19 @@ class BotInfo extends a.BotInfo {
   Map<String, dynamic> toJson() => {
     '@type': 'botInfo',
     'description': description,
-    'commands': commands.map((_e1) => _e1.toJson()).toList(growable: false),
+    'commands': commands.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory BotInfo.fromJson(Map<String, dynamic> json) => BotInfo(
     description: json['description'],
-    commands: (json['commands'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as BotCommand).toList(growable: false),
+    commands: (json['commands'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as BotCommand?).toList(growable: false),
   );
 }
 
 /// Represents a location to which a chat is connected
 class ChatLocation extends a.ChatLocation {
   /// The location
-  final Location location;
+  final Location? location;
   /// Location address; 1-64 characters, as defined by the chat owner
   final String address;
 
@@ -3182,12 +3182,12 @@ class ChatLocation extends a.ChatLocation {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatLocation',
-    'location': location.toJson(),
+    'location': location?.toJson(),
     'address': address,
   };
 
   factory ChatLocation.fromJson(Map<String, dynamic> json) => ChatLocation(
-    location: b.TdBase.fromJson(json['location']) as Location,
+    location: b.TdBase.fromJson(json['location']) as Location?,
     address: json['address'],
   );
 }
@@ -3197,7 +3197,7 @@ class AnimatedChatPhoto extends a.AnimatedChatPhoto {
   /// Animation width and height
   final int length;
   /// Information about the animation file
-  final File file;
+  final File? file;
   /// Timestamp of the frame, used as a static chat photo
   final double mainFrameTimestamp;
 
@@ -3226,13 +3226,13 @@ class AnimatedChatPhoto extends a.AnimatedChatPhoto {
   Map<String, dynamic> toJson() => {
     '@type': 'animatedChatPhoto',
     'length': length,
-    'file': file.toJson(),
+    'file': file?.toJson(),
     'main_frame_timestamp': mainFrameTimestamp,
   };
 
   factory AnimatedChatPhoto.fromJson(Map<String, dynamic> json) => AnimatedChatPhoto(
     length: json['length'],
-    file: b.TdBase.fromJson(json['file']) as File,
+    file: b.TdBase.fromJson(json['file']) as File?,
     mainFrameTimestamp: json['main_frame_timestamp'],
   );
 }
@@ -3244,11 +3244,11 @@ class ChatPhoto extends a.ChatPhoto {
   /// Point in time (Unix timestamp) when the photo has been added
   final int addedDate;
   /// Photo minithumbnail; may be null
-  final Minithumbnail minithumbnail;
+  final Minithumbnail? minithumbnail;
   /// Available variants of the photo in JPEG format, in different size
-  final List<PhotoSize> sizes;
+  final List<PhotoSize?> sizes;
   /// Animated variant of the photo in MPEG4 format; may be null
-  final AnimatedChatPhoto animation;
+  final AnimatedChatPhoto? animation;
 
   ChatPhoto({
     required this.id,
@@ -3280,17 +3280,17 @@ class ChatPhoto extends a.ChatPhoto {
     '@type': 'chatPhoto',
     'id': id.toString(),
     'added_date': addedDate,
-    'minithumbnail': minithumbnail.toJson(),
-    'sizes': sizes.map((_e1) => _e1.toJson()).toList(growable: false),
-    'animation': animation.toJson(),
+    'minithumbnail': minithumbnail?.toJson(),
+    'sizes': sizes.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'animation': animation?.toJson(),
   };
 
   factory ChatPhoto.fromJson(Map<String, dynamic> json) => ChatPhoto(
     id: int.parse(json['id']),
     addedDate: json['added_date'],
-    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail,
-    sizes: (json['sizes'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PhotoSize).toList(growable: false),
-    animation: b.TdBase.fromJson(json['animation']) as AnimatedChatPhoto,
+    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
+    sizes: (json['sizes'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PhotoSize?).toList(growable: false),
+    animation: b.TdBase.fromJson(json['animation']) as AnimatedChatPhoto?,
   );
 }
 
@@ -3299,7 +3299,7 @@ class ChatPhotos extends a.ChatPhotos {
   /// Total number of photos
   final int totalCount;
   /// List of photos
-  final List<ChatPhoto> photos;
+  final List<ChatPhoto?> photos;
 
   ChatPhotos({
     required this.totalCount,
@@ -3324,12 +3324,12 @@ class ChatPhotos extends a.ChatPhotos {
   Map<String, dynamic> toJson() => {
     '@type': 'chatPhotos',
     'total_count': totalCount,
-    'photos': photos.map((_e1) => _e1.toJson()).toList(growable: false),
+    'photos': photos.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ChatPhotos.fromJson(Map<String, dynamic> json) => ChatPhotos(
     totalCount: json['total_count'],
-    photos: (json['photos'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatPhoto).toList(growable: false),
+    photos: (json['photos'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatPhoto?).toList(growable: false),
   );
 }
 
@@ -3369,7 +3369,7 @@ class InputChatPhotoPrevious extends a.InputChatPhoto {
 /// A static photo in JPEG format
 class InputChatPhotoStatic extends a.InputChatPhoto {
   /// Photo to be set as profile photo. Only inputFileLocal and inputFileGenerated are allowed
-  final a.InputFile photo;
+  final a.InputFile? photo;
 
   InputChatPhotoStatic({
     required this.photo,
@@ -3391,18 +3391,18 @@ class InputChatPhotoStatic extends a.InputChatPhoto {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputChatPhotoStatic',
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
   };
 
   factory InputChatPhotoStatic.fromJson(Map<String, dynamic> json) => InputChatPhotoStatic(
-    photo: b.TdBase.fromJson(json['photo']) as a.InputFile,
+    photo: b.TdBase.fromJson(json['photo']) as a.InputFile?,
   );
 }
 
 /// An animation in MPEG4 format; must be square, at most 10 seconds long, have width between 160 and 800 and be at most 2MB in size
 class InputChatPhotoAnimation extends a.InputChatPhoto {
   /// Animation to be set as profile photo. Only inputFileLocal and inputFileGenerated are allowed
-  final a.InputFile animation;
+  final a.InputFile? animation;
   /// Timestamp of the frame, which will be used as static chat photo
   final double mainFrameTimestamp;
 
@@ -3428,12 +3428,12 @@ class InputChatPhotoAnimation extends a.InputChatPhoto {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputChatPhotoAnimation',
-    'animation': animation.toJson(),
+    'animation': animation?.toJson(),
     'main_frame_timestamp': mainFrameTimestamp,
   };
 
   factory InputChatPhotoAnimation.fromJson(Map<String, dynamic> json) => InputChatPhotoAnimation(
-    animation: b.TdBase.fromJson(json['animation']) as a.InputFile,
+    animation: b.TdBase.fromJson(json['animation']) as a.InputFile?,
     mainFrameTimestamp: json['main_frame_timestamp'],
   );
 }
@@ -3451,9 +3451,9 @@ class User extends a.User {
   /// Phone number of the user
   final String phoneNumber;
   /// Current online status of the user
-  final a.UserStatus status;
+  final a.UserStatus? status;
   /// Profile photo of the user; may be null
-  final ProfilePhoto profilePhoto;
+  final ProfilePhoto? profilePhoto;
   /// The user is a contact of the current user
   final bool isContact;
   /// The user is a contact of the current user and the current user is a contact of the user
@@ -3471,7 +3471,7 @@ class User extends a.User {
   /// If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
   final bool haveAccess;
   /// Type of the user
-  final a.UserType type;
+  final a.UserType? type;
   /// IETF language tag of the user's language; only available to bots
   final String languageCode;
 
@@ -3532,8 +3532,8 @@ class User extends a.User {
     'last_name': lastName,
     'username': username,
     'phone_number': phoneNumber,
-    'status': status.toJson(),
-    'profile_photo': profilePhoto.toJson(),
+    'status': status?.toJson(),
+    'profile_photo': profilePhoto?.toJson(),
     'is_contact': isContact,
     'is_mutual_contact': isMutualContact,
     'is_verified': isVerified,
@@ -3542,7 +3542,7 @@ class User extends a.User {
     'is_scam': isScam,
     'is_fake': isFake,
     'have_access': haveAccess,
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'language_code': languageCode,
   };
 
@@ -3552,8 +3552,8 @@ class User extends a.User {
     lastName: json['last_name'],
     username: json['username'],
     phoneNumber: json['phone_number'],
-    status: b.TdBase.fromJson(json['status']) as a.UserStatus,
-    profilePhoto: b.TdBase.fromJson(json['profile_photo']) as ProfilePhoto,
+    status: b.TdBase.fromJson(json['status']) as a.UserStatus?,
+    profilePhoto: b.TdBase.fromJson(json['profile_photo']) as ProfilePhoto?,
     isContact: json['is_contact'],
     isMutualContact: json['is_mutual_contact'],
     isVerified: json['is_verified'],
@@ -3562,7 +3562,7 @@ class User extends a.User {
     isScam: json['is_scam'],
     isFake: json['is_fake'],
     haveAccess: json['have_access'],
-    type: b.TdBase.fromJson(json['type']) as a.UserType,
+    type: b.TdBase.fromJson(json['type']) as a.UserType?,
     languageCode: json['language_code'],
   );
 }
@@ -3570,7 +3570,7 @@ class User extends a.User {
 /// Contains full information about a user
 class UserFullInfo extends a.UserFullInfo {
   /// User profile photo; may be null
-  final ChatPhoto photo;
+  final ChatPhoto? photo;
   /// True, if the user is blocked by the current user
   final bool isBlocked;
   /// True, if the user can be called
@@ -3588,7 +3588,7 @@ class UserFullInfo extends a.UserFullInfo {
   /// Number of group chats where both the other user and the current user are a member; 0 for the current user
   final int groupInCommonCount;
   /// If the user is a bot, information about the bot; may be null
-  final BotInfo botInfo;
+  final BotInfo? botInfo;
 
   UserFullInfo({
     required this.photo,
@@ -3628,7 +3628,7 @@ class UserFullInfo extends a.UserFullInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'userFullInfo',
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
     'is_blocked': isBlocked,
     'can_be_called': canBeCalled,
     'supports_video_calls': supportsVideoCalls,
@@ -3637,11 +3637,11 @@ class UserFullInfo extends a.UserFullInfo {
     'bio': bio,
     'share_text': shareText,
     'group_in_common_count': groupInCommonCount,
-    'bot_info': botInfo.toJson(),
+    'bot_info': botInfo?.toJson(),
   };
 
   factory UserFullInfo.fromJson(Map<String, dynamic> json) => UserFullInfo(
-    photo: b.TdBase.fromJson(json['photo']) as ChatPhoto,
+    photo: b.TdBase.fromJson(json['photo']) as ChatPhoto?,
     isBlocked: json['is_blocked'],
     canBeCalled: json['can_be_called'],
     supportsVideoCalls: json['supports_video_calls'],
@@ -3650,7 +3650,7 @@ class UserFullInfo extends a.UserFullInfo {
     bio: json['bio'],
     shareText: json['share_text'],
     groupInCommonCount: json['group_in_common_count'],
-    botInfo: b.TdBase.fromJson(json['bot_info']) as BotInfo,
+    botInfo: b.TdBase.fromJson(json['bot_info']) as BotInfo?,
   );
 }
 
@@ -3741,7 +3741,7 @@ class ChatAdministrator extends a.ChatAdministrator {
 /// Represents a list of chat administrators
 class ChatAdministrators extends a.ChatAdministrators {
   /// A list of chat administrators
-  final List<ChatAdministrator> administrators;
+  final List<ChatAdministrator?> administrators;
 
   ChatAdministrators({
     required this.administrators,
@@ -3763,11 +3763,11 @@ class ChatAdministrators extends a.ChatAdministrators {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatAdministrators',
-    'administrators': administrators.map((_e1) => _e1.toJson()).toList(growable: false),
+    'administrators': administrators.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ChatAdministrators.fromJson(Map<String, dynamic> json) => ChatAdministrators(
-    administrators: (json['administrators'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatAdministrator).toList(growable: false),
+    administrators: (json['administrators'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatAdministrator?).toList(growable: false),
   );
 }
 
@@ -4028,7 +4028,7 @@ class ChatMemberStatusRestricted extends a.ChatMemberStatus {
   /// Point in time (Unix timestamp) when restrictions will be lifted from the user; 0 if never. If the user is restricted for more than 366 days or for less than 30 seconds from the current time, the user is considered to be restricted forever
   final int restrictedUntilDate;
   /// User permissions in the chat
-  final ChatPermissions permissions;
+  final ChatPermissions? permissions;
 
   ChatMemberStatusRestricted({
     required this.isMember,
@@ -4056,13 +4056,13 @@ class ChatMemberStatusRestricted extends a.ChatMemberStatus {
     '@type': 'chatMemberStatusRestricted',
     'is_member': isMember,
     'restricted_until_date': restrictedUntilDate,
-    'permissions': permissions.toJson(),
+    'permissions': permissions?.toJson(),
   };
 
   factory ChatMemberStatusRestricted.fromJson(Map<String, dynamic> json) => ChatMemberStatusRestricted(
     isMember: json['is_member'],
     restrictedUntilDate: json['restricted_until_date'],
-    permissions: b.TdBase.fromJson(json['permissions']) as ChatPermissions,
+    permissions: b.TdBase.fromJson(json['permissions']) as ChatPermissions?,
   );
 }
 
@@ -4127,15 +4127,15 @@ class ChatMemberStatusBanned extends a.ChatMemberStatus {
 /// Information about a user or a chat as a member of another chat
 class ChatMember extends a.ChatMember {
   /// Identifier of the chat member. Currently, other chats can be only Left or Banned. Only supergroups and channels can have other chats as Left or Banned members and these chats must be supergroups or channels
-  final a.MessageSender memberId;
+  final a.MessageSender? memberId;
   /// Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
   final int inviterUserId;
   /// Point in time (Unix timestamp) when the user joined the chat
   final int joinedChatDate;
   /// Status of the member in the chat
-  final a.ChatMemberStatus status;
+  final a.ChatMemberStatus? status;
   /// If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not the chat member
-  final BotInfo botInfo;
+  final BotInfo? botInfo;
 
   ChatMember({
     required this.memberId,
@@ -4165,19 +4165,19 @@ class ChatMember extends a.ChatMember {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatMember',
-    'member_id': memberId.toJson(),
+    'member_id': memberId?.toJson(),
     'inviter_user_id': inviterUserId,
     'joined_chat_date': joinedChatDate,
-    'status': status.toJson(),
-    'bot_info': botInfo.toJson(),
+    'status': status?.toJson(),
+    'bot_info': botInfo?.toJson(),
   };
 
   factory ChatMember.fromJson(Map<String, dynamic> json) => ChatMember(
-    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender,
+    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
     inviterUserId: json['inviter_user_id'],
     joinedChatDate: json['joined_chat_date'],
-    status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus,
-    botInfo: b.TdBase.fromJson(json['bot_info']) as BotInfo,
+    status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
+    botInfo: b.TdBase.fromJson(json['bot_info']) as BotInfo?,
   );
 }
 
@@ -4186,7 +4186,7 @@ class ChatMembers extends a.ChatMembers {
   /// Approximate total count of chat members found
   final int totalCount;
   /// A list of chat members
-  final List<ChatMember> members;
+  final List<ChatMember?> members;
 
   ChatMembers({
     required this.totalCount,
@@ -4211,12 +4211,12 @@ class ChatMembers extends a.ChatMembers {
   Map<String, dynamic> toJson() => {
     '@type': 'chatMembers',
     'total_count': totalCount,
-    'members': members.map((_e1) => _e1.toJson()).toList(growable: false),
+    'members': members.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ChatMembers.fromJson(Map<String, dynamic> json) => ChatMembers(
     totalCount: json['total_count'],
-    members: (json['members'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatMember).toList(growable: false),
+    members: (json['members'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatMember?).toList(growable: false),
   );
 }
 
@@ -4735,7 +4735,7 @@ class ChatInviteLinks extends a.ChatInviteLinks {
   /// Approximate total count of chat invite links found
   final int totalCount;
   /// List of invite links
-  final List<ChatInviteLink> inviteLinks;
+  final List<ChatInviteLink?> inviteLinks;
 
   ChatInviteLinks({
     required this.totalCount,
@@ -4760,12 +4760,12 @@ class ChatInviteLinks extends a.ChatInviteLinks {
   Map<String, dynamic> toJson() => {
     '@type': 'chatInviteLinks',
     'total_count': totalCount,
-    'invite_links': inviteLinks.map((_e1) => _e1.toJson()).toList(growable: false),
+    'invite_links': inviteLinks.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ChatInviteLinks.fromJson(Map<String, dynamic> json) => ChatInviteLinks(
     totalCount: json['total_count'],
-    inviteLinks: (json['invite_links'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatInviteLink).toList(growable: false),
+    inviteLinks: (json['invite_links'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatInviteLink?).toList(growable: false),
   );
 }
 
@@ -4817,7 +4817,7 @@ class ChatInviteLinkCount extends a.ChatInviteLinkCount {
 /// Contains a list of chat invite link counts
 class ChatInviteLinkCounts extends a.ChatInviteLinkCounts {
   /// List of invite linkcounts
-  final List<ChatInviteLinkCount> inviteLinkCounts;
+  final List<ChatInviteLinkCount?> inviteLinkCounts;
 
   ChatInviteLinkCounts({
     required this.inviteLinkCounts,
@@ -4839,11 +4839,11 @@ class ChatInviteLinkCounts extends a.ChatInviteLinkCounts {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatInviteLinkCounts',
-    'invite_link_counts': inviteLinkCounts.map((_e1) => _e1.toJson()).toList(growable: false),
+    'invite_link_counts': inviteLinkCounts.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ChatInviteLinkCounts.fromJson(Map<String, dynamic> json) => ChatInviteLinkCounts(
-    inviteLinkCounts: (json['invite_link_counts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatInviteLinkCount).toList(growable: false),
+    inviteLinkCounts: (json['invite_link_counts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatInviteLinkCount?).toList(growable: false),
   );
 }
 
@@ -4891,7 +4891,7 @@ class ChatInviteLinkMembers extends a.ChatInviteLinkMembers {
   /// Approximate total count of chat members found
   final int totalCount;
   /// List of chat members, joined a chat by an invite link
-  final List<ChatInviteLinkMember> members;
+  final List<ChatInviteLinkMember?> members;
 
   ChatInviteLinkMembers({
     required this.totalCount,
@@ -4916,12 +4916,12 @@ class ChatInviteLinkMembers extends a.ChatInviteLinkMembers {
   Map<String, dynamic> toJson() => {
     '@type': 'chatInviteLinkMembers',
     'total_count': totalCount,
-    'members': members.map((_e1) => _e1.toJson()).toList(growable: false),
+    'members': members.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ChatInviteLinkMembers.fromJson(Map<String, dynamic> json) => ChatInviteLinkMembers(
     totalCount: json['total_count'],
-    members: (json['members'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatInviteLinkMember).toList(growable: false),
+    members: (json['members'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatInviteLinkMember?).toList(growable: false),
   );
 }
 
@@ -4932,11 +4932,11 @@ class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
   /// If non-zero, the amount of time for which read access to the chat will remain available, in seconds
   final int accessibleFor;
   /// Contains information about the type of the chat
-  final a.ChatType type;
+  final a.ChatType? type;
   /// Title of the chat
   final String title;
   /// Chat photo; may be null
-  final ChatPhotoInfo photo;
+  final ChatPhotoInfo? photo;
   /// Number of members in the chat
   final int memberCount;
   /// User identifiers of some chat members that may be known to the current user
@@ -4980,9 +4980,9 @@ class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
     '@type': 'chatInviteLinkInfo',
     'chat_id': chatId,
     'accessible_for': accessibleFor,
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'title': title,
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
     'member_count': memberCount,
     'member_user_ids': memberUserIds.map((_e1) => _e1).toList(growable: false),
     'is_public': isPublic,
@@ -4991,9 +4991,9 @@ class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
   factory ChatInviteLinkInfo.fromJson(Map<String, dynamic> json) => ChatInviteLinkInfo(
     chatId: json['chat_id'],
     accessibleFor: json['accessible_for'],
-    type: b.TdBase.fromJson(json['type']) as a.ChatType,
+    type: b.TdBase.fromJson(json['type']) as a.ChatType?,
     title: json['title'],
-    photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo,
+    photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
     memberCount: json['member_count'],
     memberUserIds: (json['member_user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
     isPublic: json['is_public'],
@@ -5007,7 +5007,7 @@ class BasicGroup extends a.BasicGroup {
   /// Number of members in the group
   final int memberCount;
   /// Status of the current user in the group
-  final a.ChatMemberStatus status;
+  final a.ChatMemberStatus? status;
   /// True, if the group is active
   final bool isActive;
   /// Identifier of the supergroup to which this group was upgraded; 0 if none
@@ -5043,7 +5043,7 @@ class BasicGroup extends a.BasicGroup {
     '@type': 'basicGroup',
     'id': id,
     'member_count': memberCount,
-    'status': status.toJson(),
+    'status': status?.toJson(),
     'is_active': isActive,
     'upgraded_to_supergroup_id': upgradedToSupergroupId,
   };
@@ -5051,7 +5051,7 @@ class BasicGroup extends a.BasicGroup {
   factory BasicGroup.fromJson(Map<String, dynamic> json) => BasicGroup(
     id: json['id'],
     memberCount: json['member_count'],
-    status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus,
+    status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
     isActive: json['is_active'],
     upgradedToSupergroupId: json['upgraded_to_supergroup_id'],
   );
@@ -5060,15 +5060,15 @@ class BasicGroup extends a.BasicGroup {
 /// Contains full information about a basic group
 class BasicGroupFullInfo extends a.BasicGroupFullInfo {
   /// Chat photo; may be null
-  final ChatPhoto photo;
+  final ChatPhoto? photo;
   /// Group description. Updated only after the basic group is opened
   final String description;
   /// User identifier of the creator of the group; 0 if unknown
   final int creatorUserId;
   /// Group members
-  final List<ChatMember> members;
+  final List<ChatMember?> members;
   /// Primary invite link for this group; may be null. For chat administrators with can_invite_users right only. Updated only after the basic group is opened
-  final ChatInviteLink inviteLink;
+  final ChatInviteLink? inviteLink;
 
   BasicGroupFullInfo({
     required this.photo,
@@ -5098,19 +5098,19 @@ class BasicGroupFullInfo extends a.BasicGroupFullInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'basicGroupFullInfo',
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
     'description': description,
     'creator_user_id': creatorUserId,
-    'members': members.map((_e1) => _e1.toJson()).toList(growable: false),
-    'invite_link': inviteLink.toJson(),
+    'members': members.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'invite_link': inviteLink?.toJson(),
   };
 
   factory BasicGroupFullInfo.fromJson(Map<String, dynamic> json) => BasicGroupFullInfo(
-    photo: b.TdBase.fromJson(json['photo']) as ChatPhoto,
+    photo: b.TdBase.fromJson(json['photo']) as ChatPhoto?,
     description: json['description'],
     creatorUserId: json['creator_user_id'],
-    members: (json['members'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatMember).toList(growable: false),
-    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink,
+    members: (json['members'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatMember?).toList(growable: false),
+    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
   );
 }
 
@@ -5123,7 +5123,7 @@ class Supergroup extends a.Supergroup {
   /// Point in time (Unix timestamp) when the current user joined, or the point in time when the supergroup or channel was created, in case the user is not a member
   final int date;
   /// Status of the current user in the supergroup or channel; custom title will be always empty
-  final a.ChatMemberStatus status;
+  final a.ChatMemberStatus? status;
   /// Number of members in the supergroup or channel; 0 if unknown. Currently it is guaranteed to be known only if the supergroup or channel was received through searchPublicChats, searchChatsNearby, getInactiveSupergroupChats, getSuitableDiscussionChats, getGroupsInCommon, or getUserPrivacySettingRules
   final int memberCount;
   /// True, if the channel has a discussion group, or the supergroup is the designated discussion group for a channel
@@ -5198,7 +5198,7 @@ class Supergroup extends a.Supergroup {
     'id': id,
     'username': username,
     'date': date,
-    'status': status.toJson(),
+    'status': status?.toJson(),
     'member_count': memberCount,
     'has_linked_chat': hasLinkedChat,
     'has_location': hasLocation,
@@ -5216,7 +5216,7 @@ class Supergroup extends a.Supergroup {
     id: json['id'],
     username: json['username'],
     date: json['date'],
-    status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus,
+    status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
     memberCount: json['member_count'],
     hasLinkedChat: json['has_linked_chat'],
     hasLocation: json['has_location'],
@@ -5234,7 +5234,7 @@ class Supergroup extends a.Supergroup {
 /// Contains full information about a supergroup or channel
 class SupergroupFullInfo extends a.SupergroupFullInfo {
   /// Chat photo; may be null
-  final ChatPhoto photo;
+  final ChatPhoto? photo;
   /// Supergroup or channel description
   final String description;
   /// Number of members in the supergroup or channel; 0 if unknown
@@ -5266,9 +5266,9 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
   /// Identifier of the supergroup sticker set; 0 if none
   final int stickerSetId;
   /// Location to which the supergroup is connected; may be null
-  final ChatLocation location;
+  final ChatLocation? location;
   /// Primary invite link for this chat; may be null. For chat administrators with can_invite_users right only
-  final ChatInviteLink inviteLink;
+  final ChatInviteLink? inviteLink;
   /// Identifier of the basic group from which supergroup was upgraded; 0 if none
   final int upgradedFromBasicGroupId;
   /// Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
@@ -5332,7 +5332,7 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'supergroupFullInfo',
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
     'description': description,
     'member_count': memberCount,
     'administrator_count': administratorCount,
@@ -5348,14 +5348,14 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
     'can_get_statistics': canGetStatistics,
     'is_all_history_available': isAllHistoryAvailable,
     'sticker_set_id': stickerSetId.toString(),
-    'location': location.toJson(),
-    'invite_link': inviteLink.toJson(),
+    'location': location?.toJson(),
+    'invite_link': inviteLink?.toJson(),
     'upgraded_from_basic_group_id': upgradedFromBasicGroupId,
     'upgraded_from_max_message_id': upgradedFromMaxMessageId,
   };
 
   factory SupergroupFullInfo.fromJson(Map<String, dynamic> json) => SupergroupFullInfo(
-    photo: b.TdBase.fromJson(json['photo']) as ChatPhoto,
+    photo: b.TdBase.fromJson(json['photo']) as ChatPhoto?,
     description: json['description'],
     memberCount: json['member_count'],
     administratorCount: json['administrator_count'],
@@ -5371,8 +5371,8 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
     canGetStatistics: json['can_get_statistics'],
     isAllHistoryAvailable: json['is_all_history_available'],
     stickerSetId: int.parse(json['sticker_set_id']),
-    location: b.TdBase.fromJson(json['location']) as ChatLocation,
-    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink,
+    location: b.TdBase.fromJson(json['location']) as ChatLocation?,
+    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
     upgradedFromBasicGroupId: json['upgraded_from_basic_group_id'],
     upgradedFromMaxMessageId: json['upgraded_from_max_message_id'],
   );
@@ -5460,7 +5460,7 @@ class SecretChat extends a.SecretChat {
   /// Identifier of the chat partner
   final int userId;
   /// State of the secret chat
-  final a.SecretChatState state;
+  final a.SecretChatState? state;
   /// True, if the chat was created by the current user; otherwise false
   final bool isOutbound;
   /// Hash of the currently used key for comparison with the hash of the chat partner's key. This is a string of 36 little-endian bytes, which must be split into groups of 2 bits, each denoting a pixel of one of 4 colors FFFFFF, D5E6F3, 2D5775, and 2F99C9.
@@ -5500,7 +5500,7 @@ class SecretChat extends a.SecretChat {
     '@type': 'secretChat',
     'id': id,
     'user_id': userId,
-    'state': state.toJson(),
+    'state': state?.toJson(),
     'is_outbound': isOutbound,
     'key_hash': base64.encode(keyHash),
     'layer': layer,
@@ -5509,7 +5509,7 @@ class SecretChat extends a.SecretChat {
   factory SecretChat.fromJson(Map<String, dynamic> json) => SecretChat(
     id: json['id'],
     userId: json['user_id'],
-    state: b.TdBase.fromJson(json['state']) as a.SecretChatState,
+    state: b.TdBase.fromJson(json['state']) as a.SecretChatState?,
     isOutbound: json['is_outbound'],
     keyHash: base64.decode(json['key_hash']),
     layer: json['layer'],
@@ -5587,7 +5587,7 @@ class MessageSenders extends a.MessageSenders {
   /// Approximate total count of messages senders found
   final int totalCount;
   /// List of message senders
-  final List<a.MessageSender> senders;
+  final List<a.MessageSender?> senders;
 
   MessageSenders({
     required this.totalCount,
@@ -5612,12 +5612,12 @@ class MessageSenders extends a.MessageSenders {
   Map<String, dynamic> toJson() => {
     '@type': 'messageSenders',
     'total_count': totalCount,
-    'senders': senders.map((_e1) => _e1.toJson()).toList(growable: false),
+    'senders': senders.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory MessageSenders.fromJson(Map<String, dynamic> json) => MessageSenders(
     totalCount: json['total_count'],
-    senders: (json['senders'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.MessageSender).toList(growable: false),
+    senders: (json['senders'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.MessageSender?).toList(growable: false),
   );
 }
 
@@ -5807,7 +5807,7 @@ class MessageForwardOriginMessageImport extends a.MessageForwardOrigin {
 /// Contains information about a forwarded message
 class MessageForwardInfo extends a.MessageForwardInfo {
   /// Origin of a forwarded message
-  final a.MessageForwardOrigin origin;
+  final a.MessageForwardOrigin? origin;
   /// Point in time (Unix timestamp) when the message was originally sent
   final int date;
   /// The type of a public service announcement for the forwarded message
@@ -5845,7 +5845,7 @@ class MessageForwardInfo extends a.MessageForwardInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageForwardInfo',
-    'origin': origin.toJson(),
+    'origin': origin?.toJson(),
     'date': date,
     'public_service_announcement_type': publicServiceAnnouncementType,
     'from_chat_id': fromChatId,
@@ -5853,7 +5853,7 @@ class MessageForwardInfo extends a.MessageForwardInfo {
   };
 
   factory MessageForwardInfo.fromJson(Map<String, dynamic> json) => MessageForwardInfo(
-    origin: b.TdBase.fromJson(json['origin']) as a.MessageForwardOrigin,
+    origin: b.TdBase.fromJson(json['origin']) as a.MessageForwardOrigin?,
     date: json['date'],
     publicServiceAnnouncementType: json['public_service_announcement_type'],
     fromChatId: json['from_chat_id'],
@@ -5866,7 +5866,7 @@ class MessageReplyInfo extends a.MessageReplyInfo {
   /// Number of times the message was directly or indirectly replied
   final int replyCount;
   /// Recent repliers to the message; available in channels with a discussion supergroup
-  final List<a.MessageSender> recentRepliers;
+  final List<a.MessageSender?> recentRepliers;
   /// Identifier of the last read incoming reply to the message
   final int lastReadInboxMessageId;
   /// Identifier of the last read outgoing reply to the message
@@ -5903,7 +5903,7 @@ class MessageReplyInfo extends a.MessageReplyInfo {
   Map<String, dynamic> toJson() => {
     '@type': 'messageReplyInfo',
     'reply_count': replyCount,
-    'recent_repliers': recentRepliers.map((_e1) => _e1.toJson()).toList(growable: false),
+    'recent_repliers': recentRepliers.map((_e1) => _e1?.toJson()).toList(growable: false),
     'last_read_inbox_message_id': lastReadInboxMessageId,
     'last_read_outbox_message_id': lastReadOutboxMessageId,
     'last_message_id': lastMessageId,
@@ -5911,7 +5911,7 @@ class MessageReplyInfo extends a.MessageReplyInfo {
 
   factory MessageReplyInfo.fromJson(Map<String, dynamic> json) => MessageReplyInfo(
     replyCount: json['reply_count'],
-    recentRepliers: (json['recent_repliers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.MessageSender).toList(growable: false),
+    recentRepliers: (json['recent_repliers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.MessageSender?).toList(growable: false),
     lastReadInboxMessageId: json['last_read_inbox_message_id'],
     lastReadOutboxMessageId: json['last_read_outbox_message_id'],
     lastMessageId: json['last_message_id'],
@@ -5925,7 +5925,7 @@ class MessageInteractionInfo extends a.MessageInteractionInfo {
   /// Number of times the message was forwarded
   final int forwardCount;
   /// Contains information about direct or indirect replies to the message; may be null. Currently, available only in channels with a discussion supergroup and discussion supergroups for messages, which are not replies itself
-  final MessageReplyInfo replyInfo;
+  final MessageReplyInfo? replyInfo;
 
   MessageInteractionInfo({
     required this.viewCount,
@@ -5953,13 +5953,13 @@ class MessageInteractionInfo extends a.MessageInteractionInfo {
     '@type': 'messageInteractionInfo',
     'view_count': viewCount,
     'forward_count': forwardCount,
-    'reply_info': replyInfo.toJson(),
+    'reply_info': replyInfo?.toJson(),
   };
 
   factory MessageInteractionInfo.fromJson(Map<String, dynamic> json) => MessageInteractionInfo(
     viewCount: json['view_count'],
     forwardCount: json['forward_count'],
-    replyInfo: b.TdBase.fromJson(json['reply_info']) as MessageReplyInfo,
+    replyInfo: b.TdBase.fromJson(json['reply_info']) as MessageReplyInfo?,
   );
 }
 
@@ -6044,13 +6044,13 @@ class Message extends a.Message {
   /// Message identifier; unique for the chat to which the message belongs
   final int id;
   /// The sender of the message
-  final a.MessageSender sender;
+  final a.MessageSender? sender;
   /// Chat identifier
   final int chatId;
   /// Information about the sending state of the message; may be null
-  final a.MessageSendingState sendingState;
+  final a.MessageSendingState? sendingState;
   /// Information about the scheduling state of the message; may be null
-  final a.MessageSchedulingState schedulingState;
+  final a.MessageSchedulingState? schedulingState;
   /// True, if the message is outgoing
   final bool isOutgoing;
   /// True, if the message is pinned
@@ -6076,9 +6076,9 @@ class Message extends a.Message {
   /// Point in time (Unix timestamp) when the message was last edited
   final int editDate;
   /// Information about the initial message sender; may be null
-  final MessageForwardInfo forwardInfo;
+  final MessageForwardInfo? forwardInfo;
   /// Information about interactions with the message; may be null
-  final MessageInteractionInfo interactionInfo;
+  final MessageInteractionInfo? interactionInfo;
   /// If non-zero, the identifier of the chat to which the replied message belongs; Currently, only messages in the Replies chat can have different reply_in_chat_id and chat_id
   final int replyInChatId;
   /// If non-zero, the identifier of the message this message is replying to; can be the identifier of a deleted message
@@ -6098,9 +6098,9 @@ class Message extends a.Message {
   /// If non-empty, contains a human-readable description of the reason why access to this message must be restricted
   final String restrictionReason;
   /// Content of the message
-  final a.MessageContent content;
+  final a.MessageContent? content;
   /// Reply markup for the message; may be null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
 
   Message({
     required this.id,
@@ -6181,10 +6181,10 @@ class Message extends a.Message {
   Map<String, dynamic> toJson() => {
     '@type': 'message',
     'id': id,
-    'sender': sender.toJson(),
+    'sender': sender?.toJson(),
     'chat_id': chatId,
-    'sending_state': sendingState.toJson(),
-    'scheduling_state': schedulingState.toJson(),
+    'sending_state': sendingState?.toJson(),
+    'scheduling_state': schedulingState?.toJson(),
     'is_outgoing': isOutgoing,
     'is_pinned': isPinned,
     'can_be_edited': canBeEdited,
@@ -6197,8 +6197,8 @@ class Message extends a.Message {
     'contains_unread_mention': containsUnreadMention,
     'date': date,
     'edit_date': editDate,
-    'forward_info': forwardInfo.toJson(),
-    'interaction_info': interactionInfo.toJson(),
+    'forward_info': forwardInfo?.toJson(),
+    'interaction_info': interactionInfo?.toJson(),
     'reply_in_chat_id': replyInChatId,
     'reply_to_message_id': replyToMessageId,
     'message_thread_id': messageThreadId,
@@ -6208,16 +6208,16 @@ class Message extends a.Message {
     'author_signature': authorSignature,
     'media_album_id': mediaAlbumId.toString(),
     'restriction_reason': restrictionReason,
-    'content': content.toJson(),
-    'reply_markup': replyMarkup.toJson(),
+    'content': content?.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
   };
 
   factory Message.fromJson(Map<String, dynamic> json) => Message(
     id: json['id'],
-    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender,
+    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
     chatId: json['chat_id'],
-    sendingState: b.TdBase.fromJson(json['sending_state']) as a.MessageSendingState,
-    schedulingState: b.TdBase.fromJson(json['scheduling_state']) as a.MessageSchedulingState,
+    sendingState: b.TdBase.fromJson(json['sending_state']) as a.MessageSendingState?,
+    schedulingState: b.TdBase.fromJson(json['scheduling_state']) as a.MessageSchedulingState?,
     isOutgoing: json['is_outgoing'],
     isPinned: json['is_pinned'],
     canBeEdited: json['can_be_edited'],
@@ -6230,8 +6230,8 @@ class Message extends a.Message {
     containsUnreadMention: json['contains_unread_mention'],
     date: json['date'],
     editDate: json['edit_date'],
-    forwardInfo: b.TdBase.fromJson(json['forward_info']) as MessageForwardInfo,
-    interactionInfo: b.TdBase.fromJson(json['interaction_info']) as MessageInteractionInfo,
+    forwardInfo: b.TdBase.fromJson(json['forward_info']) as MessageForwardInfo?,
+    interactionInfo: b.TdBase.fromJson(json['interaction_info']) as MessageInteractionInfo?,
     replyInChatId: json['reply_in_chat_id'],
     replyToMessageId: json['reply_to_message_id'],
     messageThreadId: json['message_thread_id'],
@@ -6241,8 +6241,8 @@ class Message extends a.Message {
     authorSignature: json['author_signature'],
     mediaAlbumId: int.parse(json['media_album_id']),
     restrictionReason: json['restriction_reason'],
-    content: b.TdBase.fromJson(json['content']) as a.MessageContent,
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
+    content: b.TdBase.fromJson(json['content']) as a.MessageContent?,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
   );
 }
 
@@ -6251,7 +6251,7 @@ class Messages extends a.Messages {
   /// Approximate total count of messages found
   final int totalCount;
   /// List of messages; messages may be null
-  final List<Message> messages;
+  final List<Message?> messages;
 
   Messages({
     required this.totalCount,
@@ -6276,12 +6276,12 @@ class Messages extends a.Messages {
   Map<String, dynamic> toJson() => {
     '@type': 'messages',
     'total_count': totalCount,
-    'messages': messages.map((_e1) => _e1.toJson()).toList(growable: false),
+    'messages': messages.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory Messages.fromJson(Map<String, dynamic> json) => Messages(
     totalCount: json['total_count'],
-    messages: (json['messages'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Message).toList(growable: false),
+    messages: (json['messages'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Message?).toList(growable: false),
   );
 }
 
@@ -6290,7 +6290,7 @@ class FoundMessages extends a.FoundMessages {
   /// Approximate total count of messages found; -1 if unknown
   final int totalCount;
   /// List of messages
-  final List<Message> messages;
+  final List<Message?> messages;
   /// The offset for the next request. If empty, there are no more results
   final String nextOffset;
 
@@ -6319,13 +6319,13 @@ class FoundMessages extends a.FoundMessages {
   Map<String, dynamic> toJson() => {
     '@type': 'foundMessages',
     'total_count': totalCount,
-    'messages': messages.map((_e1) => _e1.toJson()).toList(growable: false),
+    'messages': messages.map((_e1) => _e1?.toJson()).toList(growable: false),
     'next_offset': nextOffset,
   };
 
   factory FoundMessages.fromJson(Map<String, dynamic> json) => FoundMessages(
     totalCount: json['total_count'],
-    messages: (json['messages'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Message).toList(growable: false),
+    messages: (json['messages'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Message?).toList(growable: false),
     nextOffset: json['next_offset'],
   );
 }
@@ -6556,7 +6556,7 @@ class DraftMessage extends a.DraftMessage {
   /// Point in time (Unix timestamp) when the draft was created
   final int date;
   /// Content of the message draft; this should always be of type inputMessageText
-  final a.InputMessageContent inputMessageText;
+  final a.InputMessageContent? inputMessageText;
 
   DraftMessage({
     required this.replyToMessageId,
@@ -6584,13 +6584,13 @@ class DraftMessage extends a.DraftMessage {
     '@type': 'draftMessage',
     'reply_to_message_id': replyToMessageId,
     'date': date,
-    'input_message_text': inputMessageText.toJson(),
+    'input_message_text': inputMessageText?.toJson(),
   };
 
   factory DraftMessage.fromJson(Map<String, dynamic> json) => DraftMessage(
     replyToMessageId: json['reply_to_message_id'],
     date: json['date'],
-    inputMessageText: b.TdBase.fromJson(json['input_message_text']) as a.InputMessageContent,
+    inputMessageText: b.TdBase.fromJson(json['input_message_text']) as a.InputMessageContent?,
   );
 }
 
@@ -6891,7 +6891,7 @@ class ChatFilterInfo extends a.ChatFilterInfo {
 /// Describes a recommended chat filter
 class RecommendedChatFilter extends a.RecommendedChatFilter {
   /// The chat filter
-  final ChatFilter filter;
+  final ChatFilter? filter;
   /// Chat filter description
   final String description;
 
@@ -6917,12 +6917,12 @@ class RecommendedChatFilter extends a.RecommendedChatFilter {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'recommendedChatFilter',
-    'filter': filter.toJson(),
+    'filter': filter?.toJson(),
     'description': description,
   };
 
   factory RecommendedChatFilter.fromJson(Map<String, dynamic> json) => RecommendedChatFilter(
-    filter: b.TdBase.fromJson(json['filter']) as ChatFilter,
+    filter: b.TdBase.fromJson(json['filter']) as ChatFilter?,
     description: json['description'],
   );
 }
@@ -6930,7 +6930,7 @@ class RecommendedChatFilter extends a.RecommendedChatFilter {
 /// Contains a list of recommended chat filters
 class RecommendedChatFilters extends a.RecommendedChatFilters {
   /// List of recommended chat filters
-  final List<RecommendedChatFilter> chatFilters;
+  final List<RecommendedChatFilter?> chatFilters;
 
   RecommendedChatFilters({
     required this.chatFilters,
@@ -6952,11 +6952,11 @@ class RecommendedChatFilters extends a.RecommendedChatFilters {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'recommendedChatFilters',
-    'chat_filters': chatFilters.map((_e1) => _e1.toJson()).toList(growable: false),
+    'chat_filters': chatFilters.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory RecommendedChatFilters.fromJson(Map<String, dynamic> json) => RecommendedChatFilters(
-    chatFilters: (json['chat_filters'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as RecommendedChatFilter).toList(growable: false),
+    chatFilters: (json['chat_filters'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as RecommendedChatFilter?).toList(growable: false),
   );
 }
 
@@ -7046,7 +7046,7 @@ class ChatListFilter extends a.ChatList {
 /// Contains a list of chat lists
 class ChatLists extends a.ChatLists {
   /// List of chat lists
-  final List<a.ChatList> chatLists;
+  final List<a.ChatList?> chatLists;
 
   ChatLists({
     required this.chatLists,
@@ -7068,11 +7068,11 @@ class ChatLists extends a.ChatLists {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatLists',
-    'chat_lists': chatLists.map((_e1) => _e1.toJson()).toList(growable: false),
+    'chat_lists': chatLists.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ChatLists.fromJson(Map<String, dynamic> json) => ChatLists(
-    chatLists: (json['chat_lists'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.ChatList).toList(growable: false),
+    chatLists: (json['chat_lists'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.ChatList?).toList(growable: false),
   );
 }
 
@@ -7143,13 +7143,13 @@ class ChatSourcePublicServiceAnnouncement extends a.ChatSource {
 /// Describes a position of a chat in a chat list
 class ChatPosition extends a.ChatPosition {
   /// The chat list
-  final a.ChatList list;
+  final a.ChatList? list;
   /// A parameter used to determine order of the chat in the chat list. Chats must be sorted by the pair (order, chat.id) in descending order
   final int order;
   /// True, if the chat is pinned in the chat list
   final bool isPinned;
   /// Source of the chat in the chat list; may be null
-  final a.ChatSource source;
+  final a.ChatSource? source;
 
   ChatPosition({
     required this.list,
@@ -7177,17 +7177,17 @@ class ChatPosition extends a.ChatPosition {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatPosition',
-    'list': list.toJson(),
+    'list': list?.toJson(),
     'order': order.toString(),
     'is_pinned': isPinned,
-    'source': source.toJson(),
+    'source': source?.toJson(),
   };
 
   factory ChatPosition.fromJson(Map<String, dynamic> json) => ChatPosition(
-    list: b.TdBase.fromJson(json['list']) as a.ChatList,
+    list: b.TdBase.fromJson(json['list']) as a.ChatList?,
     order: int.parse(json['order']),
     isPinned: json['is_pinned'],
-    source: b.TdBase.fromJson(json['source']) as a.ChatSource,
+    source: b.TdBase.fromJson(json['source']) as a.ChatSource?,
   );
 }
 
@@ -7198,7 +7198,7 @@ class VoiceChat extends a.VoiceChat {
   /// True, if the voice chat has participants
   final bool hasParticipants;
   /// Default group call participant identifier to join the voice chat; may be null
-  final a.MessageSender defaultParticipantId;
+  final a.MessageSender? defaultParticipantId;
 
   VoiceChat({
     required this.groupCallId,
@@ -7226,13 +7226,13 @@ class VoiceChat extends a.VoiceChat {
     '@type': 'voiceChat',
     'group_call_id': groupCallId,
     'has_participants': hasParticipants,
-    'default_participant_id': defaultParticipantId.toJson(),
+    'default_participant_id': defaultParticipantId?.toJson(),
   };
 
   factory VoiceChat.fromJson(Map<String, dynamic> json) => VoiceChat(
     groupCallId: json['group_call_id'],
     hasParticipants: json['has_participants'],
-    defaultParticipantId: b.TdBase.fromJson(json['default_participant_id']) as a.MessageSender,
+    defaultParticipantId: b.TdBase.fromJson(json['default_participant_id']) as a.MessageSender?,
   );
 }
 
@@ -7241,17 +7241,17 @@ class Chat extends a.Chat {
   /// Chat unique identifier
   final int id;
   /// Type of the chat
-  final a.ChatType type;
+  final a.ChatType? type;
   /// Chat title
   final String title;
   /// Chat photo; may be null
-  final ChatPhotoInfo photo;
+  final ChatPhotoInfo? photo;
   /// Actions that non-administrator chat members are allowed to take in the chat
-  final ChatPermissions permissions;
+  final ChatPermissions? permissions;
   /// Last message in the chat; may be null
-  final Message lastMessage;
+  final Message? lastMessage;
   /// Positions of the chat in chat lists
-  final List<ChatPosition> positions;
+  final List<ChatPosition?> positions;
   /// True, if the chat is marked as unread
   final bool isMarkedAsUnread;
   /// True, if the chat is blocked by the current user and private messages from the chat can't be received
@@ -7275,17 +7275,17 @@ class Chat extends a.Chat {
   /// Number of unread messages with a mention/reply in the chat
   final int unreadMentionCount;
   /// Notification settings for this chat
-  final ChatNotificationSettings notificationSettings;
+  final ChatNotificationSettings? notificationSettings;
   /// Current message Time To Live setting (self-destruct timer) for the chat; 0 if not defined. TTL is counted from the time message or its content is viewed in secret chats and from the send date in other chats
   final int messageTtlSetting;
   /// Describes actions which should be possible to do through a chat action bar; may be null
-  final a.ChatActionBar actionBar;
+  final a.ChatActionBar? actionBar;
   /// Contains information about voice chat of the chat
-  final VoiceChat voiceChat;
+  final VoiceChat? voiceChat;
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
   final int replyMarkupMessageId;
   /// A draft of a message in the chat; may be null
-  final DraftMessage draftMessage;
+  final DraftMessage? draftMessage;
   /// Contains application-specific data associated with the chat. (For example, the chat scroll position or local chat notification settings can be stored here.) Persistent if the message database is used
   final String clientData;
 
@@ -7358,12 +7358,12 @@ class Chat extends a.Chat {
   Map<String, dynamic> toJson() => {
     '@type': 'chat',
     'id': id,
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'title': title,
-    'photo': photo.toJson(),
-    'permissions': permissions.toJson(),
-    'last_message': lastMessage.toJson(),
-    'positions': positions.map((_e1) => _e1.toJson()).toList(growable: false),
+    'photo': photo?.toJson(),
+    'permissions': permissions?.toJson(),
+    'last_message': lastMessage?.toJson(),
+    'positions': positions.map((_e1) => _e1?.toJson()).toList(growable: false),
     'is_marked_as_unread': isMarkedAsUnread,
     'is_blocked': isBlocked,
     'has_scheduled_messages': hasScheduledMessages,
@@ -7375,23 +7375,23 @@ class Chat extends a.Chat {
     'last_read_inbox_message_id': lastReadInboxMessageId,
     'last_read_outbox_message_id': lastReadOutboxMessageId,
     'unread_mention_count': unreadMentionCount,
-    'notification_settings': notificationSettings.toJson(),
+    'notification_settings': notificationSettings?.toJson(),
     'message_ttl_setting': messageTtlSetting,
-    'action_bar': actionBar.toJson(),
-    'voice_chat': voiceChat.toJson(),
+    'action_bar': actionBar?.toJson(),
+    'voice_chat': voiceChat?.toJson(),
     'reply_markup_message_id': replyMarkupMessageId,
-    'draft_message': draftMessage.toJson(),
+    'draft_message': draftMessage?.toJson(),
     'client_data': clientData,
   };
 
   factory Chat.fromJson(Map<String, dynamic> json) => Chat(
     id: json['id'],
-    type: b.TdBase.fromJson(json['type']) as a.ChatType,
+    type: b.TdBase.fromJson(json['type']) as a.ChatType?,
     title: json['title'],
-    photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo,
-    permissions: b.TdBase.fromJson(json['permissions']) as ChatPermissions,
-    lastMessage: b.TdBase.fromJson(json['last_message']) as Message,
-    positions: (json['positions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatPosition).toList(growable: false),
+    photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
+    permissions: b.TdBase.fromJson(json['permissions']) as ChatPermissions?,
+    lastMessage: b.TdBase.fromJson(json['last_message']) as Message?,
+    positions: (json['positions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatPosition?).toList(growable: false),
     isMarkedAsUnread: json['is_marked_as_unread'],
     isBlocked: json['is_blocked'],
     hasScheduledMessages: json['has_scheduled_messages'],
@@ -7403,12 +7403,12 @@ class Chat extends a.Chat {
     lastReadInboxMessageId: json['last_read_inbox_message_id'],
     lastReadOutboxMessageId: json['last_read_outbox_message_id'],
     unreadMentionCount: json['unread_mention_count'],
-    notificationSettings: b.TdBase.fromJson(json['notification_settings']) as ChatNotificationSettings,
+    notificationSettings: b.TdBase.fromJson(json['notification_settings']) as ChatNotificationSettings?,
     messageTtlSetting: json['message_ttl_setting'],
-    actionBar: b.TdBase.fromJson(json['action_bar']) as a.ChatActionBar,
-    voiceChat: b.TdBase.fromJson(json['voice_chat']) as VoiceChat,
+    actionBar: b.TdBase.fromJson(json['action_bar']) as a.ChatActionBar?,
+    voiceChat: b.TdBase.fromJson(json['voice_chat']) as VoiceChat?,
     replyMarkupMessageId: json['reply_markup_message_id'],
-    draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage,
+    draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage?,
     clientData: json['client_data'],
   );
 }
@@ -7494,9 +7494,9 @@ class ChatNearby extends a.ChatNearby {
 /// Represents a list of chats located nearby
 class ChatsNearby extends a.ChatsNearby {
   /// List of users nearby
-  final List<ChatNearby> usersNearby;
+  final List<ChatNearby?> usersNearby;
   /// List of location-based supergroups nearby
-  final List<ChatNearby> supergroupsNearby;
+  final List<ChatNearby?> supergroupsNearby;
 
   ChatsNearby({
     required this.usersNearby,
@@ -7520,13 +7520,13 @@ class ChatsNearby extends a.ChatsNearby {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatsNearby',
-    'users_nearby': usersNearby.map((_e1) => _e1.toJson()).toList(growable: false),
-    'supergroups_nearby': supergroupsNearby.map((_e1) => _e1.toJson()).toList(growable: false),
+    'users_nearby': usersNearby.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'supergroups_nearby': supergroupsNearby.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ChatsNearby.fromJson(Map<String, dynamic> json) => ChatsNearby(
-    usersNearby: (json['users_nearby'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatNearby).toList(growable: false),
-    supergroupsNearby: (json['supergroups_nearby'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatNearby).toList(growable: false),
+    usersNearby: (json['users_nearby'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatNearby?).toList(growable: false),
+    supergroupsNearby: (json['supergroups_nearby'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatNearby?).toList(growable: false),
   );
 }
 
@@ -7871,7 +7871,7 @@ class KeyboardButton extends a.KeyboardButton {
   /// Text of the button
   final String text;
   /// Type of the button
-  final a.KeyboardButtonType type;
+  final a.KeyboardButtonType? type;
 
   KeyboardButton({
     required this.text,
@@ -7896,12 +7896,12 @@ class KeyboardButton extends a.KeyboardButton {
   Map<String, dynamic> toJson() => {
     '@type': 'keyboardButton',
     'text': text,
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory KeyboardButton.fromJson(Map<String, dynamic> json) => KeyboardButton(
     text: json['text'],
-    type: b.TdBase.fromJson(json['type']) as a.KeyboardButtonType,
+    type: b.TdBase.fromJson(json['type']) as a.KeyboardButtonType?,
   );
 }
 
@@ -8143,7 +8143,7 @@ class InlineKeyboardButton extends a.InlineKeyboardButton {
   /// Text of the button
   final String text;
   /// Type of the button
-  final a.InlineKeyboardButtonType type;
+  final a.InlineKeyboardButtonType? type;
 
   InlineKeyboardButton({
     required this.text,
@@ -8168,12 +8168,12 @@ class InlineKeyboardButton extends a.InlineKeyboardButton {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineKeyboardButton',
     'text': text,
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory InlineKeyboardButton.fromJson(Map<String, dynamic> json) => InlineKeyboardButton(
     text: json['text'],
-    type: b.TdBase.fromJson(json['type']) as a.InlineKeyboardButtonType,
+    type: b.TdBase.fromJson(json['type']) as a.InlineKeyboardButtonType?,
   );
 }
 
@@ -8246,7 +8246,7 @@ class ReplyMarkupForceReply extends a.ReplyMarkup {
 /// Contains a custom keyboard layout to quickly reply to bots
 class ReplyMarkupShowKeyboard extends a.ReplyMarkup {
   /// A list of rows of bot keyboard buttons
-  final List<List<KeyboardButton>> rows;
+  final List<List<KeyboardButton?>> rows;
   /// True, if the application needs to resize the keyboard vertically
   final bool resizeKeyboard;
   /// True, if the application needs to hide the keyboard after use
@@ -8280,14 +8280,14 @@ class ReplyMarkupShowKeyboard extends a.ReplyMarkup {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'replyMarkupShowKeyboard',
-    'rows': rows.map((_e1) => _e1.map((_e2) => _e2.toJson()).toList(growable: false)).toList(growable: false),
+    'rows': rows.map((_e1) => _e1.map((_e2) => _e2?.toJson()).toList(growable: false)).toList(growable: false),
     'resize_keyboard': resizeKeyboard,
     'one_time': oneTime,
     'is_personal': isPersonal,
   };
 
   factory ReplyMarkupShowKeyboard.fromJson(Map<String, dynamic> json) => ReplyMarkupShowKeyboard(
-    rows: (json['rows'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as List<KeyboardButton>).toList(growable: false),
+    rows: (json['rows'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as List<KeyboardButton?>).toList(growable: false),
     resizeKeyboard: json['resize_keyboard'],
     oneTime: json['one_time'],
     isPersonal: json['is_personal'],
@@ -8297,7 +8297,7 @@ class ReplyMarkupShowKeyboard extends a.ReplyMarkup {
 /// Contains an inline keyboard layout
 class ReplyMarkupInlineKeyboard extends a.ReplyMarkup {
   /// A list of rows of inline keyboard buttons
-  final List<List<InlineKeyboardButton>> rows;
+  final List<List<InlineKeyboardButton?>> rows;
 
   ReplyMarkupInlineKeyboard({
     required this.rows,
@@ -8319,11 +8319,11 @@ class ReplyMarkupInlineKeyboard extends a.ReplyMarkup {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'replyMarkupInlineKeyboard',
-    'rows': rows.map((_e1) => _e1.map((_e2) => _e2.toJson()).toList(growable: false)).toList(growable: false),
+    'rows': rows.map((_e1) => _e1.map((_e2) => _e2?.toJson()).toList(growable: false)).toList(growable: false),
   };
 
   factory ReplyMarkupInlineKeyboard.fromJson(Map<String, dynamic> json) => ReplyMarkupInlineKeyboard(
-    rows: (json['rows'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as List<InlineKeyboardButton>).toList(growable: false),
+    rows: (json['rows'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as List<InlineKeyboardButton?>).toList(growable: false),
   );
 }
 
@@ -8424,11 +8424,11 @@ class MessageThreadInfo extends a.MessageThreadInfo {
   /// Message thread identifier, unique within the chat
   final int messageThreadId;
   /// Contains information about the message thread
-  final MessageReplyInfo replyInfo;
+  final MessageReplyInfo? replyInfo;
   /// The messages from which the thread starts. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id)
-  final List<Message> messages;
+  final List<Message?> messages;
   /// A draft of a message in the message thread; may be null
-  final DraftMessage draftMessage;
+  final DraftMessage? draftMessage;
 
   MessageThreadInfo({
     required this.chatId,
@@ -8460,17 +8460,17 @@ class MessageThreadInfo extends a.MessageThreadInfo {
     '@type': 'messageThreadInfo',
     'chat_id': chatId,
     'message_thread_id': messageThreadId,
-    'reply_info': replyInfo.toJson(),
-    'messages': messages.map((_e1) => _e1.toJson()).toList(growable: false),
-    'draft_message': draftMessage.toJson(),
+    'reply_info': replyInfo?.toJson(),
+    'messages': messages.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'draft_message': draftMessage?.toJson(),
   };
 
   factory MessageThreadInfo.fromJson(Map<String, dynamic> json) => MessageThreadInfo(
     chatId: json['chat_id'],
     messageThreadId: json['message_thread_id'],
-    replyInfo: b.TdBase.fromJson(json['reply_info']) as MessageReplyInfo,
-    messages: (json['messages'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Message).toList(growable: false),
-    draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage,
+    replyInfo: b.TdBase.fromJson(json['reply_info']) as MessageReplyInfo?,
+    messages: (json['messages'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Message?).toList(growable: false),
+    draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage?,
   );
 }
 
@@ -8510,7 +8510,7 @@ class RichTextPlain extends a.RichText {
 /// A bold rich text
 class RichTextBold extends a.RichText {
   /// Text
-  final a.RichText text;
+  final a.RichText? text;
 
   RichTextBold({
     required this.text,
@@ -8532,18 +8532,18 @@ class RichTextBold extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextBold',
-    'text': text.toJson(),
+    'text': text?.toJson(),
   };
 
   factory RichTextBold.fromJson(Map<String, dynamic> json) => RichTextBold(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
   );
 }
 
 /// An italicized rich text
 class RichTextItalic extends a.RichText {
   /// Text
-  final a.RichText text;
+  final a.RichText? text;
 
   RichTextItalic({
     required this.text,
@@ -8565,18 +8565,18 @@ class RichTextItalic extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextItalic',
-    'text': text.toJson(),
+    'text': text?.toJson(),
   };
 
   factory RichTextItalic.fromJson(Map<String, dynamic> json) => RichTextItalic(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
   );
 }
 
 /// An underlined rich text
 class RichTextUnderline extends a.RichText {
   /// Text
-  final a.RichText text;
+  final a.RichText? text;
 
   RichTextUnderline({
     required this.text,
@@ -8598,18 +8598,18 @@ class RichTextUnderline extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextUnderline',
-    'text': text.toJson(),
+    'text': text?.toJson(),
   };
 
   factory RichTextUnderline.fromJson(Map<String, dynamic> json) => RichTextUnderline(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
   );
 }
 
 /// A strikethrough rich text
 class RichTextStrikethrough extends a.RichText {
   /// Text
-  final a.RichText text;
+  final a.RichText? text;
 
   RichTextStrikethrough({
     required this.text,
@@ -8631,18 +8631,18 @@ class RichTextStrikethrough extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextStrikethrough',
-    'text': text.toJson(),
+    'text': text?.toJson(),
   };
 
   factory RichTextStrikethrough.fromJson(Map<String, dynamic> json) => RichTextStrikethrough(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
   );
 }
 
 /// A fixed-width rich text
 class RichTextFixed extends a.RichText {
   /// Text
-  final a.RichText text;
+  final a.RichText? text;
 
   RichTextFixed({
     required this.text,
@@ -8664,18 +8664,18 @@ class RichTextFixed extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextFixed',
-    'text': text.toJson(),
+    'text': text?.toJson(),
   };
 
   factory RichTextFixed.fromJson(Map<String, dynamic> json) => RichTextFixed(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
   );
 }
 
 /// A rich text URL link
 class RichTextUrl extends a.RichText {
   /// Text
-  final a.RichText text;
+  final a.RichText? text;
   /// URL
   final String url;
   /// True, if the URL has cached instant view server-side
@@ -8705,13 +8705,13 @@ class RichTextUrl extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextUrl',
-    'text': text.toJson(),
+    'text': text?.toJson(),
     'url': url,
     'is_cached': isCached,
   };
 
   factory RichTextUrl.fromJson(Map<String, dynamic> json) => RichTextUrl(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
     url: json['url'],
     isCached: json['is_cached'],
   );
@@ -8720,7 +8720,7 @@ class RichTextUrl extends a.RichText {
 /// A rich text email link
 class RichTextEmailAddress extends a.RichText {
   /// Text
-  final a.RichText text;
+  final a.RichText? text;
   /// Email address
   final String emailAddress;
 
@@ -8746,12 +8746,12 @@ class RichTextEmailAddress extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextEmailAddress',
-    'text': text.toJson(),
+    'text': text?.toJson(),
     'email_address': emailAddress,
   };
 
   factory RichTextEmailAddress.fromJson(Map<String, dynamic> json) => RichTextEmailAddress(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
     emailAddress: json['email_address'],
   );
 }
@@ -8759,7 +8759,7 @@ class RichTextEmailAddress extends a.RichText {
 /// A subscript rich text
 class RichTextSubscript extends a.RichText {
   /// Text
-  final a.RichText text;
+  final a.RichText? text;
 
   RichTextSubscript({
     required this.text,
@@ -8781,18 +8781,18 @@ class RichTextSubscript extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextSubscript',
-    'text': text.toJson(),
+    'text': text?.toJson(),
   };
 
   factory RichTextSubscript.fromJson(Map<String, dynamic> json) => RichTextSubscript(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
   );
 }
 
 /// A superscript rich text
 class RichTextSuperscript extends a.RichText {
   /// Text
-  final a.RichText text;
+  final a.RichText? text;
 
   RichTextSuperscript({
     required this.text,
@@ -8814,18 +8814,18 @@ class RichTextSuperscript extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextSuperscript',
-    'text': text.toJson(),
+    'text': text?.toJson(),
   };
 
   factory RichTextSuperscript.fromJson(Map<String, dynamic> json) => RichTextSuperscript(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
   );
 }
 
 /// A marked rich text
 class RichTextMarked extends a.RichText {
   /// Text
-  final a.RichText text;
+  final a.RichText? text;
 
   RichTextMarked({
     required this.text,
@@ -8847,18 +8847,18 @@ class RichTextMarked extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextMarked',
-    'text': text.toJson(),
+    'text': text?.toJson(),
   };
 
   factory RichTextMarked.fromJson(Map<String, dynamic> json) => RichTextMarked(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
   );
 }
 
 /// A rich text phone number
 class RichTextPhoneNumber extends a.RichText {
   /// Text
-  final a.RichText text;
+  final a.RichText? text;
   /// Phone number
   final String phoneNumber;
 
@@ -8884,12 +8884,12 @@ class RichTextPhoneNumber extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextPhoneNumber',
-    'text': text.toJson(),
+    'text': text?.toJson(),
     'phone_number': phoneNumber,
   };
 
   factory RichTextPhoneNumber.fromJson(Map<String, dynamic> json) => RichTextPhoneNumber(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
     phoneNumber: json['phone_number'],
   );
 }
@@ -8897,7 +8897,7 @@ class RichTextPhoneNumber extends a.RichText {
 /// A small image inside the text
 class RichTextIcon extends a.RichText {
   /// The image represented as a document. The image can be in GIF, JPEG or PNG format
-  final Document document;
+  final Document? document;
   /// Width of a bounding box in which the image should be shown; 0 if unknown
   final int width;
   /// Height of a bounding box in which the image should be shown; 0 if unknown
@@ -8927,13 +8927,13 @@ class RichTextIcon extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextIcon',
-    'document': document.toJson(),
+    'document': document?.toJson(),
     'width': width,
     'height': height,
   };
 
   factory RichTextIcon.fromJson(Map<String, dynamic> json) => RichTextIcon(
-    document: b.TdBase.fromJson(json['document']) as Document,
+    document: b.TdBase.fromJson(json['document']) as Document?,
     width: json['width'],
     height: json['height'],
   );
@@ -8942,7 +8942,7 @@ class RichTextIcon extends a.RichText {
 /// A reference to a richTexts object on the same web page
 class RichTextReference extends a.RichText {
   /// The text
-  final a.RichText text;
+  final a.RichText? text;
   /// The name of a richTextAnchor object, which is the first element of the target richTexts object
   final String anchorName;
   /// An HTTP URL, opening the reference
@@ -8972,13 +8972,13 @@ class RichTextReference extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextReference',
-    'text': text.toJson(),
+    'text': text?.toJson(),
     'anchor_name': anchorName,
     'url': url,
   };
 
   factory RichTextReference.fromJson(Map<String, dynamic> json) => RichTextReference(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
     anchorName: json['anchor_name'],
     url: json['url'],
   );
@@ -9020,7 +9020,7 @@ class RichTextAnchor extends a.RichText {
 /// A link to an anchor on the same web page
 class RichTextAnchorLink extends a.RichText {
   /// The link text
-  final a.RichText text;
+  final a.RichText? text;
   /// The anchor name. If the name is empty, the link should bring back to top
   final String anchorName;
   /// An HTTP URL, opening the anchor
@@ -9050,13 +9050,13 @@ class RichTextAnchorLink extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextAnchorLink',
-    'text': text.toJson(),
+    'text': text?.toJson(),
     'anchor_name': anchorName,
     'url': url,
   };
 
   factory RichTextAnchorLink.fromJson(Map<String, dynamic> json) => RichTextAnchorLink(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
     anchorName: json['anchor_name'],
     url: json['url'],
   );
@@ -9065,7 +9065,7 @@ class RichTextAnchorLink extends a.RichText {
 /// A concatenation of rich texts
 class RichTexts extends a.RichText {
   /// Texts
-  final List<a.RichText> texts;
+  final List<a.RichText?> texts;
 
   RichTexts({
     required this.texts,
@@ -9087,20 +9087,20 @@ class RichTexts extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTexts',
-    'texts': texts.map((_e1) => _e1.toJson()).toList(growable: false),
+    'texts': texts.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory RichTexts.fromJson(Map<String, dynamic> json) => RichTexts(
-    texts: (json['texts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.RichText).toList(growable: false),
+    texts: (json['texts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.RichText?).toList(growable: false),
   );
 }
 
 /// Contains a caption of an instant view web page block, consisting of a text and a trailing credit
 class PageBlockCaption extends a.PageBlockCaption {
   /// Content of the caption
-  final a.RichText text;
+  final a.RichText? text;
   /// Block credit (like HTML tag <cite>)
-  final a.RichText credit;
+  final a.RichText? credit;
 
   PageBlockCaption({
     required this.text,
@@ -9124,13 +9124,13 @@ class PageBlockCaption extends a.PageBlockCaption {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockCaption',
-    'text': text.toJson(),
-    'credit': credit.toJson(),
+    'text': text?.toJson(),
+    'credit': credit?.toJson(),
   };
 
   factory PageBlockCaption.fromJson(Map<String, dynamic> json) => PageBlockCaption(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
-    credit: b.TdBase.fromJson(json['credit']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
+    credit: b.TdBase.fromJson(json['credit']) as a.RichText?,
   );
 }
 
@@ -9139,7 +9139,7 @@ class PageBlockListItem extends a.PageBlockListItem {
   /// Item label
   final String label;
   /// Item blocks
-  final List<a.PageBlock> pageBlocks;
+  final List<a.PageBlock?> pageBlocks;
 
   PageBlockListItem({
     required this.label,
@@ -9164,12 +9164,12 @@ class PageBlockListItem extends a.PageBlockListItem {
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockListItem',
     'label': label,
-    'page_blocks': pageBlocks.map((_e1) => _e1.toJson()).toList(growable: false),
+    'page_blocks': pageBlocks.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory PageBlockListItem.fromJson(Map<String, dynamic> json) => PageBlockListItem(
     label: json['label'],
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock).toList(growable: false),
+    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock?).toList(growable: false),
   );
 }
 
@@ -9326,7 +9326,7 @@ class PageBlockVerticalAlignmentBottom extends a.PageBlockVerticalAlignment {
 /// Represents a cell of a table
 class PageBlockTableCell extends a.PageBlockTableCell {
   /// Cell text; may be null. If the text is null, then the cell should be invisible
-  final a.RichText text;
+  final a.RichText? text;
   /// True, if it is a header cell
   final bool isHeader;
   /// The number of columns the cell should span
@@ -9334,9 +9334,9 @@ class PageBlockTableCell extends a.PageBlockTableCell {
   /// The number of rows the cell should span
   final int rowspan;
   /// Horizontal cell content alignment
-  final a.PageBlockHorizontalAlignment align;
+  final a.PageBlockHorizontalAlignment? align;
   /// Vertical cell content alignment
-  final a.PageBlockVerticalAlignment valign;
+  final a.PageBlockVerticalAlignment? valign;
 
   PageBlockTableCell({
     required this.text,
@@ -9368,21 +9368,21 @@ class PageBlockTableCell extends a.PageBlockTableCell {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockTableCell',
-    'text': text.toJson(),
+    'text': text?.toJson(),
     'is_header': isHeader,
     'colspan': colspan,
     'rowspan': rowspan,
-    'align': align.toJson(),
-    'valign': valign.toJson(),
+    'align': align?.toJson(),
+    'valign': valign?.toJson(),
   };
 
   factory PageBlockTableCell.fromJson(Map<String, dynamic> json) => PageBlockTableCell(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
     isHeader: json['is_header'],
     colspan: json['colspan'],
     rowspan: json['rowspan'],
-    align: b.TdBase.fromJson(json['align']) as a.PageBlockHorizontalAlignment,
-    valign: b.TdBase.fromJson(json['valign']) as a.PageBlockVerticalAlignment,
+    align: b.TdBase.fromJson(json['align']) as a.PageBlockHorizontalAlignment?,
+    valign: b.TdBase.fromJson(json['valign']) as a.PageBlockVerticalAlignment?,
   );
 }
 
@@ -9395,7 +9395,7 @@ class PageBlockRelatedArticle extends a.PageBlockRelatedArticle {
   /// Article description; may be empty
   final String description;
   /// Article photo; may be null
-  final Photo photo;
+  final Photo? photo;
   /// Article author; may be empty
   final String author;
   /// Point in time (Unix timestamp) when the article was published; 0 if unknown
@@ -9434,7 +9434,7 @@ class PageBlockRelatedArticle extends a.PageBlockRelatedArticle {
     'url': url,
     'title': title,
     'description': description,
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
     'author': author,
     'publish_date': publishDate,
   };
@@ -9443,7 +9443,7 @@ class PageBlockRelatedArticle extends a.PageBlockRelatedArticle {
     url: json['url'],
     title: json['title'],
     description: json['description'],
-    photo: b.TdBase.fromJson(json['photo']) as Photo,
+    photo: b.TdBase.fromJson(json['photo']) as Photo?,
     author: json['author'],
     publishDate: json['publish_date'],
   );
@@ -9452,7 +9452,7 @@ class PageBlockRelatedArticle extends a.PageBlockRelatedArticle {
 /// The title of a page
 class PageBlockTitle extends a.PageBlock {
   /// Title
-  final a.RichText title;
+  final a.RichText? title;
 
   PageBlockTitle({
     required this.title,
@@ -9474,18 +9474,18 @@ class PageBlockTitle extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockTitle',
-    'title': title.toJson(),
+    'title': title?.toJson(),
   };
 
   factory PageBlockTitle.fromJson(Map<String, dynamic> json) => PageBlockTitle(
-    title: b.TdBase.fromJson(json['title']) as a.RichText,
+    title: b.TdBase.fromJson(json['title']) as a.RichText?,
   );
 }
 
 /// The subtitle of a page
 class PageBlockSubtitle extends a.PageBlock {
   /// Subtitle
-  final a.RichText subtitle;
+  final a.RichText? subtitle;
 
   PageBlockSubtitle({
     required this.subtitle,
@@ -9507,18 +9507,18 @@ class PageBlockSubtitle extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockSubtitle',
-    'subtitle': subtitle.toJson(),
+    'subtitle': subtitle?.toJson(),
   };
 
   factory PageBlockSubtitle.fromJson(Map<String, dynamic> json) => PageBlockSubtitle(
-    subtitle: b.TdBase.fromJson(json['subtitle']) as a.RichText,
+    subtitle: b.TdBase.fromJson(json['subtitle']) as a.RichText?,
   );
 }
 
 /// The author and publishing date of a page
 class PageBlockAuthorDate extends a.PageBlock {
   /// Author
-  final a.RichText author;
+  final a.RichText? author;
   /// Point in time (Unix timestamp) when the article was published; 0 if unknown
   final int publishDate;
 
@@ -9544,12 +9544,12 @@ class PageBlockAuthorDate extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockAuthorDate',
-    'author': author.toJson(),
+    'author': author?.toJson(),
     'publish_date': publishDate,
   };
 
   factory PageBlockAuthorDate.fromJson(Map<String, dynamic> json) => PageBlockAuthorDate(
-    author: b.TdBase.fromJson(json['author']) as a.RichText,
+    author: b.TdBase.fromJson(json['author']) as a.RichText?,
     publishDate: json['publish_date'],
   );
 }
@@ -9557,7 +9557,7 @@ class PageBlockAuthorDate extends a.PageBlock {
 /// A header
 class PageBlockHeader extends a.PageBlock {
   /// Header
-  final a.RichText header;
+  final a.RichText? header;
 
   PageBlockHeader({
     required this.header,
@@ -9579,18 +9579,18 @@ class PageBlockHeader extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockHeader',
-    'header': header.toJson(),
+    'header': header?.toJson(),
   };
 
   factory PageBlockHeader.fromJson(Map<String, dynamic> json) => PageBlockHeader(
-    header: b.TdBase.fromJson(json['header']) as a.RichText,
+    header: b.TdBase.fromJson(json['header']) as a.RichText?,
   );
 }
 
 /// A subheader
 class PageBlockSubheader extends a.PageBlock {
   /// Subheader
-  final a.RichText subheader;
+  final a.RichText? subheader;
 
   PageBlockSubheader({
     required this.subheader,
@@ -9612,18 +9612,18 @@ class PageBlockSubheader extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockSubheader',
-    'subheader': subheader.toJson(),
+    'subheader': subheader?.toJson(),
   };
 
   factory PageBlockSubheader.fromJson(Map<String, dynamic> json) => PageBlockSubheader(
-    subheader: b.TdBase.fromJson(json['subheader']) as a.RichText,
+    subheader: b.TdBase.fromJson(json['subheader']) as a.RichText?,
   );
 }
 
 /// A kicker
 class PageBlockKicker extends a.PageBlock {
   /// Kicker
-  final a.RichText kicker;
+  final a.RichText? kicker;
 
   PageBlockKicker({
     required this.kicker,
@@ -9645,18 +9645,18 @@ class PageBlockKicker extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockKicker',
-    'kicker': kicker.toJson(),
+    'kicker': kicker?.toJson(),
   };
 
   factory PageBlockKicker.fromJson(Map<String, dynamic> json) => PageBlockKicker(
-    kicker: b.TdBase.fromJson(json['kicker']) as a.RichText,
+    kicker: b.TdBase.fromJson(json['kicker']) as a.RichText?,
   );
 }
 
 /// A text paragraph
 class PageBlockParagraph extends a.PageBlock {
   /// Paragraph text
-  final a.RichText text;
+  final a.RichText? text;
 
   PageBlockParagraph({
     required this.text,
@@ -9678,18 +9678,18 @@ class PageBlockParagraph extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockParagraph',
-    'text': text.toJson(),
+    'text': text?.toJson(),
   };
 
   factory PageBlockParagraph.fromJson(Map<String, dynamic> json) => PageBlockParagraph(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
   );
 }
 
 /// A preformatted text paragraph
 class PageBlockPreformatted extends a.PageBlock {
   /// Paragraph text
-  final a.RichText text;
+  final a.RichText? text;
   /// Programming language for which the text should be formatted
   final String language;
 
@@ -9715,12 +9715,12 @@ class PageBlockPreformatted extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockPreformatted',
-    'text': text.toJson(),
+    'text': text?.toJson(),
     'language': language,
   };
 
   factory PageBlockPreformatted.fromJson(Map<String, dynamic> json) => PageBlockPreformatted(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
     language: json['language'],
   );
 }
@@ -9728,7 +9728,7 @@ class PageBlockPreformatted extends a.PageBlock {
 /// The footer of a page
 class PageBlockFooter extends a.PageBlock {
   /// Footer
-  final a.RichText footer;
+  final a.RichText? footer;
 
   PageBlockFooter({
     required this.footer,
@@ -9750,11 +9750,11 @@ class PageBlockFooter extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockFooter',
-    'footer': footer.toJson(),
+    'footer': footer?.toJson(),
   };
 
   factory PageBlockFooter.fromJson(Map<String, dynamic> json) => PageBlockFooter(
-    footer: b.TdBase.fromJson(json['footer']) as a.RichText,
+    footer: b.TdBase.fromJson(json['footer']) as a.RichText?,
   );
 }
 
@@ -9819,7 +9819,7 @@ class PageBlockAnchor extends a.PageBlock {
 /// A list of data blocks
 class PageBlockList extends a.PageBlock {
   /// The items of the list
-  final List<PageBlockListItem> items;
+  final List<PageBlockListItem?> items;
 
   PageBlockList({
     required this.items,
@@ -9841,20 +9841,20 @@ class PageBlockList extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockList',
-    'items': items.map((_e1) => _e1.toJson()).toList(growable: false),
+    'items': items.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory PageBlockList.fromJson(Map<String, dynamic> json) => PageBlockList(
-    items: (json['items'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PageBlockListItem).toList(growable: false),
+    items: (json['items'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PageBlockListItem?).toList(growable: false),
   );
 }
 
 /// A block quote
 class PageBlockBlockQuote extends a.PageBlock {
   /// Quote text
-  final a.RichText text;
+  final a.RichText? text;
   /// Quote credit
-  final a.RichText credit;
+  final a.RichText? credit;
 
   PageBlockBlockQuote({
     required this.text,
@@ -9878,22 +9878,22 @@ class PageBlockBlockQuote extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockBlockQuote',
-    'text': text.toJson(),
-    'credit': credit.toJson(),
+    'text': text?.toJson(),
+    'credit': credit?.toJson(),
   };
 
   factory PageBlockBlockQuote.fromJson(Map<String, dynamic> json) => PageBlockBlockQuote(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
-    credit: b.TdBase.fromJson(json['credit']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
+    credit: b.TdBase.fromJson(json['credit']) as a.RichText?,
   );
 }
 
 /// A pull quote
 class PageBlockPullQuote extends a.PageBlock {
   /// Quote text
-  final a.RichText text;
+  final a.RichText? text;
   /// Quote credit
-  final a.RichText credit;
+  final a.RichText? credit;
 
   PageBlockPullQuote({
     required this.text,
@@ -9917,22 +9917,22 @@ class PageBlockPullQuote extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockPullQuote',
-    'text': text.toJson(),
-    'credit': credit.toJson(),
+    'text': text?.toJson(),
+    'credit': credit?.toJson(),
   };
 
   factory PageBlockPullQuote.fromJson(Map<String, dynamic> json) => PageBlockPullQuote(
-    text: b.TdBase.fromJson(json['text']) as a.RichText,
-    credit: b.TdBase.fromJson(json['credit']) as a.RichText,
+    text: b.TdBase.fromJson(json['text']) as a.RichText?,
+    credit: b.TdBase.fromJson(json['credit']) as a.RichText?,
   );
 }
 
 /// An animation
 class PageBlockAnimation extends a.PageBlock {
   /// Animation file; may be null
-  final Animation animation;
+  final Animation? animation;
   /// Animation caption
-  final PageBlockCaption caption;
+  final PageBlockCaption? caption;
   /// True, if the animation should be played automatically
   final bool needAutoplay;
 
@@ -9960,14 +9960,14 @@ class PageBlockAnimation extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockAnimation',
-    'animation': animation.toJson(),
-    'caption': caption.toJson(),
+    'animation': animation?.toJson(),
+    'caption': caption?.toJson(),
     'need_autoplay': needAutoplay,
   };
 
   factory PageBlockAnimation.fromJson(Map<String, dynamic> json) => PageBlockAnimation(
-    animation: b.TdBase.fromJson(json['animation']) as Animation,
-    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption,
+    animation: b.TdBase.fromJson(json['animation']) as Animation?,
+    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
     needAutoplay: json['need_autoplay'],
   );
 }
@@ -9975,9 +9975,9 @@ class PageBlockAnimation extends a.PageBlock {
 /// An audio file
 class PageBlockAudio extends a.PageBlock {
   /// Audio file; may be null
-  final Audio audio;
+  final Audio? audio;
   /// Audio file caption
-  final PageBlockCaption caption;
+  final PageBlockCaption? caption;
 
   PageBlockAudio({
     required this.audio,
@@ -10001,22 +10001,22 @@ class PageBlockAudio extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockAudio',
-    'audio': audio.toJson(),
-    'caption': caption.toJson(),
+    'audio': audio?.toJson(),
+    'caption': caption?.toJson(),
   };
 
   factory PageBlockAudio.fromJson(Map<String, dynamic> json) => PageBlockAudio(
-    audio: b.TdBase.fromJson(json['audio']) as Audio,
-    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption,
+    audio: b.TdBase.fromJson(json['audio']) as Audio?,
+    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
 
 /// A photo
 class PageBlockPhoto extends a.PageBlock {
   /// Photo file; may be null
-  final Photo photo;
+  final Photo? photo;
   /// Photo caption
-  final PageBlockCaption caption;
+  final PageBlockCaption? caption;
   /// URL that needs to be opened when the photo is clicked
   final String url;
 
@@ -10044,14 +10044,14 @@ class PageBlockPhoto extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockPhoto',
-    'photo': photo.toJson(),
-    'caption': caption.toJson(),
+    'photo': photo?.toJson(),
+    'caption': caption?.toJson(),
     'url': url,
   };
 
   factory PageBlockPhoto.fromJson(Map<String, dynamic> json) => PageBlockPhoto(
-    photo: b.TdBase.fromJson(json['photo']) as Photo,
-    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption,
+    photo: b.TdBase.fromJson(json['photo']) as Photo?,
+    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
     url: json['url'],
   );
 }
@@ -10059,9 +10059,9 @@ class PageBlockPhoto extends a.PageBlock {
 /// A video
 class PageBlockVideo extends a.PageBlock {
   /// Video file; may be null
-  final Video video;
+  final Video? video;
   /// Video caption
-  final PageBlockCaption caption;
+  final PageBlockCaption? caption;
   /// True, if the video should be played automatically
   final bool needAutoplay;
   /// True, if the video should be looped
@@ -10093,15 +10093,15 @@ class PageBlockVideo extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockVideo',
-    'video': video.toJson(),
-    'caption': caption.toJson(),
+    'video': video?.toJson(),
+    'caption': caption?.toJson(),
     'need_autoplay': needAutoplay,
     'is_looped': isLooped,
   };
 
   factory PageBlockVideo.fromJson(Map<String, dynamic> json) => PageBlockVideo(
-    video: b.TdBase.fromJson(json['video']) as Video,
-    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption,
+    video: b.TdBase.fromJson(json['video']) as Video?,
+    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
     needAutoplay: json['need_autoplay'],
     isLooped: json['is_looped'],
   );
@@ -10110,9 +10110,9 @@ class PageBlockVideo extends a.PageBlock {
 /// A voice note
 class PageBlockVoiceNote extends a.PageBlock {
   /// Voice note; may be null
-  final VoiceNote voiceNote;
+  final VoiceNote? voiceNote;
   /// Voice note caption
-  final PageBlockCaption caption;
+  final PageBlockCaption? caption;
 
   PageBlockVoiceNote({
     required this.voiceNote,
@@ -10136,20 +10136,20 @@ class PageBlockVoiceNote extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockVoiceNote',
-    'voice_note': voiceNote.toJson(),
-    'caption': caption.toJson(),
+    'voice_note': voiceNote?.toJson(),
+    'caption': caption?.toJson(),
   };
 
   factory PageBlockVoiceNote.fromJson(Map<String, dynamic> json) => PageBlockVoiceNote(
-    voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote,
-    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption,
+    voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote?,
+    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
 
 /// A page cover
 class PageBlockCover extends a.PageBlock {
   /// Cover
-  final a.PageBlock cover;
+  final a.PageBlock? cover;
 
   PageBlockCover({
     required this.cover,
@@ -10171,11 +10171,11 @@ class PageBlockCover extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockCover',
-    'cover': cover.toJson(),
+    'cover': cover?.toJson(),
   };
 
   factory PageBlockCover.fromJson(Map<String, dynamic> json) => PageBlockCover(
-    cover: b.TdBase.fromJson(json['cover']) as a.PageBlock,
+    cover: b.TdBase.fromJson(json['cover']) as a.PageBlock?,
   );
 }
 
@@ -10186,13 +10186,13 @@ class PageBlockEmbedded extends a.PageBlock {
   /// HTML-markup of the embedded page
   final String html;
   /// Poster photo, if available; may be null
-  final Photo posterPhoto;
+  final Photo? posterPhoto;
   /// Block width; 0 if unknown
   final int width;
   /// Block height; 0 if unknown
   final int height;
   /// Block caption
-  final PageBlockCaption caption;
+  final PageBlockCaption? caption;
   /// True, if the block should be full width
   final bool isFullWidth;
   /// True, if scrolling should be allowed
@@ -10234,10 +10234,10 @@ class PageBlockEmbedded extends a.PageBlock {
     '@type': 'pageBlockEmbedded',
     'url': url,
     'html': html,
-    'poster_photo': posterPhoto.toJson(),
+    'poster_photo': posterPhoto?.toJson(),
     'width': width,
     'height': height,
-    'caption': caption.toJson(),
+    'caption': caption?.toJson(),
     'is_full_width': isFullWidth,
     'allow_scrolling': allowScrolling,
   };
@@ -10245,10 +10245,10 @@ class PageBlockEmbedded extends a.PageBlock {
   factory PageBlockEmbedded.fromJson(Map<String, dynamic> json) => PageBlockEmbedded(
     url: json['url'],
     html: json['html'],
-    posterPhoto: b.TdBase.fromJson(json['poster_photo']) as Photo,
+    posterPhoto: b.TdBase.fromJson(json['poster_photo']) as Photo?,
     width: json['width'],
     height: json['height'],
-    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption,
+    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
     isFullWidth: json['is_full_width'],
     allowScrolling: json['allow_scrolling'],
   );
@@ -10261,13 +10261,13 @@ class PageBlockEmbeddedPost extends a.PageBlock {
   /// Post author
   final String author;
   /// Post author photo; may be null
-  final Photo authorPhoto;
+  final Photo? authorPhoto;
   /// Point in time (Unix timestamp) when the post was created; 0 if unknown
   final int date;
   /// Post content
-  final List<a.PageBlock> pageBlocks;
+  final List<a.PageBlock?> pageBlocks;
   /// Post caption
-  final PageBlockCaption caption;
+  final PageBlockCaption? caption;
 
   PageBlockEmbeddedPost({
     required this.url,
@@ -10301,28 +10301,28 @@ class PageBlockEmbeddedPost extends a.PageBlock {
     '@type': 'pageBlockEmbeddedPost',
     'url': url,
     'author': author,
-    'author_photo': authorPhoto.toJson(),
+    'author_photo': authorPhoto?.toJson(),
     'date': date,
-    'page_blocks': pageBlocks.map((_e1) => _e1.toJson()).toList(growable: false),
-    'caption': caption.toJson(),
+    'page_blocks': pageBlocks.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'caption': caption?.toJson(),
   };
 
   factory PageBlockEmbeddedPost.fromJson(Map<String, dynamic> json) => PageBlockEmbeddedPost(
     url: json['url'],
     author: json['author'],
-    authorPhoto: b.TdBase.fromJson(json['author_photo']) as Photo,
+    authorPhoto: b.TdBase.fromJson(json['author_photo']) as Photo?,
     date: json['date'],
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock).toList(growable: false),
-    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption,
+    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock?).toList(growable: false),
+    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
 
 /// A collage
 class PageBlockCollage extends a.PageBlock {
   /// Collage item contents
-  final List<a.PageBlock> pageBlocks;
+  final List<a.PageBlock?> pageBlocks;
   /// Block caption
-  final PageBlockCaption caption;
+  final PageBlockCaption? caption;
 
   PageBlockCollage({
     required this.pageBlocks,
@@ -10346,22 +10346,22 @@ class PageBlockCollage extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockCollage',
-    'page_blocks': pageBlocks.map((_e1) => _e1.toJson()).toList(growable: false),
-    'caption': caption.toJson(),
+    'page_blocks': pageBlocks.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'caption': caption?.toJson(),
   };
 
   factory PageBlockCollage.fromJson(Map<String, dynamic> json) => PageBlockCollage(
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock).toList(growable: false),
-    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption,
+    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock?).toList(growable: false),
+    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
 
 /// A slideshow
 class PageBlockSlideshow extends a.PageBlock {
   /// Slideshow item contents
-  final List<a.PageBlock> pageBlocks;
+  final List<a.PageBlock?> pageBlocks;
   /// Block caption
-  final PageBlockCaption caption;
+  final PageBlockCaption? caption;
 
   PageBlockSlideshow({
     required this.pageBlocks,
@@ -10385,13 +10385,13 @@ class PageBlockSlideshow extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockSlideshow',
-    'page_blocks': pageBlocks.map((_e1) => _e1.toJson()).toList(growable: false),
-    'caption': caption.toJson(),
+    'page_blocks': pageBlocks.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'caption': caption?.toJson(),
   };
 
   factory PageBlockSlideshow.fromJson(Map<String, dynamic> json) => PageBlockSlideshow(
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock).toList(growable: false),
-    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption,
+    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock?).toList(growable: false),
+    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
 
@@ -10400,7 +10400,7 @@ class PageBlockChatLink extends a.PageBlock {
   /// Chat title
   final String title;
   /// Chat photo; may be null
-  final ChatPhotoInfo photo;
+  final ChatPhotoInfo? photo;
   /// Chat username, by which all other information about the chat should be resolved
   final String username;
 
@@ -10429,13 +10429,13 @@ class PageBlockChatLink extends a.PageBlock {
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockChatLink',
     'title': title,
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
     'username': username,
   };
 
   factory PageBlockChatLink.fromJson(Map<String, dynamic> json) => PageBlockChatLink(
     title: json['title'],
-    photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo,
+    photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
     username: json['username'],
   );
 }
@@ -10443,9 +10443,9 @@ class PageBlockChatLink extends a.PageBlock {
 /// A table
 class PageBlockTable extends a.PageBlock {
   /// Table caption
-  final a.RichText caption;
+  final a.RichText? caption;
   /// Table cells
-  final List<List<PageBlockTableCell>> cells;
+  final List<List<PageBlockTableCell?>> cells;
   /// True, if the table is bordered
   final bool isBordered;
   /// True, if the table is striped
@@ -10477,15 +10477,15 @@ class PageBlockTable extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockTable',
-    'caption': caption.toJson(),
-    'cells': cells.map((_e1) => _e1.map((_e2) => _e2.toJson()).toList(growable: false)).toList(growable: false),
+    'caption': caption?.toJson(),
+    'cells': cells.map((_e1) => _e1.map((_e2) => _e2?.toJson()).toList(growable: false)).toList(growable: false),
     'is_bordered': isBordered,
     'is_striped': isStriped,
   };
 
   factory PageBlockTable.fromJson(Map<String, dynamic> json) => PageBlockTable(
-    caption: b.TdBase.fromJson(json['caption']) as a.RichText,
-    cells: (json['cells'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as List<PageBlockTableCell>).toList(growable: false),
+    caption: b.TdBase.fromJson(json['caption']) as a.RichText?,
+    cells: (json['cells'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as List<PageBlockTableCell?>).toList(growable: false),
     isBordered: json['is_bordered'],
     isStriped: json['is_striped'],
   );
@@ -10494,9 +10494,9 @@ class PageBlockTable extends a.PageBlock {
 /// A collapsible block
 class PageBlockDetails extends a.PageBlock {
   /// Always visible heading for the block
-  final a.RichText header;
+  final a.RichText? header;
   /// Block contents
-  final List<a.PageBlock> pageBlocks;
+  final List<a.PageBlock?> pageBlocks;
   /// True, if the block is open by default
   final bool isOpen;
 
@@ -10524,14 +10524,14 @@ class PageBlockDetails extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockDetails',
-    'header': header.toJson(),
-    'page_blocks': pageBlocks.map((_e1) => _e1.toJson()).toList(growable: false),
+    'header': header?.toJson(),
+    'page_blocks': pageBlocks.map((_e1) => _e1?.toJson()).toList(growable: false),
     'is_open': isOpen,
   };
 
   factory PageBlockDetails.fromJson(Map<String, dynamic> json) => PageBlockDetails(
-    header: b.TdBase.fromJson(json['header']) as a.RichText,
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock).toList(growable: false),
+    header: b.TdBase.fromJson(json['header']) as a.RichText?,
+    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock?).toList(growable: false),
     isOpen: json['is_open'],
   );
 }
@@ -10539,9 +10539,9 @@ class PageBlockDetails extends a.PageBlock {
 /// Related articles
 class PageBlockRelatedArticles extends a.PageBlock {
   /// Block header
-  final a.RichText header;
+  final a.RichText? header;
   /// List of related articles
-  final List<PageBlockRelatedArticle> articles;
+  final List<PageBlockRelatedArticle?> articles;
 
   PageBlockRelatedArticles({
     required this.header,
@@ -10565,20 +10565,20 @@ class PageBlockRelatedArticles extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockRelatedArticles',
-    'header': header.toJson(),
-    'articles': articles.map((_e1) => _e1.toJson()).toList(growable: false),
+    'header': header?.toJson(),
+    'articles': articles.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory PageBlockRelatedArticles.fromJson(Map<String, dynamic> json) => PageBlockRelatedArticles(
-    header: b.TdBase.fromJson(json['header']) as a.RichText,
-    articles: (json['articles'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PageBlockRelatedArticle).toList(growable: false),
+    header: b.TdBase.fromJson(json['header']) as a.RichText?,
+    articles: (json['articles'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PageBlockRelatedArticle?).toList(growable: false),
   );
 }
 
 /// A map
 class PageBlockMap extends a.PageBlock {
   /// Location of the map center
-  final Location location;
+  final Location? location;
   /// Map zoom level
   final int zoom;
   /// Map width
@@ -10586,7 +10586,7 @@ class PageBlockMap extends a.PageBlock {
   /// Map height
   final int height;
   /// Block caption
-  final PageBlockCaption caption;
+  final PageBlockCaption? caption;
 
   PageBlockMap({
     required this.location,
@@ -10616,26 +10616,26 @@ class PageBlockMap extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockMap',
-    'location': location.toJson(),
+    'location': location?.toJson(),
     'zoom': zoom,
     'width': width,
     'height': height,
-    'caption': caption.toJson(),
+    'caption': caption?.toJson(),
   };
 
   factory PageBlockMap.fromJson(Map<String, dynamic> json) => PageBlockMap(
-    location: b.TdBase.fromJson(json['location']) as Location,
+    location: b.TdBase.fromJson(json['location']) as Location?,
     zoom: json['zoom'],
     width: json['width'],
     height: json['height'],
-    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption,
+    caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
 
 /// Describes an instant view page for a web page
 class WebPageInstantView extends a.WebPageInstantView {
   /// Content of the web page
-  final List<a.PageBlock> pageBlocks;
+  final List<a.PageBlock?> pageBlocks;
   /// Number of the instant view views; 0 if unknown
   final int viewCount;
   /// Version of the instant view, currently can be 1 or 2
@@ -10673,7 +10673,7 @@ class WebPageInstantView extends a.WebPageInstantView {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'webPageInstantView',
-    'page_blocks': pageBlocks.map((_e1) => _e1.toJson()).toList(growable: false),
+    'page_blocks': pageBlocks.map((_e1) => _e1?.toJson()).toList(growable: false),
     'view_count': viewCount,
     'version': version,
     'is_rtl': isRtl,
@@ -10681,7 +10681,7 @@ class WebPageInstantView extends a.WebPageInstantView {
   };
 
   factory WebPageInstantView.fromJson(Map<String, dynamic> json) => WebPageInstantView(
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock).toList(growable: false),
+    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock?).toList(growable: false),
     viewCount: json['view_count'],
     version: json['version'],
     isRtl: json['is_rtl'],
@@ -10702,9 +10702,9 @@ class WebPage extends a.WebPage {
   /// Title of the content
   final String title;
   /// Description of the content
-  final FormattedText description;
+  final FormattedText? description;
   /// Image representing the content; may be null
-  final Photo photo;
+  final Photo? photo;
   /// URL to show in the embedded preview
   final String embedUrl;
   /// MIME type of the embedded preview, (e.g., text/html or video/mp4)
@@ -10718,19 +10718,19 @@ class WebPage extends a.WebPage {
   /// Author of the content
   final String author;
   /// Preview of the content as an animation, if available; may be null
-  final Animation animation;
+  final Animation? animation;
   /// Preview of the content as an audio file, if available; may be null
-  final Audio audio;
+  final Audio? audio;
   /// Preview of the content as a document, if available (currently only available for small PDF files and ZIP archives); may be null
-  final Document document;
+  final Document? document;
   /// Preview of the content as a sticker for small WEBP files, if available; may be null
-  final Sticker sticker;
+  final Sticker? sticker;
   /// Preview of the content as a video, if available; may be null
-  final Video video;
+  final Video? video;
   /// Preview of the content as a video note, if available; may be null
-  final VideoNote videoNote;
+  final VideoNote? videoNote;
   /// Preview of the content as a voice note, if available; may be null
-  final VoiceNote voiceNote;
+  final VoiceNote? voiceNote;
   /// Version of instant view, available for the web page (currently can be 1 or 2), 0 if none
   final int instantViewVersion;
 
@@ -10799,21 +10799,21 @@ class WebPage extends a.WebPage {
     'type': type,
     'site_name': siteName,
     'title': title,
-    'description': description.toJson(),
-    'photo': photo.toJson(),
+    'description': description?.toJson(),
+    'photo': photo?.toJson(),
     'embed_url': embedUrl,
     'embed_type': embedType,
     'embed_width': embedWidth,
     'embed_height': embedHeight,
     'duration': duration,
     'author': author,
-    'animation': animation.toJson(),
-    'audio': audio.toJson(),
-    'document': document.toJson(),
-    'sticker': sticker.toJson(),
-    'video': video.toJson(),
-    'video_note': videoNote.toJson(),
-    'voice_note': voiceNote.toJson(),
+    'animation': animation?.toJson(),
+    'audio': audio?.toJson(),
+    'document': document?.toJson(),
+    'sticker': sticker?.toJson(),
+    'video': video?.toJson(),
+    'video_note': videoNote?.toJson(),
+    'voice_note': voiceNote?.toJson(),
     'instant_view_version': instantViewVersion,
   };
 
@@ -10823,21 +10823,21 @@ class WebPage extends a.WebPage {
     type: json['type'],
     siteName: json['site_name'],
     title: json['title'],
-    description: b.TdBase.fromJson(json['description']) as FormattedText,
-    photo: b.TdBase.fromJson(json['photo']) as Photo,
+    description: b.TdBase.fromJson(json['description']) as FormattedText?,
+    photo: b.TdBase.fromJson(json['photo']) as Photo?,
     embedUrl: json['embed_url'],
     embedType: json['embed_type'],
     embedWidth: json['embed_width'],
     embedHeight: json['embed_height'],
     duration: json['duration'],
     author: json['author'],
-    animation: b.TdBase.fromJson(json['animation']) as Animation,
-    audio: b.TdBase.fromJson(json['audio']) as Audio,
-    document: b.TdBase.fromJson(json['document']) as Document,
-    sticker: b.TdBase.fromJson(json['sticker']) as Sticker,
-    video: b.TdBase.fromJson(json['video']) as Video,
-    videoNote: b.TdBase.fromJson(json['video_note']) as VideoNote,
-    voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote,
+    animation: b.TdBase.fromJson(json['animation']) as Animation?,
+    audio: b.TdBase.fromJson(json['audio']) as Audio?,
+    document: b.TdBase.fromJson(json['document']) as Document?,
+    sticker: b.TdBase.fromJson(json['sticker']) as Sticker?,
+    video: b.TdBase.fromJson(json['video']) as Video?,
+    videoNote: b.TdBase.fromJson(json['video_note']) as VideoNote?,
+    voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote?,
     instantViewVersion: json['instant_view_version'],
   );
 }
@@ -10902,7 +10902,7 @@ class CountryInfo extends a.CountryInfo {
 /// Contains information about countries
 class Countries extends a.Countries {
   /// The list of countries
-  final List<CountryInfo> countries;
+  final List<CountryInfo?> countries;
 
   Countries({
     required this.countries,
@@ -10924,18 +10924,18 @@ class Countries extends a.Countries {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'countries',
-    'countries': countries.map((_e1) => _e1.toJson()).toList(growable: false),
+    'countries': countries.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory Countries.fromJson(Map<String, dynamic> json) => Countries(
-    countries: (json['countries'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as CountryInfo).toList(growable: false),
+    countries: (json['countries'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as CountryInfo?).toList(growable: false),
   );
 }
 
 /// Contains information about a phone number
 class PhoneNumberInfo extends a.PhoneNumberInfo {
   /// Information about the country to which the phone number belongs; may be null
-  final CountryInfo country;
+  final CountryInfo? country;
   /// The part of the phone number denoting country calling code or its part
   final String countryCallingCode;
   /// The phone number without country calling code formatted accordingly to local rules
@@ -10965,13 +10965,13 @@ class PhoneNumberInfo extends a.PhoneNumberInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'phoneNumberInfo',
-    'country': country.toJson(),
+    'country': country?.toJson(),
     'country_calling_code': countryCallingCode,
     'formatted_phone_number': formattedPhoneNumber,
   };
 
   factory PhoneNumberInfo.fromJson(Map<String, dynamic> json) => PhoneNumberInfo(
-    country: b.TdBase.fromJson(json['country']) as CountryInfo,
+    country: b.TdBase.fromJson(json['country']) as CountryInfo?,
     countryCallingCode: json['country_calling_code'],
     formattedPhoneNumber: json['formatted_phone_number'],
   );
@@ -11021,7 +11021,7 @@ class BankCardInfo extends a.BankCardInfo {
   /// Title of the bank card description
   final String title;
   /// Actions that can be done with the bank card number
-  final List<BankCardActionOpenUrl> actions;
+  final List<BankCardActionOpenUrl?> actions;
 
   BankCardInfo({
     required this.title,
@@ -11046,12 +11046,12 @@ class BankCardInfo extends a.BankCardInfo {
   Map<String, dynamic> toJson() => {
     '@type': 'bankCardInfo',
     'title': title,
-    'actions': actions.map((_e1) => _e1.toJson()).toList(growable: false),
+    'actions': actions.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory BankCardInfo.fromJson(Map<String, dynamic> json) => BankCardInfo(
     title: json['title'],
-    actions: (json['actions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as BankCardActionOpenUrl).toList(growable: false),
+    actions: (json['actions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as BankCardActionOpenUrl?).toList(growable: false),
   );
 }
 
@@ -11162,7 +11162,7 @@ class Invoice extends a.Invoice {
   /// ISO 4217 currency code
   final String currency;
   /// A list of objects used to calculate the total price of the product
-  final List<LabeledPricePart> priceParts;
+  final List<LabeledPricePart?> priceParts;
   /// The maximum allowed amount of tip in the smallest units of the currency
   final int maxTipAmount;
   /// Suggested amounts of tip in the smallest units of the currency
@@ -11227,7 +11227,7 @@ class Invoice extends a.Invoice {
   Map<String, dynamic> toJson() => {
     '@type': 'invoice',
     'currency': currency,
-    'price_parts': priceParts.map((_e1) => _e1.toJson()).toList(growable: false),
+    'price_parts': priceParts.map((_e1) => _e1?.toJson()).toList(growable: false),
     'max_tip_amount': maxTipAmount,
     'suggested_tip_amounts': suggestedTipAmounts.map((_e1) => _e1).toList(growable: false),
     'is_test': isTest,
@@ -11242,7 +11242,7 @@ class Invoice extends a.Invoice {
 
   factory Invoice.fromJson(Map<String, dynamic> json) => Invoice(
     currency: json['currency'],
-    priceParts: (json['price_parts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LabeledPricePart).toList(growable: false),
+    priceParts: (json['price_parts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LabeledPricePart?).toList(growable: false),
     maxTipAmount: json['max_tip_amount'],
     suggestedTipAmounts: (json['suggested_tip_amounts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
     isTest: json['is_test'],
@@ -11265,7 +11265,7 @@ class OrderInfo extends a.OrderInfo {
   /// Email address of the user
   final String emailAddress;
   /// Shipping address for this order; may be null
-  final Address shippingAddress;
+  final Address? shippingAddress;
 
   OrderInfo({
     required this.name,
@@ -11296,14 +11296,14 @@ class OrderInfo extends a.OrderInfo {
     'name': name,
     'phone_number': phoneNumber,
     'email_address': emailAddress,
-    'shipping_address': shippingAddress.toJson(),
+    'shipping_address': shippingAddress?.toJson(),
   };
 
   factory OrderInfo.fromJson(Map<String, dynamic> json) => OrderInfo(
     name: json['name'],
     phoneNumber: json['phone_number'],
     emailAddress: json['email_address'],
-    shippingAddress: b.TdBase.fromJson(json['shipping_address']) as Address,
+    shippingAddress: b.TdBase.fromJson(json['shipping_address']) as Address?,
   );
 }
 
@@ -11314,7 +11314,7 @@ class ShippingOption extends a.ShippingOption {
   /// Option title
   final String title;
   /// A list of objects used to calculate the total shipping costs
-  final List<LabeledPricePart> priceParts;
+  final List<LabeledPricePart?> priceParts;
 
   ShippingOption({
     required this.id,
@@ -11342,13 +11342,13 @@ class ShippingOption extends a.ShippingOption {
     '@type': 'shippingOption',
     'id': id,
     'title': title,
-    'price_parts': priceParts.map((_e1) => _e1.toJson()).toList(growable: false),
+    'price_parts': priceParts.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ShippingOption.fromJson(Map<String, dynamic> json) => ShippingOption(
     id: json['id'],
     title: json['title'],
-    priceParts: (json['price_parts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LabeledPricePart).toList(growable: false),
+    priceParts: (json['price_parts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LabeledPricePart?).toList(growable: false),
   );
 }
 
@@ -11648,7 +11648,7 @@ class PaymentForm extends a.PaymentForm {
   /// The payment form identifier
   final int id;
   /// Full information of the invoice
-  final Invoice invoice;
+  final Invoice? invoice;
   /// Payment form URL
   final String url;
   /// User identifier of the seller bot
@@ -11656,11 +11656,11 @@ class PaymentForm extends a.PaymentForm {
   /// User identifier of the payment provider bot
   final int paymentsProviderUserId;
   /// Contains information about the payment provider, if available, to support it natively without the need for opening the URL; may be null
-  final PaymentsProviderStripe paymentsProvider;
+  final PaymentsProviderStripe? paymentsProvider;
   /// Saved server-side order information; may be null
-  final OrderInfo savedOrderInfo;
+  final OrderInfo? savedOrderInfo;
   /// Contains information about saved card credentials; may be null
-  final SavedCredentials savedCredentials;
+  final SavedCredentials? savedCredentials;
   /// True, if the user can choose to save credentials
   final bool canSaveCredentials;
   /// True, if the user will be able to save credentials protected by a password they set up
@@ -11705,26 +11705,26 @@ class PaymentForm extends a.PaymentForm {
   Map<String, dynamic> toJson() => {
     '@type': 'paymentForm',
     'id': id.toString(),
-    'invoice': invoice.toJson(),
+    'invoice': invoice?.toJson(),
     'url': url,
     'seller_bot_user_id': sellerBotUserId,
     'payments_provider_user_id': paymentsProviderUserId,
-    'payments_provider': paymentsProvider.toJson(),
-    'saved_order_info': savedOrderInfo.toJson(),
-    'saved_credentials': savedCredentials.toJson(),
+    'payments_provider': paymentsProvider?.toJson(),
+    'saved_order_info': savedOrderInfo?.toJson(),
+    'saved_credentials': savedCredentials?.toJson(),
     'can_save_credentials': canSaveCredentials,
     'need_password': needPassword,
   };
 
   factory PaymentForm.fromJson(Map<String, dynamic> json) => PaymentForm(
     id: int.parse(json['id']),
-    invoice: b.TdBase.fromJson(json['invoice']) as Invoice,
+    invoice: b.TdBase.fromJson(json['invoice']) as Invoice?,
     url: json['url'],
     sellerBotUserId: json['seller_bot_user_id'],
     paymentsProviderUserId: json['payments_provider_user_id'],
-    paymentsProvider: b.TdBase.fromJson(json['payments_provider']) as PaymentsProviderStripe,
-    savedOrderInfo: b.TdBase.fromJson(json['saved_order_info']) as OrderInfo,
-    savedCredentials: b.TdBase.fromJson(json['saved_credentials']) as SavedCredentials,
+    paymentsProvider: b.TdBase.fromJson(json['payments_provider']) as PaymentsProviderStripe?,
+    savedOrderInfo: b.TdBase.fromJson(json['saved_order_info']) as OrderInfo?,
+    savedCredentials: b.TdBase.fromJson(json['saved_credentials']) as SavedCredentials?,
     canSaveCredentials: json['can_save_credentials'],
     needPassword: json['need_password'],
   );
@@ -11735,7 +11735,7 @@ class ValidatedOrderInfo extends a.ValidatedOrderInfo {
   /// Temporary identifier of the order information
   final String orderInfoId;
   /// Available shipping options
-  final List<ShippingOption> shippingOptions;
+  final List<ShippingOption?> shippingOptions;
 
   ValidatedOrderInfo({
     required this.orderInfoId,
@@ -11760,12 +11760,12 @@ class ValidatedOrderInfo extends a.ValidatedOrderInfo {
   Map<String, dynamic> toJson() => {
     '@type': 'validatedOrderInfo',
     'order_info_id': orderInfoId,
-    'shipping_options': shippingOptions.map((_e1) => _e1.toJson()).toList(growable: false),
+    'shipping_options': shippingOptions.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ValidatedOrderInfo.fromJson(Map<String, dynamic> json) => ValidatedOrderInfo(
     orderInfoId: json['order_info_id'],
-    shippingOptions: (json['shipping_options'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ShippingOption).toList(growable: false),
+    shippingOptions: (json['shipping_options'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ShippingOption?).toList(growable: false),
   );
 }
 
@@ -11815,7 +11815,7 @@ class PaymentReceipt extends a.PaymentReceipt {
   /// Product description
   final String description;
   /// Product photo; may be null
-  final Photo photo;
+  final Photo? photo;
   /// Point in time (Unix timestamp) when the payment was made
   final int date;
   /// User identifier of the seller bot
@@ -11823,11 +11823,11 @@ class PaymentReceipt extends a.PaymentReceipt {
   /// User identifier of the payment provider bot
   final int paymentsProviderUserId;
   /// Contains information about the invoice
-  final Invoice invoice;
+  final Invoice? invoice;
   /// Order information; may be null
-  final OrderInfo orderInfo;
+  final OrderInfo? orderInfo;
   /// Chosen shipping option; may be null
-  final ShippingOption shippingOption;
+  final ShippingOption? shippingOption;
   /// Title of the saved credentials chosen by the buyer
   final String credentialsTitle;
   /// The amount of tip chosen by the buyer in the smallest units of the currency
@@ -11875,13 +11875,13 @@ class PaymentReceipt extends a.PaymentReceipt {
     '@type': 'paymentReceipt',
     'title': title,
     'description': description,
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
     'date': date,
     'seller_bot_user_id': sellerBotUserId,
     'payments_provider_user_id': paymentsProviderUserId,
-    'invoice': invoice.toJson(),
-    'order_info': orderInfo.toJson(),
-    'shipping_option': shippingOption.toJson(),
+    'invoice': invoice?.toJson(),
+    'order_info': orderInfo?.toJson(),
+    'shipping_option': shippingOption?.toJson(),
     'credentials_title': credentialsTitle,
     'tip_amount': tipAmount,
   };
@@ -11889,13 +11889,13 @@ class PaymentReceipt extends a.PaymentReceipt {
   factory PaymentReceipt.fromJson(Map<String, dynamic> json) => PaymentReceipt(
     title: json['title'],
     description: json['description'],
-    photo: b.TdBase.fromJson(json['photo']) as Photo,
+    photo: b.TdBase.fromJson(json['photo']) as Photo?,
     date: json['date'],
     sellerBotUserId: json['seller_bot_user_id'],
     paymentsProviderUserId: json['payments_provider_user_id'],
-    invoice: b.TdBase.fromJson(json['invoice']) as Invoice,
-    orderInfo: b.TdBase.fromJson(json['order_info']) as OrderInfo,
-    shippingOption: b.TdBase.fromJson(json['shipping_option']) as ShippingOption,
+    invoice: b.TdBase.fromJson(json['invoice']) as Invoice?,
+    orderInfo: b.TdBase.fromJson(json['order_info']) as OrderInfo?,
+    shippingOption: b.TdBase.fromJson(json['shipping_option']) as ShippingOption?,
     credentialsTitle: json['credentials_title'],
     tipAmount: json['tip_amount'],
   );
@@ -11904,7 +11904,7 @@ class PaymentReceipt extends a.PaymentReceipt {
 /// File with the date it was uploaded
 class DatedFile extends a.DatedFile {
   /// The file
-  final File file;
+  final File? file;
   /// Point in time (Unix timestamp) when the file was uploaded
   final int date;
 
@@ -11930,12 +11930,12 @@ class DatedFile extends a.DatedFile {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'datedFile',
-    'file': file.toJson(),
+    'file': file?.toJson(),
     'date': date,
   };
 
   factory DatedFile.fromJson(Map<String, dynamic> json) => DatedFile(
-    file: b.TdBase.fromJson(json['file']) as File,
+    file: b.TdBase.fromJson(json['file']) as File?,
     date: json['date'],
   );
 }
@@ -12325,7 +12325,7 @@ class PersonalDetails extends a.PersonalDetails {
   /// Native last name of the user; 1-255 characters
   final String nativeLastName;
   /// Birthdate of the user
-  final Date birthdate;
+  final Date? birthdate;
   /// Gender of the user, "male" or "female"
   final String gender;
   /// A two-letter ISO 3166-1 alpha-2 country code of the user's country
@@ -12377,7 +12377,7 @@ class PersonalDetails extends a.PersonalDetails {
     'native_first_name': nativeFirstName,
     'native_middle_name': nativeMiddleName,
     'native_last_name': nativeLastName,
-    'birthdate': birthdate.toJson(),
+    'birthdate': birthdate?.toJson(),
     'gender': gender,
     'country_code': countryCode,
     'residence_country_code': residenceCountryCode,
@@ -12390,7 +12390,7 @@ class PersonalDetails extends a.PersonalDetails {
     nativeFirstName: json['native_first_name'],
     nativeMiddleName: json['native_middle_name'],
     nativeLastName: json['native_last_name'],
-    birthdate: b.TdBase.fromJson(json['birthdate']) as Date,
+    birthdate: b.TdBase.fromJson(json['birthdate']) as Date?,
     gender: json['gender'],
     countryCode: json['country_code'],
     residenceCountryCode: json['residence_country_code'],
@@ -12402,15 +12402,15 @@ class IdentityDocument extends a.IdentityDocument {
   /// Document number; 1-24 characters
   final String number;
   /// Document expiry date; may be null
-  final Date expiryDate;
+  final Date? expiryDate;
   /// Front side of the document
-  final DatedFile frontSide;
+  final DatedFile? frontSide;
   /// Reverse side of the document; only for driver license and identity card
-  final DatedFile reverseSide;
+  final DatedFile? reverseSide;
   /// Selfie with the document; may be null
-  final DatedFile selfie;
+  final DatedFile? selfie;
   /// List of files containing a certified English translation of the document
-  final List<DatedFile> translation;
+  final List<DatedFile?> translation;
 
   IdentityDocument({
     required this.number,
@@ -12443,20 +12443,20 @@ class IdentityDocument extends a.IdentityDocument {
   Map<String, dynamic> toJson() => {
     '@type': 'identityDocument',
     'number': number,
-    'expiry_date': expiryDate.toJson(),
-    'front_side': frontSide.toJson(),
-    'reverse_side': reverseSide.toJson(),
-    'selfie': selfie.toJson(),
-    'translation': translation.map((_e1) => _e1.toJson()).toList(growable: false),
+    'expiry_date': expiryDate?.toJson(),
+    'front_side': frontSide?.toJson(),
+    'reverse_side': reverseSide?.toJson(),
+    'selfie': selfie?.toJson(),
+    'translation': translation.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory IdentityDocument.fromJson(Map<String, dynamic> json) => IdentityDocument(
     number: json['number'],
-    expiryDate: b.TdBase.fromJson(json['expiry_date']) as Date,
-    frontSide: b.TdBase.fromJson(json['front_side']) as DatedFile,
-    reverseSide: b.TdBase.fromJson(json['reverse_side']) as DatedFile,
-    selfie: b.TdBase.fromJson(json['selfie']) as DatedFile,
-    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile).toList(growable: false),
+    expiryDate: b.TdBase.fromJson(json['expiry_date']) as Date?,
+    frontSide: b.TdBase.fromJson(json['front_side']) as DatedFile?,
+    reverseSide: b.TdBase.fromJson(json['reverse_side']) as DatedFile?,
+    selfie: b.TdBase.fromJson(json['selfie']) as DatedFile?,
+    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile?).toList(growable: false),
   );
 }
 
@@ -12465,15 +12465,15 @@ class InputIdentityDocument extends a.InputIdentityDocument {
   /// Document number; 1-24 characters
   final String number;
   /// Document expiry date, if available
-  final Date expiryDate;
+  final Date? expiryDate;
   /// Front side of the document
-  final a.InputFile frontSide;
+  final a.InputFile? frontSide;
   /// Reverse side of the document; only for driver license and identity card
-  final a.InputFile reverseSide;
+  final a.InputFile? reverseSide;
   /// Selfie with the document, if available
-  final a.InputFile selfie;
+  final a.InputFile? selfie;
   /// List of files containing a certified English translation of the document
-  final List<a.InputFile> translation;
+  final List<a.InputFile?> translation;
 
   InputIdentityDocument({
     required this.number,
@@ -12506,29 +12506,29 @@ class InputIdentityDocument extends a.InputIdentityDocument {
   Map<String, dynamic> toJson() => {
     '@type': 'inputIdentityDocument',
     'number': number,
-    'expiry_date': expiryDate.toJson(),
-    'front_side': frontSide.toJson(),
-    'reverse_side': reverseSide.toJson(),
-    'selfie': selfie.toJson(),
-    'translation': translation.map((_e1) => _e1.toJson()).toList(growable: false),
+    'expiry_date': expiryDate?.toJson(),
+    'front_side': frontSide?.toJson(),
+    'reverse_side': reverseSide?.toJson(),
+    'selfie': selfie?.toJson(),
+    'translation': translation.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory InputIdentityDocument.fromJson(Map<String, dynamic> json) => InputIdentityDocument(
     number: json['number'],
-    expiryDate: b.TdBase.fromJson(json['expiry_date']) as Date,
-    frontSide: b.TdBase.fromJson(json['front_side']) as a.InputFile,
-    reverseSide: b.TdBase.fromJson(json['reverse_side']) as a.InputFile,
-    selfie: b.TdBase.fromJson(json['selfie']) as a.InputFile,
-    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputFile).toList(growable: false),
+    expiryDate: b.TdBase.fromJson(json['expiry_date']) as Date?,
+    frontSide: b.TdBase.fromJson(json['front_side']) as a.InputFile?,
+    reverseSide: b.TdBase.fromJson(json['reverse_side']) as a.InputFile?,
+    selfie: b.TdBase.fromJson(json['selfie']) as a.InputFile?,
+    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputFile?).toList(growable: false),
   );
 }
 
 /// A personal document, containing some information about a user
 class PersonalDocument extends a.PersonalDocument {
   /// List of files containing the pages of the document
-  final List<DatedFile> files;
+  final List<DatedFile?> files;
   /// List of files containing a certified English translation of the document
-  final List<DatedFile> translation;
+  final List<DatedFile?> translation;
 
   PersonalDocument({
     required this.files,
@@ -12552,22 +12552,22 @@ class PersonalDocument extends a.PersonalDocument {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'personalDocument',
-    'files': files.map((_e1) => _e1.toJson()).toList(growable: false),
-    'translation': translation.map((_e1) => _e1.toJson()).toList(growable: false),
+    'files': files.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'translation': translation.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory PersonalDocument.fromJson(Map<String, dynamic> json) => PersonalDocument(
-    files: (json['files'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile).toList(growable: false),
-    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile).toList(growable: false),
+    files: (json['files'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile?).toList(growable: false),
+    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile?).toList(growable: false),
   );
 }
 
 /// A personal document to be saved to Telegram Passport
 class InputPersonalDocument extends a.InputPersonalDocument {
   /// List of files containing the pages of the document
-  final List<a.InputFile> files;
+  final List<a.InputFile?> files;
   /// List of files containing a certified English translation of the document
-  final List<a.InputFile> translation;
+  final List<a.InputFile?> translation;
 
   InputPersonalDocument({
     required this.files,
@@ -12591,20 +12591,20 @@ class InputPersonalDocument extends a.InputPersonalDocument {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPersonalDocument',
-    'files': files.map((_e1) => _e1.toJson()).toList(growable: false),
-    'translation': translation.map((_e1) => _e1.toJson()).toList(growable: false),
+    'files': files.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'translation': translation.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory InputPersonalDocument.fromJson(Map<String, dynamic> json) => InputPersonalDocument(
-    files: (json['files'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputFile).toList(growable: false),
-    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputFile).toList(growable: false),
+    files: (json['files'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputFile?).toList(growable: false),
+    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputFile?).toList(growable: false),
   );
 }
 
 /// A Telegram Passport element containing the user's personal details
 class PassportElementPersonalDetails extends a.PassportElement {
   /// Personal details of the user
-  final PersonalDetails personalDetails;
+  final PersonalDetails? personalDetails;
 
   PassportElementPersonalDetails({
     required this.personalDetails,
@@ -12626,18 +12626,18 @@ class PassportElementPersonalDetails extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementPersonalDetails',
-    'personal_details': personalDetails.toJson(),
+    'personal_details': personalDetails?.toJson(),
   };
 
   factory PassportElementPersonalDetails.fromJson(Map<String, dynamic> json) => PassportElementPersonalDetails(
-    personalDetails: b.TdBase.fromJson(json['personal_details']) as PersonalDetails,
+    personalDetails: b.TdBase.fromJson(json['personal_details']) as PersonalDetails?,
   );
 }
 
 /// A Telegram Passport element containing the user's passport
 class PassportElementPassport extends a.PassportElement {
   /// Passport
-  final IdentityDocument passport;
+  final IdentityDocument? passport;
 
   PassportElementPassport({
     required this.passport,
@@ -12659,18 +12659,18 @@ class PassportElementPassport extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementPassport',
-    'passport': passport.toJson(),
+    'passport': passport?.toJson(),
   };
 
   factory PassportElementPassport.fromJson(Map<String, dynamic> json) => PassportElementPassport(
-    passport: b.TdBase.fromJson(json['passport']) as IdentityDocument,
+    passport: b.TdBase.fromJson(json['passport']) as IdentityDocument?,
   );
 }
 
 /// A Telegram Passport element containing the user's driver license
 class PassportElementDriverLicense extends a.PassportElement {
   /// Driver license
-  final IdentityDocument driverLicense;
+  final IdentityDocument? driverLicense;
 
   PassportElementDriverLicense({
     required this.driverLicense,
@@ -12692,18 +12692,18 @@ class PassportElementDriverLicense extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementDriverLicense',
-    'driver_license': driverLicense.toJson(),
+    'driver_license': driverLicense?.toJson(),
   };
 
   factory PassportElementDriverLicense.fromJson(Map<String, dynamic> json) => PassportElementDriverLicense(
-    driverLicense: b.TdBase.fromJson(json['driver_license']) as IdentityDocument,
+    driverLicense: b.TdBase.fromJson(json['driver_license']) as IdentityDocument?,
   );
 }
 
 /// A Telegram Passport element containing the user's identity card
 class PassportElementIdentityCard extends a.PassportElement {
   /// Identity card
-  final IdentityDocument identityCard;
+  final IdentityDocument? identityCard;
 
   PassportElementIdentityCard({
     required this.identityCard,
@@ -12725,18 +12725,18 @@ class PassportElementIdentityCard extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementIdentityCard',
-    'identity_card': identityCard.toJson(),
+    'identity_card': identityCard?.toJson(),
   };
 
   factory PassportElementIdentityCard.fromJson(Map<String, dynamic> json) => PassportElementIdentityCard(
-    identityCard: b.TdBase.fromJson(json['identity_card']) as IdentityDocument,
+    identityCard: b.TdBase.fromJson(json['identity_card']) as IdentityDocument?,
   );
 }
 
 /// A Telegram Passport element containing the user's internal passport
 class PassportElementInternalPassport extends a.PassportElement {
   /// Internal passport
-  final IdentityDocument internalPassport;
+  final IdentityDocument? internalPassport;
 
   PassportElementInternalPassport({
     required this.internalPassport,
@@ -12758,18 +12758,18 @@ class PassportElementInternalPassport extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementInternalPassport',
-    'internal_passport': internalPassport.toJson(),
+    'internal_passport': internalPassport?.toJson(),
   };
 
   factory PassportElementInternalPassport.fromJson(Map<String, dynamic> json) => PassportElementInternalPassport(
-    internalPassport: b.TdBase.fromJson(json['internal_passport']) as IdentityDocument,
+    internalPassport: b.TdBase.fromJson(json['internal_passport']) as IdentityDocument?,
   );
 }
 
 /// A Telegram Passport element containing the user's address
 class PassportElementAddress extends a.PassportElement {
   /// Address
-  final Address address;
+  final Address? address;
 
   PassportElementAddress({
     required this.address,
@@ -12791,18 +12791,18 @@ class PassportElementAddress extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementAddress',
-    'address': address.toJson(),
+    'address': address?.toJson(),
   };
 
   factory PassportElementAddress.fromJson(Map<String, dynamic> json) => PassportElementAddress(
-    address: b.TdBase.fromJson(json['address']) as Address,
+    address: b.TdBase.fromJson(json['address']) as Address?,
   );
 }
 
 /// A Telegram Passport element containing the user's utility bill
 class PassportElementUtilityBill extends a.PassportElement {
   /// Utility bill
-  final PersonalDocument utilityBill;
+  final PersonalDocument? utilityBill;
 
   PassportElementUtilityBill({
     required this.utilityBill,
@@ -12824,18 +12824,18 @@ class PassportElementUtilityBill extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementUtilityBill',
-    'utility_bill': utilityBill.toJson(),
+    'utility_bill': utilityBill?.toJson(),
   };
 
   factory PassportElementUtilityBill.fromJson(Map<String, dynamic> json) => PassportElementUtilityBill(
-    utilityBill: b.TdBase.fromJson(json['utility_bill']) as PersonalDocument,
+    utilityBill: b.TdBase.fromJson(json['utility_bill']) as PersonalDocument?,
   );
 }
 
 /// A Telegram Passport element containing the user's bank statement
 class PassportElementBankStatement extends a.PassportElement {
   /// Bank statement
-  final PersonalDocument bankStatement;
+  final PersonalDocument? bankStatement;
 
   PassportElementBankStatement({
     required this.bankStatement,
@@ -12857,18 +12857,18 @@ class PassportElementBankStatement extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementBankStatement',
-    'bank_statement': bankStatement.toJson(),
+    'bank_statement': bankStatement?.toJson(),
   };
 
   factory PassportElementBankStatement.fromJson(Map<String, dynamic> json) => PassportElementBankStatement(
-    bankStatement: b.TdBase.fromJson(json['bank_statement']) as PersonalDocument,
+    bankStatement: b.TdBase.fromJson(json['bank_statement']) as PersonalDocument?,
   );
 }
 
 /// A Telegram Passport element containing the user's rental agreement
 class PassportElementRentalAgreement extends a.PassportElement {
   /// Rental agreement
-  final PersonalDocument rentalAgreement;
+  final PersonalDocument? rentalAgreement;
 
   PassportElementRentalAgreement({
     required this.rentalAgreement,
@@ -12890,18 +12890,18 @@ class PassportElementRentalAgreement extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementRentalAgreement',
-    'rental_agreement': rentalAgreement.toJson(),
+    'rental_agreement': rentalAgreement?.toJson(),
   };
 
   factory PassportElementRentalAgreement.fromJson(Map<String, dynamic> json) => PassportElementRentalAgreement(
-    rentalAgreement: b.TdBase.fromJson(json['rental_agreement']) as PersonalDocument,
+    rentalAgreement: b.TdBase.fromJson(json['rental_agreement']) as PersonalDocument?,
   );
 }
 
 /// A Telegram Passport element containing the user's passport registration pages
 class PassportElementPassportRegistration extends a.PassportElement {
   /// Passport registration pages
-  final PersonalDocument passportRegistration;
+  final PersonalDocument? passportRegistration;
 
   PassportElementPassportRegistration({
     required this.passportRegistration,
@@ -12923,18 +12923,18 @@ class PassportElementPassportRegistration extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementPassportRegistration',
-    'passport_registration': passportRegistration.toJson(),
+    'passport_registration': passportRegistration?.toJson(),
   };
 
   factory PassportElementPassportRegistration.fromJson(Map<String, dynamic> json) => PassportElementPassportRegistration(
-    passportRegistration: b.TdBase.fromJson(json['passport_registration']) as PersonalDocument,
+    passportRegistration: b.TdBase.fromJson(json['passport_registration']) as PersonalDocument?,
   );
 }
 
 /// A Telegram Passport element containing the user's temporary registration
 class PassportElementTemporaryRegistration extends a.PassportElement {
   /// Temporary registration
-  final PersonalDocument temporaryRegistration;
+  final PersonalDocument? temporaryRegistration;
 
   PassportElementTemporaryRegistration({
     required this.temporaryRegistration,
@@ -12956,11 +12956,11 @@ class PassportElementTemporaryRegistration extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementTemporaryRegistration',
-    'temporary_registration': temporaryRegistration.toJson(),
+    'temporary_registration': temporaryRegistration?.toJson(),
   };
 
   factory PassportElementTemporaryRegistration.fromJson(Map<String, dynamic> json) => PassportElementTemporaryRegistration(
-    temporaryRegistration: b.TdBase.fromJson(json['temporary_registration']) as PersonalDocument,
+    temporaryRegistration: b.TdBase.fromJson(json['temporary_registration']) as PersonalDocument?,
   );
 }
 
@@ -13033,7 +13033,7 @@ class PassportElementEmailAddress extends a.PassportElement {
 /// A Telegram Passport element to be saved containing the user's personal details
 class InputPassportElementPersonalDetails extends a.InputPassportElement {
   /// Personal details of the user
-  final PersonalDetails personalDetails;
+  final PersonalDetails? personalDetails;
 
   InputPassportElementPersonalDetails({
     required this.personalDetails,
@@ -13055,18 +13055,18 @@ class InputPassportElementPersonalDetails extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementPersonalDetails',
-    'personal_details': personalDetails.toJson(),
+    'personal_details': personalDetails?.toJson(),
   };
 
   factory InputPassportElementPersonalDetails.fromJson(Map<String, dynamic> json) => InputPassportElementPersonalDetails(
-    personalDetails: b.TdBase.fromJson(json['personal_details']) as PersonalDetails,
+    personalDetails: b.TdBase.fromJson(json['personal_details']) as PersonalDetails?,
   );
 }
 
 /// A Telegram Passport element to be saved containing the user's passport
 class InputPassportElementPassport extends a.InputPassportElement {
   /// The passport to be saved
-  final InputIdentityDocument passport;
+  final InputIdentityDocument? passport;
 
   InputPassportElementPassport({
     required this.passport,
@@ -13088,18 +13088,18 @@ class InputPassportElementPassport extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementPassport',
-    'passport': passport.toJson(),
+    'passport': passport?.toJson(),
   };
 
   factory InputPassportElementPassport.fromJson(Map<String, dynamic> json) => InputPassportElementPassport(
-    passport: b.TdBase.fromJson(json['passport']) as InputIdentityDocument,
+    passport: b.TdBase.fromJson(json['passport']) as InputIdentityDocument?,
   );
 }
 
 /// A Telegram Passport element to be saved containing the user's driver license
 class InputPassportElementDriverLicense extends a.InputPassportElement {
   /// The driver license to be saved
-  final InputIdentityDocument driverLicense;
+  final InputIdentityDocument? driverLicense;
 
   InputPassportElementDriverLicense({
     required this.driverLicense,
@@ -13121,18 +13121,18 @@ class InputPassportElementDriverLicense extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementDriverLicense',
-    'driver_license': driverLicense.toJson(),
+    'driver_license': driverLicense?.toJson(),
   };
 
   factory InputPassportElementDriverLicense.fromJson(Map<String, dynamic> json) => InputPassportElementDriverLicense(
-    driverLicense: b.TdBase.fromJson(json['driver_license']) as InputIdentityDocument,
+    driverLicense: b.TdBase.fromJson(json['driver_license']) as InputIdentityDocument?,
   );
 }
 
 /// A Telegram Passport element to be saved containing the user's identity card
 class InputPassportElementIdentityCard extends a.InputPassportElement {
   /// The identity card to be saved
-  final InputIdentityDocument identityCard;
+  final InputIdentityDocument? identityCard;
 
   InputPassportElementIdentityCard({
     required this.identityCard,
@@ -13154,18 +13154,18 @@ class InputPassportElementIdentityCard extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementIdentityCard',
-    'identity_card': identityCard.toJson(),
+    'identity_card': identityCard?.toJson(),
   };
 
   factory InputPassportElementIdentityCard.fromJson(Map<String, dynamic> json) => InputPassportElementIdentityCard(
-    identityCard: b.TdBase.fromJson(json['identity_card']) as InputIdentityDocument,
+    identityCard: b.TdBase.fromJson(json['identity_card']) as InputIdentityDocument?,
   );
 }
 
 /// A Telegram Passport element to be saved containing the user's internal passport
 class InputPassportElementInternalPassport extends a.InputPassportElement {
   /// The internal passport to be saved
-  final InputIdentityDocument internalPassport;
+  final InputIdentityDocument? internalPassport;
 
   InputPassportElementInternalPassport({
     required this.internalPassport,
@@ -13187,18 +13187,18 @@ class InputPassportElementInternalPassport extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementInternalPassport',
-    'internal_passport': internalPassport.toJson(),
+    'internal_passport': internalPassport?.toJson(),
   };
 
   factory InputPassportElementInternalPassport.fromJson(Map<String, dynamic> json) => InputPassportElementInternalPassport(
-    internalPassport: b.TdBase.fromJson(json['internal_passport']) as InputIdentityDocument,
+    internalPassport: b.TdBase.fromJson(json['internal_passport']) as InputIdentityDocument?,
   );
 }
 
 /// A Telegram Passport element to be saved containing the user's address
 class InputPassportElementAddress extends a.InputPassportElement {
   /// The address to be saved
-  final Address address;
+  final Address? address;
 
   InputPassportElementAddress({
     required this.address,
@@ -13220,18 +13220,18 @@ class InputPassportElementAddress extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementAddress',
-    'address': address.toJson(),
+    'address': address?.toJson(),
   };
 
   factory InputPassportElementAddress.fromJson(Map<String, dynamic> json) => InputPassportElementAddress(
-    address: b.TdBase.fromJson(json['address']) as Address,
+    address: b.TdBase.fromJson(json['address']) as Address?,
   );
 }
 
 /// A Telegram Passport element to be saved containing the user's utility bill
 class InputPassportElementUtilityBill extends a.InputPassportElement {
   /// The utility bill to be saved
-  final InputPersonalDocument utilityBill;
+  final InputPersonalDocument? utilityBill;
 
   InputPassportElementUtilityBill({
     required this.utilityBill,
@@ -13253,18 +13253,18 @@ class InputPassportElementUtilityBill extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementUtilityBill',
-    'utility_bill': utilityBill.toJson(),
+    'utility_bill': utilityBill?.toJson(),
   };
 
   factory InputPassportElementUtilityBill.fromJson(Map<String, dynamic> json) => InputPassportElementUtilityBill(
-    utilityBill: b.TdBase.fromJson(json['utility_bill']) as InputPersonalDocument,
+    utilityBill: b.TdBase.fromJson(json['utility_bill']) as InputPersonalDocument?,
   );
 }
 
 /// A Telegram Passport element to be saved containing the user's bank statement
 class InputPassportElementBankStatement extends a.InputPassportElement {
   /// The bank statement to be saved
-  final InputPersonalDocument bankStatement;
+  final InputPersonalDocument? bankStatement;
 
   InputPassportElementBankStatement({
     required this.bankStatement,
@@ -13286,18 +13286,18 @@ class InputPassportElementBankStatement extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementBankStatement',
-    'bank_statement': bankStatement.toJson(),
+    'bank_statement': bankStatement?.toJson(),
   };
 
   factory InputPassportElementBankStatement.fromJson(Map<String, dynamic> json) => InputPassportElementBankStatement(
-    bankStatement: b.TdBase.fromJson(json['bank_statement']) as InputPersonalDocument,
+    bankStatement: b.TdBase.fromJson(json['bank_statement']) as InputPersonalDocument?,
   );
 }
 
 /// A Telegram Passport element to be saved containing the user's rental agreement
 class InputPassportElementRentalAgreement extends a.InputPassportElement {
   /// The rental agreement to be saved
-  final InputPersonalDocument rentalAgreement;
+  final InputPersonalDocument? rentalAgreement;
 
   InputPassportElementRentalAgreement({
     required this.rentalAgreement,
@@ -13319,18 +13319,18 @@ class InputPassportElementRentalAgreement extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementRentalAgreement',
-    'rental_agreement': rentalAgreement.toJson(),
+    'rental_agreement': rentalAgreement?.toJson(),
   };
 
   factory InputPassportElementRentalAgreement.fromJson(Map<String, dynamic> json) => InputPassportElementRentalAgreement(
-    rentalAgreement: b.TdBase.fromJson(json['rental_agreement']) as InputPersonalDocument,
+    rentalAgreement: b.TdBase.fromJson(json['rental_agreement']) as InputPersonalDocument?,
   );
 }
 
 /// A Telegram Passport element to be saved containing the user's passport registration
 class InputPassportElementPassportRegistration extends a.InputPassportElement {
   /// The passport registration page to be saved
-  final InputPersonalDocument passportRegistration;
+  final InputPersonalDocument? passportRegistration;
 
   InputPassportElementPassportRegistration({
     required this.passportRegistration,
@@ -13352,18 +13352,18 @@ class InputPassportElementPassportRegistration extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementPassportRegistration',
-    'passport_registration': passportRegistration.toJson(),
+    'passport_registration': passportRegistration?.toJson(),
   };
 
   factory InputPassportElementPassportRegistration.fromJson(Map<String, dynamic> json) => InputPassportElementPassportRegistration(
-    passportRegistration: b.TdBase.fromJson(json['passport_registration']) as InputPersonalDocument,
+    passportRegistration: b.TdBase.fromJson(json['passport_registration']) as InputPersonalDocument?,
   );
 }
 
 /// A Telegram Passport element to be saved containing the user's temporary registration
 class InputPassportElementTemporaryRegistration extends a.InputPassportElement {
   /// The temporary registration document to be saved
-  final InputPersonalDocument temporaryRegistration;
+  final InputPersonalDocument? temporaryRegistration;
 
   InputPassportElementTemporaryRegistration({
     required this.temporaryRegistration,
@@ -13385,11 +13385,11 @@ class InputPassportElementTemporaryRegistration extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementTemporaryRegistration',
-    'temporary_registration': temporaryRegistration.toJson(),
+    'temporary_registration': temporaryRegistration?.toJson(),
   };
 
   factory InputPassportElementTemporaryRegistration.fromJson(Map<String, dynamic> json) => InputPassportElementTemporaryRegistration(
-    temporaryRegistration: b.TdBase.fromJson(json['temporary_registration']) as InputPersonalDocument,
+    temporaryRegistration: b.TdBase.fromJson(json['temporary_registration']) as InputPersonalDocument?,
   );
 }
 
@@ -13462,7 +13462,7 @@ class InputPassportElementEmailAddress extends a.InputPassportElement {
 /// Contains information about saved Telegram Passport elements
 class PassportElements extends a.PassportElements {
   /// Telegram Passport elements
-  final List<a.PassportElement> elements;
+  final List<a.PassportElement?> elements;
 
   PassportElements({
     required this.elements,
@@ -13484,11 +13484,11 @@ class PassportElements extends a.PassportElements {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElements',
-    'elements': elements.map((_e1) => _e1.toJson()).toList(growable: false),
+    'elements': elements.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory PassportElements.fromJson(Map<String, dynamic> json) => PassportElements(
-    elements: (json['elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PassportElement).toList(growable: false),
+    elements: (json['elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PassportElement?).toList(growable: false),
   );
 }
 
@@ -13744,11 +13744,11 @@ class PassportElementErrorSourceFiles extends a.PassportElementErrorSource {
 /// Contains the description of an error in a Telegram Passport element
 class PassportElementError extends a.PassportElementError {
   /// Type of the Telegram Passport element which has the error
-  final a.PassportElementType type;
+  final a.PassportElementType? type;
   /// Error message
   final String message;
   /// Error source
-  final a.PassportElementErrorSource source;
+  final a.PassportElementErrorSource? source;
 
   PassportElementError({
     required this.type,
@@ -13774,22 +13774,22 @@ class PassportElementError extends a.PassportElementError {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementError',
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'message': message,
-    'source': source.toJson(),
+    'source': source?.toJson(),
   };
 
   factory PassportElementError.fromJson(Map<String, dynamic> json) => PassportElementError(
-    type: b.TdBase.fromJson(json['type']) as a.PassportElementType,
+    type: b.TdBase.fromJson(json['type']) as a.PassportElementType?,
     message: json['message'],
-    source: b.TdBase.fromJson(json['source']) as a.PassportElementErrorSource,
+    source: b.TdBase.fromJson(json['source']) as a.PassportElementErrorSource?,
   );
 }
 
 /// Contains information about a Telegram Passport element that was requested by a service
 class PassportSuitableElement extends a.PassportSuitableElement {
   /// Type of the element
-  final a.PassportElementType type;
+  final a.PassportElementType? type;
   /// True, if a selfie is required with the identity document
   final bool isSelfieRequired;
   /// True, if a certified English translation is required with the document
@@ -13823,14 +13823,14 @@ class PassportSuitableElement extends a.PassportSuitableElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportSuitableElement',
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'is_selfie_required': isSelfieRequired,
     'is_translation_required': isTranslationRequired,
     'is_native_name_required': isNativeNameRequired,
   };
 
   factory PassportSuitableElement.fromJson(Map<String, dynamic> json) => PassportSuitableElement(
-    type: b.TdBase.fromJson(json['type']) as a.PassportElementType,
+    type: b.TdBase.fromJson(json['type']) as a.PassportElementType?,
     isSelfieRequired: json['is_selfie_required'],
     isTranslationRequired: json['is_translation_required'],
     isNativeNameRequired: json['is_native_name_required'],
@@ -13840,7 +13840,7 @@ class PassportSuitableElement extends a.PassportSuitableElement {
 /// Contains a description of the required Telegram Passport element that was requested by a service
 class PassportRequiredElement extends a.PassportRequiredElement {
   /// List of Telegram Passport elements any of which is enough to provide
-  final List<PassportSuitableElement> suitableElements;
+  final List<PassportSuitableElement?> suitableElements;
 
   PassportRequiredElement({
     required this.suitableElements,
@@ -13862,11 +13862,11 @@ class PassportRequiredElement extends a.PassportRequiredElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportRequiredElement',
-    'suitable_elements': suitableElements.map((_e1) => _e1.toJson()).toList(growable: false),
+    'suitable_elements': suitableElements.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory PassportRequiredElement.fromJson(Map<String, dynamic> json) => PassportRequiredElement(
-    suitableElements: (json['suitable_elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PassportSuitableElement).toList(growable: false),
+    suitableElements: (json['suitable_elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PassportSuitableElement?).toList(growable: false),
   );
 }
 
@@ -13875,7 +13875,7 @@ class PassportAuthorizationForm extends a.PassportAuthorizationForm {
   /// Unique identifier of the authorization form
   final int id;
   /// Information about the Telegram Passport elements that must be provided to complete the form
-  final List<PassportRequiredElement> requiredElements;
+  final List<PassportRequiredElement?> requiredElements;
   /// URL for the privacy policy of the service; may be empty
   final String privacyPolicyUrl;
 
@@ -13904,13 +13904,13 @@ class PassportAuthorizationForm extends a.PassportAuthorizationForm {
   Map<String, dynamic> toJson() => {
     '@type': 'passportAuthorizationForm',
     'id': id,
-    'required_elements': requiredElements.map((_e1) => _e1.toJson()).toList(growable: false),
+    'required_elements': requiredElements.map((_e1) => _e1?.toJson()).toList(growable: false),
     'privacy_policy_url': privacyPolicyUrl,
   };
 
   factory PassportAuthorizationForm.fromJson(Map<String, dynamic> json) => PassportAuthorizationForm(
     id: json['id'],
-    requiredElements: (json['required_elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PassportRequiredElement).toList(growable: false),
+    requiredElements: (json['required_elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PassportRequiredElement?).toList(growable: false),
     privacyPolicyUrl: json['privacy_policy_url'],
   );
 }
@@ -13918,9 +13918,9 @@ class PassportAuthorizationForm extends a.PassportAuthorizationForm {
 /// Contains information about a Telegram Passport elements and corresponding errors
 class PassportElementsWithErrors extends a.PassportElementsWithErrors {
   /// Telegram Passport elements
-  final List<a.PassportElement> elements;
+  final List<a.PassportElement?> elements;
   /// Errors in the elements that are already available
-  final List<PassportElementError> errors;
+  final List<PassportElementError?> errors;
 
   PassportElementsWithErrors({
     required this.elements,
@@ -13944,13 +13944,13 @@ class PassportElementsWithErrors extends a.PassportElementsWithErrors {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementsWithErrors',
-    'elements': elements.map((_e1) => _e1.toJson()).toList(growable: false),
-    'errors': errors.map((_e1) => _e1.toJson()).toList(growable: false),
+    'elements': elements.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'errors': errors.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory PassportElementsWithErrors.fromJson(Map<String, dynamic> json) => PassportElementsWithErrors(
-    elements: (json['elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PassportElement).toList(growable: false),
-    errors: (json['errors'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PassportElementError).toList(growable: false),
+    elements: (json['elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PassportElement?).toList(growable: false),
+    errors: (json['errors'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PassportElementError?).toList(growable: false),
   );
 }
 
@@ -14002,19 +14002,19 @@ class EncryptedCredentials extends a.EncryptedCredentials {
 /// Contains information about an encrypted Telegram Passport element; for bots only
 class EncryptedPassportElement extends a.EncryptedPassportElement {
   /// Type of Telegram Passport element
-  final a.PassportElementType type;
+  final a.PassportElementType? type;
   /// Encrypted JSON-encoded data about the user
   final Uint8List data;
   /// The front side of an identity document
-  final DatedFile frontSide;
+  final DatedFile? frontSide;
   /// The reverse side of an identity document; may be null
-  final DatedFile reverseSide;
+  final DatedFile? reverseSide;
   /// Selfie with the document; may be null
-  final DatedFile selfie;
+  final DatedFile? selfie;
   /// List of files containing a certified English translation of the document
-  final List<DatedFile> translation;
+  final List<DatedFile?> translation;
   /// List of attached files
-  final List<DatedFile> files;
+  final List<DatedFile?> files;
   /// Unencrypted data, phone number or email address
   final String value;
   /// Hash of the entire element
@@ -14056,25 +14056,25 @@ class EncryptedPassportElement extends a.EncryptedPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'encryptedPassportElement',
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'data': base64.encode(data),
-    'front_side': frontSide.toJson(),
-    'reverse_side': reverseSide.toJson(),
-    'selfie': selfie.toJson(),
-    'translation': translation.map((_e1) => _e1.toJson()).toList(growable: false),
-    'files': files.map((_e1) => _e1.toJson()).toList(growable: false),
+    'front_side': frontSide?.toJson(),
+    'reverse_side': reverseSide?.toJson(),
+    'selfie': selfie?.toJson(),
+    'translation': translation.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'files': files.map((_e1) => _e1?.toJson()).toList(growable: false),
     'value': value,
     'hash': hash,
   };
 
   factory EncryptedPassportElement.fromJson(Map<String, dynamic> json) => EncryptedPassportElement(
-    type: b.TdBase.fromJson(json['type']) as a.PassportElementType,
+    type: b.TdBase.fromJson(json['type']) as a.PassportElementType?,
     data: base64.decode(json['data']),
-    frontSide: b.TdBase.fromJson(json['front_side']) as DatedFile,
-    reverseSide: b.TdBase.fromJson(json['reverse_side']) as DatedFile,
-    selfie: b.TdBase.fromJson(json['selfie']) as DatedFile,
-    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile).toList(growable: false),
-    files: (json['files'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile).toList(growable: false),
+    frontSide: b.TdBase.fromJson(json['front_side']) as DatedFile?,
+    reverseSide: b.TdBase.fromJson(json['reverse_side']) as DatedFile?,
+    selfie: b.TdBase.fromJson(json['selfie']) as DatedFile?,
+    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile?).toList(growable: false),
+    files: (json['files'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile?).toList(growable: false),
     value: json['value'],
     hash: json['hash'],
   );
@@ -14386,11 +14386,11 @@ class InputPassportElementErrorSourceFiles extends a.InputPassportElementErrorSo
 /// Contains the description of an error in a Telegram Passport element; for bots only
 class InputPassportElementError extends a.InputPassportElementError {
   /// Type of Telegram Passport element that has the error
-  final a.PassportElementType type;
+  final a.PassportElementType? type;
   /// Error message
   final String message;
   /// Error source
-  final a.InputPassportElementErrorSource source;
+  final a.InputPassportElementErrorSource? source;
 
   InputPassportElementError({
     required this.type,
@@ -14416,24 +14416,24 @@ class InputPassportElementError extends a.InputPassportElementError {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementError',
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'message': message,
-    'source': source.toJson(),
+    'source': source?.toJson(),
   };
 
   factory InputPassportElementError.fromJson(Map<String, dynamic> json) => InputPassportElementError(
-    type: b.TdBase.fromJson(json['type']) as a.PassportElementType,
+    type: b.TdBase.fromJson(json['type']) as a.PassportElementType?,
     message: json['message'],
-    source: b.TdBase.fromJson(json['source']) as a.InputPassportElementErrorSource,
+    source: b.TdBase.fromJson(json['source']) as a.InputPassportElementErrorSource?,
   );
 }
 
 /// A text message
 class MessageText extends a.MessageContent {
   /// Text of the message
-  final FormattedText text;
+  final FormattedText? text;
   /// A preview of the web page that's mentioned in the text; may be null
-  final WebPage webPage;
+  final WebPage? webPage;
 
   MessageText({
     required this.text,
@@ -14457,22 +14457,22 @@ class MessageText extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageText',
-    'text': text.toJson(),
-    'web_page': webPage.toJson(),
+    'text': text?.toJson(),
+    'web_page': webPage?.toJson(),
   };
 
   factory MessageText.fromJson(Map<String, dynamic> json) => MessageText(
-    text: b.TdBase.fromJson(json['text']) as FormattedText,
-    webPage: b.TdBase.fromJson(json['web_page']) as WebPage,
+    text: b.TdBase.fromJson(json['text']) as FormattedText?,
+    webPage: b.TdBase.fromJson(json['web_page']) as WebPage?,
   );
 }
 
 /// An animation message (GIF-style).
 class MessageAnimation extends a.MessageContent {
   /// The animation description
-  final Animation animation;
+  final Animation? animation;
   /// Animation caption
-  final FormattedText caption;
+  final FormattedText? caption;
   /// True, if the animation thumbnail must be blurred and the animation must be shown only while tapped
   final bool isSecret;
 
@@ -14500,14 +14500,14 @@ class MessageAnimation extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageAnimation',
-    'animation': animation.toJson(),
-    'caption': caption.toJson(),
+    'animation': animation?.toJson(),
+    'caption': caption?.toJson(),
     'is_secret': isSecret,
   };
 
   factory MessageAnimation.fromJson(Map<String, dynamic> json) => MessageAnimation(
-    animation: b.TdBase.fromJson(json['animation']) as Animation,
-    caption: b.TdBase.fromJson(json['caption']) as FormattedText,
+    animation: b.TdBase.fromJson(json['animation']) as Animation?,
+    caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
     isSecret: json['is_secret'],
   );
 }
@@ -14515,9 +14515,9 @@ class MessageAnimation extends a.MessageContent {
 /// An audio message
 class MessageAudio extends a.MessageContent {
   /// The audio description
-  final Audio audio;
+  final Audio? audio;
   /// Audio caption
-  final FormattedText caption;
+  final FormattedText? caption;
 
   MessageAudio({
     required this.audio,
@@ -14541,22 +14541,22 @@ class MessageAudio extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageAudio',
-    'audio': audio.toJson(),
-    'caption': caption.toJson(),
+    'audio': audio?.toJson(),
+    'caption': caption?.toJson(),
   };
 
   factory MessageAudio.fromJson(Map<String, dynamic> json) => MessageAudio(
-    audio: b.TdBase.fromJson(json['audio']) as Audio,
-    caption: b.TdBase.fromJson(json['caption']) as FormattedText,
+    audio: b.TdBase.fromJson(json['audio']) as Audio?,
+    caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
   );
 }
 
 /// A document message (general file)
 class MessageDocument extends a.MessageContent {
   /// The document description
-  final Document document;
+  final Document? document;
   /// Document caption
-  final FormattedText caption;
+  final FormattedText? caption;
 
   MessageDocument({
     required this.document,
@@ -14580,22 +14580,22 @@ class MessageDocument extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageDocument',
-    'document': document.toJson(),
-    'caption': caption.toJson(),
+    'document': document?.toJson(),
+    'caption': caption?.toJson(),
   };
 
   factory MessageDocument.fromJson(Map<String, dynamic> json) => MessageDocument(
-    document: b.TdBase.fromJson(json['document']) as Document,
-    caption: b.TdBase.fromJson(json['caption']) as FormattedText,
+    document: b.TdBase.fromJson(json['document']) as Document?,
+    caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
   );
 }
 
 /// A photo message
 class MessagePhoto extends a.MessageContent {
   /// The photo description
-  final Photo photo;
+  final Photo? photo;
   /// Photo caption
-  final FormattedText caption;
+  final FormattedText? caption;
   /// True, if the photo must be blurred and must be shown only while tapped
   final bool isSecret;
 
@@ -14623,14 +14623,14 @@ class MessagePhoto extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messagePhoto',
-    'photo': photo.toJson(),
-    'caption': caption.toJson(),
+    'photo': photo?.toJson(),
+    'caption': caption?.toJson(),
     'is_secret': isSecret,
   };
 
   factory MessagePhoto.fromJson(Map<String, dynamic> json) => MessagePhoto(
-    photo: b.TdBase.fromJson(json['photo']) as Photo,
-    caption: b.TdBase.fromJson(json['caption']) as FormattedText,
+    photo: b.TdBase.fromJson(json['photo']) as Photo?,
+    caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
     isSecret: json['is_secret'],
   );
 }
@@ -14663,7 +14663,7 @@ class MessageExpiredPhoto extends a.MessageContent {
 /// A sticker message
 class MessageSticker extends a.MessageContent {
   /// The sticker description
-  final Sticker sticker;
+  final Sticker? sticker;
 
   MessageSticker({
     required this.sticker,
@@ -14685,20 +14685,20 @@ class MessageSticker extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageSticker',
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
   };
 
   factory MessageSticker.fromJson(Map<String, dynamic> json) => MessageSticker(
-    sticker: b.TdBase.fromJson(json['sticker']) as Sticker,
+    sticker: b.TdBase.fromJson(json['sticker']) as Sticker?,
   );
 }
 
 /// A video message
 class MessageVideo extends a.MessageContent {
   /// The video description
-  final Video video;
+  final Video? video;
   /// Video caption
-  final FormattedText caption;
+  final FormattedText? caption;
   /// True, if the video thumbnail must be blurred and the video must be shown only while tapped
   final bool isSecret;
 
@@ -14726,14 +14726,14 @@ class MessageVideo extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageVideo',
-    'video': video.toJson(),
-    'caption': caption.toJson(),
+    'video': video?.toJson(),
+    'caption': caption?.toJson(),
     'is_secret': isSecret,
   };
 
   factory MessageVideo.fromJson(Map<String, dynamic> json) => MessageVideo(
-    video: b.TdBase.fromJson(json['video']) as Video,
-    caption: b.TdBase.fromJson(json['caption']) as FormattedText,
+    video: b.TdBase.fromJson(json['video']) as Video?,
+    caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
     isSecret: json['is_secret'],
   );
 }
@@ -14766,7 +14766,7 @@ class MessageExpiredVideo extends a.MessageContent {
 /// A video note message
 class MessageVideoNote extends a.MessageContent {
   /// The video note description
-  final VideoNote videoNote;
+  final VideoNote? videoNote;
   /// True, if at least one of the recipients has viewed the video note
   final bool isViewed;
   /// True, if the video note thumbnail must be blurred and the video note must be shown only while tapped
@@ -14796,13 +14796,13 @@ class MessageVideoNote extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageVideoNote',
-    'video_note': videoNote.toJson(),
+    'video_note': videoNote?.toJson(),
     'is_viewed': isViewed,
     'is_secret': isSecret,
   };
 
   factory MessageVideoNote.fromJson(Map<String, dynamic> json) => MessageVideoNote(
-    videoNote: b.TdBase.fromJson(json['video_note']) as VideoNote,
+    videoNote: b.TdBase.fromJson(json['video_note']) as VideoNote?,
     isViewed: json['is_viewed'],
     isSecret: json['is_secret'],
   );
@@ -14811,9 +14811,9 @@ class MessageVideoNote extends a.MessageContent {
 /// A voice note message
 class MessageVoiceNote extends a.MessageContent {
   /// The voice note description
-  final VoiceNote voiceNote;
+  final VoiceNote? voiceNote;
   /// Voice note caption
-  final FormattedText caption;
+  final FormattedText? caption;
   /// True, if at least one of the recipients has listened to the voice note
   final bool isListened;
 
@@ -14841,14 +14841,14 @@ class MessageVoiceNote extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageVoiceNote',
-    'voice_note': voiceNote.toJson(),
-    'caption': caption.toJson(),
+    'voice_note': voiceNote?.toJson(),
+    'caption': caption?.toJson(),
     'is_listened': isListened,
   };
 
   factory MessageVoiceNote.fromJson(Map<String, dynamic> json) => MessageVoiceNote(
-    voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote,
-    caption: b.TdBase.fromJson(json['caption']) as FormattedText,
+    voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote?,
+    caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
     isListened: json['is_listened'],
   );
 }
@@ -14856,7 +14856,7 @@ class MessageVoiceNote extends a.MessageContent {
 /// A message with a location
 class MessageLocation extends a.MessageContent {
   /// The location description
-  final Location location;
+  final Location? location;
   /// Time relative to the message send date, for which the location can be updated, in seconds
   final int livePeriod;
   /// Left time for which the location can be updated, in seconds. updateMessageContent is not sent when this field changes
@@ -14894,7 +14894,7 @@ class MessageLocation extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageLocation',
-    'location': location.toJson(),
+    'location': location?.toJson(),
     'live_period': livePeriod,
     'expires_in': expiresIn,
     'heading': heading,
@@ -14902,7 +14902,7 @@ class MessageLocation extends a.MessageContent {
   };
 
   factory MessageLocation.fromJson(Map<String, dynamic> json) => MessageLocation(
-    location: b.TdBase.fromJson(json['location']) as Location,
+    location: b.TdBase.fromJson(json['location']) as Location?,
     livePeriod: json['live_period'],
     expiresIn: json['expires_in'],
     heading: json['heading'],
@@ -14913,7 +14913,7 @@ class MessageLocation extends a.MessageContent {
 /// A message with information about a venue
 class MessageVenue extends a.MessageContent {
   /// The venue description
-  final Venue venue;
+  final Venue? venue;
 
   MessageVenue({
     required this.venue,
@@ -14935,18 +14935,18 @@ class MessageVenue extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageVenue',
-    'venue': venue.toJson(),
+    'venue': venue?.toJson(),
   };
 
   factory MessageVenue.fromJson(Map<String, dynamic> json) => MessageVenue(
-    venue: b.TdBase.fromJson(json['venue']) as Venue,
+    venue: b.TdBase.fromJson(json['venue']) as Venue?,
   );
 }
 
 /// A message with a user contact
 class MessageContact extends a.MessageContent {
   /// The contact description
-  final Contact contact;
+  final Contact? contact;
 
   MessageContact({
     required this.contact,
@@ -14968,20 +14968,20 @@ class MessageContact extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageContact',
-    'contact': contact.toJson(),
+    'contact': contact?.toJson(),
   };
 
   factory MessageContact.fromJson(Map<String, dynamic> json) => MessageContact(
-    contact: b.TdBase.fromJson(json['contact']) as Contact,
+    contact: b.TdBase.fromJson(json['contact']) as Contact?,
   );
 }
 
 /// A dice message. The dice value is randomly generated by the server
 class MessageDice extends a.MessageContent {
   /// The animated stickers with the initial dice animation; may be null if unknown. updateMessageContent will be sent when the sticker became known
-  final a.DiceStickers initialState;
+  final a.DiceStickers? initialState;
   /// The animated stickers with the final dice animation; may be null if unknown. updateMessageContent will be sent when the sticker became known
-  final a.DiceStickers finalState;
+  final a.DiceStickers? finalState;
   /// Emoji on which the dice throw animation is based
   final String emoji;
   /// The dice value. If the value is 0, the dice don't have final state yet
@@ -15017,16 +15017,16 @@ class MessageDice extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageDice',
-    'initial_state': initialState.toJson(),
-    'final_state': finalState.toJson(),
+    'initial_state': initialState?.toJson(),
+    'final_state': finalState?.toJson(),
     'emoji': emoji,
     'value': value,
     'success_animation_frame_number': successAnimationFrameNumber,
   };
 
   factory MessageDice.fromJson(Map<String, dynamic> json) => MessageDice(
-    initialState: b.TdBase.fromJson(json['initial_state']) as a.DiceStickers,
-    finalState: b.TdBase.fromJson(json['final_state']) as a.DiceStickers,
+    initialState: b.TdBase.fromJson(json['initial_state']) as a.DiceStickers?,
+    finalState: b.TdBase.fromJson(json['final_state']) as a.DiceStickers?,
     emoji: json['emoji'],
     value: json['value'],
     successAnimationFrameNumber: json['success_animation_frame_number'],
@@ -15036,7 +15036,7 @@ class MessageDice extends a.MessageContent {
 /// A message with a game
 class MessageGame extends a.MessageContent {
   /// The game description
-  final Game game;
+  final Game? game;
 
   MessageGame({
     required this.game,
@@ -15058,18 +15058,18 @@ class MessageGame extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageGame',
-    'game': game.toJson(),
+    'game': game?.toJson(),
   };
 
   factory MessageGame.fromJson(Map<String, dynamic> json) => MessageGame(
-    game: b.TdBase.fromJson(json['game']) as Game,
+    game: b.TdBase.fromJson(json['game']) as Game?,
   );
 }
 
 /// A message with a poll
 class MessagePoll extends a.MessageContent {
   /// The poll description
-  final Poll poll;
+  final Poll? poll;
 
   MessagePoll({
     required this.poll,
@@ -15091,11 +15091,11 @@ class MessagePoll extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messagePoll',
-    'poll': poll.toJson(),
+    'poll': poll?.toJson(),
   };
 
   factory MessagePoll.fromJson(Map<String, dynamic> json) => MessagePoll(
-    poll: b.TdBase.fromJson(json['poll']) as Poll,
+    poll: b.TdBase.fromJson(json['poll']) as Poll?,
   );
 }
 
@@ -15106,7 +15106,7 @@ class MessageInvoice extends a.MessageContent {
   /// Product description
   final String description;
   /// Product photo; may be null
-  final Photo photo;
+  final Photo? photo;
   /// Currency for the product price
   final String currency;
   /// Product total price in the smallest units of the currency
@@ -15158,7 +15158,7 @@ class MessageInvoice extends a.MessageContent {
     '@type': 'messageInvoice',
     'title': title,
     'description': description,
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
     'currency': currency,
     'total_amount': totalAmount,
     'start_parameter': startParameter,
@@ -15170,7 +15170,7 @@ class MessageInvoice extends a.MessageContent {
   factory MessageInvoice.fromJson(Map<String, dynamic> json) => MessageInvoice(
     title: json['title'],
     description: json['description'],
-    photo: b.TdBase.fromJson(json['photo']) as Photo,
+    photo: b.TdBase.fromJson(json['photo']) as Photo?,
     currency: json['currency'],
     totalAmount: json['total_amount'],
     startParameter: json['start_parameter'],
@@ -15185,7 +15185,7 @@ class MessageCall extends a.MessageContent {
   /// True, if the call was a video call
   final bool isVideo;
   /// Reason why the call was discarded
-  final a.CallDiscardReason discardReason;
+  final a.CallDiscardReason? discardReason;
   /// Call duration, in seconds
   final int duration;
 
@@ -15214,13 +15214,13 @@ class MessageCall extends a.MessageContent {
   Map<String, dynamic> toJson() => {
     '@type': 'messageCall',
     'is_video': isVideo,
-    'discard_reason': discardReason.toJson(),
+    'discard_reason': discardReason?.toJson(),
     'duration': duration,
   };
 
   factory MessageCall.fromJson(Map<String, dynamic> json) => MessageCall(
     isVideo: json['is_video'],
-    discardReason: b.TdBase.fromJson(json['discard_reason']) as a.CallDiscardReason,
+    discardReason: b.TdBase.fromJson(json['discard_reason']) as a.CallDiscardReason?,
     duration: json['duration'],
   );
 }
@@ -15477,7 +15477,7 @@ class MessageChatChangeTitle extends a.MessageContent {
 /// An updated chat photo
 class MessageChatChangePhoto extends a.MessageContent {
   /// New chat photo
-  final ChatPhoto photo;
+  final ChatPhoto? photo;
 
   MessageChatChangePhoto({
     required this.photo,
@@ -15499,11 +15499,11 @@ class MessageChatChangePhoto extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageChatChangePhoto',
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
   };
 
   factory MessageChatChangePhoto.fromJson(Map<String, dynamic> json) => MessageChatChangePhoto(
-    photo: b.TdBase.fromJson(json['photo']) as ChatPhoto,
+    photo: b.TdBase.fromJson(json['photo']) as ChatPhoto?,
   );
 }
 
@@ -15926,7 +15926,7 @@ class MessagePaymentSuccessfulBot extends a.MessageContent {
   /// Identifier of the shipping option chosen by the user; may be empty if not applicable
   final String shippingOptionId;
   /// Information about the order; may be null
-  final OrderInfo orderInfo;
+  final OrderInfo? orderInfo;
   /// Telegram payment identifier
   final String telegramPaymentChargeId;
   /// Provider payment identifier
@@ -15968,7 +15968,7 @@ class MessagePaymentSuccessfulBot extends a.MessageContent {
     'total_amount': totalAmount,
     'invoice_payload': base64.encode(invoicePayload),
     'shipping_option_id': shippingOptionId,
-    'order_info': orderInfo.toJson(),
+    'order_info': orderInfo?.toJson(),
     'telegram_payment_charge_id': telegramPaymentChargeId,
     'provider_payment_charge_id': providerPaymentChargeId,
   };
@@ -15978,7 +15978,7 @@ class MessagePaymentSuccessfulBot extends a.MessageContent {
     totalAmount: json['total_amount'],
     invoicePayload: base64.decode(json['invoice_payload']),
     shippingOptionId: json['shipping_option_id'],
-    orderInfo: b.TdBase.fromJson(json['order_info']) as OrderInfo,
+    orderInfo: b.TdBase.fromJson(json['order_info']) as OrderInfo?,
     telegramPaymentChargeId: json['telegram_payment_charge_id'],
     providerPaymentChargeId: json['provider_payment_charge_id'],
   );
@@ -16045,7 +16045,7 @@ class MessageWebsiteConnected extends a.MessageContent {
 /// Telegram Passport data has been sent
 class MessagePassportDataSent extends a.MessageContent {
   /// List of Telegram Passport element types sent
-  final List<a.PassportElementType> types;
+  final List<a.PassportElementType?> types;
 
   MessagePassportDataSent({
     required this.types,
@@ -16067,20 +16067,20 @@ class MessagePassportDataSent extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messagePassportDataSent',
-    'types': types.map((_e1) => _e1.toJson()).toList(growable: false),
+    'types': types.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory MessagePassportDataSent.fromJson(Map<String, dynamic> json) => MessagePassportDataSent(
-    types: (json['types'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PassportElementType).toList(growable: false),
+    types: (json['types'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PassportElementType?).toList(growable: false),
   );
 }
 
 /// Telegram Passport data has been received; for bots only
 class MessagePassportDataReceived extends a.MessageContent {
   /// List of received Telegram Passport elements
-  final List<EncryptedPassportElement> elements;
+  final List<EncryptedPassportElement?> elements;
   /// Encrypted data credentials
-  final EncryptedCredentials credentials;
+  final EncryptedCredentials? credentials;
 
   MessagePassportDataReceived({
     required this.elements,
@@ -16104,22 +16104,22 @@ class MessagePassportDataReceived extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messagePassportDataReceived',
-    'elements': elements.map((_e1) => _e1.toJson()).toList(growable: false),
-    'credentials': credentials.toJson(),
+    'elements': elements.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'credentials': credentials?.toJson(),
   };
 
   factory MessagePassportDataReceived.fromJson(Map<String, dynamic> json) => MessagePassportDataReceived(
-    elements: (json['elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as EncryptedPassportElement).toList(growable: false),
-    credentials: b.TdBase.fromJson(json['credentials']) as EncryptedCredentials,
+    elements: (json['elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as EncryptedPassportElement?).toList(growable: false),
+    credentials: b.TdBase.fromJson(json['credentials']) as EncryptedCredentials?,
   );
 }
 
 /// A user in the chat came within proximity alert range
 class MessageProximityAlertTriggered extends a.MessageContent {
   /// The user or chat, which triggered the proximity alert
-  final a.MessageSender traveler;
+  final a.MessageSender? traveler;
   /// The user or chat, which subscribed for the proximity alert
-  final a.MessageSender watcher;
+  final a.MessageSender? watcher;
   /// The distance between the users
   final int distance;
 
@@ -16147,14 +16147,14 @@ class MessageProximityAlertTriggered extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageProximityAlertTriggered',
-    'traveler': traveler.toJson(),
-    'watcher': watcher.toJson(),
+    'traveler': traveler?.toJson(),
+    'watcher': watcher?.toJson(),
     'distance': distance,
   };
 
   factory MessageProximityAlertTriggered.fromJson(Map<String, dynamic> json) => MessageProximityAlertTriggered(
-    traveler: b.TdBase.fromJson(json['traveler']) as a.MessageSender,
-    watcher: b.TdBase.fromJson(json['watcher']) as a.MessageSender,
+    traveler: b.TdBase.fromJson(json['traveler']) as a.MessageSender?,
+    watcher: b.TdBase.fromJson(json['watcher']) as a.MessageSender?,
     distance: json['distance'],
   );
 }
@@ -16636,7 +16636,7 @@ class TextEntityTypeMentionName extends a.TextEntityType {
 /// A thumbnail to be sent along with a file; must be in JPEG or WEBP format for stickers, and less than 200 KB in size
 class InputThumbnail extends a.InputThumbnail {
   /// Thumbnail file to send. Sending thumbnails by file_id is currently not supported
-  final a.InputFile thumbnail;
+  final a.InputFile? thumbnail;
   /// Thumbnail width, usually shouldn't exceed 320. Use 0 if unknown
   final int width;
   /// Thumbnail height, usually shouldn't exceed 320. Use 0 if unknown
@@ -16666,13 +16666,13 @@ class InputThumbnail extends a.InputThumbnail {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputThumbnail',
-    'thumbnail': thumbnail.toJson(),
+    'thumbnail': thumbnail?.toJson(),
     'width': width,
     'height': height,
   };
 
   factory InputThumbnail.fromJson(Map<String, dynamic> json) => InputThumbnail(
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as a.InputFile,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as a.InputFile?,
     width: json['width'],
     height: json['height'],
   );
@@ -16743,7 +16743,7 @@ class MessageSendOptions extends a.MessageSendOptions {
   /// Pass true if the message is sent from the background
   final bool fromBackground;
   /// Message scheduling state. Messages sent to a secret chat, live location messages and self-destructing messages can't be scheduled
-  final a.MessageSchedulingState schedulingState;
+  final a.MessageSchedulingState? schedulingState;
 
   MessageSendOptions({
     required this.disableNotification,
@@ -16771,13 +16771,13 @@ class MessageSendOptions extends a.MessageSendOptions {
     '@type': 'messageSendOptions',
     'disable_notification': disableNotification,
     'from_background': fromBackground,
-    'scheduling_state': schedulingState.toJson(),
+    'scheduling_state': schedulingState?.toJson(),
   };
 
   factory MessageSendOptions.fromJson(Map<String, dynamic> json) => MessageSendOptions(
     disableNotification: json['disable_notification'],
     fromBackground: json['from_background'],
-    schedulingState: b.TdBase.fromJson(json['scheduling_state']) as a.MessageSchedulingState,
+    schedulingState: b.TdBase.fromJson(json['scheduling_state']) as a.MessageSchedulingState?,
   );
 }
 
@@ -16788,7 +16788,7 @@ class MessageCopyOptions extends a.MessageCopyOptions {
   /// True, if media caption of the message copy needs to be replaced. Ignored if send_copy is false
   final bool replaceCaption;
   /// New message caption. Ignored if replace_caption is false
-  final FormattedText newCaption;
+  final FormattedText? newCaption;
 
   MessageCopyOptions({
     required this.sendCopy,
@@ -16816,20 +16816,20 @@ class MessageCopyOptions extends a.MessageCopyOptions {
     '@type': 'messageCopyOptions',
     'send_copy': sendCopy,
     'replace_caption': replaceCaption,
-    'new_caption': newCaption.toJson(),
+    'new_caption': newCaption?.toJson(),
   };
 
   factory MessageCopyOptions.fromJson(Map<String, dynamic> json) => MessageCopyOptions(
     sendCopy: json['send_copy'],
     replaceCaption: json['replace_caption'],
-    newCaption: b.TdBase.fromJson(json['new_caption']) as FormattedText,
+    newCaption: b.TdBase.fromJson(json['new_caption']) as FormattedText?,
   );
 }
 
 /// A text message
 class InputMessageText extends a.InputMessageContent {
   /// Formatted text to be sent; 1-GetOption("message_text_length_max") characters. Only Bold, Italic, Underline, Strikethrough, Code, Pre, PreCode, TextUrl and MentionName entities are allowed to be specified manually
-  final FormattedText text;
+  final FormattedText? text;
   /// True, if rich web page previews for URLs in the message text should be disabled
   final bool disableWebPagePreview;
   /// True, if a chat message draft should be deleted
@@ -16859,13 +16859,13 @@ class InputMessageText extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageText',
-    'text': text.toJson(),
+    'text': text?.toJson(),
     'disable_web_page_preview': disableWebPagePreview,
     'clear_draft': clearDraft,
   };
 
   factory InputMessageText.fromJson(Map<String, dynamic> json) => InputMessageText(
-    text: b.TdBase.fromJson(json['text']) as FormattedText,
+    text: b.TdBase.fromJson(json['text']) as FormattedText?,
     disableWebPagePreview: json['disable_web_page_preview'],
     clearDraft: json['clear_draft'],
   );
@@ -16874,9 +16874,9 @@ class InputMessageText extends a.InputMessageContent {
 /// An animation message (GIF-style).
 class InputMessageAnimation extends a.InputMessageContent {
   /// Animation file to be sent
-  final a.InputFile animation;
+  final a.InputFile? animation;
   /// Animation thumbnail, if available
-  final InputThumbnail thumbnail;
+  final InputThumbnail? thumbnail;
   /// File identifiers of the stickers added to the animation, if applicable
   final List<int> addedStickerFileIds;
   /// Duration of the animation, in seconds
@@ -16886,7 +16886,7 @@ class InputMessageAnimation extends a.InputMessageContent {
   /// Height of the animation; may be replaced by the server
   final int height;
   /// Animation caption; 0-GetOption("message_caption_length_max") characters
-  final FormattedText caption;
+  final FormattedText? caption;
 
   InputMessageAnimation({
     required this.animation,
@@ -16920,32 +16920,32 @@ class InputMessageAnimation extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageAnimation',
-    'animation': animation.toJson(),
-    'thumbnail': thumbnail.toJson(),
+    'animation': animation?.toJson(),
+    'thumbnail': thumbnail?.toJson(),
     'added_sticker_file_ids': addedStickerFileIds.map((_e1) => _e1).toList(growable: false),
     'duration': duration,
     'width': width,
     'height': height,
-    'caption': caption.toJson(),
+    'caption': caption?.toJson(),
   };
 
   factory InputMessageAnimation.fromJson(Map<String, dynamic> json) => InputMessageAnimation(
-    animation: b.TdBase.fromJson(json['animation']) as a.InputFile,
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail,
+    animation: b.TdBase.fromJson(json['animation']) as a.InputFile?,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
     addedStickerFileIds: (json['added_sticker_file_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
     duration: json['duration'],
     width: json['width'],
     height: json['height'],
-    caption: b.TdBase.fromJson(json['caption']) as FormattedText,
+    caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
   );
 }
 
 /// An audio message
 class InputMessageAudio extends a.InputMessageContent {
   /// Audio file to be sent
-  final a.InputFile audio;
+  final a.InputFile? audio;
   /// Thumbnail of the cover for the album, if available
-  final InputThumbnail albumCoverThumbnail;
+  final InputThumbnail? albumCoverThumbnail;
   /// Duration of the audio, in seconds; may be replaced by the server
   final int duration;
   /// Title of the audio; 0-64 characters; may be replaced by the server
@@ -16953,7 +16953,7 @@ class InputMessageAudio extends a.InputMessageContent {
   /// Performer of the audio; 0-64 characters, may be replaced by the server
   final String performer;
   /// Audio caption; 0-GetOption("message_caption_length_max") characters
-  final FormattedText caption;
+  final FormattedText? caption;
 
   InputMessageAudio({
     required this.audio,
@@ -16985,34 +16985,34 @@ class InputMessageAudio extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageAudio',
-    'audio': audio.toJson(),
-    'album_cover_thumbnail': albumCoverThumbnail.toJson(),
+    'audio': audio?.toJson(),
+    'album_cover_thumbnail': albumCoverThumbnail?.toJson(),
     'duration': duration,
     'title': title,
     'performer': performer,
-    'caption': caption.toJson(),
+    'caption': caption?.toJson(),
   };
 
   factory InputMessageAudio.fromJson(Map<String, dynamic> json) => InputMessageAudio(
-    audio: b.TdBase.fromJson(json['audio']) as a.InputFile,
-    albumCoverThumbnail: b.TdBase.fromJson(json['album_cover_thumbnail']) as InputThumbnail,
+    audio: b.TdBase.fromJson(json['audio']) as a.InputFile?,
+    albumCoverThumbnail: b.TdBase.fromJson(json['album_cover_thumbnail']) as InputThumbnail?,
     duration: json['duration'],
     title: json['title'],
     performer: json['performer'],
-    caption: b.TdBase.fromJson(json['caption']) as FormattedText,
+    caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
   );
 }
 
 /// A document message (general file)
 class InputMessageDocument extends a.InputMessageContent {
   /// Document to be sent
-  final a.InputFile document;
+  final a.InputFile? document;
   /// Document thumbnail, if available
-  final InputThumbnail thumbnail;
+  final InputThumbnail? thumbnail;
   /// If true, automatic file type detection will be disabled and the document will be always sent as file. Always true for files sent to secret chats
   final bool disableContentTypeDetection;
   /// Document caption; 0-GetOption("message_caption_length_max") characters
-  final FormattedText caption;
+  final FormattedText? caption;
 
   InputMessageDocument({
     required this.document,
@@ -17040,26 +17040,26 @@ class InputMessageDocument extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageDocument',
-    'document': document.toJson(),
-    'thumbnail': thumbnail.toJson(),
+    'document': document?.toJson(),
+    'thumbnail': thumbnail?.toJson(),
     'disable_content_type_detection': disableContentTypeDetection,
-    'caption': caption.toJson(),
+    'caption': caption?.toJson(),
   };
 
   factory InputMessageDocument.fromJson(Map<String, dynamic> json) => InputMessageDocument(
-    document: b.TdBase.fromJson(json['document']) as a.InputFile,
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail,
+    document: b.TdBase.fromJson(json['document']) as a.InputFile?,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
     disableContentTypeDetection: json['disable_content_type_detection'],
-    caption: b.TdBase.fromJson(json['caption']) as FormattedText,
+    caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
   );
 }
 
 /// A photo message
 class InputMessagePhoto extends a.InputMessageContent {
   /// Photo to send
-  final a.InputFile photo;
+  final a.InputFile? photo;
   /// Photo thumbnail to be sent, this is sent to the other party in secret chats only
-  final InputThumbnail thumbnail;
+  final InputThumbnail? thumbnail;
   /// File identifiers of the stickers added to the photo, if applicable
   final List<int> addedStickerFileIds;
   /// Photo width
@@ -17067,7 +17067,7 @@ class InputMessagePhoto extends a.InputMessageContent {
   /// Photo height
   final int height;
   /// Photo caption; 0-GetOption("message_caption_length_max") characters
-  final FormattedText caption;
+  final FormattedText? caption;
   /// Photo TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
   final int ttl;
 
@@ -17103,22 +17103,22 @@ class InputMessagePhoto extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessagePhoto',
-    'photo': photo.toJson(),
-    'thumbnail': thumbnail.toJson(),
+    'photo': photo?.toJson(),
+    'thumbnail': thumbnail?.toJson(),
     'added_sticker_file_ids': addedStickerFileIds.map((_e1) => _e1).toList(growable: false),
     'width': width,
     'height': height,
-    'caption': caption.toJson(),
+    'caption': caption?.toJson(),
     'ttl': ttl,
   };
 
   factory InputMessagePhoto.fromJson(Map<String, dynamic> json) => InputMessagePhoto(
-    photo: b.TdBase.fromJson(json['photo']) as a.InputFile,
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail,
+    photo: b.TdBase.fromJson(json['photo']) as a.InputFile?,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
     addedStickerFileIds: (json['added_sticker_file_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
     width: json['width'],
     height: json['height'],
-    caption: b.TdBase.fromJson(json['caption']) as FormattedText,
+    caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
     ttl: json['ttl'],
   );
 }
@@ -17126,9 +17126,9 @@ class InputMessagePhoto extends a.InputMessageContent {
 /// A sticker message
 class InputMessageSticker extends a.InputMessageContent {
   /// Sticker to be sent
-  final a.InputFile sticker;
+  final a.InputFile? sticker;
   /// Sticker thumbnail, if available
-  final InputThumbnail thumbnail;
+  final InputThumbnail? thumbnail;
   /// Sticker width
   final int width;
   /// Sticker height
@@ -17164,16 +17164,16 @@ class InputMessageSticker extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageSticker',
-    'sticker': sticker.toJson(),
-    'thumbnail': thumbnail.toJson(),
+    'sticker': sticker?.toJson(),
+    'thumbnail': thumbnail?.toJson(),
     'width': width,
     'height': height,
     'emoji': emoji,
   };
 
   factory InputMessageSticker.fromJson(Map<String, dynamic> json) => InputMessageSticker(
-    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile,
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail,
+    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
     width: json['width'],
     height: json['height'],
     emoji: json['emoji'],
@@ -17183,9 +17183,9 @@ class InputMessageSticker extends a.InputMessageContent {
 /// A video message
 class InputMessageVideo extends a.InputMessageContent {
   /// Video to be sent
-  final a.InputFile video;
+  final a.InputFile? video;
   /// Video thumbnail, if available
-  final InputThumbnail thumbnail;
+  final InputThumbnail? thumbnail;
   /// File identifiers of the stickers added to the video, if applicable
   final List<int> addedStickerFileIds;
   /// Duration of the video, in seconds
@@ -17197,7 +17197,7 @@ class InputMessageVideo extends a.InputMessageContent {
   /// True, if the video should be tried to be streamed
   final bool supportsStreaming;
   /// Video caption; 0-GetOption("message_caption_length_max") characters
-  final FormattedText caption;
+  final FormattedText? caption;
   /// Video TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
   final int ttl;
 
@@ -17237,26 +17237,26 @@ class InputMessageVideo extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageVideo',
-    'video': video.toJson(),
-    'thumbnail': thumbnail.toJson(),
+    'video': video?.toJson(),
+    'thumbnail': thumbnail?.toJson(),
     'added_sticker_file_ids': addedStickerFileIds.map((_e1) => _e1).toList(growable: false),
     'duration': duration,
     'width': width,
     'height': height,
     'supports_streaming': supportsStreaming,
-    'caption': caption.toJson(),
+    'caption': caption?.toJson(),
     'ttl': ttl,
   };
 
   factory InputMessageVideo.fromJson(Map<String, dynamic> json) => InputMessageVideo(
-    video: b.TdBase.fromJson(json['video']) as a.InputFile,
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail,
+    video: b.TdBase.fromJson(json['video']) as a.InputFile?,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
     addedStickerFileIds: (json['added_sticker_file_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
     duration: json['duration'],
     width: json['width'],
     height: json['height'],
     supportsStreaming: json['supports_streaming'],
-    caption: b.TdBase.fromJson(json['caption']) as FormattedText,
+    caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
     ttl: json['ttl'],
   );
 }
@@ -17264,9 +17264,9 @@ class InputMessageVideo extends a.InputMessageContent {
 /// A video note message
 class InputMessageVideoNote extends a.InputMessageContent {
   /// Video note to be sent
-  final a.InputFile videoNote;
+  final a.InputFile? videoNote;
   /// Video thumbnail, if available
-  final InputThumbnail thumbnail;
+  final InputThumbnail? thumbnail;
   /// Duration of the video, in seconds
   final int duration;
   /// Video width and height; must be positive and not greater than 640
@@ -17298,15 +17298,15 @@ class InputMessageVideoNote extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageVideoNote',
-    'video_note': videoNote.toJson(),
-    'thumbnail': thumbnail.toJson(),
+    'video_note': videoNote?.toJson(),
+    'thumbnail': thumbnail?.toJson(),
     'duration': duration,
     'length': length,
   };
 
   factory InputMessageVideoNote.fromJson(Map<String, dynamic> json) => InputMessageVideoNote(
-    videoNote: b.TdBase.fromJson(json['video_note']) as a.InputFile,
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail,
+    videoNote: b.TdBase.fromJson(json['video_note']) as a.InputFile?,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
     duration: json['duration'],
     length: json['length'],
   );
@@ -17315,13 +17315,13 @@ class InputMessageVideoNote extends a.InputMessageContent {
 /// A voice note message
 class InputMessageVoiceNote extends a.InputMessageContent {
   /// Voice note to be sent
-  final a.InputFile voiceNote;
+  final a.InputFile? voiceNote;
   /// Duration of the voice note, in seconds
   final int duration;
   /// Waveform representation of the voice note, in 5-bit format
   final Uint8List waveform;
   /// Voice note caption; 0-GetOption("message_caption_length_max") characters
-  final FormattedText caption;
+  final FormattedText? caption;
 
   InputMessageVoiceNote({
     required this.voiceNote,
@@ -17349,24 +17349,24 @@ class InputMessageVoiceNote extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageVoiceNote',
-    'voice_note': voiceNote.toJson(),
+    'voice_note': voiceNote?.toJson(),
     'duration': duration,
     'waveform': base64.encode(waveform),
-    'caption': caption.toJson(),
+    'caption': caption?.toJson(),
   };
 
   factory InputMessageVoiceNote.fromJson(Map<String, dynamic> json) => InputMessageVoiceNote(
-    voiceNote: b.TdBase.fromJson(json['voice_note']) as a.InputFile,
+    voiceNote: b.TdBase.fromJson(json['voice_note']) as a.InputFile?,
     duration: json['duration'],
     waveform: base64.decode(json['waveform']),
-    caption: b.TdBase.fromJson(json['caption']) as FormattedText,
+    caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
   );
 }
 
 /// A message with a location
 class InputMessageLocation extends a.InputMessageContent {
   /// Location to be sent
-  final Location location;
+  final Location? location;
   /// Period for which the location can be updated, in seconds; should be between 60 and 86400 for a live location and 0 otherwise
   final int livePeriod;
   /// For live locations, a direction in which the location moves, in degrees; 1-360. Pass 0 if unknown
@@ -17400,14 +17400,14 @@ class InputMessageLocation extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageLocation',
-    'location': location.toJson(),
+    'location': location?.toJson(),
     'live_period': livePeriod,
     'heading': heading,
     'proximity_alert_radius': proximityAlertRadius,
   };
 
   factory InputMessageLocation.fromJson(Map<String, dynamic> json) => InputMessageLocation(
-    location: b.TdBase.fromJson(json['location']) as Location,
+    location: b.TdBase.fromJson(json['location']) as Location?,
     livePeriod: json['live_period'],
     heading: json['heading'],
     proximityAlertRadius: json['proximity_alert_radius'],
@@ -17417,7 +17417,7 @@ class InputMessageLocation extends a.InputMessageContent {
 /// A message with information about a venue
 class InputMessageVenue extends a.InputMessageContent {
   /// Venue to send
-  final Venue venue;
+  final Venue? venue;
 
   InputMessageVenue({
     required this.venue,
@@ -17439,18 +17439,18 @@ class InputMessageVenue extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageVenue',
-    'venue': venue.toJson(),
+    'venue': venue?.toJson(),
   };
 
   factory InputMessageVenue.fromJson(Map<String, dynamic> json) => InputMessageVenue(
-    venue: b.TdBase.fromJson(json['venue']) as Venue,
+    venue: b.TdBase.fromJson(json['venue']) as Venue?,
   );
 }
 
 /// A message containing a user contact
 class InputMessageContact extends a.InputMessageContent {
   /// Contact to send
-  final Contact contact;
+  final Contact? contact;
 
   InputMessageContact({
     required this.contact,
@@ -17472,11 +17472,11 @@ class InputMessageContact extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageContact',
-    'contact': contact.toJson(),
+    'contact': contact?.toJson(),
   };
 
   factory InputMessageContact.fromJson(Map<String, dynamic> json) => InputMessageContact(
-    contact: b.TdBase.fromJson(json['contact']) as Contact,
+    contact: b.TdBase.fromJson(json['contact']) as Contact?,
   );
 }
 
@@ -17561,7 +17561,7 @@ class InputMessageGame extends a.InputMessageContent {
 /// A message with an invoice; can be used only by bots
 class InputMessageInvoice extends a.InputMessageContent {
   /// Invoice
-  final Invoice invoice;
+  final Invoice? invoice;
   /// Product title; 1-32 characters
   final String title;
   /// Product description; 0-255 characters
@@ -17623,7 +17623,7 @@ class InputMessageInvoice extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageInvoice',
-    'invoice': invoice.toJson(),
+    'invoice': invoice?.toJson(),
     'title': title,
     'description': description,
     'photo_url': photoUrl,
@@ -17637,7 +17637,7 @@ class InputMessageInvoice extends a.InputMessageContent {
   };
 
   factory InputMessageInvoice.fromJson(Map<String, dynamic> json) => InputMessageInvoice(
-    invoice: b.TdBase.fromJson(json['invoice']) as Invoice,
+    invoice: b.TdBase.fromJson(json['invoice']) as Invoice?,
     title: json['title'],
     description: json['description'],
     photoUrl: json['photo_url'],
@@ -17660,7 +17660,7 @@ class InputMessagePoll extends a.InputMessageContent {
   /// True, if the poll voters are anonymous. Non-anonymous polls can't be sent or forwarded to channels
   final bool isAnonymous;
   /// Type of the poll
-  final a.PollType type;
+  final a.PollType? type;
   /// Amount of time the poll will be active after creation, in seconds; for bots only
   final int openPeriod;
   /// Point in time (Unix timestamp) when the poll will be automatically closed; for bots only
@@ -17703,7 +17703,7 @@ class InputMessagePoll extends a.InputMessageContent {
     'question': question,
     'options': options.map((_e1) => _e1).toList(growable: false),
     'is_anonymous': isAnonymous,
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'open_period': openPeriod,
     'close_date': closeDate,
     'is_closed': isClosed,
@@ -17713,7 +17713,7 @@ class InputMessagePoll extends a.InputMessageContent {
     question: json['question'],
     options: (json['options'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
     isAnonymous: json['is_anonymous'],
-    type: b.TdBase.fromJson(json['type']) as a.PollType,
+    type: b.TdBase.fromJson(json['type']) as a.PollType?,
     openPeriod: json['open_period'],
     closeDate: json['close_date'],
     isClosed: json['is_closed'],
@@ -17729,7 +17729,7 @@ class InputMessageForwarded extends a.InputMessageContent {
   /// True, if a game message should be shared within a launched game; applies only to game messages
   final bool inGameShare;
   /// Options to be used to copy content of the message without a link to the original message
-  final MessageCopyOptions copyOptions;
+  final MessageCopyOptions? copyOptions;
 
   InputMessageForwarded({
     required this.fromChatId,
@@ -17760,14 +17760,14 @@ class InputMessageForwarded extends a.InputMessageContent {
     'from_chat_id': fromChatId,
     'message_id': messageId,
     'in_game_share': inGameShare,
-    'copy_options': copyOptions.toJson(),
+    'copy_options': copyOptions?.toJson(),
   };
 
   factory InputMessageForwarded.fromJson(Map<String, dynamic> json) => InputMessageForwarded(
     fromChatId: json['from_chat_id'],
     messageId: json['message_id'],
     inGameShare: json['in_game_share'],
-    copyOptions: b.TdBase.fromJson(json['copy_options']) as MessageCopyOptions,
+    copyOptions: b.TdBase.fromJson(json['copy_options']) as MessageCopyOptions?,
   );
 }
 
@@ -18755,7 +18755,7 @@ class UserStatusLastMonth extends a.UserStatus {
 /// Represents a list of stickers
 class Stickers extends a.Stickers {
   /// List of stickers
-  final List<Sticker> stickers;
+  final List<Sticker?> stickers;
 
   Stickers({
     required this.stickers,
@@ -18777,11 +18777,11 @@ class Stickers extends a.Stickers {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'stickers',
-    'stickers': stickers.map((_e1) => _e1.toJson()).toList(growable: false),
+    'stickers': stickers.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory Stickers.fromJson(Map<String, dynamic> json) => Stickers(
-    stickers: (json['stickers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Sticker).toList(growable: false),
+    stickers: (json['stickers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Sticker?).toList(growable: false),
   );
 }
 
@@ -18827,9 +18827,9 @@ class StickerSet extends a.StickerSet {
   /// Name of the sticker set
   final String name;
   /// Sticker set thumbnail in WEBP or TGS format with width and height 100; may be null. The file can be downloaded only before the thumbnail is changed
-  final Thumbnail thumbnail;
+  final Thumbnail? thumbnail;
   /// Sticker set thumbnail's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
-  final List<ClosedVectorPath> thumbnailOutline;
+  final List<ClosedVectorPath?> thumbnailOutline;
   /// True, if the sticker set has been installed by the current user
   final bool isInstalled;
   /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
@@ -18843,9 +18843,9 @@ class StickerSet extends a.StickerSet {
   /// True for already viewed trending sticker sets
   final bool isViewed;
   /// List of stickers in this set
-  final List<Sticker> stickers;
+  final List<Sticker?> stickers;
   /// A list of emoji corresponding to the stickers in the same order. The list is only for informational purposes, because a sticker is always sent with a fixed emoji from the corresponding Sticker object
-  final List<Emojis> emojis;
+  final List<Emojis?> emojis;
 
   StickerSet({
     required this.id,
@@ -18894,32 +18894,32 @@ class StickerSet extends a.StickerSet {
     'id': id.toString(),
     'title': title,
     'name': name,
-    'thumbnail': thumbnail.toJson(),
-    'thumbnail_outline': thumbnailOutline.map((_e1) => _e1.toJson()).toList(growable: false),
+    'thumbnail': thumbnail?.toJson(),
+    'thumbnail_outline': thumbnailOutline.map((_e1) => _e1?.toJson()).toList(growable: false),
     'is_installed': isInstalled,
     'is_archived': isArchived,
     'is_official': isOfficial,
     'is_animated': isAnimated,
     'is_masks': isMasks,
     'is_viewed': isViewed,
-    'stickers': stickers.map((_e1) => _e1.toJson()).toList(growable: false),
-    'emojis': emojis.map((_e1) => _e1.toJson()).toList(growable: false),
+    'stickers': stickers.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'emojis': emojis.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory StickerSet.fromJson(Map<String, dynamic> json) => StickerSet(
     id: int.parse(json['id']),
     title: json['title'],
     name: json['name'],
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail,
-    thumbnailOutline: (json['thumbnail_outline'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ClosedVectorPath).toList(growable: false),
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
+    thumbnailOutline: (json['thumbnail_outline'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ClosedVectorPath?).toList(growable: false),
     isInstalled: json['is_installed'],
     isArchived: json['is_archived'],
     isOfficial: json['is_official'],
     isAnimated: json['is_animated'],
     isMasks: json['is_masks'],
     isViewed: json['is_viewed'],
-    stickers: (json['stickers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Sticker).toList(growable: false),
-    emojis: (json['emojis'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Emojis).toList(growable: false),
+    stickers: (json['stickers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Sticker?).toList(growable: false),
+    emojis: (json['emojis'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Emojis?).toList(growable: false),
   );
 }
 
@@ -18932,9 +18932,9 @@ class StickerSetInfo extends a.StickerSetInfo {
   /// Name of the sticker set
   final String name;
   /// Sticker set thumbnail in WEBP or TGS format with width and height 100; may be null
-  final Thumbnail thumbnail;
+  final Thumbnail? thumbnail;
   /// Sticker set thumbnail's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
-  final List<ClosedVectorPath> thumbnailOutline;
+  final List<ClosedVectorPath?> thumbnailOutline;
   /// True, if the sticker set has been installed by the current user
   final bool isInstalled;
   /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
@@ -18950,7 +18950,7 @@ class StickerSetInfo extends a.StickerSetInfo {
   /// Total number of stickers in the set
   final int size;
   /// Contains up to the first 5 stickers from the set, depending on the context. If the application needs more stickers the full set should be requested
-  final List<Sticker> covers;
+  final List<Sticker?> covers;
 
   StickerSetInfo({
     required this.id,
@@ -18999,8 +18999,8 @@ class StickerSetInfo extends a.StickerSetInfo {
     'id': id.toString(),
     'title': title,
     'name': name,
-    'thumbnail': thumbnail.toJson(),
-    'thumbnail_outline': thumbnailOutline.map((_e1) => _e1.toJson()).toList(growable: false),
+    'thumbnail': thumbnail?.toJson(),
+    'thumbnail_outline': thumbnailOutline.map((_e1) => _e1?.toJson()).toList(growable: false),
     'is_installed': isInstalled,
     'is_archived': isArchived,
     'is_official': isOfficial,
@@ -19008,15 +19008,15 @@ class StickerSetInfo extends a.StickerSetInfo {
     'is_masks': isMasks,
     'is_viewed': isViewed,
     'size': size,
-    'covers': covers.map((_e1) => _e1.toJson()).toList(growable: false),
+    'covers': covers.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory StickerSetInfo.fromJson(Map<String, dynamic> json) => StickerSetInfo(
     id: int.parse(json['id']),
     title: json['title'],
     name: json['name'],
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail,
-    thumbnailOutline: (json['thumbnail_outline'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ClosedVectorPath).toList(growable: false),
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
+    thumbnailOutline: (json['thumbnail_outline'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ClosedVectorPath?).toList(growable: false),
     isInstalled: json['is_installed'],
     isArchived: json['is_archived'],
     isOfficial: json['is_official'],
@@ -19024,7 +19024,7 @@ class StickerSetInfo extends a.StickerSetInfo {
     isMasks: json['is_masks'],
     isViewed: json['is_viewed'],
     size: json['size'],
-    covers: (json['covers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Sticker).toList(growable: false),
+    covers: (json['covers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Sticker?).toList(growable: false),
   );
 }
 
@@ -19033,7 +19033,7 @@ class StickerSets extends a.StickerSets {
   /// Approximate total number of sticker sets found
   final int totalCount;
   /// List of sticker sets
-  final List<StickerSetInfo> sets;
+  final List<StickerSetInfo?> sets;
 
   StickerSets({
     required this.totalCount,
@@ -19058,12 +19058,12 @@ class StickerSets extends a.StickerSets {
   Map<String, dynamic> toJson() => {
     '@type': 'stickerSets',
     'total_count': totalCount,
-    'sets': sets.map((_e1) => _e1.toJson()).toList(growable: false),
+    'sets': sets.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory StickerSets.fromJson(Map<String, dynamic> json) => StickerSets(
     totalCount: json['total_count'],
-    sets: (json['sets'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as StickerSetInfo).toList(growable: false),
+    sets: (json['sets'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as StickerSetInfo?).toList(growable: false),
   );
 }
 
@@ -19344,7 +19344,7 @@ class CallServer extends a.CallServer {
   /// Server port number
   final int port;
   /// Server type
-  final a.CallServerType type;
+  final a.CallServerType? type;
 
   CallServer({
     required this.id,
@@ -19378,7 +19378,7 @@ class CallServer extends a.CallServer {
     'ip_address': ipAddress,
     'ipv6_address': ipv6Address,
     'port': port,
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory CallServer.fromJson(Map<String, dynamic> json) => CallServer(
@@ -19386,7 +19386,7 @@ class CallServer extends a.CallServer {
     ipAddress: json['ip_address'],
     ipv6Address: json['ipv6_address'],
     port: json['port'],
-    type: b.TdBase.fromJson(json['type']) as a.CallServerType,
+    type: b.TdBase.fromJson(json['type']) as a.CallServerType?,
   );
 }
 
@@ -19523,9 +19523,9 @@ class CallStateExchangingKeys extends a.CallState {
 /// The call is ready to use
 class CallStateReady extends a.CallState {
   /// Call protocols supported by the peer
-  final CallProtocol protocol;
+  final CallProtocol? protocol;
   /// List of available call servers
-  final List<CallServer> servers;
+  final List<CallServer?> servers;
   /// A JSON-encoded call config
   final String config;
   /// Call encryption key
@@ -19565,8 +19565,8 @@ class CallStateReady extends a.CallState {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'callStateReady',
-    'protocol': protocol.toJson(),
-    'servers': servers.map((_e1) => _e1.toJson()).toList(growable: false),
+    'protocol': protocol?.toJson(),
+    'servers': servers.map((_e1) => _e1?.toJson()).toList(growable: false),
     'config': config,
     'encryption_key': base64.encode(encryptionKey),
     'emojis': emojis.map((_e1) => _e1).toList(growable: false),
@@ -19574,8 +19574,8 @@ class CallStateReady extends a.CallState {
   };
 
   factory CallStateReady.fromJson(Map<String, dynamic> json) => CallStateReady(
-    protocol: b.TdBase.fromJson(json['protocol']) as CallProtocol,
-    servers: (json['servers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as CallServer).toList(growable: false),
+    protocol: b.TdBase.fromJson(json['protocol']) as CallProtocol?,
+    servers: (json['servers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as CallServer?).toList(growable: false),
     config: json['config'],
     encryptionKey: base64.decode(json['encryption_key']),
     emojis: (json['emojis'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
@@ -19611,7 +19611,7 @@ class CallStateHangingUp extends a.CallState {
 /// The call has ended successfully
 class CallStateDiscarded extends a.CallState {
   /// The reason, why the call has ended
-  final a.CallDiscardReason reason;
+  final a.CallDiscardReason? reason;
   /// True, if the call rating should be sent to the server
   final bool needRating;
   /// True, if the call debug information should be sent to the server
@@ -19641,13 +19641,13 @@ class CallStateDiscarded extends a.CallState {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'callStateDiscarded',
-    'reason': reason.toJson(),
+    'reason': reason?.toJson(),
     'need_rating': needRating,
     'need_debug_information': needDebugInformation,
   };
 
   factory CallStateDiscarded.fromJson(Map<String, dynamic> json) => CallStateDiscarded(
-    reason: b.TdBase.fromJson(json['reason']) as a.CallDiscardReason,
+    reason: b.TdBase.fromJson(json['reason']) as a.CallDiscardReason?,
     needRating: json['need_rating'],
     needDebugInformation: json['need_debug_information'],
   );
@@ -19656,7 +19656,7 @@ class CallStateDiscarded extends a.CallState {
 /// The call has ended with an error
 class CallStateError extends a.CallState {
   /// Error. An error with the code 4005000 will be returned if an outgoing call is missed because of an expired timeout
-  final Error error;
+  final Error? error;
 
   CallStateError({
     required this.error,
@@ -19678,18 +19678,18 @@ class CallStateError extends a.CallState {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'callStateError',
-    'error': error.toJson(),
+    'error': error?.toJson(),
   };
 
   factory CallStateError.fromJson(Map<String, dynamic> json) => CallStateError(
-    error: b.TdBase.fromJson(json['error']) as Error,
+    error: b.TdBase.fromJson(json['error']) as Error?,
   );
 }
 
 /// Describes a recently speaking participant in a group call
 class GroupCallRecentSpeaker extends a.GroupCallRecentSpeaker {
   /// Group call participant identifier
-  final a.MessageSender participantId;
+  final a.MessageSender? participantId;
   /// True, is the user has spoken recently
   final bool isSpeaking;
 
@@ -19715,12 +19715,12 @@ class GroupCallRecentSpeaker extends a.GroupCallRecentSpeaker {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'groupCallRecentSpeaker',
-    'participant_id': participantId.toJson(),
+    'participant_id': participantId?.toJson(),
     'is_speaking': isSpeaking,
   };
 
   factory GroupCallRecentSpeaker.fromJson(Map<String, dynamic> json) => GroupCallRecentSpeaker(
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender,
+    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
     isSpeaking: json['is_speaking'],
   );
 }
@@ -19748,7 +19748,7 @@ class GroupCall extends a.GroupCall {
   /// True, if all group call participants are loaded
   final bool loadedAllParticipants;
   /// Recently speaking users in the group call
-  final List<GroupCallRecentSpeaker> recentSpeakers;
+  final List<GroupCallRecentSpeaker?> recentSpeakers;
   /// True, if only group call administrators can unmute new participants
   final bool muteNewParticipants;
   /// True, if the current user can enable or disable mute_new_participants setting
@@ -19816,7 +19816,7 @@ class GroupCall extends a.GroupCall {
     'can_be_managed': canBeManaged,
     'participant_count': participantCount,
     'loaded_all_participants': loadedAllParticipants,
-    'recent_speakers': recentSpeakers.map((_e1) => _e1.toJson()).toList(growable: false),
+    'recent_speakers': recentSpeakers.map((_e1) => _e1?.toJson()).toList(growable: false),
     'mute_new_participants': muteNewParticipants,
     'can_change_mute_new_participants': canChangeMuteNewParticipants,
     'record_duration': recordDuration,
@@ -19834,7 +19834,7 @@ class GroupCall extends a.GroupCall {
     canBeManaged: json['can_be_managed'],
     participantCount: json['participant_count'],
     loadedAllParticipants: json['loaded_all_participants'],
-    recentSpeakers: (json['recent_speakers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as GroupCallRecentSpeaker).toList(growable: false),
+    recentSpeakers: (json['recent_speakers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as GroupCallRecentSpeaker?).toList(growable: false),
     muteNewParticipants: json['mute_new_participants'],
     canChangeMuteNewParticipants: json['can_change_mute_new_participants'],
     recordDuration: json['record_duration'],
@@ -19894,7 +19894,7 @@ class GroupCallPayload extends a.GroupCallPayload {
   /// Value of the field pwd
   final String pwd;
   /// The list of fingerprints
-  final List<GroupCallPayloadFingerprint> fingerprints;
+  final List<GroupCallPayloadFingerprint?> fingerprints;
 
   GroupCallPayload({
     required this.ufrag,
@@ -19922,13 +19922,13 @@ class GroupCallPayload extends a.GroupCallPayload {
     '@type': 'groupCallPayload',
     'ufrag': ufrag,
     'pwd': pwd,
-    'fingerprints': fingerprints.map((_e1) => _e1.toJson()).toList(growable: false),
+    'fingerprints': fingerprints.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory GroupCallPayload.fromJson(Map<String, dynamic> json) => GroupCallPayload(
     ufrag: json['ufrag'],
     pwd: json['pwd'],
-    fingerprints: (json['fingerprints'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as GroupCallPayloadFingerprint).toList(growable: false),
+    fingerprints: (json['fingerprints'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as GroupCallPayloadFingerprint?).toList(growable: false),
   );
 }
 
@@ -20040,9 +20040,9 @@ class GroupCallJoinResponseCandidate extends a.GroupCallJoinResponseCandidate {
 /// Contains data needed to join the group call with WebRTC
 class GroupCallJoinResponseWebrtc extends a.GroupCallJoinResponse {
   /// Group call payload to pass to tgcalls
-  final GroupCallPayload payload;
+  final GroupCallPayload? payload;
   /// Join response candidates to pass to tgcalls
-  final List<GroupCallJoinResponseCandidate> candidates;
+  final List<GroupCallJoinResponseCandidate?> candidates;
 
   GroupCallJoinResponseWebrtc({
     required this.payload,
@@ -20066,13 +20066,13 @@ class GroupCallJoinResponseWebrtc extends a.GroupCallJoinResponse {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'groupCallJoinResponseWebrtc',
-    'payload': payload.toJson(),
-    'candidates': candidates.map((_e1) => _e1.toJson()).toList(growable: false),
+    'payload': payload?.toJson(),
+    'candidates': candidates.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory GroupCallJoinResponseWebrtc.fromJson(Map<String, dynamic> json) => GroupCallJoinResponseWebrtc(
-    payload: b.TdBase.fromJson(json['payload']) as GroupCallPayload,
-    candidates: (json['candidates'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as GroupCallJoinResponseCandidate).toList(growable: false),
+    payload: b.TdBase.fromJson(json['payload']) as GroupCallPayload?,
+    candidates: (json['candidates'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as GroupCallJoinResponseCandidate?).toList(growable: false),
   );
 }
 
@@ -20104,7 +20104,7 @@ class GroupCallJoinResponseStream extends a.GroupCallJoinResponse {
 /// Represents a group call participant
 class GroupCallParticipant extends a.GroupCallParticipant {
   /// Identifier of the group call participant
-  final a.MessageSender participantId;
+  final a.MessageSender? participantId;
   /// User's synchronization source
   final int source;
   /// The participant user's bio or the participant chat's description
@@ -20182,7 +20182,7 @@ class GroupCallParticipant extends a.GroupCallParticipant {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'groupCallParticipant',
-    'participant_id': participantId.toJson(),
+    'participant_id': participantId?.toJson(),
     'source': source,
     'bio': bio,
     'is_current_user': isCurrentUser,
@@ -20200,7 +20200,7 @@ class GroupCallParticipant extends a.GroupCallParticipant {
   };
 
   factory GroupCallParticipant.fromJson(Map<String, dynamic> json) => GroupCallParticipant(
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender,
+    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
     source: json['source'],
     bio: json['bio'],
     isCurrentUser: json['is_current_user'],
@@ -20454,7 +20454,7 @@ class Call extends a.Call {
   /// True, if the call is a video call
   final bool isVideo;
   /// Call state
-  final a.CallState state;
+  final a.CallState? state;
 
   Call({
     required this.id,
@@ -20488,7 +20488,7 @@ class Call extends a.Call {
     'user_id': userId,
     'is_outgoing': isOutgoing,
     'is_video': isVideo,
-    'state': state.toJson(),
+    'state': state?.toJson(),
   };
 
   factory Call.fromJson(Map<String, dynamic> json) => Call(
@@ -20496,7 +20496,7 @@ class Call extends a.Call {
     userId: json['user_id'],
     isOutgoing: json['is_outgoing'],
     isVideo: json['is_video'],
-    state: b.TdBase.fromJson(json['state']) as a.CallState,
+    state: b.TdBase.fromJson(json['state']) as a.CallState?,
   );
 }
 
@@ -20548,7 +20548,7 @@ class PhoneNumberAuthenticationSettings extends a.PhoneNumberAuthenticationSetti
 /// Represents a list of animations
 class Animations extends a.Animations {
   /// List of animations
-  final List<Animation> animations;
+  final List<Animation?> animations;
 
   Animations({
     required this.animations,
@@ -20570,18 +20570,18 @@ class Animations extends a.Animations {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'animations',
-    'animations': animations.map((_e1) => _e1.toJson()).toList(growable: false),
+    'animations': animations.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory Animations.fromJson(Map<String, dynamic> json) => Animations(
-    animations: (json['animations'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Animation).toList(growable: false),
+    animations: (json['animations'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Animation?).toList(growable: false),
   );
 }
 
 /// A regular animated sticker
 class DiceStickersRegular extends a.DiceStickers {
   /// The animated sticker with the dice animation
-  final Sticker sticker;
+  final Sticker? sticker;
 
   DiceStickersRegular({
     required this.sticker,
@@ -20603,26 +20603,26 @@ class DiceStickersRegular extends a.DiceStickers {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'diceStickersRegular',
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
   };
 
   factory DiceStickersRegular.fromJson(Map<String, dynamic> json) => DiceStickersRegular(
-    sticker: b.TdBase.fromJson(json['sticker']) as Sticker,
+    sticker: b.TdBase.fromJson(json['sticker']) as Sticker?,
   );
 }
 
 /// Animated stickers to be combined into a slot machine
 class DiceStickersSlotMachine extends a.DiceStickers {
   /// The animated sticker with the slot machine background. The background animation must start playing after all reel animations finish
-  final Sticker background;
+  final Sticker? background;
   /// The animated sticker with the lever animation. The lever animation must play once in the initial dice state
-  final Sticker lever;
+  final Sticker? lever;
   /// The animated sticker with the left reel
-  final Sticker leftReel;
+  final Sticker? leftReel;
   /// The animated sticker with the center reel
-  final Sticker centerReel;
+  final Sticker? centerReel;
   /// The animated sticker with the right reel
-  final Sticker rightReel;
+  final Sticker? rightReel;
 
   DiceStickersSlotMachine({
     required this.background,
@@ -20652,19 +20652,19 @@ class DiceStickersSlotMachine extends a.DiceStickers {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'diceStickersSlotMachine',
-    'background': background.toJson(),
-    'lever': lever.toJson(),
-    'left_reel': leftReel.toJson(),
-    'center_reel': centerReel.toJson(),
-    'right_reel': rightReel.toJson(),
+    'background': background?.toJson(),
+    'lever': lever?.toJson(),
+    'left_reel': leftReel?.toJson(),
+    'center_reel': centerReel?.toJson(),
+    'right_reel': rightReel?.toJson(),
   };
 
   factory DiceStickersSlotMachine.fromJson(Map<String, dynamic> json) => DiceStickersSlotMachine(
-    background: b.TdBase.fromJson(json['background']) as Sticker,
-    lever: b.TdBase.fromJson(json['lever']) as Sticker,
-    leftReel: b.TdBase.fromJson(json['left_reel']) as Sticker,
-    centerReel: b.TdBase.fromJson(json['center_reel']) as Sticker,
-    rightReel: b.TdBase.fromJson(json['right_reel']) as Sticker,
+    background: b.TdBase.fromJson(json['background']) as Sticker?,
+    lever: b.TdBase.fromJson(json['lever']) as Sticker?,
+    leftReel: b.TdBase.fromJson(json['left_reel']) as Sticker?,
+    centerReel: b.TdBase.fromJson(json['center_reel']) as Sticker?,
+    rightReel: b.TdBase.fromJson(json['right_reel']) as Sticker?,
   );
 }
 
@@ -20761,9 +20761,9 @@ class InputInlineQueryResultAnimation extends a.InputInlineQueryResult {
   /// Height of the video
   final int videoHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageAnimation, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultAnimation({
     required this.id,
@@ -20814,8 +20814,8 @@ class InputInlineQueryResultAnimation extends a.InputInlineQueryResult {
     'video_duration': videoDuration,
     'video_width': videoWidth,
     'video_height': videoHeight,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory InputInlineQueryResultAnimation.fromJson(Map<String, dynamic> json) => InputInlineQueryResultAnimation(
@@ -20828,8 +20828,8 @@ class InputInlineQueryResultAnimation extends a.InputInlineQueryResult {
     videoDuration: json['video_duration'],
     videoWidth: json['video_width'],
     videoHeight: json['video_height'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -20852,9 +20852,9 @@ class InputInlineQueryResultArticle extends a.InputInlineQueryResult {
   /// Thumbnail height, if known
   final int thumbnailHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultArticle({
     required this.id,
@@ -20902,8 +20902,8 @@ class InputInlineQueryResultArticle extends a.InputInlineQueryResult {
     'thumbnail_url': thumbnailUrl,
     'thumbnail_width': thumbnailWidth,
     'thumbnail_height': thumbnailHeight,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory InputInlineQueryResultArticle.fromJson(Map<String, dynamic> json) => InputInlineQueryResultArticle(
@@ -20915,8 +20915,8 @@ class InputInlineQueryResultArticle extends a.InputInlineQueryResult {
     thumbnailUrl: json['thumbnail_url'],
     thumbnailWidth: json['thumbnail_width'],
     thumbnailHeight: json['thumbnail_height'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -20933,9 +20933,9 @@ class InputInlineQueryResultAudio extends a.InputInlineQueryResult {
   /// Audio file duration, in seconds
   final int audioDuration;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageAudio, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultAudio({
     required this.id,
@@ -20974,8 +20974,8 @@ class InputInlineQueryResultAudio extends a.InputInlineQueryResult {
     'performer': performer,
     'audio_url': audioUrl,
     'audio_duration': audioDuration,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory InputInlineQueryResultAudio.fromJson(Map<String, dynamic> json) => InputInlineQueryResultAudio(
@@ -20984,8 +20984,8 @@ class InputInlineQueryResultAudio extends a.InputInlineQueryResult {
     performer: json['performer'],
     audioUrl: json['audio_url'],
     audioDuration: json['audio_duration'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -20994,7 +20994,7 @@ class InputInlineQueryResultContact extends a.InputInlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// User contact
-  final Contact contact;
+  final Contact? contact;
   /// URL of the result thumbnail, if it exists
   final String thumbnailUrl;
   /// Thumbnail width, if known
@@ -21002,9 +21002,9 @@ class InputInlineQueryResultContact extends a.InputInlineQueryResult {
   /// Thumbnail height, if known
   final int thumbnailHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultContact({
     required this.id,
@@ -21039,22 +21039,22 @@ class InputInlineQueryResultContact extends a.InputInlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inputInlineQueryResultContact',
     'id': id,
-    'contact': contact.toJson(),
+    'contact': contact?.toJson(),
     'thumbnail_url': thumbnailUrl,
     'thumbnail_width': thumbnailWidth,
     'thumbnail_height': thumbnailHeight,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory InputInlineQueryResultContact.fromJson(Map<String, dynamic> json) => InputInlineQueryResultContact(
     id: json['id'],
-    contact: b.TdBase.fromJson(json['contact']) as Contact,
+    contact: b.TdBase.fromJson(json['contact']) as Contact?,
     thumbnailUrl: json['thumbnail_url'],
     thumbnailWidth: json['thumbnail_width'],
     thumbnailHeight: json['thumbnail_height'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -21077,9 +21077,9 @@ class InputInlineQueryResultDocument extends a.InputInlineQueryResult {
   /// Height of the thumbnail
   final int thumbnailHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageDocument, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultDocument({
     required this.id,
@@ -21127,8 +21127,8 @@ class InputInlineQueryResultDocument extends a.InputInlineQueryResult {
     'thumbnail_url': thumbnailUrl,
     'thumbnail_width': thumbnailWidth,
     'thumbnail_height': thumbnailHeight,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory InputInlineQueryResultDocument.fromJson(Map<String, dynamic> json) => InputInlineQueryResultDocument(
@@ -21140,8 +21140,8 @@ class InputInlineQueryResultDocument extends a.InputInlineQueryResult {
     thumbnailUrl: json['thumbnail_url'],
     thumbnailWidth: json['thumbnail_width'],
     thumbnailHeight: json['thumbnail_height'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -21152,7 +21152,7 @@ class InputInlineQueryResultGame extends a.InputInlineQueryResult {
   /// Short name of the game
   final String gameShortName;
   /// Message reply markup. Must be of type replyMarkupInlineKeyboard or null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
 
   InputInlineQueryResultGame({
     required this.id,
@@ -21180,13 +21180,13 @@ class InputInlineQueryResultGame extends a.InputInlineQueryResult {
     '@type': 'inputInlineQueryResultGame',
     'id': id,
     'game_short_name': gameShortName,
-    'reply_markup': replyMarkup.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
   };
 
   factory InputInlineQueryResultGame.fromJson(Map<String, dynamic> json) => InputInlineQueryResultGame(
     id: json['id'],
     gameShortName: json['game_short_name'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
   );
 }
 
@@ -21195,7 +21195,7 @@ class InputInlineQueryResultLocation extends a.InputInlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// Location result
-  final Location location;
+  final Location? location;
   /// Amount of time relative to the message sent time until the location can be updated, in seconds
   final int livePeriod;
   /// Title of the result
@@ -21207,9 +21207,9 @@ class InputInlineQueryResultLocation extends a.InputInlineQueryResult {
   /// Thumbnail height, if known
   final int thumbnailHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultLocation({
     required this.id,
@@ -21248,26 +21248,26 @@ class InputInlineQueryResultLocation extends a.InputInlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inputInlineQueryResultLocation',
     'id': id,
-    'location': location.toJson(),
+    'location': location?.toJson(),
     'live_period': livePeriod,
     'title': title,
     'thumbnail_url': thumbnailUrl,
     'thumbnail_width': thumbnailWidth,
     'thumbnail_height': thumbnailHeight,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory InputInlineQueryResultLocation.fromJson(Map<String, dynamic> json) => InputInlineQueryResultLocation(
     id: json['id'],
-    location: b.TdBase.fromJson(json['location']) as Location,
+    location: b.TdBase.fromJson(json['location']) as Location?,
     livePeriod: json['live_period'],
     title: json['title'],
     thumbnailUrl: json['thumbnail_url'],
     thumbnailWidth: json['thumbnail_width'],
     thumbnailHeight: json['thumbnail_height'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -21288,9 +21288,9 @@ class InputInlineQueryResultPhoto extends a.InputInlineQueryResult {
   /// Height of the photo
   final int photoHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessagePhoto, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultPhoto({
     required this.id,
@@ -21335,8 +21335,8 @@ class InputInlineQueryResultPhoto extends a.InputInlineQueryResult {
     'photo_url': photoUrl,
     'photo_width': photoWidth,
     'photo_height': photoHeight,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory InputInlineQueryResultPhoto.fromJson(Map<String, dynamic> json) => InputInlineQueryResultPhoto(
@@ -21347,8 +21347,8 @@ class InputInlineQueryResultPhoto extends a.InputInlineQueryResult {
     photoUrl: json['photo_url'],
     photoWidth: json['photo_width'],
     photoHeight: json['photo_height'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -21365,9 +21365,9 @@ class InputInlineQueryResultSticker extends a.InputInlineQueryResult {
   /// Height of the sticker
   final int stickerHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageSticker, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultSticker({
     required this.id,
@@ -21406,8 +21406,8 @@ class InputInlineQueryResultSticker extends a.InputInlineQueryResult {
     'sticker_url': stickerUrl,
     'sticker_width': stickerWidth,
     'sticker_height': stickerHeight,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory InputInlineQueryResultSticker.fromJson(Map<String, dynamic> json) => InputInlineQueryResultSticker(
@@ -21416,8 +21416,8 @@ class InputInlineQueryResultSticker extends a.InputInlineQueryResult {
     stickerUrl: json['sticker_url'],
     stickerWidth: json['sticker_width'],
     stickerHeight: json['sticker_height'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -21426,7 +21426,7 @@ class InputInlineQueryResultVenue extends a.InputInlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// Venue result
-  final Venue venue;
+  final Venue? venue;
   /// URL of the result thumbnail, if it exists
   final String thumbnailUrl;
   /// Thumbnail width, if known
@@ -21434,9 +21434,9 @@ class InputInlineQueryResultVenue extends a.InputInlineQueryResult {
   /// Thumbnail height, if known
   final int thumbnailHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultVenue({
     required this.id,
@@ -21471,22 +21471,22 @@ class InputInlineQueryResultVenue extends a.InputInlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inputInlineQueryResultVenue',
     'id': id,
-    'venue': venue.toJson(),
+    'venue': venue?.toJson(),
     'thumbnail_url': thumbnailUrl,
     'thumbnail_width': thumbnailWidth,
     'thumbnail_height': thumbnailHeight,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory InputInlineQueryResultVenue.fromJson(Map<String, dynamic> json) => InputInlineQueryResultVenue(
     id: json['id'],
-    venue: b.TdBase.fromJson(json['venue']) as Venue,
+    venue: b.TdBase.fromJson(json['venue']) as Venue?,
     thumbnailUrl: json['thumbnail_url'],
     thumbnailWidth: json['thumbnail_width'],
     thumbnailHeight: json['thumbnail_height'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -21511,9 +21511,9 @@ class InputInlineQueryResultVideo extends a.InputInlineQueryResult {
   /// Video duration, in seconds
   final int videoDuration;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVideo, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultVideo({
     required this.id,
@@ -21564,8 +21564,8 @@ class InputInlineQueryResultVideo extends a.InputInlineQueryResult {
     'video_width': videoWidth,
     'video_height': videoHeight,
     'video_duration': videoDuration,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory InputInlineQueryResultVideo.fromJson(Map<String, dynamic> json) => InputInlineQueryResultVideo(
@@ -21578,8 +21578,8 @@ class InputInlineQueryResultVideo extends a.InputInlineQueryResult {
     videoWidth: json['video_width'],
     videoHeight: json['video_height'],
     videoDuration: json['video_duration'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -21594,9 +21594,9 @@ class InputInlineQueryResultVoiceNote extends a.InputInlineQueryResult {
   /// Duration of the voice note, in seconds
   final int voiceNoteDuration;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVoiceNote, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
-  final a.InputMessageContent inputMessageContent;
+  final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultVoiceNote({
     required this.id,
@@ -21632,8 +21632,8 @@ class InputInlineQueryResultVoiceNote extends a.InputInlineQueryResult {
     'title': title,
     'voice_note_url': voiceNoteUrl,
     'voice_note_duration': voiceNoteDuration,
-    'reply_markup': replyMarkup.toJson(),
-    'input_message_content': inputMessageContent.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
+    'input_message_content': inputMessageContent?.toJson(),
   };
 
   factory InputInlineQueryResultVoiceNote.fromJson(Map<String, dynamic> json) => InputInlineQueryResultVoiceNote(
@@ -21641,8 +21641,8 @@ class InputInlineQueryResultVoiceNote extends a.InputInlineQueryResult {
     title: json['title'],
     voiceNoteUrl: json['voice_note_url'],
     voiceNoteDuration: json['voice_note_duration'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
-    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
+    inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
 
@@ -21659,7 +21659,7 @@ class InlineQueryResultArticle extends a.InlineQueryResult {
   /// A short description of the result
   final String description;
   /// Result thumbnail in JPEG format; may be null
-  final Thumbnail thumbnail;
+  final Thumbnail? thumbnail;
 
   InlineQueryResultArticle({
     required this.id,
@@ -21696,7 +21696,7 @@ class InlineQueryResultArticle extends a.InlineQueryResult {
     'hide_url': hideUrl,
     'title': title,
     'description': description,
-    'thumbnail': thumbnail.toJson(),
+    'thumbnail': thumbnail?.toJson(),
   };
 
   factory InlineQueryResultArticle.fromJson(Map<String, dynamic> json) => InlineQueryResultArticle(
@@ -21705,7 +21705,7 @@ class InlineQueryResultArticle extends a.InlineQueryResult {
     hideUrl: json['hide_url'],
     title: json['title'],
     description: json['description'],
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
   );
 }
 
@@ -21714,9 +21714,9 @@ class InlineQueryResultContact extends a.InlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// A user contact
-  final Contact contact;
+  final Contact? contact;
   /// Result thumbnail in JPEG format; may be null
-  final Thumbnail thumbnail;
+  final Thumbnail? thumbnail;
 
   InlineQueryResultContact({
     required this.id,
@@ -21743,14 +21743,14 @@ class InlineQueryResultContact extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultContact',
     'id': id,
-    'contact': contact.toJson(),
-    'thumbnail': thumbnail.toJson(),
+    'contact': contact?.toJson(),
+    'thumbnail': thumbnail?.toJson(),
   };
 
   factory InlineQueryResultContact.fromJson(Map<String, dynamic> json) => InlineQueryResultContact(
     id: json['id'],
-    contact: b.TdBase.fromJson(json['contact']) as Contact,
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail,
+    contact: b.TdBase.fromJson(json['contact']) as Contact?,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
   );
 }
 
@@ -21759,11 +21759,11 @@ class InlineQueryResultLocation extends a.InlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// Location result
-  final Location location;
+  final Location? location;
   /// Title of the result
   final String title;
   /// Result thumbnail in JPEG format; may be null
-  final Thumbnail thumbnail;
+  final Thumbnail? thumbnail;
 
   InlineQueryResultLocation({
     required this.id,
@@ -21792,16 +21792,16 @@ class InlineQueryResultLocation extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultLocation',
     'id': id,
-    'location': location.toJson(),
+    'location': location?.toJson(),
     'title': title,
-    'thumbnail': thumbnail.toJson(),
+    'thumbnail': thumbnail?.toJson(),
   };
 
   factory InlineQueryResultLocation.fromJson(Map<String, dynamic> json) => InlineQueryResultLocation(
     id: json['id'],
-    location: b.TdBase.fromJson(json['location']) as Location,
+    location: b.TdBase.fromJson(json['location']) as Location?,
     title: json['title'],
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
   );
 }
 
@@ -21810,9 +21810,9 @@ class InlineQueryResultVenue extends a.InlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// Venue result
-  final Venue venue;
+  final Venue? venue;
   /// Result thumbnail in JPEG format; may be null
-  final Thumbnail thumbnail;
+  final Thumbnail? thumbnail;
 
   InlineQueryResultVenue({
     required this.id,
@@ -21839,14 +21839,14 @@ class InlineQueryResultVenue extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultVenue',
     'id': id,
-    'venue': venue.toJson(),
-    'thumbnail': thumbnail.toJson(),
+    'venue': venue?.toJson(),
+    'thumbnail': thumbnail?.toJson(),
   };
 
   factory InlineQueryResultVenue.fromJson(Map<String, dynamic> json) => InlineQueryResultVenue(
     id: json['id'],
-    venue: b.TdBase.fromJson(json['venue']) as Venue,
-    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail,
+    venue: b.TdBase.fromJson(json['venue']) as Venue?,
+    thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
   );
 }
 
@@ -21855,7 +21855,7 @@ class InlineQueryResultGame extends a.InlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// Game result
-  final Game game;
+  final Game? game;
 
   InlineQueryResultGame({
     required this.id,
@@ -21880,12 +21880,12 @@ class InlineQueryResultGame extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultGame',
     'id': id,
-    'game': game.toJson(),
+    'game': game?.toJson(),
   };
 
   factory InlineQueryResultGame.fromJson(Map<String, dynamic> json) => InlineQueryResultGame(
     id: json['id'],
-    game: b.TdBase.fromJson(json['game']) as Game,
+    game: b.TdBase.fromJson(json['game']) as Game?,
   );
 }
 
@@ -21894,7 +21894,7 @@ class InlineQueryResultAnimation extends a.InlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// Animation file
-  final Animation animation;
+  final Animation? animation;
   /// Animation title
   final String title;
 
@@ -21923,13 +21923,13 @@ class InlineQueryResultAnimation extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultAnimation',
     'id': id,
-    'animation': animation.toJson(),
+    'animation': animation?.toJson(),
     'title': title,
   };
 
   factory InlineQueryResultAnimation.fromJson(Map<String, dynamic> json) => InlineQueryResultAnimation(
     id: json['id'],
-    animation: b.TdBase.fromJson(json['animation']) as Animation,
+    animation: b.TdBase.fromJson(json['animation']) as Animation?,
     title: json['title'],
   );
 }
@@ -21939,7 +21939,7 @@ class InlineQueryResultAudio extends a.InlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// Audio file
-  final Audio audio;
+  final Audio? audio;
 
   InlineQueryResultAudio({
     required this.id,
@@ -21964,12 +21964,12 @@ class InlineQueryResultAudio extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultAudio',
     'id': id,
-    'audio': audio.toJson(),
+    'audio': audio?.toJson(),
   };
 
   factory InlineQueryResultAudio.fromJson(Map<String, dynamic> json) => InlineQueryResultAudio(
     id: json['id'],
-    audio: b.TdBase.fromJson(json['audio']) as Audio,
+    audio: b.TdBase.fromJson(json['audio']) as Audio?,
   );
 }
 
@@ -21978,7 +21978,7 @@ class InlineQueryResultDocument extends a.InlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// Document
-  final Document document;
+  final Document? document;
   /// Document title
   final String title;
   /// Document description
@@ -22011,14 +22011,14 @@ class InlineQueryResultDocument extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultDocument',
     'id': id,
-    'document': document.toJson(),
+    'document': document?.toJson(),
     'title': title,
     'description': description,
   };
 
   factory InlineQueryResultDocument.fromJson(Map<String, dynamic> json) => InlineQueryResultDocument(
     id: json['id'],
-    document: b.TdBase.fromJson(json['document']) as Document,
+    document: b.TdBase.fromJson(json['document']) as Document?,
     title: json['title'],
     description: json['description'],
   );
@@ -22029,7 +22029,7 @@ class InlineQueryResultPhoto extends a.InlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// Photo
-  final Photo photo;
+  final Photo? photo;
   /// Title of the result, if known
   final String title;
   /// A short description of the result, if known
@@ -22062,14 +22062,14 @@ class InlineQueryResultPhoto extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultPhoto',
     'id': id,
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
     'title': title,
     'description': description,
   };
 
   factory InlineQueryResultPhoto.fromJson(Map<String, dynamic> json) => InlineQueryResultPhoto(
     id: json['id'],
-    photo: b.TdBase.fromJson(json['photo']) as Photo,
+    photo: b.TdBase.fromJson(json['photo']) as Photo?,
     title: json['title'],
     description: json['description'],
   );
@@ -22080,7 +22080,7 @@ class InlineQueryResultSticker extends a.InlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// Sticker
-  final Sticker sticker;
+  final Sticker? sticker;
 
   InlineQueryResultSticker({
     required this.id,
@@ -22105,12 +22105,12 @@ class InlineQueryResultSticker extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultSticker',
     'id': id,
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
   };
 
   factory InlineQueryResultSticker.fromJson(Map<String, dynamic> json) => InlineQueryResultSticker(
     id: json['id'],
-    sticker: b.TdBase.fromJson(json['sticker']) as Sticker,
+    sticker: b.TdBase.fromJson(json['sticker']) as Sticker?,
   );
 }
 
@@ -22119,7 +22119,7 @@ class InlineQueryResultVideo extends a.InlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// Video
-  final Video video;
+  final Video? video;
   /// Title of the video
   final String title;
   /// Description of the video
@@ -22152,14 +22152,14 @@ class InlineQueryResultVideo extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultVideo',
     'id': id,
-    'video': video.toJson(),
+    'video': video?.toJson(),
     'title': title,
     'description': description,
   };
 
   factory InlineQueryResultVideo.fromJson(Map<String, dynamic> json) => InlineQueryResultVideo(
     id: json['id'],
-    video: b.TdBase.fromJson(json['video']) as Video,
+    video: b.TdBase.fromJson(json['video']) as Video?,
     title: json['title'],
     description: json['description'],
   );
@@ -22170,7 +22170,7 @@ class InlineQueryResultVoiceNote extends a.InlineQueryResult {
   /// Unique identifier of the query result
   final String id;
   /// Voice note
-  final VoiceNote voiceNote;
+  final VoiceNote? voiceNote;
   /// Title of the voice note
   final String title;
 
@@ -22199,13 +22199,13 @@ class InlineQueryResultVoiceNote extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultVoiceNote',
     'id': id,
-    'voice_note': voiceNote.toJson(),
+    'voice_note': voiceNote?.toJson(),
     'title': title,
   };
 
   factory InlineQueryResultVoiceNote.fromJson(Map<String, dynamic> json) => InlineQueryResultVoiceNote(
     id: json['id'],
-    voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote,
+    voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote?,
     title: json['title'],
   );
 }
@@ -22217,7 +22217,7 @@ class InlineQueryResults extends a.InlineQueryResults {
   /// The offset for the next request. If empty, there are no more results
   final String nextOffset;
   /// Results of the query
-  final List<a.InlineQueryResult> results;
+  final List<a.InlineQueryResult?> results;
   /// If non-empty, this text should be shown on the button, which opens a private chat with the bot and sends the bot a start message with the switch_pm_parameter
   final String switchPmText;
   /// Parameter for the bot start message
@@ -22253,7 +22253,7 @@ class InlineQueryResults extends a.InlineQueryResults {
     '@type': 'inlineQueryResults',
     'inline_query_id': inlineQueryId.toString(),
     'next_offset': nextOffset,
-    'results': results.map((_e1) => _e1.toJson()).toList(growable: false),
+    'results': results.map((_e1) => _e1?.toJson()).toList(growable: false),
     'switch_pm_text': switchPmText,
     'switch_pm_parameter': switchPmParameter,
   };
@@ -22261,7 +22261,7 @@ class InlineQueryResults extends a.InlineQueryResults {
   factory InlineQueryResults.fromJson(Map<String, dynamic> json) => InlineQueryResults(
     inlineQueryId: int.parse(json['inline_query_id']),
     nextOffset: json['next_offset'],
-    results: (json['results'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InlineQueryResult).toList(growable: false),
+    results: (json['results'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InlineQueryResult?).toList(growable: false),
     switchPmText: json['switch_pm_text'],
     switchPmParameter: json['switch_pm_parameter'],
   );
@@ -22498,7 +22498,7 @@ class GameHighScore extends a.GameHighScore {
 /// Contains a list of game high scores
 class GameHighScores extends a.GameHighScores {
   /// A list of game high scores
-  final List<GameHighScore> scores;
+  final List<GameHighScore?> scores;
 
   GameHighScores({
     required this.scores,
@@ -22520,20 +22520,20 @@ class GameHighScores extends a.GameHighScores {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'gameHighScores',
-    'scores': scores.map((_e1) => _e1.toJson()).toList(growable: false),
+    'scores': scores.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory GameHighScores.fromJson(Map<String, dynamic> json) => GameHighScores(
-    scores: (json['scores'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as GameHighScore).toList(growable: false),
+    scores: (json['scores'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as GameHighScore?).toList(growable: false),
   );
 }
 
 /// A message was edited
 class ChatEventMessageEdited extends a.ChatEventAction {
   /// The original message before the edit
-  final Message oldMessage;
+  final Message? oldMessage;
   /// The message after it was edited
-  final Message newMessage;
+  final Message? newMessage;
 
   ChatEventMessageEdited({
     required this.oldMessage,
@@ -22557,20 +22557,20 @@ class ChatEventMessageEdited extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMessageEdited',
-    'old_message': oldMessage.toJson(),
-    'new_message': newMessage.toJson(),
+    'old_message': oldMessage?.toJson(),
+    'new_message': newMessage?.toJson(),
   };
 
   factory ChatEventMessageEdited.fromJson(Map<String, dynamic> json) => ChatEventMessageEdited(
-    oldMessage: b.TdBase.fromJson(json['old_message']) as Message,
-    newMessage: b.TdBase.fromJson(json['new_message']) as Message,
+    oldMessage: b.TdBase.fromJson(json['old_message']) as Message?,
+    newMessage: b.TdBase.fromJson(json['new_message']) as Message?,
   );
 }
 
 /// A message was deleted
 class ChatEventMessageDeleted extends a.ChatEventAction {
   /// Deleted message
-  final Message message;
+  final Message? message;
 
   ChatEventMessageDeleted({
     required this.message,
@@ -22592,18 +22592,18 @@ class ChatEventMessageDeleted extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMessageDeleted',
-    'message': message.toJson(),
+    'message': message?.toJson(),
   };
 
   factory ChatEventMessageDeleted.fromJson(Map<String, dynamic> json) => ChatEventMessageDeleted(
-    message: b.TdBase.fromJson(json['message']) as Message,
+    message: b.TdBase.fromJson(json['message']) as Message?,
   );
 }
 
 /// A poll in a message was stopped
 class ChatEventPollStopped extends a.ChatEventAction {
   /// The message with the poll
-  final Message message;
+  final Message? message;
 
   ChatEventPollStopped({
     required this.message,
@@ -22625,18 +22625,18 @@ class ChatEventPollStopped extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventPollStopped',
-    'message': message.toJson(),
+    'message': message?.toJson(),
   };
 
   factory ChatEventPollStopped.fromJson(Map<String, dynamic> json) => ChatEventPollStopped(
-    message: b.TdBase.fromJson(json['message']) as Message,
+    message: b.TdBase.fromJson(json['message']) as Message?,
   );
 }
 
 /// A message was pinned
 class ChatEventMessagePinned extends a.ChatEventAction {
   /// Pinned message
-  final Message message;
+  final Message? message;
 
   ChatEventMessagePinned({
     required this.message,
@@ -22658,18 +22658,18 @@ class ChatEventMessagePinned extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMessagePinned',
-    'message': message.toJson(),
+    'message': message?.toJson(),
   };
 
   factory ChatEventMessagePinned.fromJson(Map<String, dynamic> json) => ChatEventMessagePinned(
-    message: b.TdBase.fromJson(json['message']) as Message,
+    message: b.TdBase.fromJson(json['message']) as Message?,
   );
 }
 
 /// A message was unpinned
 class ChatEventMessageUnpinned extends a.ChatEventAction {
   /// Unpinned message
-  final Message message;
+  final Message? message;
 
   ChatEventMessageUnpinned({
     required this.message,
@@ -22691,11 +22691,11 @@ class ChatEventMessageUnpinned extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMessageUnpinned',
-    'message': message.toJson(),
+    'message': message?.toJson(),
   };
 
   factory ChatEventMessageUnpinned.fromJson(Map<String, dynamic> json) => ChatEventMessageUnpinned(
-    message: b.TdBase.fromJson(json['message']) as Message,
+    message: b.TdBase.fromJson(json['message']) as Message?,
   );
 }
 
@@ -22727,7 +22727,7 @@ class ChatEventMemberJoined extends a.ChatEventAction {
 /// A new member joined the chat by an invite link
 class ChatEventMemberJoinedByInviteLink extends a.ChatEventAction {
   /// Invite link used to join the chat
-  final ChatInviteLink inviteLink;
+  final ChatInviteLink? inviteLink;
 
   ChatEventMemberJoinedByInviteLink({
     required this.inviteLink,
@@ -22749,11 +22749,11 @@ class ChatEventMemberJoinedByInviteLink extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMemberJoinedByInviteLink',
-    'invite_link': inviteLink.toJson(),
+    'invite_link': inviteLink?.toJson(),
   };
 
   factory ChatEventMemberJoinedByInviteLink.fromJson(Map<String, dynamic> json) => ChatEventMemberJoinedByInviteLink(
-    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink,
+    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
   );
 }
 
@@ -22787,7 +22787,7 @@ class ChatEventMemberInvited extends a.ChatEventAction {
   /// New member user identifier
   final int userId;
   /// New member status
-  final a.ChatMemberStatus status;
+  final a.ChatMemberStatus? status;
 
   ChatEventMemberInvited({
     required this.userId,
@@ -22812,12 +22812,12 @@ class ChatEventMemberInvited extends a.ChatEventAction {
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMemberInvited',
     'user_id': userId,
-    'status': status.toJson(),
+    'status': status?.toJson(),
   };
 
   factory ChatEventMemberInvited.fromJson(Map<String, dynamic> json) => ChatEventMemberInvited(
     userId: json['user_id'],
-    status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus,
+    status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
   );
 }
 
@@ -22826,9 +22826,9 @@ class ChatEventMemberPromoted extends a.ChatEventAction {
   /// Affected chat member user identifier
   final int userId;
   /// Previous status of the chat member
-  final a.ChatMemberStatus oldStatus;
+  final a.ChatMemberStatus? oldStatus;
   /// New status of the chat member
-  final a.ChatMemberStatus newStatus;
+  final a.ChatMemberStatus? newStatus;
 
   ChatEventMemberPromoted({
     required this.userId,
@@ -22855,25 +22855,25 @@ class ChatEventMemberPromoted extends a.ChatEventAction {
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMemberPromoted',
     'user_id': userId,
-    'old_status': oldStatus.toJson(),
-    'new_status': newStatus.toJson(),
+    'old_status': oldStatus?.toJson(),
+    'new_status': newStatus?.toJson(),
   };
 
   factory ChatEventMemberPromoted.fromJson(Map<String, dynamic> json) => ChatEventMemberPromoted(
     userId: json['user_id'],
-    oldStatus: b.TdBase.fromJson(json['old_status']) as a.ChatMemberStatus,
-    newStatus: b.TdBase.fromJson(json['new_status']) as a.ChatMemberStatus,
+    oldStatus: b.TdBase.fromJson(json['old_status']) as a.ChatMemberStatus?,
+    newStatus: b.TdBase.fromJson(json['new_status']) as a.ChatMemberStatus?,
   );
 }
 
 /// A chat member was restricted/unrestricted or banned/unbanned, or the list of their restrictions has changed
 class ChatEventMemberRestricted extends a.ChatEventAction {
   /// Affected chat member identifier
-  final a.MessageSender memberId;
+  final a.MessageSender? memberId;
   /// Previous status of the chat member
-  final a.ChatMemberStatus oldStatus;
+  final a.ChatMemberStatus? oldStatus;
   /// New status of the chat member
-  final a.ChatMemberStatus newStatus;
+  final a.ChatMemberStatus? newStatus;
 
   ChatEventMemberRestricted({
     required this.memberId,
@@ -22899,15 +22899,15 @@ class ChatEventMemberRestricted extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMemberRestricted',
-    'member_id': memberId.toJson(),
-    'old_status': oldStatus.toJson(),
-    'new_status': newStatus.toJson(),
+    'member_id': memberId?.toJson(),
+    'old_status': oldStatus?.toJson(),
+    'new_status': newStatus?.toJson(),
   };
 
   factory ChatEventMemberRestricted.fromJson(Map<String, dynamic> json) => ChatEventMemberRestricted(
-    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender,
-    oldStatus: b.TdBase.fromJson(json['old_status']) as a.ChatMemberStatus,
-    newStatus: b.TdBase.fromJson(json['new_status']) as a.ChatMemberStatus,
+    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
+    oldStatus: b.TdBase.fromJson(json['old_status']) as a.ChatMemberStatus?,
+    newStatus: b.TdBase.fromJson(json['new_status']) as a.ChatMemberStatus?,
   );
 }
 
@@ -22953,9 +22953,9 @@ class ChatEventTitleChanged extends a.ChatEventAction {
 /// The chat permissions was changed
 class ChatEventPermissionsChanged extends a.ChatEventAction {
   /// Previous chat permissions
-  final ChatPermissions oldPermissions;
+  final ChatPermissions? oldPermissions;
   /// New chat permissions
-  final ChatPermissions newPermissions;
+  final ChatPermissions? newPermissions;
 
   ChatEventPermissionsChanged({
     required this.oldPermissions,
@@ -22979,13 +22979,13 @@ class ChatEventPermissionsChanged extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventPermissionsChanged',
-    'old_permissions': oldPermissions.toJson(),
-    'new_permissions': newPermissions.toJson(),
+    'old_permissions': oldPermissions?.toJson(),
+    'new_permissions': newPermissions?.toJson(),
   };
 
   factory ChatEventPermissionsChanged.fromJson(Map<String, dynamic> json) => ChatEventPermissionsChanged(
-    oldPermissions: b.TdBase.fromJson(json['old_permissions']) as ChatPermissions,
-    newPermissions: b.TdBase.fromJson(json['new_permissions']) as ChatPermissions,
+    oldPermissions: b.TdBase.fromJson(json['old_permissions']) as ChatPermissions?,
+    newPermissions: b.TdBase.fromJson(json['new_permissions']) as ChatPermissions?,
   );
 }
 
@@ -23070,9 +23070,9 @@ class ChatEventUsernameChanged extends a.ChatEventAction {
 /// The chat photo was changed
 class ChatEventPhotoChanged extends a.ChatEventAction {
   /// Previous chat photo value; may be null
-  final ChatPhoto oldPhoto;
+  final ChatPhoto? oldPhoto;
   /// New chat photo value; may be null
-  final ChatPhoto newPhoto;
+  final ChatPhoto? newPhoto;
 
   ChatEventPhotoChanged({
     required this.oldPhoto,
@@ -23096,13 +23096,13 @@ class ChatEventPhotoChanged extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventPhotoChanged',
-    'old_photo': oldPhoto.toJson(),
-    'new_photo': newPhoto.toJson(),
+    'old_photo': oldPhoto?.toJson(),
+    'new_photo': newPhoto?.toJson(),
   };
 
   factory ChatEventPhotoChanged.fromJson(Map<String, dynamic> json) => ChatEventPhotoChanged(
-    oldPhoto: b.TdBase.fromJson(json['old_photo']) as ChatPhoto,
-    newPhoto: b.TdBase.fromJson(json['new_photo']) as ChatPhoto,
+    oldPhoto: b.TdBase.fromJson(json['old_photo']) as ChatPhoto?,
+    newPhoto: b.TdBase.fromJson(json['new_photo']) as ChatPhoto?,
   );
 }
 
@@ -23331,9 +23331,9 @@ class ChatEventStickerSetChanged extends a.ChatEventAction {
 /// The supergroup location was changed
 class ChatEventLocationChanged extends a.ChatEventAction {
   /// Previous location; may be null
-  final ChatLocation oldLocation;
+  final ChatLocation? oldLocation;
   /// New location; may be null
-  final ChatLocation newLocation;
+  final ChatLocation? newLocation;
 
   ChatEventLocationChanged({
     required this.oldLocation,
@@ -23357,13 +23357,13 @@ class ChatEventLocationChanged extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventLocationChanged',
-    'old_location': oldLocation.toJson(),
-    'new_location': newLocation.toJson(),
+    'old_location': oldLocation?.toJson(),
+    'new_location': newLocation?.toJson(),
   };
 
   factory ChatEventLocationChanged.fromJson(Map<String, dynamic> json) => ChatEventLocationChanged(
-    oldLocation: b.TdBase.fromJson(json['old_location']) as ChatLocation,
-    newLocation: b.TdBase.fromJson(json['new_location']) as ChatLocation,
+    oldLocation: b.TdBase.fromJson(json['old_location']) as ChatLocation?,
+    newLocation: b.TdBase.fromJson(json['new_location']) as ChatLocation?,
   );
 }
 
@@ -23403,9 +23403,9 @@ class ChatEventIsAllHistoryAvailableToggled extends a.ChatEventAction {
 /// A chat invite link was edited
 class ChatEventInviteLinkEdited extends a.ChatEventAction {
   /// Previous information about the invite link
-  final ChatInviteLink oldInviteLink;
+  final ChatInviteLink? oldInviteLink;
   /// New information about the invite link
-  final ChatInviteLink newInviteLink;
+  final ChatInviteLink? newInviteLink;
 
   ChatEventInviteLinkEdited({
     required this.oldInviteLink,
@@ -23429,20 +23429,20 @@ class ChatEventInviteLinkEdited extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventInviteLinkEdited',
-    'old_invite_link': oldInviteLink.toJson(),
-    'new_invite_link': newInviteLink.toJson(),
+    'old_invite_link': oldInviteLink?.toJson(),
+    'new_invite_link': newInviteLink?.toJson(),
   };
 
   factory ChatEventInviteLinkEdited.fromJson(Map<String, dynamic> json) => ChatEventInviteLinkEdited(
-    oldInviteLink: b.TdBase.fromJson(json['old_invite_link']) as ChatInviteLink,
-    newInviteLink: b.TdBase.fromJson(json['new_invite_link']) as ChatInviteLink,
+    oldInviteLink: b.TdBase.fromJson(json['old_invite_link']) as ChatInviteLink?,
+    newInviteLink: b.TdBase.fromJson(json['new_invite_link']) as ChatInviteLink?,
   );
 }
 
 /// A chat invite link was revoked
 class ChatEventInviteLinkRevoked extends a.ChatEventAction {
   /// The invite link
-  final ChatInviteLink inviteLink;
+  final ChatInviteLink? inviteLink;
 
   ChatEventInviteLinkRevoked({
     required this.inviteLink,
@@ -23464,18 +23464,18 @@ class ChatEventInviteLinkRevoked extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventInviteLinkRevoked',
-    'invite_link': inviteLink.toJson(),
+    'invite_link': inviteLink?.toJson(),
   };
 
   factory ChatEventInviteLinkRevoked.fromJson(Map<String, dynamic> json) => ChatEventInviteLinkRevoked(
-    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink,
+    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
   );
 }
 
 /// A revoked chat invite link was deleted
 class ChatEventInviteLinkDeleted extends a.ChatEventAction {
   /// The invite link
-  final ChatInviteLink inviteLink;
+  final ChatInviteLink? inviteLink;
 
   ChatEventInviteLinkDeleted({
     required this.inviteLink,
@@ -23497,11 +23497,11 @@ class ChatEventInviteLinkDeleted extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventInviteLinkDeleted',
-    'invite_link': inviteLink.toJson(),
+    'invite_link': inviteLink?.toJson(),
   };
 
   factory ChatEventInviteLinkDeleted.fromJson(Map<String, dynamic> json) => ChatEventInviteLinkDeleted(
-    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink,
+    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
   );
 }
 
@@ -23574,7 +23574,7 @@ class ChatEventVoiceChatDiscarded extends a.ChatEventAction {
 /// A voice chat participant was muted or unmuted
 class ChatEventVoiceChatParticipantIsMutedToggled extends a.ChatEventAction {
   /// Identifier of the affected group call participant
-  final a.MessageSender participantId;
+  final a.MessageSender? participantId;
   /// New value of is_muted
   final bool isMuted;
 
@@ -23600,12 +23600,12 @@ class ChatEventVoiceChatParticipantIsMutedToggled extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventVoiceChatParticipantIsMutedToggled',
-    'participant_id': participantId.toJson(),
+    'participant_id': participantId?.toJson(),
     'is_muted': isMuted,
   };
 
   factory ChatEventVoiceChatParticipantIsMutedToggled.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatParticipantIsMutedToggled(
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender,
+    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
     isMuted: json['is_muted'],
   );
 }
@@ -23613,7 +23613,7 @@ class ChatEventVoiceChatParticipantIsMutedToggled extends a.ChatEventAction {
 /// A voice chat participant volume level was changed
 class ChatEventVoiceChatParticipantVolumeLevelChanged extends a.ChatEventAction {
   /// Identifier of the affected group call participant
-  final a.MessageSender participantId;
+  final a.MessageSender? participantId;
   /// New value of volume_level; 1-20000 in hundreds of percents
   final int volumeLevel;
 
@@ -23639,12 +23639,12 @@ class ChatEventVoiceChatParticipantVolumeLevelChanged extends a.ChatEventAction 
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventVoiceChatParticipantVolumeLevelChanged',
-    'participant_id': participantId.toJson(),
+    'participant_id': participantId?.toJson(),
     'volume_level': volumeLevel,
   };
 
   factory ChatEventVoiceChatParticipantVolumeLevelChanged.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatParticipantVolumeLevelChanged(
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender,
+    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
     volumeLevel: json['volume_level'],
   );
 }
@@ -23691,7 +23691,7 @@ class ChatEvent extends a.ChatEvent {
   /// Identifier of the user who performed the action that triggered the event
   final int userId;
   /// Action performed by the user
-  final a.ChatEventAction action;
+  final a.ChatEventAction? action;
 
   ChatEvent({
     required this.id,
@@ -23722,21 +23722,21 @@ class ChatEvent extends a.ChatEvent {
     'id': id.toString(),
     'date': date,
     'user_id': userId,
-    'action': action.toJson(),
+    'action': action?.toJson(),
   };
 
   factory ChatEvent.fromJson(Map<String, dynamic> json) => ChatEvent(
     id: int.parse(json['id']),
     date: json['date'],
     userId: json['user_id'],
-    action: b.TdBase.fromJson(json['action']) as a.ChatEventAction,
+    action: b.TdBase.fromJson(json['action']) as a.ChatEventAction?,
   );
 }
 
 /// Contains a list of chat events
 class ChatEvents extends a.ChatEvents {
   /// List of events
-  final List<ChatEvent> events;
+  final List<ChatEvent?> events;
 
   ChatEvents({
     required this.events,
@@ -23758,11 +23758,11 @@ class ChatEvents extends a.ChatEvents {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEvents',
-    'events': events.map((_e1) => _e1.toJson()).toList(growable: false),
+    'events': events.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ChatEvents.fromJson(Map<String, dynamic> json) => ChatEvents(
-    events: (json['events'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatEvent).toList(growable: false),
+    events: (json['events'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatEvent?).toList(growable: false),
   );
 }
 
@@ -23991,7 +23991,7 @@ class LanguagePackString extends a.LanguagePackString {
   /// String key
   final String key;
   /// String value
-  final a.LanguagePackStringValue value;
+  final a.LanguagePackStringValue? value;
 
   LanguagePackString({
     required this.key,
@@ -24016,19 +24016,19 @@ class LanguagePackString extends a.LanguagePackString {
   Map<String, dynamic> toJson() => {
     '@type': 'languagePackString',
     'key': key,
-    'value': value.toJson(),
+    'value': value?.toJson(),
   };
 
   factory LanguagePackString.fromJson(Map<String, dynamic> json) => LanguagePackString(
     key: json['key'],
-    value: b.TdBase.fromJson(json['value']) as a.LanguagePackStringValue,
+    value: b.TdBase.fromJson(json['value']) as a.LanguagePackStringValue?,
   );
 }
 
 /// Contains a list of language pack strings
 class LanguagePackStrings extends a.LanguagePackStrings {
   /// A list of language pack strings
-  final List<LanguagePackString> strings;
+  final List<LanguagePackString?> strings;
 
   LanguagePackStrings({
     required this.strings,
@@ -24050,11 +24050,11 @@ class LanguagePackStrings extends a.LanguagePackStrings {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'languagePackStrings',
-    'strings': strings.map((_e1) => _e1.toJson()).toList(growable: false),
+    'strings': strings.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory LanguagePackStrings.fromJson(Map<String, dynamic> json) => LanguagePackStrings(
-    strings: (json['strings'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LanguagePackString).toList(growable: false),
+    strings: (json['strings'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LanguagePackString?).toList(growable: false),
   );
 }
 
@@ -24166,7 +24166,7 @@ class LanguagePackInfo extends a.LanguagePackInfo {
 /// Contains information about the current localization target
 class LocalizationTargetInfo extends a.LocalizationTargetInfo {
   /// List of available language packs for this application
-  final List<LanguagePackInfo> languagePacks;
+  final List<LanguagePackInfo?> languagePacks;
 
   LocalizationTargetInfo({
     required this.languagePacks,
@@ -24188,11 +24188,11 @@ class LocalizationTargetInfo extends a.LocalizationTargetInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'localizationTargetInfo',
-    'language_packs': languagePacks.map((_e1) => _e1.toJson()).toList(growable: false),
+    'language_packs': languagePacks.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory LocalizationTargetInfo.fromJson(Map<String, dynamic> json) => LocalizationTargetInfo(
-    languagePacks: (json['language_packs'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LanguagePackInfo).toList(growable: false),
+    languagePacks: (json['language_packs'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LanguagePackInfo?).toList(growable: false),
   );
 }
 
@@ -24748,7 +24748,7 @@ class BackgroundTypeWallpaper extends a.BackgroundType {
 /// A PNG or TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user
 class BackgroundTypePattern extends a.BackgroundType {
   /// Description of the background fill
-  final a.BackgroundFill fill;
+  final a.BackgroundFill? fill;
   /// Intensity of the pattern when it is shown above the filled background; 0-100
   final int intensity;
   /// True, if the background needs to be slightly moved when device is tilted
@@ -24778,13 +24778,13 @@ class BackgroundTypePattern extends a.BackgroundType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'backgroundTypePattern',
-    'fill': fill.toJson(),
+    'fill': fill?.toJson(),
     'intensity': intensity,
     'is_moving': isMoving,
   };
 
   factory BackgroundTypePattern.fromJson(Map<String, dynamic> json) => BackgroundTypePattern(
-    fill: b.TdBase.fromJson(json['fill']) as a.BackgroundFill,
+    fill: b.TdBase.fromJson(json['fill']) as a.BackgroundFill?,
     intensity: json['intensity'],
     isMoving: json['is_moving'],
   );
@@ -24793,7 +24793,7 @@ class BackgroundTypePattern extends a.BackgroundType {
 /// A filled background
 class BackgroundTypeFill extends a.BackgroundType {
   /// Description of the background fill
-  final a.BackgroundFill fill;
+  final a.BackgroundFill? fill;
 
   BackgroundTypeFill({
     required this.fill,
@@ -24815,11 +24815,11 @@ class BackgroundTypeFill extends a.BackgroundType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'backgroundTypeFill',
-    'fill': fill.toJson(),
+    'fill': fill?.toJson(),
   };
 
   factory BackgroundTypeFill.fromJson(Map<String, dynamic> json) => BackgroundTypeFill(
-    fill: b.TdBase.fromJson(json['fill']) as a.BackgroundFill,
+    fill: b.TdBase.fromJson(json['fill']) as a.BackgroundFill?,
   );
 }
 
@@ -24834,9 +24834,9 @@ class Background extends a.Background {
   /// Unique background name
   final String name;
   /// Document with the background; may be null. Null only for filled backgrounds
-  final Document document;
+  final Document? document;
   /// Type of the background
-  final a.BackgroundType type;
+  final a.BackgroundType? type;
 
   Background({
     required this.id,
@@ -24872,8 +24872,8 @@ class Background extends a.Background {
     'is_default': isDefault,
     'is_dark': isDark,
     'name': name,
-    'document': document.toJson(),
-    'type': type.toJson(),
+    'document': document?.toJson(),
+    'type': type?.toJson(),
   };
 
   factory Background.fromJson(Map<String, dynamic> json) => Background(
@@ -24881,15 +24881,15 @@ class Background extends a.Background {
     isDefault: json['is_default'],
     isDark: json['is_dark'],
     name: json['name'],
-    document: b.TdBase.fromJson(json['document']) as Document,
-    type: b.TdBase.fromJson(json['type']) as a.BackgroundType,
+    document: b.TdBase.fromJson(json['document']) as Document?,
+    type: b.TdBase.fromJson(json['type']) as a.BackgroundType?,
   );
 }
 
 /// Contains a list of backgrounds
 class Backgrounds extends a.Backgrounds {
   /// A list of backgrounds
-  final List<Background> backgrounds;
+  final List<Background?> backgrounds;
 
   Backgrounds({
     required this.backgrounds,
@@ -24911,18 +24911,18 @@ class Backgrounds extends a.Backgrounds {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'backgrounds',
-    'backgrounds': backgrounds.map((_e1) => _e1.toJson()).toList(growable: false),
+    'backgrounds': backgrounds.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory Backgrounds.fromJson(Map<String, dynamic> json) => Backgrounds(
-    backgrounds: (json['backgrounds'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Background).toList(growable: false),
+    backgrounds: (json['backgrounds'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Background?).toList(growable: false),
   );
 }
 
 /// A background from a local file
 class InputBackgroundLocal extends a.InputBackground {
   /// Background file to use. Only inputFileLocal and inputFileGenerated are supported. The file must be in JPEG format for wallpapers and in PNG format for patterns
-  final a.InputFile background;
+  final a.InputFile? background;
 
   InputBackgroundLocal({
     required this.background,
@@ -24944,11 +24944,11 @@ class InputBackgroundLocal extends a.InputBackground {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputBackgroundLocal',
-    'background': background.toJson(),
+    'background': background?.toJson(),
   };
 
   factory InputBackgroundLocal.fromJson(Map<String, dynamic> json) => InputBackgroundLocal(
-    background: b.TdBase.fromJson(json['background']) as a.InputFile,
+    background: b.TdBase.fromJson(json['background']) as a.InputFile?,
   );
 }
 
@@ -25386,7 +25386,7 @@ class PushMessageContentHidden extends a.PushMessageContent {
 /// An animation message (GIF-style).
 class PushMessageContentAnimation extends a.PushMessageContent {
   /// Message content; may be null
-  final Animation animation;
+  final Animation? animation;
   /// Animation caption
   final String caption;
   /// True, if the message is a pinned message with the specified content
@@ -25416,13 +25416,13 @@ class PushMessageContentAnimation extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentAnimation',
-    'animation': animation.toJson(),
+    'animation': animation?.toJson(),
     'caption': caption,
     'is_pinned': isPinned,
   };
 
   factory PushMessageContentAnimation.fromJson(Map<String, dynamic> json) => PushMessageContentAnimation(
-    animation: b.TdBase.fromJson(json['animation']) as Animation,
+    animation: b.TdBase.fromJson(json['animation']) as Animation?,
     caption: json['caption'],
     isPinned: json['is_pinned'],
   );
@@ -25431,7 +25431,7 @@ class PushMessageContentAnimation extends a.PushMessageContent {
 /// An audio message
 class PushMessageContentAudio extends a.PushMessageContent {
   /// Message content; may be null
-  final Audio audio;
+  final Audio? audio;
   /// True, if the message is a pinned message with the specified content
   final bool isPinned;
 
@@ -25457,12 +25457,12 @@ class PushMessageContentAudio extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentAudio',
-    'audio': audio.toJson(),
+    'audio': audio?.toJson(),
     'is_pinned': isPinned,
   };
 
   factory PushMessageContentAudio.fromJson(Map<String, dynamic> json) => PushMessageContentAudio(
-    audio: b.TdBase.fromJson(json['audio']) as Audio,
+    audio: b.TdBase.fromJson(json['audio']) as Audio?,
     isPinned: json['is_pinned'],
   );
 }
@@ -25534,7 +25534,7 @@ class PushMessageContentContactRegistered extends a.PushMessageContent {
 /// A document message (a general file)
 class PushMessageContentDocument extends a.PushMessageContent {
   /// Message content; may be null
-  final Document document;
+  final Document? document;
   /// True, if the message is a pinned message with the specified content
   final bool isPinned;
 
@@ -25560,12 +25560,12 @@ class PushMessageContentDocument extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentDocument',
-    'document': document.toJson(),
+    'document': document?.toJson(),
     'is_pinned': isPinned,
   };
 
   factory PushMessageContentDocument.fromJson(Map<String, dynamic> json) => PushMessageContentDocument(
-    document: b.TdBase.fromJson(json['document']) as Document,
+    document: b.TdBase.fromJson(json['document']) as Document?,
     isPinned: json['is_pinned'],
   );
 }
@@ -25735,7 +25735,7 @@ class PushMessageContentLocation extends a.PushMessageContent {
 /// A photo message
 class PushMessageContentPhoto extends a.PushMessageContent {
   /// Message content; may be null
-  final Photo photo;
+  final Photo? photo;
   /// Photo caption
   final String caption;
   /// True, if the photo is secret
@@ -25769,14 +25769,14 @@ class PushMessageContentPhoto extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentPhoto',
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
     'caption': caption,
     'is_secret': isSecret,
     'is_pinned': isPinned,
   };
 
   factory PushMessageContentPhoto.fromJson(Map<String, dynamic> json) => PushMessageContentPhoto(
-    photo: b.TdBase.fromJson(json['photo']) as Photo,
+    photo: b.TdBase.fromJson(json['photo']) as Photo?,
     caption: json['caption'],
     isSecret: json['is_secret'],
     isPinned: json['is_pinned'],
@@ -25856,7 +25856,7 @@ class PushMessageContentScreenshotTaken extends a.PushMessageContent {
 /// A message with a sticker
 class PushMessageContentSticker extends a.PushMessageContent {
   /// Message content; may be null
-  final Sticker sticker;
+  final Sticker? sticker;
   /// Emoji corresponding to the sticker; may be empty
   final String emoji;
   /// True, if the message is a pinned message with the specified content
@@ -25886,13 +25886,13 @@ class PushMessageContentSticker extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentSticker',
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
     'emoji': emoji,
     'is_pinned': isPinned,
   };
 
   factory PushMessageContentSticker.fromJson(Map<String, dynamic> json) => PushMessageContentSticker(
-    sticker: b.TdBase.fromJson(json['sticker']) as Sticker,
+    sticker: b.TdBase.fromJson(json['sticker']) as Sticker?,
     emoji: json['emoji'],
     isPinned: json['is_pinned'],
   );
@@ -25940,7 +25940,7 @@ class PushMessageContentText extends a.PushMessageContent {
 /// A video message
 class PushMessageContentVideo extends a.PushMessageContent {
   /// Message content; may be null
-  final Video video;
+  final Video? video;
   /// Video caption
   final String caption;
   /// True, if the video is secret
@@ -25974,14 +25974,14 @@ class PushMessageContentVideo extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentVideo',
-    'video': video.toJson(),
+    'video': video?.toJson(),
     'caption': caption,
     'is_secret': isSecret,
     'is_pinned': isPinned,
   };
 
   factory PushMessageContentVideo.fromJson(Map<String, dynamic> json) => PushMessageContentVideo(
-    video: b.TdBase.fromJson(json['video']) as Video,
+    video: b.TdBase.fromJson(json['video']) as Video?,
     caption: json['caption'],
     isSecret: json['is_secret'],
     isPinned: json['is_pinned'],
@@ -25991,7 +25991,7 @@ class PushMessageContentVideo extends a.PushMessageContent {
 /// A video note message
 class PushMessageContentVideoNote extends a.PushMessageContent {
   /// Message content; may be null
-  final VideoNote videoNote;
+  final VideoNote? videoNote;
   /// True, if the message is a pinned message with the specified content
   final bool isPinned;
 
@@ -26017,12 +26017,12 @@ class PushMessageContentVideoNote extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentVideoNote',
-    'video_note': videoNote.toJson(),
+    'video_note': videoNote?.toJson(),
     'is_pinned': isPinned,
   };
 
   factory PushMessageContentVideoNote.fromJson(Map<String, dynamic> json) => PushMessageContentVideoNote(
-    videoNote: b.TdBase.fromJson(json['video_note']) as VideoNote,
+    videoNote: b.TdBase.fromJson(json['video_note']) as VideoNote?,
     isPinned: json['is_pinned'],
   );
 }
@@ -26030,7 +26030,7 @@ class PushMessageContentVideoNote extends a.PushMessageContent {
 /// A voice note message
 class PushMessageContentVoiceNote extends a.PushMessageContent {
   /// Message content; may be null
-  final VoiceNote voiceNote;
+  final VoiceNote? voiceNote;
   /// True, if the message is a pinned message with the specified content
   final bool isPinned;
 
@@ -26056,12 +26056,12 @@ class PushMessageContentVoiceNote extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentVoiceNote',
-    'voice_note': voiceNote.toJson(),
+    'voice_note': voiceNote?.toJson(),
     'is_pinned': isPinned,
   };
 
   factory PushMessageContentVoiceNote.fromJson(Map<String, dynamic> json) => PushMessageContentVoiceNote(
-    voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote,
+    voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote?,
     isPinned: json['is_pinned'],
   );
 }
@@ -26357,7 +26357,7 @@ class PushMessageContentMediaAlbum extends a.PushMessageContent {
 /// New message was received
 class NotificationTypeNewMessage extends a.NotificationType {
   /// The message
-  final Message message;
+  final Message? message;
 
   NotificationTypeNewMessage({
     required this.message,
@@ -26379,11 +26379,11 @@ class NotificationTypeNewMessage extends a.NotificationType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'notificationTypeNewMessage',
-    'message': message.toJson(),
+    'message': message?.toJson(),
   };
 
   factory NotificationTypeNewMessage.fromJson(Map<String, dynamic> json) => NotificationTypeNewMessage(
-    message: b.TdBase.fromJson(json['message']) as Message,
+    message: b.TdBase.fromJson(json['message']) as Message?,
   );
 }
 
@@ -26450,13 +26450,13 @@ class NotificationTypeNewPushMessage extends a.NotificationType {
   /// The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages, or as reply_to_message_id
   final int messageId;
   /// The sender of the message. Corresponding user or chat may be inaccessible
-  final a.MessageSender sender;
+  final a.MessageSender? sender;
   /// Name of the sender
   final String senderName;
   /// True, if the message is outgoing
   final bool isOutgoing;
   /// Push message content
-  final a.PushMessageContent content;
+  final a.PushMessageContent? content;
 
   NotificationTypeNewPushMessage({
     required this.messageId,
@@ -26487,18 +26487,18 @@ class NotificationTypeNewPushMessage extends a.NotificationType {
   Map<String, dynamic> toJson() => {
     '@type': 'notificationTypeNewPushMessage',
     'message_id': messageId,
-    'sender': sender.toJson(),
+    'sender': sender?.toJson(),
     'sender_name': senderName,
     'is_outgoing': isOutgoing,
-    'content': content.toJson(),
+    'content': content?.toJson(),
   };
 
   factory NotificationTypeNewPushMessage.fromJson(Map<String, dynamic> json) => NotificationTypeNewPushMessage(
     messageId: json['message_id'],
-    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender,
+    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
     senderName: json['sender_name'],
     isOutgoing: json['is_outgoing'],
-    content: b.TdBase.fromJson(json['content']) as a.PushMessageContent,
+    content: b.TdBase.fromJson(json['content']) as a.PushMessageContent?,
   );
 }
 
@@ -26611,7 +26611,7 @@ class Notification extends a.Notification {
   /// True, if the notification was initially silent
   final bool isSilent;
   /// Notification type
-  final a.NotificationType type;
+  final a.NotificationType? type;
 
   Notification({
     required this.id,
@@ -26642,14 +26642,14 @@ class Notification extends a.Notification {
     'id': id,
     'date': date,
     'is_silent': isSilent,
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory Notification.fromJson(Map<String, dynamic> json) => Notification(
     id: json['id'],
     date: json['date'],
     isSilent: json['is_silent'],
-    type: b.TdBase.fromJson(json['type']) as a.NotificationType,
+    type: b.TdBase.fromJson(json['type']) as a.NotificationType?,
   );
 }
 
@@ -26658,13 +26658,13 @@ class NotificationGroup extends a.NotificationGroup {
   /// Unique persistent auto-incremented from 1 identifier of the notification group
   final int id;
   /// Type of the group
-  final a.NotificationGroupType type;
+  final a.NotificationGroupType? type;
   /// Identifier of a chat to which all notifications in the group belong
   final int chatId;
   /// Total number of active notifications in the group
   final int totalCount;
   /// The list of active notifications
-  final List<Notification> notifications;
+  final List<Notification?> notifications;
 
   NotificationGroup({
     required this.id,
@@ -26695,18 +26695,18 @@ class NotificationGroup extends a.NotificationGroup {
   Map<String, dynamic> toJson() => {
     '@type': 'notificationGroup',
     'id': id,
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'chat_id': chatId,
     'total_count': totalCount,
-    'notifications': notifications.map((_e1) => _e1.toJson()).toList(growable: false),
+    'notifications': notifications.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory NotificationGroup.fromJson(Map<String, dynamic> json) => NotificationGroup(
     id: json['id'],
-    type: b.TdBase.fromJson(json['type']) as a.NotificationGroupType,
+    type: b.TdBase.fromJson(json['type']) as a.NotificationGroupType?,
     chatId: json['chat_id'],
     totalCount: json['total_count'],
-    notifications: (json['notifications'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Notification).toList(growable: false),
+    notifications: (json['notifications'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Notification?).toList(growable: false),
   );
 }
 
@@ -26839,7 +26839,7 @@ class JsonObjectMember extends a.JsonObjectMember {
   /// Member's key
   final String key;
   /// Member's value
-  final a.JsonValue value;
+  final a.JsonValue? value;
 
   JsonObjectMember({
     required this.key,
@@ -26864,12 +26864,12 @@ class JsonObjectMember extends a.JsonObjectMember {
   Map<String, dynamic> toJson() => {
     '@type': 'jsonObjectMember',
     'key': key,
-    'value': value.toJson(),
+    'value': value?.toJson(),
   };
 
   factory JsonObjectMember.fromJson(Map<String, dynamic> json) => JsonObjectMember(
     key: json['key'],
-    value: b.TdBase.fromJson(json['value']) as a.JsonValue,
+    value: b.TdBase.fromJson(json['value']) as a.JsonValue?,
   );
 }
 
@@ -27000,7 +27000,7 @@ class JsonValueString extends a.JsonValue {
 /// Represents a JSON array
 class JsonValueArray extends a.JsonValue {
   /// The list of array elements
-  final List<a.JsonValue> values;
+  final List<a.JsonValue?> values;
 
   JsonValueArray({
     required this.values,
@@ -27022,18 +27022,18 @@ class JsonValueArray extends a.JsonValue {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'jsonValueArray',
-    'values': values.map((_e1) => _e1.toJson()).toList(growable: false),
+    'values': values.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory JsonValueArray.fromJson(Map<String, dynamic> json) => JsonValueArray(
-    values: (json['values'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.JsonValue).toList(growable: false),
+    values: (json['values'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.JsonValue?).toList(growable: false),
   );
 }
 
 /// Represents a JSON object
 class JsonValueObject extends a.JsonValue {
   /// The list of object members
-  final List<JsonObjectMember> members;
+  final List<JsonObjectMember?> members;
 
   JsonValueObject({
     required this.members,
@@ -27055,11 +27055,11 @@ class JsonValueObject extends a.JsonValue {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'jsonValueObject',
-    'members': members.map((_e1) => _e1.toJson()).toList(growable: false),
+    'members': members.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory JsonValueObject.fromJson(Map<String, dynamic> json) => JsonValueObject(
-    members: (json['members'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as JsonObjectMember).toList(growable: false),
+    members: (json['members'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as JsonObjectMember?).toList(growable: false),
   );
 }
 
@@ -27298,7 +27298,7 @@ class UserPrivacySettingRuleRestrictChatMembers extends a.UserPrivacySettingRule
 /// A list of privacy rules. Rules are matched in the specified order. The first matched rule defines the privacy setting for a given user. If no rule matches, the action is not allowed
 class UserPrivacySettingRules extends a.UserPrivacySettingRules {
   /// A list of rules
-  final List<a.UserPrivacySettingRule> rules;
+  final List<a.UserPrivacySettingRule?> rules;
 
   UserPrivacySettingRules({
     required this.rules,
@@ -27320,11 +27320,11 @@ class UserPrivacySettingRules extends a.UserPrivacySettingRules {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'userPrivacySettingRules',
-    'rules': rules.map((_e1) => _e1.toJson()).toList(growable: false),
+    'rules': rules.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory UserPrivacySettingRules.fromJson(Map<String, dynamic> json) => UserPrivacySettingRules(
-    rules: (json['rules'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.UserPrivacySettingRule).toList(growable: false),
+    rules: (json['rules'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.UserPrivacySettingRule?).toList(growable: false),
   );
 }
 
@@ -27681,7 +27681,7 @@ class Session extends a.Session {
 /// Contains a list of sessions
 class Sessions extends a.Sessions {
   /// List of sessions
-  final List<Session> sessions;
+  final List<Session?> sessions;
 
   Sessions({
     required this.sessions,
@@ -27703,11 +27703,11 @@ class Sessions extends a.Sessions {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'sessions',
-    'sessions': sessions.map((_e1) => _e1.toJson()).toList(growable: false),
+    'sessions': sessions.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory Sessions.fromJson(Map<String, dynamic> json) => Sessions(
-    sessions: (json['sessions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Session).toList(growable: false),
+    sessions: (json['sessions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Session?).toList(growable: false),
   );
 }
 
@@ -27795,7 +27795,7 @@ class ConnectedWebsite extends a.ConnectedWebsite {
 /// Contains a list of websites the current user is logged in with Telegram
 class ConnectedWebsites extends a.ConnectedWebsites {
   /// List of connected websites
-  final List<ConnectedWebsite> websites;
+  final List<ConnectedWebsite?> websites;
 
   ConnectedWebsites({
     required this.websites,
@@ -27817,11 +27817,11 @@ class ConnectedWebsites extends a.ConnectedWebsites {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'connectedWebsites',
-    'websites': websites.map((_e1) => _e1.toJson()).toList(growable: false),
+    'websites': websites.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ConnectedWebsites.fromJson(Map<String, dynamic> json) => ConnectedWebsites(
-    websites: (json['websites'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ConnectedWebsite).toList(growable: false),
+    websites: (json['websites'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ConnectedWebsite?).toList(growable: false),
   );
 }
 
@@ -28071,7 +28071,7 @@ class MessageLinkInfo extends a.MessageLinkInfo {
   /// If found, identifier of the chat to which the message belongs, 0 otherwise
   final int chatId;
   /// If found, the linked message; may be null
-  final Message message;
+  final Message? message;
   /// True, if the whole media album to which the message belongs is linked
   final bool forAlbum;
   /// True, if the message is linked as a channel post comment or from a message thread
@@ -28107,7 +28107,7 @@ class MessageLinkInfo extends a.MessageLinkInfo {
     '@type': 'messageLinkInfo',
     'is_public': isPublic,
     'chat_id': chatId,
-    'message': message.toJson(),
+    'message': message?.toJson(),
     'for_album': forAlbum,
     'for_comment': forComment,
   };
@@ -28115,7 +28115,7 @@ class MessageLinkInfo extends a.MessageLinkInfo {
   factory MessageLinkInfo.fromJson(Map<String, dynamic> json) => MessageLinkInfo(
     isPublic: json['is_public'],
     chatId: json['chat_id'],
-    message: b.TdBase.fromJson(json['message']) as Message,
+    message: b.TdBase.fromJson(json['message']) as Message?,
     forAlbum: json['for_album'],
     forComment: json['for_comment'],
   );
@@ -28557,7 +28557,7 @@ class FileTypeWallpaper extends a.FileType {
 /// Contains the storage usage statistics for a specific file type
 class StorageStatisticsByFileType extends a.StorageStatisticsByFileType {
   /// File type
-  final a.FileType fileType;
+  final a.FileType? fileType;
   /// Total size of the files
   final int size;
   /// Total number of files
@@ -28587,13 +28587,13 @@ class StorageStatisticsByFileType extends a.StorageStatisticsByFileType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'storageStatisticsByFileType',
-    'file_type': fileType.toJson(),
+    'file_type': fileType?.toJson(),
     'size': size,
     'count': count,
   };
 
   factory StorageStatisticsByFileType.fromJson(Map<String, dynamic> json) => StorageStatisticsByFileType(
-    fileType: b.TdBase.fromJson(json['file_type']) as a.FileType,
+    fileType: b.TdBase.fromJson(json['file_type']) as a.FileType?,
     size: json['size'],
     count: json['count'],
   );
@@ -28608,7 +28608,7 @@ class StorageStatisticsByChat extends a.StorageStatisticsByChat {
   /// Total number of files in the chat
   final int count;
   /// Statistics split by file types
-  final List<StorageStatisticsByFileType> byFileType;
+  final List<StorageStatisticsByFileType?> byFileType;
 
   StorageStatisticsByChat({
     required this.chatId,
@@ -28639,14 +28639,14 @@ class StorageStatisticsByChat extends a.StorageStatisticsByChat {
     'chat_id': chatId,
     'size': size,
     'count': count,
-    'by_file_type': byFileType.map((_e1) => _e1.toJson()).toList(growable: false),
+    'by_file_type': byFileType.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory StorageStatisticsByChat.fromJson(Map<String, dynamic> json) => StorageStatisticsByChat(
     chatId: json['chat_id'],
     size: json['size'],
     count: json['count'],
-    byFileType: (json['by_file_type'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as StorageStatisticsByFileType).toList(growable: false),
+    byFileType: (json['by_file_type'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as StorageStatisticsByFileType?).toList(growable: false),
   );
 }
 
@@ -28657,7 +28657,7 @@ class StorageStatistics extends a.StorageStatistics {
   /// Total number of files
   final int count;
   /// Statistics split by chats
-  final List<StorageStatisticsByChat> byChat;
+  final List<StorageStatisticsByChat?> byChat;
 
   StorageStatistics({
     required this.size,
@@ -28685,13 +28685,13 @@ class StorageStatistics extends a.StorageStatistics {
     '@type': 'storageStatistics',
     'size': size,
     'count': count,
-    'by_chat': byChat.map((_e1) => _e1.toJson()).toList(growable: false),
+    'by_chat': byChat.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory StorageStatistics.fromJson(Map<String, dynamic> json) => StorageStatistics(
     size: json['size'],
     count: json['count'],
-    byChat: (json['by_chat'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as StorageStatisticsByChat).toList(growable: false),
+    byChat: (json['by_chat'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as StorageStatisticsByChat?).toList(growable: false),
   );
 }
 
@@ -28913,9 +28913,9 @@ class NetworkTypeOther extends a.NetworkType {
 /// Contains information about the total amount of data that was used to send and receive files
 class NetworkStatisticsEntryFile extends a.NetworkStatisticsEntry {
   /// Type of the file the data is part of
-  final a.FileType fileType;
+  final a.FileType? fileType;
   /// Type of the network the data was sent through. Call setNetworkType to maintain the actual network type
-  final a.NetworkType networkType;
+  final a.NetworkType? networkType;
   /// Total number of bytes sent
   final int sentBytes;
   /// Total number of bytes received
@@ -28947,15 +28947,15 @@ class NetworkStatisticsEntryFile extends a.NetworkStatisticsEntry {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'networkStatisticsEntryFile',
-    'file_type': fileType.toJson(),
-    'network_type': networkType.toJson(),
+    'file_type': fileType?.toJson(),
+    'network_type': networkType?.toJson(),
     'sent_bytes': sentBytes,
     'received_bytes': receivedBytes,
   };
 
   factory NetworkStatisticsEntryFile.fromJson(Map<String, dynamic> json) => NetworkStatisticsEntryFile(
-    fileType: b.TdBase.fromJson(json['file_type']) as a.FileType,
-    networkType: b.TdBase.fromJson(json['network_type']) as a.NetworkType,
+    fileType: b.TdBase.fromJson(json['file_type']) as a.FileType?,
+    networkType: b.TdBase.fromJson(json['network_type']) as a.NetworkType?,
     sentBytes: json['sent_bytes'],
     receivedBytes: json['received_bytes'],
   );
@@ -28964,7 +28964,7 @@ class NetworkStatisticsEntryFile extends a.NetworkStatisticsEntry {
 /// Contains information about the total amount of data that was used for calls
 class NetworkStatisticsEntryCall extends a.NetworkStatisticsEntry {
   /// Type of the network the data was sent through. Call setNetworkType to maintain the actual network type
-  final a.NetworkType networkType;
+  final a.NetworkType? networkType;
   /// Total number of bytes sent
   final int sentBytes;
   /// Total number of bytes received
@@ -28998,14 +28998,14 @@ class NetworkStatisticsEntryCall extends a.NetworkStatisticsEntry {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'networkStatisticsEntryCall',
-    'network_type': networkType.toJson(),
+    'network_type': networkType?.toJson(),
     'sent_bytes': sentBytes,
     'received_bytes': receivedBytes,
     'duration': duration,
   };
 
   factory NetworkStatisticsEntryCall.fromJson(Map<String, dynamic> json) => NetworkStatisticsEntryCall(
-    networkType: b.TdBase.fromJson(json['network_type']) as a.NetworkType,
+    networkType: b.TdBase.fromJson(json['network_type']) as a.NetworkType?,
     sentBytes: json['sent_bytes'],
     receivedBytes: json['received_bytes'],
     duration: json['duration'],
@@ -29017,7 +29017,7 @@ class NetworkStatistics extends a.NetworkStatistics {
   /// Point in time (Unix timestamp) from which the statistics are collected
   final int sinceDate;
   /// Network statistics entries
-  final List<a.NetworkStatisticsEntry> entries;
+  final List<a.NetworkStatisticsEntry?> entries;
 
   NetworkStatistics({
     required this.sinceDate,
@@ -29042,12 +29042,12 @@ class NetworkStatistics extends a.NetworkStatistics {
   Map<String, dynamic> toJson() => {
     '@type': 'networkStatistics',
     'since_date': sinceDate,
-    'entries': entries.map((_e1) => _e1.toJson()).toList(growable: false),
+    'entries': entries.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory NetworkStatistics.fromJson(Map<String, dynamic> json) => NetworkStatistics(
     sinceDate: json['since_date'],
-    entries: (json['entries'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.NetworkStatisticsEntry).toList(growable: false),
+    entries: (json['entries'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.NetworkStatisticsEntry?).toList(growable: false),
   );
 }
 
@@ -29129,11 +29129,11 @@ class AutoDownloadSettings extends a.AutoDownloadSettings {
 /// Contains auto-download settings presets for the user
 class AutoDownloadSettingsPresets extends a.AutoDownloadSettingsPresets {
   /// Preset with lowest settings; supposed to be used by default when roaming
-  final AutoDownloadSettings low;
+  final AutoDownloadSettings? low;
   /// Preset with medium settings; supposed to be used by default when using mobile data
-  final AutoDownloadSettings medium;
+  final AutoDownloadSettings? medium;
   /// Preset with highest settings; supposed to be used by default when connected on Wi-Fi
-  final AutoDownloadSettings high;
+  final AutoDownloadSettings? high;
 
   AutoDownloadSettingsPresets({
     required this.low,
@@ -29159,15 +29159,15 @@ class AutoDownloadSettingsPresets extends a.AutoDownloadSettingsPresets {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'autoDownloadSettingsPresets',
-    'low': low.toJson(),
-    'medium': medium.toJson(),
-    'high': high.toJson(),
+    'low': low?.toJson(),
+    'medium': medium?.toJson(),
+    'high': high?.toJson(),
   };
 
   factory AutoDownloadSettingsPresets.fromJson(Map<String, dynamic> json) => AutoDownloadSettingsPresets(
-    low: b.TdBase.fromJson(json['low']) as AutoDownloadSettings,
-    medium: b.TdBase.fromJson(json['medium']) as AutoDownloadSettings,
-    high: b.TdBase.fromJson(json['high']) as AutoDownloadSettings,
+    low: b.TdBase.fromJson(json['low']) as AutoDownloadSettings?,
+    medium: b.TdBase.fromJson(json['medium']) as AutoDownloadSettings?,
+    high: b.TdBase.fromJson(json['high']) as AutoDownloadSettings?,
   );
 }
 
@@ -29540,7 +29540,7 @@ class TMeUrlTypeSupergroup extends a.TMeUrlType {
 /// A chat invite link
 class TMeUrlTypeChatInvite extends a.TMeUrlType {
   /// Chat invite link info
-  final ChatInviteLinkInfo info;
+  final ChatInviteLinkInfo? info;
 
   TMeUrlTypeChatInvite({
     required this.info,
@@ -29562,11 +29562,11 @@ class TMeUrlTypeChatInvite extends a.TMeUrlType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'tMeUrlTypeChatInvite',
-    'info': info.toJson(),
+    'info': info?.toJson(),
   };
 
   factory TMeUrlTypeChatInvite.fromJson(Map<String, dynamic> json) => TMeUrlTypeChatInvite(
-    info: b.TdBase.fromJson(json['info']) as ChatInviteLinkInfo,
+    info: b.TdBase.fromJson(json['info']) as ChatInviteLinkInfo?,
   );
 }
 
@@ -29608,7 +29608,7 @@ class TMeUrl extends a.TMeUrl {
   /// URL
   final String url;
   /// Type of the URL
-  final a.TMeUrlType type;
+  final a.TMeUrlType? type;
 
   TMeUrl({
     required this.url,
@@ -29633,19 +29633,19 @@ class TMeUrl extends a.TMeUrl {
   Map<String, dynamic> toJson() => {
     '@type': 'tMeUrl',
     'url': url,
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory TMeUrl.fromJson(Map<String, dynamic> json) => TMeUrl(
     url: json['url'],
-    type: b.TdBase.fromJson(json['type']) as a.TMeUrlType,
+    type: b.TdBase.fromJson(json['type']) as a.TMeUrlType?,
   );
 }
 
 /// Contains a list of t.me URLs
 class TMeUrls extends a.TMeUrls {
   /// List of URLs
-  final List<TMeUrl> urls;
+  final List<TMeUrl?> urls;
 
   TMeUrls({
     required this.urls,
@@ -29667,11 +29667,11 @@ class TMeUrls extends a.TMeUrls {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'tMeUrls',
-    'urls': urls.map((_e1) => _e1.toJson()).toList(growable: false),
+    'urls': urls.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory TMeUrls.fromJson(Map<String, dynamic> json) => TMeUrls(
-    urls: (json['urls'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TMeUrl).toList(growable: false),
+    urls: (json['urls'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TMeUrl?).toList(growable: false),
   );
 }
 
@@ -29885,7 +29885,7 @@ class Seconds extends a.Seconds {
 /// Contains information about a tg:// deep link
 class DeepLinkInfo extends a.DeepLinkInfo {
   /// Text to be shown to the user
-  final FormattedText text;
+  final FormattedText? text;
   /// True, if user should be asked to update the application
   final bool needUpdateApplication;
 
@@ -29911,12 +29911,12 @@ class DeepLinkInfo extends a.DeepLinkInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'deepLinkInfo',
-    'text': text.toJson(),
+    'text': text?.toJson(),
     'need_update_application': needUpdateApplication,
   };
 
   factory DeepLinkInfo.fromJson(Map<String, dynamic> json) => DeepLinkInfo(
-    text: b.TdBase.fromJson(json['text']) as FormattedText,
+    text: b.TdBase.fromJson(json['text']) as FormattedText?,
     needUpdateApplication: json['need_update_application'],
   );
 }
@@ -30109,7 +30109,7 @@ class Proxy extends a.Proxy {
   /// True, if the proxy is enabled now
   final bool isEnabled;
   /// Type of the proxy
-  final a.ProxyType type;
+  final a.ProxyType? type;
 
   Proxy({
     required this.id,
@@ -30146,7 +30146,7 @@ class Proxy extends a.Proxy {
     'port': port,
     'last_used_date': lastUsedDate,
     'is_enabled': isEnabled,
-    'type': type.toJson(),
+    'type': type?.toJson(),
   };
 
   factory Proxy.fromJson(Map<String, dynamic> json) => Proxy(
@@ -30155,14 +30155,14 @@ class Proxy extends a.Proxy {
     port: json['port'],
     lastUsedDate: json['last_used_date'],
     isEnabled: json['is_enabled'],
-    type: b.TdBase.fromJson(json['type']) as a.ProxyType,
+    type: b.TdBase.fromJson(json['type']) as a.ProxyType?,
   );
 }
 
 /// Represents a list of proxy servers
 class Proxies extends a.Proxies {
   /// List of proxy servers
-  final List<Proxy> proxies;
+  final List<Proxy?> proxies;
 
   Proxies({
     required this.proxies,
@@ -30184,22 +30184,22 @@ class Proxies extends a.Proxies {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'proxies',
-    'proxies': proxies.map((_e1) => _e1.toJson()).toList(growable: false),
+    'proxies': proxies.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory Proxies.fromJson(Map<String, dynamic> json) => Proxies(
-    proxies: (json['proxies'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Proxy).toList(growable: false),
+    proxies: (json['proxies'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Proxy?).toList(growable: false),
   );
 }
 
 /// A static sticker in PNG format, which will be converted to WEBP server-side
 class InputStickerStatic extends a.InputSticker {
   /// PNG image with the sticker; must be up to 512 KB in size and fit in a 512x512 square
-  final a.InputFile sticker;
+  final a.InputFile? sticker;
   /// Emojis corresponding to the sticker
   final String emojis;
   /// For masks, position where the mask should be placed; may be null
-  final MaskPosition maskPosition;
+  final MaskPosition? maskPosition;
 
   InputStickerStatic({
     required this.sticker,
@@ -30225,22 +30225,22 @@ class InputStickerStatic extends a.InputSticker {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputStickerStatic',
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
     'emojis': emojis,
-    'mask_position': maskPosition.toJson(),
+    'mask_position': maskPosition?.toJson(),
   };
 
   factory InputStickerStatic.fromJson(Map<String, dynamic> json) => InputStickerStatic(
-    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile,
+    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
     emojis: json['emojis'],
-    maskPosition: b.TdBase.fromJson(json['mask_position']) as MaskPosition,
+    maskPosition: b.TdBase.fromJson(json['mask_position']) as MaskPosition?,
   );
 }
 
 /// An animated sticker in TGS format
 class InputStickerAnimated extends a.InputSticker {
   /// File with the animated sticker. Only local or uploaded within a week files are supported. See https://core.telegram.org/animated_stickers#technical-requirements for technical requirements
-  final a.InputFile sticker;
+  final a.InputFile? sticker;
   /// Emojis corresponding to the sticker
   final String emojis;
 
@@ -30266,12 +30266,12 @@ class InputStickerAnimated extends a.InputSticker {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputStickerAnimated',
-    'sticker': sticker.toJson(),
+    'sticker': sticker?.toJson(),
     'emojis': emojis,
   };
 
   factory InputStickerAnimated.fromJson(Map<String, dynamic> json) => InputStickerAnimated(
-    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile,
+    sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
     emojis: json['emojis'],
   );
 }
@@ -30648,37 +30648,37 @@ class ChatStatisticsInviterInfo extends a.ChatStatisticsInviterInfo {
 /// A detailed statistics about a supergroup chat
 class ChatStatisticsSupergroup extends a.ChatStatistics {
   /// A period to which the statistics applies
-  final DateRange period;
+  final DateRange? period;
   /// Number of members in the chat
-  final StatisticalValue memberCount;
+  final StatisticalValue? memberCount;
   /// Number of messages sent to the chat
-  final StatisticalValue messageCount;
+  final StatisticalValue? messageCount;
   /// Number of users who viewed messages in the chat
-  final StatisticalValue viewerCount;
+  final StatisticalValue? viewerCount;
   /// Number of users who sent messages to the chat
-  final StatisticalValue senderCount;
+  final StatisticalValue? senderCount;
   /// A graph containing number of members in the chat
-  final a.StatisticalGraph memberCountGraph;
+  final a.StatisticalGraph? memberCountGraph;
   /// A graph containing number of members joined and left the chat
-  final a.StatisticalGraph joinGraph;
+  final a.StatisticalGraph? joinGraph;
   /// A graph containing number of new member joins per source
-  final a.StatisticalGraph joinBySourceGraph;
+  final a.StatisticalGraph? joinBySourceGraph;
   /// A graph containing distribution of active users per language
-  final a.StatisticalGraph languageGraph;
+  final a.StatisticalGraph? languageGraph;
   /// A graph containing distribution of sent messages by content type
-  final a.StatisticalGraph messageContentGraph;
+  final a.StatisticalGraph? messageContentGraph;
   /// A graph containing number of different actions in the chat
-  final a.StatisticalGraph actionGraph;
+  final a.StatisticalGraph? actionGraph;
   /// A graph containing distribution of message views per hour
-  final a.StatisticalGraph dayGraph;
+  final a.StatisticalGraph? dayGraph;
   /// A graph containing distribution of message views per day of week
-  final a.StatisticalGraph weekGraph;
+  final a.StatisticalGraph? weekGraph;
   /// List of users sent most messages in the last week
-  final List<ChatStatisticsMessageSenderInfo> topSenders;
+  final List<ChatStatisticsMessageSenderInfo?> topSenders;
   /// List of most active administrators in the last week
-  final List<ChatStatisticsAdministratorActionsInfo> topAdministrators;
+  final List<ChatStatisticsAdministratorActionsInfo?> topAdministrators;
   /// List of most active inviters of new members in the last week
-  final List<ChatStatisticsInviterInfo> topInviters;
+  final List<ChatStatisticsInviterInfo?> topInviters;
 
   ChatStatisticsSupergroup({
     required this.period,
@@ -30730,76 +30730,76 @@ class ChatStatisticsSupergroup extends a.ChatStatistics {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatStatisticsSupergroup',
-    'period': period.toJson(),
-    'member_count': memberCount.toJson(),
-    'message_count': messageCount.toJson(),
-    'viewer_count': viewerCount.toJson(),
-    'sender_count': senderCount.toJson(),
-    'member_count_graph': memberCountGraph.toJson(),
-    'join_graph': joinGraph.toJson(),
-    'join_by_source_graph': joinBySourceGraph.toJson(),
-    'language_graph': languageGraph.toJson(),
-    'message_content_graph': messageContentGraph.toJson(),
-    'action_graph': actionGraph.toJson(),
-    'day_graph': dayGraph.toJson(),
-    'week_graph': weekGraph.toJson(),
-    'top_senders': topSenders.map((_e1) => _e1.toJson()).toList(growable: false),
-    'top_administrators': topAdministrators.map((_e1) => _e1.toJson()).toList(growable: false),
-    'top_inviters': topInviters.map((_e1) => _e1.toJson()).toList(growable: false),
+    'period': period?.toJson(),
+    'member_count': memberCount?.toJson(),
+    'message_count': messageCount?.toJson(),
+    'viewer_count': viewerCount?.toJson(),
+    'sender_count': senderCount?.toJson(),
+    'member_count_graph': memberCountGraph?.toJson(),
+    'join_graph': joinGraph?.toJson(),
+    'join_by_source_graph': joinBySourceGraph?.toJson(),
+    'language_graph': languageGraph?.toJson(),
+    'message_content_graph': messageContentGraph?.toJson(),
+    'action_graph': actionGraph?.toJson(),
+    'day_graph': dayGraph?.toJson(),
+    'week_graph': weekGraph?.toJson(),
+    'top_senders': topSenders.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'top_administrators': topAdministrators.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'top_inviters': topInviters.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ChatStatisticsSupergroup.fromJson(Map<String, dynamic> json) => ChatStatisticsSupergroup(
-    period: b.TdBase.fromJson(json['period']) as DateRange,
-    memberCount: b.TdBase.fromJson(json['member_count']) as StatisticalValue,
-    messageCount: b.TdBase.fromJson(json['message_count']) as StatisticalValue,
-    viewerCount: b.TdBase.fromJson(json['viewer_count']) as StatisticalValue,
-    senderCount: b.TdBase.fromJson(json['sender_count']) as StatisticalValue,
-    memberCountGraph: b.TdBase.fromJson(json['member_count_graph']) as a.StatisticalGraph,
-    joinGraph: b.TdBase.fromJson(json['join_graph']) as a.StatisticalGraph,
-    joinBySourceGraph: b.TdBase.fromJson(json['join_by_source_graph']) as a.StatisticalGraph,
-    languageGraph: b.TdBase.fromJson(json['language_graph']) as a.StatisticalGraph,
-    messageContentGraph: b.TdBase.fromJson(json['message_content_graph']) as a.StatisticalGraph,
-    actionGraph: b.TdBase.fromJson(json['action_graph']) as a.StatisticalGraph,
-    dayGraph: b.TdBase.fromJson(json['day_graph']) as a.StatisticalGraph,
-    weekGraph: b.TdBase.fromJson(json['week_graph']) as a.StatisticalGraph,
-    topSenders: (json['top_senders'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatStatisticsMessageSenderInfo).toList(growable: false),
-    topAdministrators: (json['top_administrators'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatStatisticsAdministratorActionsInfo).toList(growable: false),
-    topInviters: (json['top_inviters'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatStatisticsInviterInfo).toList(growable: false),
+    period: b.TdBase.fromJson(json['period']) as DateRange?,
+    memberCount: b.TdBase.fromJson(json['member_count']) as StatisticalValue?,
+    messageCount: b.TdBase.fromJson(json['message_count']) as StatisticalValue?,
+    viewerCount: b.TdBase.fromJson(json['viewer_count']) as StatisticalValue?,
+    senderCount: b.TdBase.fromJson(json['sender_count']) as StatisticalValue?,
+    memberCountGraph: b.TdBase.fromJson(json['member_count_graph']) as a.StatisticalGraph?,
+    joinGraph: b.TdBase.fromJson(json['join_graph']) as a.StatisticalGraph?,
+    joinBySourceGraph: b.TdBase.fromJson(json['join_by_source_graph']) as a.StatisticalGraph?,
+    languageGraph: b.TdBase.fromJson(json['language_graph']) as a.StatisticalGraph?,
+    messageContentGraph: b.TdBase.fromJson(json['message_content_graph']) as a.StatisticalGraph?,
+    actionGraph: b.TdBase.fromJson(json['action_graph']) as a.StatisticalGraph?,
+    dayGraph: b.TdBase.fromJson(json['day_graph']) as a.StatisticalGraph?,
+    weekGraph: b.TdBase.fromJson(json['week_graph']) as a.StatisticalGraph?,
+    topSenders: (json['top_senders'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatStatisticsMessageSenderInfo?).toList(growable: false),
+    topAdministrators: (json['top_administrators'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatStatisticsAdministratorActionsInfo?).toList(growable: false),
+    topInviters: (json['top_inviters'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatStatisticsInviterInfo?).toList(growable: false),
   );
 }
 
 /// A detailed statistics about a channel chat
 class ChatStatisticsChannel extends a.ChatStatistics {
   /// A period to which the statistics applies
-  final DateRange period;
+  final DateRange? period;
   /// Number of members in the chat
-  final StatisticalValue memberCount;
+  final StatisticalValue? memberCount;
   /// Mean number of times the recently sent messages was viewed
-  final StatisticalValue meanViewCount;
+  final StatisticalValue? meanViewCount;
   /// Mean number of times the recently sent messages was shared
-  final StatisticalValue meanShareCount;
+  final StatisticalValue? meanShareCount;
   /// A percentage of users with enabled notifications for the chat
   final double enabledNotificationsPercentage;
   /// A graph containing number of members in the chat
-  final a.StatisticalGraph memberCountGraph;
+  final a.StatisticalGraph? memberCountGraph;
   /// A graph containing number of members joined and left the chat
-  final a.StatisticalGraph joinGraph;
+  final a.StatisticalGraph? joinGraph;
   /// A graph containing number of members muted and unmuted the chat
-  final a.StatisticalGraph muteGraph;
+  final a.StatisticalGraph? muteGraph;
   /// A graph containing number of message views in a given hour in the last two weeks
-  final a.StatisticalGraph viewCountByHourGraph;
+  final a.StatisticalGraph? viewCountByHourGraph;
   /// A graph containing number of message views per source
-  final a.StatisticalGraph viewCountBySourceGraph;
+  final a.StatisticalGraph? viewCountBySourceGraph;
   /// A graph containing number of new member joins per source
-  final a.StatisticalGraph joinBySourceGraph;
+  final a.StatisticalGraph? joinBySourceGraph;
   /// A graph containing number of users viewed chat messages per language
-  final a.StatisticalGraph languageGraph;
+  final a.StatisticalGraph? languageGraph;
   /// A graph containing number of chat message views and shares
-  final a.StatisticalGraph messageInteractionGraph;
+  final a.StatisticalGraph? messageInteractionGraph;
   /// A graph containing number of views of associated with the chat instant views
-  final a.StatisticalGraph instantViewInteractionGraph;
+  final a.StatisticalGraph? instantViewInteractionGraph;
   /// Detailed statistics about number of views and shares of recently sent messages
-  final List<ChatStatisticsMessageInteractionInfo> recentMessageInteractions;
+  final List<ChatStatisticsMessageInteractionInfo?> recentMessageInteractions;
 
   ChatStatisticsChannel({
     required this.period,
@@ -30849,46 +30849,46 @@ class ChatStatisticsChannel extends a.ChatStatistics {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatStatisticsChannel',
-    'period': period.toJson(),
-    'member_count': memberCount.toJson(),
-    'mean_view_count': meanViewCount.toJson(),
-    'mean_share_count': meanShareCount.toJson(),
+    'period': period?.toJson(),
+    'member_count': memberCount?.toJson(),
+    'mean_view_count': meanViewCount?.toJson(),
+    'mean_share_count': meanShareCount?.toJson(),
     'enabled_notifications_percentage': enabledNotificationsPercentage,
-    'member_count_graph': memberCountGraph.toJson(),
-    'join_graph': joinGraph.toJson(),
-    'mute_graph': muteGraph.toJson(),
-    'view_count_by_hour_graph': viewCountByHourGraph.toJson(),
-    'view_count_by_source_graph': viewCountBySourceGraph.toJson(),
-    'join_by_source_graph': joinBySourceGraph.toJson(),
-    'language_graph': languageGraph.toJson(),
-    'message_interaction_graph': messageInteractionGraph.toJson(),
-    'instant_view_interaction_graph': instantViewInteractionGraph.toJson(),
-    'recent_message_interactions': recentMessageInteractions.map((_e1) => _e1.toJson()).toList(growable: false),
+    'member_count_graph': memberCountGraph?.toJson(),
+    'join_graph': joinGraph?.toJson(),
+    'mute_graph': muteGraph?.toJson(),
+    'view_count_by_hour_graph': viewCountByHourGraph?.toJson(),
+    'view_count_by_source_graph': viewCountBySourceGraph?.toJson(),
+    'join_by_source_graph': joinBySourceGraph?.toJson(),
+    'language_graph': languageGraph?.toJson(),
+    'message_interaction_graph': messageInteractionGraph?.toJson(),
+    'instant_view_interaction_graph': instantViewInteractionGraph?.toJson(),
+    'recent_message_interactions': recentMessageInteractions.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory ChatStatisticsChannel.fromJson(Map<String, dynamic> json) => ChatStatisticsChannel(
-    period: b.TdBase.fromJson(json['period']) as DateRange,
-    memberCount: b.TdBase.fromJson(json['member_count']) as StatisticalValue,
-    meanViewCount: b.TdBase.fromJson(json['mean_view_count']) as StatisticalValue,
-    meanShareCount: b.TdBase.fromJson(json['mean_share_count']) as StatisticalValue,
+    period: b.TdBase.fromJson(json['period']) as DateRange?,
+    memberCount: b.TdBase.fromJson(json['member_count']) as StatisticalValue?,
+    meanViewCount: b.TdBase.fromJson(json['mean_view_count']) as StatisticalValue?,
+    meanShareCount: b.TdBase.fromJson(json['mean_share_count']) as StatisticalValue?,
     enabledNotificationsPercentage: json['enabled_notifications_percentage'],
-    memberCountGraph: b.TdBase.fromJson(json['member_count_graph']) as a.StatisticalGraph,
-    joinGraph: b.TdBase.fromJson(json['join_graph']) as a.StatisticalGraph,
-    muteGraph: b.TdBase.fromJson(json['mute_graph']) as a.StatisticalGraph,
-    viewCountByHourGraph: b.TdBase.fromJson(json['view_count_by_hour_graph']) as a.StatisticalGraph,
-    viewCountBySourceGraph: b.TdBase.fromJson(json['view_count_by_source_graph']) as a.StatisticalGraph,
-    joinBySourceGraph: b.TdBase.fromJson(json['join_by_source_graph']) as a.StatisticalGraph,
-    languageGraph: b.TdBase.fromJson(json['language_graph']) as a.StatisticalGraph,
-    messageInteractionGraph: b.TdBase.fromJson(json['message_interaction_graph']) as a.StatisticalGraph,
-    instantViewInteractionGraph: b.TdBase.fromJson(json['instant_view_interaction_graph']) as a.StatisticalGraph,
-    recentMessageInteractions: (json['recent_message_interactions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatStatisticsMessageInteractionInfo).toList(growable: false),
+    memberCountGraph: b.TdBase.fromJson(json['member_count_graph']) as a.StatisticalGraph?,
+    joinGraph: b.TdBase.fromJson(json['join_graph']) as a.StatisticalGraph?,
+    muteGraph: b.TdBase.fromJson(json['mute_graph']) as a.StatisticalGraph?,
+    viewCountByHourGraph: b.TdBase.fromJson(json['view_count_by_hour_graph']) as a.StatisticalGraph?,
+    viewCountBySourceGraph: b.TdBase.fromJson(json['view_count_by_source_graph']) as a.StatisticalGraph?,
+    joinBySourceGraph: b.TdBase.fromJson(json['join_by_source_graph']) as a.StatisticalGraph?,
+    languageGraph: b.TdBase.fromJson(json['language_graph']) as a.StatisticalGraph?,
+    messageInteractionGraph: b.TdBase.fromJson(json['message_interaction_graph']) as a.StatisticalGraph?,
+    instantViewInteractionGraph: b.TdBase.fromJson(json['instant_view_interaction_graph']) as a.StatisticalGraph?,
+    recentMessageInteractions: (json['recent_message_interactions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatStatisticsMessageInteractionInfo?).toList(growable: false),
   );
 }
 
 /// A detailed statistics about a message
 class MessageStatistics extends a.MessageStatistics {
   /// A graph containing number of message views and shares
-  final a.StatisticalGraph messageInteractionGraph;
+  final a.StatisticalGraph? messageInteractionGraph;
 
   MessageStatistics({
     required this.messageInteractionGraph,
@@ -30910,11 +30910,11 @@ class MessageStatistics extends a.MessageStatistics {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageStatistics',
-    'message_interaction_graph': messageInteractionGraph.toJson(),
+    'message_interaction_graph': messageInteractionGraph?.toJson(),
   };
 
   factory MessageStatistics.fromJson(Map<String, dynamic> json) => MessageStatistics(
-    messageInteractionGraph: b.TdBase.fromJson(json['message_interaction_graph']) as a.StatisticalGraph,
+    messageInteractionGraph: b.TdBase.fromJson(json['message_interaction_graph']) as a.StatisticalGraph?,
   );
 }
 
@@ -30960,7 +30960,7 @@ class Point extends a.Point {
 /// A straight line to a given point
 class VectorPathCommandLine extends a.VectorPathCommand {
   /// The end point of the straight line
-  final Point endPoint;
+  final Point? endPoint;
 
   VectorPathCommandLine({
     required this.endPoint,
@@ -30982,22 +30982,22 @@ class VectorPathCommandLine extends a.VectorPathCommand {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'vectorPathCommandLine',
-    'end_point': endPoint.toJson(),
+    'end_point': endPoint?.toJson(),
   };
 
   factory VectorPathCommandLine.fromJson(Map<String, dynamic> json) => VectorPathCommandLine(
-    endPoint: b.TdBase.fromJson(json['end_point']) as Point,
+    endPoint: b.TdBase.fromJson(json['end_point']) as Point?,
   );
 }
 
 /// A cubic Bézier curve to a given point
 class VectorPathCommandCubicBezierCurve extends a.VectorPathCommand {
   /// The start control point of the curve
-  final Point startControlPoint;
+  final Point? startControlPoint;
   /// The end control point of the curve
-  final Point endControlPoint;
+  final Point? endControlPoint;
   /// The end point of the curve
-  final Point endPoint;
+  final Point? endPoint;
 
   VectorPathCommandCubicBezierCurve({
     required this.startControlPoint,
@@ -31023,22 +31023,22 @@ class VectorPathCommandCubicBezierCurve extends a.VectorPathCommand {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'vectorPathCommandCubicBezierCurve',
-    'start_control_point': startControlPoint.toJson(),
-    'end_control_point': endControlPoint.toJson(),
-    'end_point': endPoint.toJson(),
+    'start_control_point': startControlPoint?.toJson(),
+    'end_control_point': endControlPoint?.toJson(),
+    'end_point': endPoint?.toJson(),
   };
 
   factory VectorPathCommandCubicBezierCurve.fromJson(Map<String, dynamic> json) => VectorPathCommandCubicBezierCurve(
-    startControlPoint: b.TdBase.fromJson(json['start_control_point']) as Point,
-    endControlPoint: b.TdBase.fromJson(json['end_control_point']) as Point,
-    endPoint: b.TdBase.fromJson(json['end_point']) as Point,
+    startControlPoint: b.TdBase.fromJson(json['start_control_point']) as Point?,
+    endControlPoint: b.TdBase.fromJson(json['end_control_point']) as Point?,
+    endPoint: b.TdBase.fromJson(json['end_point']) as Point?,
   );
 }
 
 /// The user authorization state has changed
 class UpdateAuthorizationState extends a.Update {
   /// New authorization state
-  final a.AuthorizationState authorizationState;
+  final a.AuthorizationState? authorizationState;
 
   UpdateAuthorizationState({
     required this.authorizationState,
@@ -31060,18 +31060,18 @@ class UpdateAuthorizationState extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateAuthorizationState',
-    'authorization_state': authorizationState.toJson(),
+    'authorization_state': authorizationState?.toJson(),
   };
 
   factory UpdateAuthorizationState.fromJson(Map<String, dynamic> json) => UpdateAuthorizationState(
-    authorizationState: b.TdBase.fromJson(json['authorization_state']) as a.AuthorizationState,
+    authorizationState: b.TdBase.fromJson(json['authorization_state']) as a.AuthorizationState?,
   );
 }
 
 /// A new message was received; can also be an outgoing message
 class UpdateNewMessage extends a.Update {
   /// The new message
-  final Message message;
+  final Message? message;
 
   UpdateNewMessage({
     required this.message,
@@ -31093,11 +31093,11 @@ class UpdateNewMessage extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewMessage',
-    'message': message.toJson(),
+    'message': message?.toJson(),
   };
 
   factory UpdateNewMessage.fromJson(Map<String, dynamic> json) => UpdateNewMessage(
-    message: b.TdBase.fromJson(json['message']) as Message,
+    message: b.TdBase.fromJson(json['message']) as Message?,
   );
 }
 
@@ -31143,7 +31143,7 @@ class UpdateMessageSendAcknowledged extends a.Update {
 /// A message has been successfully sent
 class UpdateMessageSendSucceeded extends a.Update {
   /// Information about the sent message. Usually only the message identifier, date, and content are changed, but almost all other fields can also change
-  final Message message;
+  final Message? message;
   /// The previous temporary message identifier
   final int oldMessageId;
 
@@ -31169,12 +31169,12 @@ class UpdateMessageSendSucceeded extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateMessageSendSucceeded',
-    'message': message.toJson(),
+    'message': message?.toJson(),
     'old_message_id': oldMessageId,
   };
 
   factory UpdateMessageSendSucceeded.fromJson(Map<String, dynamic> json) => UpdateMessageSendSucceeded(
-    message: b.TdBase.fromJson(json['message']) as Message,
+    message: b.TdBase.fromJson(json['message']) as Message?,
     oldMessageId: json['old_message_id'],
   );
 }
@@ -31182,7 +31182,7 @@ class UpdateMessageSendSucceeded extends a.Update {
 /// A message failed to send. Be aware that some messages being sent can be irrecoverably deleted, in which case updateDeleteMessages will be received instead of this update
 class UpdateMessageSendFailed extends a.Update {
   /// Contains information about the message which failed to send
-  final Message message;
+  final Message? message;
   /// The previous temporary message identifier
   final int oldMessageId;
   /// An error code
@@ -31216,14 +31216,14 @@ class UpdateMessageSendFailed extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateMessageSendFailed',
-    'message': message.toJson(),
+    'message': message?.toJson(),
     'old_message_id': oldMessageId,
     'error_code': errorCode,
     'error_message': errorMessage,
   };
 
   factory UpdateMessageSendFailed.fromJson(Map<String, dynamic> json) => UpdateMessageSendFailed(
-    message: b.TdBase.fromJson(json['message']) as Message,
+    message: b.TdBase.fromJson(json['message']) as Message?,
     oldMessageId: json['old_message_id'],
     errorCode: json['error_code'],
     errorMessage: json['error_message'],
@@ -31237,7 +31237,7 @@ class UpdateMessageContent extends a.Update {
   /// Message identifier
   final int messageId;
   /// New message content
-  final a.MessageContent newContent;
+  final a.MessageContent? newContent;
 
   UpdateMessageContent({
     required this.chatId,
@@ -31265,13 +31265,13 @@ class UpdateMessageContent extends a.Update {
     '@type': 'updateMessageContent',
     'chat_id': chatId,
     'message_id': messageId,
-    'new_content': newContent.toJson(),
+    'new_content': newContent?.toJson(),
   };
 
   factory UpdateMessageContent.fromJson(Map<String, dynamic> json) => UpdateMessageContent(
     chatId: json['chat_id'],
     messageId: json['message_id'],
-    newContent: b.TdBase.fromJson(json['new_content']) as a.MessageContent,
+    newContent: b.TdBase.fromJson(json['new_content']) as a.MessageContent?,
   );
 }
 
@@ -31284,7 +31284,7 @@ class UpdateMessageEdited extends a.Update {
   /// Point in time (Unix timestamp) when the message was edited
   final int editDate;
   /// New message reply markup; may be null
-  final a.ReplyMarkup replyMarkup;
+  final a.ReplyMarkup? replyMarkup;
 
   UpdateMessageEdited({
     required this.chatId,
@@ -31315,14 +31315,14 @@ class UpdateMessageEdited extends a.Update {
     'chat_id': chatId,
     'message_id': messageId,
     'edit_date': editDate,
-    'reply_markup': replyMarkup.toJson(),
+    'reply_markup': replyMarkup?.toJson(),
   };
 
   factory UpdateMessageEdited.fromJson(Map<String, dynamic> json) => UpdateMessageEdited(
     chatId: json['chat_id'],
     messageId: json['message_id'],
     editDate: json['edit_date'],
-    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup,
+    replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
   );
 }
 
@@ -31378,7 +31378,7 @@ class UpdateMessageInteractionInfo extends a.Update {
   /// Message identifier
   final int messageId;
   /// New information about interactions with the message; may be null
-  final MessageInteractionInfo interactionInfo;
+  final MessageInteractionInfo? interactionInfo;
 
   UpdateMessageInteractionInfo({
     required this.chatId,
@@ -31406,13 +31406,13 @@ class UpdateMessageInteractionInfo extends a.Update {
     '@type': 'updateMessageInteractionInfo',
     'chat_id': chatId,
     'message_id': messageId,
-    'interaction_info': interactionInfo.toJson(),
+    'interaction_info': interactionInfo?.toJson(),
   };
 
   factory UpdateMessageInteractionInfo.fromJson(Map<String, dynamic> json) => UpdateMessageInteractionInfo(
     chatId: json['chat_id'],
     messageId: json['message_id'],
-    interactionInfo: b.TdBase.fromJson(json['interaction_info']) as MessageInteractionInfo,
+    interactionInfo: b.TdBase.fromJson(json['interaction_info']) as MessageInteractionInfo?,
   );
 }
 
@@ -31542,7 +31542,7 @@ class UpdateMessageLiveLocationViewed extends a.Update {
 /// A new chat has been loaded/created. This update is guaranteed to come before the chat identifier is returned to the application. The chat field changes will be reported through separate updates
 class UpdateNewChat extends a.Update {
   /// The chat
-  final Chat chat;
+  final Chat? chat;
 
   UpdateNewChat({
     required this.chat,
@@ -31564,11 +31564,11 @@ class UpdateNewChat extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewChat',
-    'chat': chat.toJson(),
+    'chat': chat?.toJson(),
   };
 
   factory UpdateNewChat.fromJson(Map<String, dynamic> json) => UpdateNewChat(
-    chat: b.TdBase.fromJson(json['chat']) as Chat,
+    chat: b.TdBase.fromJson(json['chat']) as Chat?,
   );
 }
 
@@ -31616,7 +31616,7 @@ class UpdateChatPhoto extends a.Update {
   /// Chat identifier
   final int chatId;
   /// The new chat photo; may be null
-  final ChatPhotoInfo photo;
+  final ChatPhotoInfo? photo;
 
   UpdateChatPhoto({
     required this.chatId,
@@ -31641,12 +31641,12 @@ class UpdateChatPhoto extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatPhoto',
     'chat_id': chatId,
-    'photo': photo.toJson(),
+    'photo': photo?.toJson(),
   };
 
   factory UpdateChatPhoto.fromJson(Map<String, dynamic> json) => UpdateChatPhoto(
     chatId: json['chat_id'],
-    photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo,
+    photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
   );
 }
 
@@ -31655,7 +31655,7 @@ class UpdateChatPermissions extends a.Update {
   /// Chat identifier
   final int chatId;
   /// The new chat permissions
-  final ChatPermissions permissions;
+  final ChatPermissions? permissions;
 
   UpdateChatPermissions({
     required this.chatId,
@@ -31680,12 +31680,12 @@ class UpdateChatPermissions extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatPermissions',
     'chat_id': chatId,
-    'permissions': permissions.toJson(),
+    'permissions': permissions?.toJson(),
   };
 
   factory UpdateChatPermissions.fromJson(Map<String, dynamic> json) => UpdateChatPermissions(
     chatId: json['chat_id'],
-    permissions: b.TdBase.fromJson(json['permissions']) as ChatPermissions,
+    permissions: b.TdBase.fromJson(json['permissions']) as ChatPermissions?,
   );
 }
 
@@ -31694,9 +31694,9 @@ class UpdateChatLastMessage extends a.Update {
   /// Chat identifier
   final int chatId;
   /// The new last message in the chat; may be null
-  final Message lastMessage;
+  final Message? lastMessage;
   /// The new chat positions in the chat lists
-  final List<ChatPosition> positions;
+  final List<ChatPosition?> positions;
 
   UpdateChatLastMessage({
     required this.chatId,
@@ -31723,14 +31723,14 @@ class UpdateChatLastMessage extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatLastMessage',
     'chat_id': chatId,
-    'last_message': lastMessage.toJson(),
-    'positions': positions.map((_e1) => _e1.toJson()).toList(growable: false),
+    'last_message': lastMessage?.toJson(),
+    'positions': positions.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory UpdateChatLastMessage.fromJson(Map<String, dynamic> json) => UpdateChatLastMessage(
     chatId: json['chat_id'],
-    lastMessage: b.TdBase.fromJson(json['last_message']) as Message,
-    positions: (json['positions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatPosition).toList(growable: false),
+    lastMessage: b.TdBase.fromJson(json['last_message']) as Message?,
+    positions: (json['positions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatPosition?).toList(growable: false),
   );
 }
 
@@ -31739,7 +31739,7 @@ class UpdateChatPosition extends a.Update {
   /// Chat identifier
   final int chatId;
   /// New chat position. If new order is 0, then the chat needs to be removed from the list
-  final ChatPosition position;
+  final ChatPosition? position;
 
   UpdateChatPosition({
     required this.chatId,
@@ -31764,12 +31764,12 @@ class UpdateChatPosition extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatPosition',
     'chat_id': chatId,
-    'position': position.toJson(),
+    'position': position?.toJson(),
   };
 
   factory UpdateChatPosition.fromJson(Map<String, dynamic> json) => UpdateChatPosition(
     chatId: json['chat_id'],
-    position: b.TdBase.fromJson(json['position']) as ChatPosition,
+    position: b.TdBase.fromJson(json['position']) as ChatPosition?,
   );
 }
 
@@ -31895,7 +31895,7 @@ class UpdateChatVoiceChat extends a.Update {
   /// Chat identifier
   final int chatId;
   /// New value of voice_chat
-  final VoiceChat voiceChat;
+  final VoiceChat? voiceChat;
 
   UpdateChatVoiceChat({
     required this.chatId,
@@ -31920,12 +31920,12 @@ class UpdateChatVoiceChat extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatVoiceChat',
     'chat_id': chatId,
-    'voice_chat': voiceChat.toJson(),
+    'voice_chat': voiceChat?.toJson(),
   };
 
   factory UpdateChatVoiceChat.fromJson(Map<String, dynamic> json) => UpdateChatVoiceChat(
     chatId: json['chat_id'],
-    voiceChat: b.TdBase.fromJson(json['voice_chat']) as VoiceChat,
+    voiceChat: b.TdBase.fromJson(json['voice_chat']) as VoiceChat?,
   );
 }
 
@@ -32096,7 +32096,7 @@ class UpdateChatNotificationSettings extends a.Update {
   /// Chat identifier
   final int chatId;
   /// The new notification settings
-  final ChatNotificationSettings notificationSettings;
+  final ChatNotificationSettings? notificationSettings;
 
   UpdateChatNotificationSettings({
     required this.chatId,
@@ -32121,21 +32121,21 @@ class UpdateChatNotificationSettings extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatNotificationSettings',
     'chat_id': chatId,
-    'notification_settings': notificationSettings.toJson(),
+    'notification_settings': notificationSettings?.toJson(),
   };
 
   factory UpdateChatNotificationSettings.fromJson(Map<String, dynamic> json) => UpdateChatNotificationSettings(
     chatId: json['chat_id'],
-    notificationSettings: b.TdBase.fromJson(json['notification_settings']) as ChatNotificationSettings,
+    notificationSettings: b.TdBase.fromJson(json['notification_settings']) as ChatNotificationSettings?,
   );
 }
 
 /// Notification settings for some type of chats were updated
 class UpdateScopeNotificationSettings extends a.Update {
   /// Types of chats for which notification settings were updated
-  final a.NotificationSettingsScope scope;
+  final a.NotificationSettingsScope? scope;
   /// The new notification settings
-  final ScopeNotificationSettings notificationSettings;
+  final ScopeNotificationSettings? notificationSettings;
 
   UpdateScopeNotificationSettings({
     required this.scope,
@@ -32159,13 +32159,13 @@ class UpdateScopeNotificationSettings extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateScopeNotificationSettings',
-    'scope': scope.toJson(),
-    'notification_settings': notificationSettings.toJson(),
+    'scope': scope?.toJson(),
+    'notification_settings': notificationSettings?.toJson(),
   };
 
   factory UpdateScopeNotificationSettings.fromJson(Map<String, dynamic> json) => UpdateScopeNotificationSettings(
-    scope: b.TdBase.fromJson(json['scope']) as a.NotificationSettingsScope,
-    notificationSettings: b.TdBase.fromJson(json['notification_settings']) as ScopeNotificationSettings,
+    scope: b.TdBase.fromJson(json['scope']) as a.NotificationSettingsScope?,
+    notificationSettings: b.TdBase.fromJson(json['notification_settings']) as ScopeNotificationSettings?,
   );
 }
 
@@ -32213,7 +32213,7 @@ class UpdateChatActionBar extends a.Update {
   /// Chat identifier
   final int chatId;
   /// The new value of the action bar; may be null
-  final a.ChatActionBar actionBar;
+  final a.ChatActionBar? actionBar;
 
   UpdateChatActionBar({
     required this.chatId,
@@ -32238,12 +32238,12 @@ class UpdateChatActionBar extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatActionBar',
     'chat_id': chatId,
-    'action_bar': actionBar.toJson(),
+    'action_bar': actionBar?.toJson(),
   };
 
   factory UpdateChatActionBar.fromJson(Map<String, dynamic> json) => UpdateChatActionBar(
     chatId: json['chat_id'],
-    actionBar: b.TdBase.fromJson(json['action_bar']) as a.ChatActionBar,
+    actionBar: b.TdBase.fromJson(json['action_bar']) as a.ChatActionBar?,
   );
 }
 
@@ -32291,9 +32291,9 @@ class UpdateChatDraftMessage extends a.Update {
   /// Chat identifier
   final int chatId;
   /// The new draft message; may be null
-  final DraftMessage draftMessage;
+  final DraftMessage? draftMessage;
   /// The new chat positions in the chat lists
-  final List<ChatPosition> positions;
+  final List<ChatPosition?> positions;
 
   UpdateChatDraftMessage({
     required this.chatId,
@@ -32320,21 +32320,21 @@ class UpdateChatDraftMessage extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatDraftMessage',
     'chat_id': chatId,
-    'draft_message': draftMessage.toJson(),
-    'positions': positions.map((_e1) => _e1.toJson()).toList(growable: false),
+    'draft_message': draftMessage?.toJson(),
+    'positions': positions.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory UpdateChatDraftMessage.fromJson(Map<String, dynamic> json) => UpdateChatDraftMessage(
     chatId: json['chat_id'],
-    draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage,
-    positions: (json['positions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatPosition).toList(growable: false),
+    draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage?,
+    positions: (json['positions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatPosition?).toList(growable: false),
   );
 }
 
 /// The list of chat filters or a chat filter has changed
 class UpdateChatFilters extends a.Update {
   /// The new list of chat filters
-  final List<ChatFilterInfo> chatFilters;
+  final List<ChatFilterInfo?> chatFilters;
 
   UpdateChatFilters({
     required this.chatFilters,
@@ -32356,11 +32356,11 @@ class UpdateChatFilters extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatFilters',
-    'chat_filters': chatFilters.map((_e1) => _e1.toJson()).toList(growable: false),
+    'chat_filters': chatFilters.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory UpdateChatFilters.fromJson(Map<String, dynamic> json) => UpdateChatFilters(
-    chatFilters: (json['chat_filters'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatFilterInfo).toList(growable: false),
+    chatFilters: (json['chat_filters'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatFilterInfo?).toList(growable: false),
   );
 }
 
@@ -32408,7 +32408,7 @@ class UpdateNotification extends a.Update {
   /// Unique notification group identifier
   final int notificationGroupId;
   /// Changed notification
-  final Notification notification;
+  final Notification? notification;
 
   UpdateNotification({
     required this.notificationGroupId,
@@ -32433,12 +32433,12 @@ class UpdateNotification extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateNotification',
     'notification_group_id': notificationGroupId,
-    'notification': notification.toJson(),
+    'notification': notification?.toJson(),
   };
 
   factory UpdateNotification.fromJson(Map<String, dynamic> json) => UpdateNotification(
     notificationGroupId: json['notification_group_id'],
-    notification: b.TdBase.fromJson(json['notification']) as Notification,
+    notification: b.TdBase.fromJson(json['notification']) as Notification?,
   );
 }
 
@@ -32447,7 +32447,7 @@ class UpdateNotificationGroup extends a.Update {
   /// Unique notification group identifier
   final int notificationGroupId;
   /// New type of the notification group
-  final a.NotificationGroupType type;
+  final a.NotificationGroupType? type;
   /// Identifier of a chat to which all notifications in the group belong
   final int chatId;
   /// Chat identifier, which notification settings must be applied to the added notifications
@@ -32457,7 +32457,7 @@ class UpdateNotificationGroup extends a.Update {
   /// Total number of unread notifications in the group, can be bigger than number of active notifications
   final int totalCount;
   /// List of added group notifications, sorted by notification ID
-  final List<Notification> addedNotifications;
+  final List<Notification?> addedNotifications;
   /// Identifiers of removed group notifications, sorted by notification ID
   final List<int> removedNotificationIds;
 
@@ -32496,23 +32496,23 @@ class UpdateNotificationGroup extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateNotificationGroup',
     'notification_group_id': notificationGroupId,
-    'type': type.toJson(),
+    'type': type?.toJson(),
     'chat_id': chatId,
     'notification_settings_chat_id': notificationSettingsChatId,
     'is_silent': isSilent,
     'total_count': totalCount,
-    'added_notifications': addedNotifications.map((_e1) => _e1.toJson()).toList(growable: false),
+    'added_notifications': addedNotifications.map((_e1) => _e1?.toJson()).toList(growable: false),
     'removed_notification_ids': removedNotificationIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory UpdateNotificationGroup.fromJson(Map<String, dynamic> json) => UpdateNotificationGroup(
     notificationGroupId: json['notification_group_id'],
-    type: b.TdBase.fromJson(json['type']) as a.NotificationGroupType,
+    type: b.TdBase.fromJson(json['type']) as a.NotificationGroupType?,
     chatId: json['chat_id'],
     notificationSettingsChatId: json['notification_settings_chat_id'],
     isSilent: json['is_silent'],
     totalCount: json['total_count'],
-    addedNotifications: (json['added_notifications'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Notification).toList(growable: false),
+    addedNotifications: (json['added_notifications'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Notification?).toList(growable: false),
     removedNotificationIds: (json['removed_notification_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
   );
 }
@@ -32520,7 +32520,7 @@ class UpdateNotificationGroup extends a.Update {
 /// Contains active notifications that was shown on previous application launches. This update is sent only if the message database is used. In that case it comes once before any updateNotification and updateNotificationGroup update
 class UpdateActiveNotifications extends a.Update {
   /// Lists of active notification groups
-  final List<NotificationGroup> groups;
+  final List<NotificationGroup?> groups;
 
   UpdateActiveNotifications({
     required this.groups,
@@ -32542,11 +32542,11 @@ class UpdateActiveNotifications extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateActiveNotifications',
-    'groups': groups.map((_e1) => _e1.toJson()).toList(growable: false),
+    'groups': groups.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory UpdateActiveNotifications.fromJson(Map<String, dynamic> json) => UpdateActiveNotifications(
-    groups: (json['groups'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as NotificationGroup).toList(growable: false),
+    groups: (json['groups'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as NotificationGroup?).toList(growable: false),
   );
 }
 
@@ -32649,7 +32649,7 @@ class UpdateUserChatAction extends a.Update {
   /// Identifier of a user performing an action
   final int userId;
   /// The action description
-  final a.ChatAction action;
+  final a.ChatAction? action;
 
   UpdateUserChatAction({
     required this.chatId,
@@ -32680,14 +32680,14 @@ class UpdateUserChatAction extends a.Update {
     'chat_id': chatId,
     'message_thread_id': messageThreadId,
     'user_id': userId,
-    'action': action.toJson(),
+    'action': action?.toJson(),
   };
 
   factory UpdateUserChatAction.fromJson(Map<String, dynamic> json) => UpdateUserChatAction(
     chatId: json['chat_id'],
     messageThreadId: json['message_thread_id'],
     userId: json['user_id'],
-    action: b.TdBase.fromJson(json['action']) as a.ChatAction,
+    action: b.TdBase.fromJson(json['action']) as a.ChatAction?,
   );
 }
 
@@ -32696,7 +32696,7 @@ class UpdateUserStatus extends a.Update {
   /// User identifier
   final int userId;
   /// New status of the user
-  final a.UserStatus status;
+  final a.UserStatus? status;
 
   UpdateUserStatus({
     required this.userId,
@@ -32721,19 +32721,19 @@ class UpdateUserStatus extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateUserStatus',
     'user_id': userId,
-    'status': status.toJson(),
+    'status': status?.toJson(),
   };
 
   factory UpdateUserStatus.fromJson(Map<String, dynamic> json) => UpdateUserStatus(
     userId: json['user_id'],
-    status: b.TdBase.fromJson(json['status']) as a.UserStatus,
+    status: b.TdBase.fromJson(json['status']) as a.UserStatus?,
   );
 }
 
 /// Some data of a user has changed. This update is guaranteed to come before the user identifier is returned to the application
 class UpdateUser extends a.Update {
   /// New data about the user
-  final User user;
+  final User? user;
 
   UpdateUser({
     required this.user,
@@ -32755,18 +32755,18 @@ class UpdateUser extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateUser',
-    'user': user.toJson(),
+    'user': user?.toJson(),
   };
 
   factory UpdateUser.fromJson(Map<String, dynamic> json) => UpdateUser(
-    user: b.TdBase.fromJson(json['user']) as User,
+    user: b.TdBase.fromJson(json['user']) as User?,
   );
 }
 
 /// Some data of a basic group has changed. This update is guaranteed to come before the basic group identifier is returned to the application
 class UpdateBasicGroup extends a.Update {
   /// New data about the group
-  final BasicGroup basicGroup;
+  final BasicGroup? basicGroup;
 
   UpdateBasicGroup({
     required this.basicGroup,
@@ -32788,18 +32788,18 @@ class UpdateBasicGroup extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateBasicGroup',
-    'basic_group': basicGroup.toJson(),
+    'basic_group': basicGroup?.toJson(),
   };
 
   factory UpdateBasicGroup.fromJson(Map<String, dynamic> json) => UpdateBasicGroup(
-    basicGroup: b.TdBase.fromJson(json['basic_group']) as BasicGroup,
+    basicGroup: b.TdBase.fromJson(json['basic_group']) as BasicGroup?,
   );
 }
 
 /// Some data of a supergroup or a channel has changed. This update is guaranteed to come before the supergroup identifier is returned to the application
 class UpdateSupergroup extends a.Update {
   /// New data about the supergroup
-  final Supergroup supergroup;
+  final Supergroup? supergroup;
 
   UpdateSupergroup({
     required this.supergroup,
@@ -32821,18 +32821,18 @@ class UpdateSupergroup extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateSupergroup',
-    'supergroup': supergroup.toJson(),
+    'supergroup': supergroup?.toJson(),
   };
 
   factory UpdateSupergroup.fromJson(Map<String, dynamic> json) => UpdateSupergroup(
-    supergroup: b.TdBase.fromJson(json['supergroup']) as Supergroup,
+    supergroup: b.TdBase.fromJson(json['supergroup']) as Supergroup?,
   );
 }
 
 /// Some data of a secret chat has changed. This update is guaranteed to come before the secret chat identifier is returned to the application
 class UpdateSecretChat extends a.Update {
   /// New data about the secret chat
-  final SecretChat secretChat;
+  final SecretChat? secretChat;
 
   UpdateSecretChat({
     required this.secretChat,
@@ -32854,11 +32854,11 @@ class UpdateSecretChat extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateSecretChat',
-    'secret_chat': secretChat.toJson(),
+    'secret_chat': secretChat?.toJson(),
   };
 
   factory UpdateSecretChat.fromJson(Map<String, dynamic> json) => UpdateSecretChat(
-    secretChat: b.TdBase.fromJson(json['secret_chat']) as SecretChat,
+    secretChat: b.TdBase.fromJson(json['secret_chat']) as SecretChat?,
   );
 }
 
@@ -32867,7 +32867,7 @@ class UpdateUserFullInfo extends a.Update {
   /// User identifier
   final int userId;
   /// New full information about the user
-  final UserFullInfo userFullInfo;
+  final UserFullInfo? userFullInfo;
 
   UpdateUserFullInfo({
     required this.userId,
@@ -32892,12 +32892,12 @@ class UpdateUserFullInfo extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateUserFullInfo',
     'user_id': userId,
-    'user_full_info': userFullInfo.toJson(),
+    'user_full_info': userFullInfo?.toJson(),
   };
 
   factory UpdateUserFullInfo.fromJson(Map<String, dynamic> json) => UpdateUserFullInfo(
     userId: json['user_id'],
-    userFullInfo: b.TdBase.fromJson(json['user_full_info']) as UserFullInfo,
+    userFullInfo: b.TdBase.fromJson(json['user_full_info']) as UserFullInfo?,
   );
 }
 
@@ -32906,7 +32906,7 @@ class UpdateBasicGroupFullInfo extends a.Update {
   /// Identifier of a basic group
   final int basicGroupId;
   /// New full information about the group
-  final BasicGroupFullInfo basicGroupFullInfo;
+  final BasicGroupFullInfo? basicGroupFullInfo;
 
   UpdateBasicGroupFullInfo({
     required this.basicGroupId,
@@ -32931,12 +32931,12 @@ class UpdateBasicGroupFullInfo extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateBasicGroupFullInfo',
     'basic_group_id': basicGroupId,
-    'basic_group_full_info': basicGroupFullInfo.toJson(),
+    'basic_group_full_info': basicGroupFullInfo?.toJson(),
   };
 
   factory UpdateBasicGroupFullInfo.fromJson(Map<String, dynamic> json) => UpdateBasicGroupFullInfo(
     basicGroupId: json['basic_group_id'],
-    basicGroupFullInfo: b.TdBase.fromJson(json['basic_group_full_info']) as BasicGroupFullInfo,
+    basicGroupFullInfo: b.TdBase.fromJson(json['basic_group_full_info']) as BasicGroupFullInfo?,
   );
 }
 
@@ -32945,7 +32945,7 @@ class UpdateSupergroupFullInfo extends a.Update {
   /// Identifier of the supergroup or channel
   final int supergroupId;
   /// New full information about the supergroup
-  final SupergroupFullInfo supergroupFullInfo;
+  final SupergroupFullInfo? supergroupFullInfo;
 
   UpdateSupergroupFullInfo({
     required this.supergroupId,
@@ -32970,12 +32970,12 @@ class UpdateSupergroupFullInfo extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateSupergroupFullInfo',
     'supergroup_id': supergroupId,
-    'supergroup_full_info': supergroupFullInfo.toJson(),
+    'supergroup_full_info': supergroupFullInfo?.toJson(),
   };
 
   factory UpdateSupergroupFullInfo.fromJson(Map<String, dynamic> json) => UpdateSupergroupFullInfo(
     supergroupId: json['supergroup_id'],
-    supergroupFullInfo: b.TdBase.fromJson(json['supergroup_full_info']) as SupergroupFullInfo,
+    supergroupFullInfo: b.TdBase.fromJson(json['supergroup_full_info']) as SupergroupFullInfo?,
   );
 }
 
@@ -32984,7 +32984,7 @@ class UpdateServiceNotification extends a.Update {
   /// Notification type. If type begins with "AUTH_KEY_DROP_", then two buttons "Cancel" and "Log out" should be shown under notification; if user presses the second, all local data should be destroyed using Destroy method
   final String type;
   /// Notification content
-  final a.MessageContent content;
+  final a.MessageContent? content;
 
   UpdateServiceNotification({
     required this.type,
@@ -33009,19 +33009,19 @@ class UpdateServiceNotification extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateServiceNotification',
     'type': type,
-    'content': content.toJson(),
+    'content': content?.toJson(),
   };
 
   factory UpdateServiceNotification.fromJson(Map<String, dynamic> json) => UpdateServiceNotification(
     type: json['type'],
-    content: b.TdBase.fromJson(json['content']) as a.MessageContent,
+    content: b.TdBase.fromJson(json['content']) as a.MessageContent?,
   );
 }
 
 /// Information about a file was updated
 class UpdateFile extends a.Update {
   /// New data about the file
-  final File file;
+  final File? file;
 
   UpdateFile({
     required this.file,
@@ -33043,11 +33043,11 @@ class UpdateFile extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateFile',
-    'file': file.toJson(),
+    'file': file?.toJson(),
   };
 
   factory UpdateFile.fromJson(Map<String, dynamic> json) => UpdateFile(
-    file: b.TdBase.fromJson(json['file']) as File,
+    file: b.TdBase.fromJson(json['file']) as File?,
   );
 }
 
@@ -33138,7 +33138,7 @@ class UpdateFileGenerationStop extends a.Update {
 /// New call was created or information about a call was updated
 class UpdateCall extends a.Update {
   /// New data about a call
-  final Call call;
+  final Call? call;
 
   UpdateCall({
     required this.call,
@@ -33160,18 +33160,18 @@ class UpdateCall extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateCall',
-    'call': call.toJson(),
+    'call': call?.toJson(),
   };
 
   factory UpdateCall.fromJson(Map<String, dynamic> json) => UpdateCall(
-    call: b.TdBase.fromJson(json['call']) as Call,
+    call: b.TdBase.fromJson(json['call']) as Call?,
   );
 }
 
 /// Information about a group call was updated
 class UpdateGroupCall extends a.Update {
   /// New data about a group call
-  final GroupCall groupCall;
+  final GroupCall? groupCall;
 
   UpdateGroupCall({
     required this.groupCall,
@@ -33193,11 +33193,11 @@ class UpdateGroupCall extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateGroupCall',
-    'group_call': groupCall.toJson(),
+    'group_call': groupCall?.toJson(),
   };
 
   factory UpdateGroupCall.fromJson(Map<String, dynamic> json) => UpdateGroupCall(
-    groupCall: b.TdBase.fromJson(json['group_call']) as GroupCall,
+    groupCall: b.TdBase.fromJson(json['group_call']) as GroupCall?,
   );
 }
 
@@ -33206,7 +33206,7 @@ class UpdateGroupCallParticipant extends a.Update {
   /// Identifier of group call
   final int groupCallId;
   /// New data about a participant
-  final GroupCallParticipant participant;
+  final GroupCallParticipant? participant;
 
   UpdateGroupCallParticipant({
     required this.groupCallId,
@@ -33231,12 +33231,12 @@ class UpdateGroupCallParticipant extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateGroupCallParticipant',
     'group_call_id': groupCallId,
-    'participant': participant.toJson(),
+    'participant': participant?.toJson(),
   };
 
   factory UpdateGroupCallParticipant.fromJson(Map<String, dynamic> json) => UpdateGroupCallParticipant(
     groupCallId: json['group_call_id'],
-    participant: b.TdBase.fromJson(json['participant']) as GroupCallParticipant,
+    participant: b.TdBase.fromJson(json['participant']) as GroupCallParticipant?,
   );
 }
 
@@ -33282,9 +33282,9 @@ class UpdateNewCallSignalingData extends a.Update {
 /// Some privacy setting rules have been changed
 class UpdateUserPrivacySettingRules extends a.Update {
   /// The privacy setting
-  final a.UserPrivacySetting setting;
+  final a.UserPrivacySetting? setting;
   /// New privacy rules
-  final UserPrivacySettingRules rules;
+  final UserPrivacySettingRules? rules;
 
   UpdateUserPrivacySettingRules({
     required this.setting,
@@ -33308,20 +33308,20 @@ class UpdateUserPrivacySettingRules extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateUserPrivacySettingRules',
-    'setting': setting.toJson(),
-    'rules': rules.toJson(),
+    'setting': setting?.toJson(),
+    'rules': rules?.toJson(),
   };
 
   factory UpdateUserPrivacySettingRules.fromJson(Map<String, dynamic> json) => UpdateUserPrivacySettingRules(
-    setting: b.TdBase.fromJson(json['setting']) as a.UserPrivacySetting,
-    rules: b.TdBase.fromJson(json['rules']) as UserPrivacySettingRules,
+    setting: b.TdBase.fromJson(json['setting']) as a.UserPrivacySetting?,
+    rules: b.TdBase.fromJson(json['rules']) as UserPrivacySettingRules?,
   );
 }
 
 /// Number of unread messages in a chat list has changed. This update is sent only if the message database is used
 class UpdateUnreadMessageCount extends a.Update {
   /// The chat list with changed number of unread messages
-  final a.ChatList chatList;
+  final a.ChatList? chatList;
   /// Total number of unread messages
   final int unreadCount;
   /// Total number of unread messages in unmuted chats
@@ -33351,13 +33351,13 @@ class UpdateUnreadMessageCount extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateUnreadMessageCount',
-    'chat_list': chatList.toJson(),
+    'chat_list': chatList?.toJson(),
     'unread_count': unreadCount,
     'unread_unmuted_count': unreadUnmutedCount,
   };
 
   factory UpdateUnreadMessageCount.fromJson(Map<String, dynamic> json) => UpdateUnreadMessageCount(
-    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList,
+    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
     unreadCount: json['unread_count'],
     unreadUnmutedCount: json['unread_unmuted_count'],
   );
@@ -33366,7 +33366,7 @@ class UpdateUnreadMessageCount extends a.Update {
 /// Number of unread chats, i.e. with unread messages or marked as unread, has changed. This update is sent only if the message database is used
 class UpdateUnreadChatCount extends a.Update {
   /// The chat list with changed number of unread messages
-  final a.ChatList chatList;
+  final a.ChatList? chatList;
   /// Approximate total number of chats in the chat list
   final int totalCount;
   /// Total number of unread chats
@@ -33408,7 +33408,7 @@ class UpdateUnreadChatCount extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateUnreadChatCount',
-    'chat_list': chatList.toJson(),
+    'chat_list': chatList?.toJson(),
     'total_count': totalCount,
     'unread_count': unreadCount,
     'unread_unmuted_count': unreadUnmutedCount,
@@ -33417,7 +33417,7 @@ class UpdateUnreadChatCount extends a.Update {
   };
 
   factory UpdateUnreadChatCount.fromJson(Map<String, dynamic> json) => UpdateUnreadChatCount(
-    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList,
+    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
     totalCount: json['total_count'],
     unreadCount: json['unread_count'],
     unreadUnmutedCount: json['unread_unmuted_count'],
@@ -33431,7 +33431,7 @@ class UpdateOption extends a.Update {
   /// The option name
   final String name;
   /// The new option value
-  final a.OptionValue value;
+  final a.OptionValue? value;
 
   UpdateOption({
     required this.name,
@@ -33456,19 +33456,19 @@ class UpdateOption extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateOption',
     'name': name,
-    'value': value.toJson(),
+    'value': value?.toJson(),
   };
 
   factory UpdateOption.fromJson(Map<String, dynamic> json) => UpdateOption(
     name: json['name'],
-    value: b.TdBase.fromJson(json['value']) as a.OptionValue,
+    value: b.TdBase.fromJson(json['value']) as a.OptionValue?,
   );
 }
 
 /// A sticker set has changed
 class UpdateStickerSet extends a.Update {
   /// The sticker set
-  final StickerSet stickerSet;
+  final StickerSet? stickerSet;
 
   UpdateStickerSet({
     required this.stickerSet,
@@ -33490,11 +33490,11 @@ class UpdateStickerSet extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateStickerSet',
-    'sticker_set': stickerSet.toJson(),
+    'sticker_set': stickerSet?.toJson(),
   };
 
   factory UpdateStickerSet.fromJson(Map<String, dynamic> json) => UpdateStickerSet(
-    stickerSet: b.TdBase.fromJson(json['sticker_set']) as StickerSet,
+    stickerSet: b.TdBase.fromJson(json['sticker_set']) as StickerSet?,
   );
 }
 
@@ -33540,7 +33540,7 @@ class UpdateInstalledStickerSets extends a.Update {
 /// The list of trending sticker sets was updated or some of them were viewed
 class UpdateTrendingStickerSets extends a.Update {
   /// The prefix of the list of trending sticker sets with the newest trending sticker sets
-  final StickerSets stickerSets;
+  final StickerSets? stickerSets;
 
   UpdateTrendingStickerSets({
     required this.stickerSets,
@@ -33562,11 +33562,11 @@ class UpdateTrendingStickerSets extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateTrendingStickerSets',
-    'sticker_sets': stickerSets.toJson(),
+    'sticker_sets': stickerSets?.toJson(),
   };
 
   factory UpdateTrendingStickerSets.fromJson(Map<String, dynamic> json) => UpdateTrendingStickerSets(
-    stickerSets: b.TdBase.fromJson(json['sticker_sets']) as StickerSets,
+    stickerSets: b.TdBase.fromJson(json['sticker_sets']) as StickerSets?,
   );
 }
 
@@ -33680,7 +33680,7 @@ class UpdateSelectedBackground extends a.Update {
   /// True, if background for dark theme has changed
   final bool forDarkTheme;
   /// The new selected background; may be null
-  final Background background;
+  final Background? background;
 
   UpdateSelectedBackground({
     required this.forDarkTheme,
@@ -33705,12 +33705,12 @@ class UpdateSelectedBackground extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateSelectedBackground',
     'for_dark_theme': forDarkTheme,
-    'background': background.toJson(),
+    'background': background?.toJson(),
   };
 
   factory UpdateSelectedBackground.fromJson(Map<String, dynamic> json) => UpdateSelectedBackground(
     forDarkTheme: json['for_dark_theme'],
-    background: b.TdBase.fromJson(json['background']) as Background,
+    background: b.TdBase.fromJson(json['background']) as Background?,
   );
 }
 
@@ -33721,7 +33721,7 @@ class UpdateLanguagePackStrings extends a.Update {
   /// Identifier of the updated language pack
   final String languagePackId;
   /// List of changed language pack strings
-  final List<LanguagePackString> strings;
+  final List<LanguagePackString?> strings;
 
   UpdateLanguagePackStrings({
     required this.localizationTarget,
@@ -33749,20 +33749,20 @@ class UpdateLanguagePackStrings extends a.Update {
     '@type': 'updateLanguagePackStrings',
     'localization_target': localizationTarget,
     'language_pack_id': languagePackId,
-    'strings': strings.map((_e1) => _e1.toJson()).toList(growable: false),
+    'strings': strings.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory UpdateLanguagePackStrings.fromJson(Map<String, dynamic> json) => UpdateLanguagePackStrings(
     localizationTarget: json['localization_target'],
     languagePackId: json['language_pack_id'],
-    strings: (json['strings'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LanguagePackString).toList(growable: false),
+    strings: (json['strings'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LanguagePackString?).toList(growable: false),
   );
 }
 
 /// The connection state has changed. This update must be used only to show a human-readable description of the connection state
 class UpdateConnectionState extends a.Update {
   /// The new connection state
-  final a.ConnectionState state;
+  final a.ConnectionState? state;
 
   UpdateConnectionState({
     required this.state,
@@ -33784,11 +33784,11 @@ class UpdateConnectionState extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateConnectionState',
-    'state': state.toJson(),
+    'state': state?.toJson(),
   };
 
   factory UpdateConnectionState.fromJson(Map<String, dynamic> json) => UpdateConnectionState(
-    state: b.TdBase.fromJson(json['state']) as a.ConnectionState,
+    state: b.TdBase.fromJson(json['state']) as a.ConnectionState?,
   );
 }
 
@@ -33797,7 +33797,7 @@ class UpdateTermsOfService extends a.Update {
   /// Identifier of the terms of service
   final String termsOfServiceId;
   /// The new terms of service
-  final TermsOfService termsOfService;
+  final TermsOfService? termsOfService;
 
   UpdateTermsOfService({
     required this.termsOfServiceId,
@@ -33822,19 +33822,19 @@ class UpdateTermsOfService extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateTermsOfService',
     'terms_of_service_id': termsOfServiceId,
-    'terms_of_service': termsOfService.toJson(),
+    'terms_of_service': termsOfService?.toJson(),
   };
 
   factory UpdateTermsOfService.fromJson(Map<String, dynamic> json) => UpdateTermsOfService(
     termsOfServiceId: json['terms_of_service_id'],
-    termsOfService: b.TdBase.fromJson(json['terms_of_service']) as TermsOfService,
+    termsOfService: b.TdBase.fromJson(json['terms_of_service']) as TermsOfService?,
   );
 }
 
 /// The list of users nearby has changed. The update is guaranteed to be sent only 60 seconds after a successful searchChatsNearby request
 class UpdateUsersNearby extends a.Update {
   /// The new list of users nearby
-  final List<ChatNearby> usersNearby;
+  final List<ChatNearby?> usersNearby;
 
   UpdateUsersNearby({
     required this.usersNearby,
@@ -33856,11 +33856,11 @@ class UpdateUsersNearby extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateUsersNearby',
-    'users_nearby': usersNearby.map((_e1) => _e1.toJson()).toList(growable: false),
+    'users_nearby': usersNearby.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory UpdateUsersNearby.fromJson(Map<String, dynamic> json) => UpdateUsersNearby(
-    usersNearby: (json['users_nearby'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatNearby).toList(growable: false),
+    usersNearby: (json['users_nearby'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatNearby?).toList(growable: false),
   );
 }
 
@@ -33939,9 +33939,9 @@ class UpdateAnimationSearchParameters extends a.Update {
 /// The list of suggested to the user actions has changed
 class UpdateSuggestedActions extends a.Update {
   /// Added suggested actions
-  final List<a.SuggestedAction> addedActions;
+  final List<a.SuggestedAction?> addedActions;
   /// Removed suggested actions
-  final List<a.SuggestedAction> removedActions;
+  final List<a.SuggestedAction?> removedActions;
 
   UpdateSuggestedActions({
     required this.addedActions,
@@ -33965,13 +33965,13 @@ class UpdateSuggestedActions extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateSuggestedActions',
-    'added_actions': addedActions.map((_e1) => _e1.toJson()).toList(growable: false),
-    'removed_actions': removedActions.map((_e1) => _e1.toJson()).toList(growable: false),
+    'added_actions': addedActions.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'removed_actions': removedActions.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory UpdateSuggestedActions.fromJson(Map<String, dynamic> json) => UpdateSuggestedActions(
-    addedActions: (json['added_actions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.SuggestedAction).toList(growable: false),
-    removedActions: (json['removed_actions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.SuggestedAction).toList(growable: false),
+    addedActions: (json['added_actions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.SuggestedAction?).toList(growable: false),
+    removedActions: (json['removed_actions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.SuggestedAction?).toList(growable: false),
   );
 }
 
@@ -33982,9 +33982,9 @@ class UpdateNewInlineQuery extends a.Update {
   /// Identifier of the user who sent the query
   final int senderUserId;
   /// User location; may be null
-  final Location userLocation;
+  final Location? userLocation;
   /// Contains information about the type of the chat, from which the query originated; may be null if unknown
-  final a.ChatType chatType;
+  final a.ChatType? chatType;
   /// Text of the query
   final String query;
   /// Offset of the first entry to return
@@ -34022,8 +34022,8 @@ class UpdateNewInlineQuery extends a.Update {
     '@type': 'updateNewInlineQuery',
     'id': id.toString(),
     'sender_user_id': senderUserId,
-    'user_location': userLocation.toJson(),
-    'chat_type': chatType.toJson(),
+    'user_location': userLocation?.toJson(),
+    'chat_type': chatType?.toJson(),
     'query': query,
     'offset': offset,
   };
@@ -34031,8 +34031,8 @@ class UpdateNewInlineQuery extends a.Update {
   factory UpdateNewInlineQuery.fromJson(Map<String, dynamic> json) => UpdateNewInlineQuery(
     id: int.parse(json['id']),
     senderUserId: json['sender_user_id'],
-    userLocation: b.TdBase.fromJson(json['user_location']) as Location,
-    chatType: b.TdBase.fromJson(json['chat_type']) as a.ChatType,
+    userLocation: b.TdBase.fromJson(json['user_location']) as Location?,
+    chatType: b.TdBase.fromJson(json['chat_type']) as a.ChatType?,
     query: json['query'],
     offset: json['offset'],
   );
@@ -34043,7 +34043,7 @@ class UpdateNewChosenInlineResult extends a.Update {
   /// Identifier of the user who sent the query
   final int senderUserId;
   /// User location; may be null
-  final Location userLocation;
+  final Location? userLocation;
   /// Text of the query
   final String query;
   /// Identifier of the chosen result
@@ -34080,7 +34080,7 @@ class UpdateNewChosenInlineResult extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewChosenInlineResult',
     'sender_user_id': senderUserId,
-    'user_location': userLocation.toJson(),
+    'user_location': userLocation?.toJson(),
     'query': query,
     'result_id': resultId,
     'inline_message_id': inlineMessageId,
@@ -34088,7 +34088,7 @@ class UpdateNewChosenInlineResult extends a.Update {
 
   factory UpdateNewChosenInlineResult.fromJson(Map<String, dynamic> json) => UpdateNewChosenInlineResult(
     senderUserId: json['sender_user_id'],
-    userLocation: b.TdBase.fromJson(json['user_location']) as Location,
+    userLocation: b.TdBase.fromJson(json['user_location']) as Location?,
     query: json['query'],
     resultId: json['result_id'],
     inlineMessageId: json['inline_message_id'],
@@ -34108,7 +34108,7 @@ class UpdateNewCallbackQuery extends a.Update {
   /// Identifier that uniquely corresponds to the chat to which the message was sent
   final int chatInstance;
   /// Query payload
-  final a.CallbackQueryPayload payload;
+  final a.CallbackQueryPayload? payload;
 
   UpdateNewCallbackQuery({
     required this.id,
@@ -34145,7 +34145,7 @@ class UpdateNewCallbackQuery extends a.Update {
     'chat_id': chatId,
     'message_id': messageId,
     'chat_instance': chatInstance.toString(),
-    'payload': payload.toJson(),
+    'payload': payload?.toJson(),
   };
 
   factory UpdateNewCallbackQuery.fromJson(Map<String, dynamic> json) => UpdateNewCallbackQuery(
@@ -34154,7 +34154,7 @@ class UpdateNewCallbackQuery extends a.Update {
     chatId: json['chat_id'],
     messageId: json['message_id'],
     chatInstance: int.parse(json['chat_instance']),
-    payload: b.TdBase.fromJson(json['payload']) as a.CallbackQueryPayload,
+    payload: b.TdBase.fromJson(json['payload']) as a.CallbackQueryPayload?,
   );
 }
 
@@ -34169,7 +34169,7 @@ class UpdateNewInlineCallbackQuery extends a.Update {
   /// An identifier uniquely corresponding to the chat a message was sent to
   final int chatInstance;
   /// Query payload
-  final a.CallbackQueryPayload payload;
+  final a.CallbackQueryPayload? payload;
 
   UpdateNewInlineCallbackQuery({
     required this.id,
@@ -34203,7 +34203,7 @@ class UpdateNewInlineCallbackQuery extends a.Update {
     'sender_user_id': senderUserId,
     'inline_message_id': inlineMessageId,
     'chat_instance': chatInstance.toString(),
-    'payload': payload.toJson(),
+    'payload': payload?.toJson(),
   };
 
   factory UpdateNewInlineCallbackQuery.fromJson(Map<String, dynamic> json) => UpdateNewInlineCallbackQuery(
@@ -34211,7 +34211,7 @@ class UpdateNewInlineCallbackQuery extends a.Update {
     senderUserId: json['sender_user_id'],
     inlineMessageId: json['inline_message_id'],
     chatInstance: int.parse(json['chat_instance']),
-    payload: b.TdBase.fromJson(json['payload']) as a.CallbackQueryPayload,
+    payload: b.TdBase.fromJson(json['payload']) as a.CallbackQueryPayload?,
   );
 }
 
@@ -34224,7 +34224,7 @@ class UpdateNewShippingQuery extends a.Update {
   /// Invoice payload
   final String invoicePayload;
   /// User shipping address
-  final Address shippingAddress;
+  final Address? shippingAddress;
 
   UpdateNewShippingQuery({
     required this.id,
@@ -34255,14 +34255,14 @@ class UpdateNewShippingQuery extends a.Update {
     'id': id.toString(),
     'sender_user_id': senderUserId,
     'invoice_payload': invoicePayload,
-    'shipping_address': shippingAddress.toJson(),
+    'shipping_address': shippingAddress?.toJson(),
   };
 
   factory UpdateNewShippingQuery.fromJson(Map<String, dynamic> json) => UpdateNewShippingQuery(
     id: int.parse(json['id']),
     senderUserId: json['sender_user_id'],
     invoicePayload: json['invoice_payload'],
-    shippingAddress: b.TdBase.fromJson(json['shipping_address']) as Address,
+    shippingAddress: b.TdBase.fromJson(json['shipping_address']) as Address?,
   );
 }
 
@@ -34281,7 +34281,7 @@ class UpdateNewPreCheckoutQuery extends a.Update {
   /// Identifier of a shipping option chosen by the user; may be empty if not applicable
   final String shippingOptionId;
   /// Information about the order; may be null
-  final OrderInfo orderInfo;
+  final OrderInfo? orderInfo;
 
   UpdateNewPreCheckoutQuery({
     required this.id,
@@ -34321,7 +34321,7 @@ class UpdateNewPreCheckoutQuery extends a.Update {
     'total_amount': totalAmount,
     'invoice_payload': base64.encode(invoicePayload),
     'shipping_option_id': shippingOptionId,
-    'order_info': orderInfo.toJson(),
+    'order_info': orderInfo?.toJson(),
   };
 
   factory UpdateNewPreCheckoutQuery.fromJson(Map<String, dynamic> json) => UpdateNewPreCheckoutQuery(
@@ -34331,7 +34331,7 @@ class UpdateNewPreCheckoutQuery extends a.Update {
     totalAmount: json['total_amount'],
     invoicePayload: base64.decode(json['invoice_payload']),
     shippingOptionId: json['shipping_option_id'],
-    orderInfo: b.TdBase.fromJson(json['order_info']) as OrderInfo,
+    orderInfo: b.TdBase.fromJson(json['order_info']) as OrderInfo?,
   );
 }
 
@@ -34416,7 +34416,7 @@ class UpdateNewCustomQuery extends a.Update {
 /// A poll was updated; for bots only
 class UpdatePoll extends a.Update {
   /// New data about the poll
-  final Poll poll;
+  final Poll? poll;
 
   UpdatePoll({
     required this.poll,
@@ -34438,11 +34438,11 @@ class UpdatePoll extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updatePoll',
-    'poll': poll.toJson(),
+    'poll': poll?.toJson(),
   };
 
   factory UpdatePoll.fromJson(Map<String, dynamic> json) => UpdatePoll(
-    poll: b.TdBase.fromJson(json['poll']) as Poll,
+    poll: b.TdBase.fromJson(json['poll']) as Poll?,
   );
 }
 
@@ -34500,11 +34500,11 @@ class UpdateChatMember extends a.Update {
   /// Point in time (Unix timestamp) when the user rights was changed
   final int date;
   /// If user has joined the chat using an invite link, the invite link; may be null
-  final ChatInviteLink inviteLink;
+  final ChatInviteLink? inviteLink;
   /// Previous chat member
-  final ChatMember oldChatMember;
+  final ChatMember? oldChatMember;
   /// New chat member
-  final ChatMember newChatMember;
+  final ChatMember? newChatMember;
 
   UpdateChatMember({
     required this.chatId,
@@ -34539,25 +34539,25 @@ class UpdateChatMember extends a.Update {
     'chat_id': chatId,
     'actor_user_id': actorUserId,
     'date': date,
-    'invite_link': inviteLink.toJson(),
-    'old_chat_member': oldChatMember.toJson(),
-    'new_chat_member': newChatMember.toJson(),
+    'invite_link': inviteLink?.toJson(),
+    'old_chat_member': oldChatMember?.toJson(),
+    'new_chat_member': newChatMember?.toJson(),
   };
 
   factory UpdateChatMember.fromJson(Map<String, dynamic> json) => UpdateChatMember(
     chatId: json['chat_id'],
     actorUserId: json['actor_user_id'],
     date: json['date'],
-    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink,
-    oldChatMember: b.TdBase.fromJson(json['old_chat_member']) as ChatMember,
-    newChatMember: b.TdBase.fromJson(json['new_chat_member']) as ChatMember,
+    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
+    oldChatMember: b.TdBase.fromJson(json['old_chat_member']) as ChatMember?,
+    newChatMember: b.TdBase.fromJson(json['new_chat_member']) as ChatMember?,
   );
 }
 
 /// Contains a list of updates
 class Updates extends a.Updates {
   /// List of updates
-  final List<a.Update> updates;
+  final List<a.Update?> updates;
 
   Updates({
     required this.updates,
@@ -34579,11 +34579,11 @@ class Updates extends a.Updates {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updates',
-    'updates': updates.map((_e1) => _e1.toJson()).toList(growable: false),
+    'updates': updates.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory Updates.fromJson(Map<String, dynamic> json) => Updates(
-    updates: (json['updates'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.Update).toList(growable: false),
+    updates: (json['updates'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.Update?).toList(growable: false),
   );
 }
 
@@ -34883,7 +34883,7 @@ class TestVectorInt extends a.TestVectorInt {
 /// A simple object containing a vector of objects that hold a number; for testing only
 class TestVectorIntObject extends a.TestVectorIntObject {
   /// Vector of objects
-  final List<TestInt> value;
+  final List<TestInt?> value;
 
   TestVectorIntObject({
     required this.value,
@@ -34905,11 +34905,11 @@ class TestVectorIntObject extends a.TestVectorIntObject {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testVectorIntObject',
-    'value': value.map((_e1) => _e1.toJson()).toList(growable: false),
+    'value': value.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory TestVectorIntObject.fromJson(Map<String, dynamic> json) => TestVectorIntObject(
-    value: (json['value'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TestInt).toList(growable: false),
+    value: (json['value'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TestInt?).toList(growable: false),
   );
 }
 
@@ -34949,7 +34949,7 @@ class TestVectorString extends a.TestVectorString {
 /// A simple object containing a vector of objects that hold a string; for testing only
 class TestVectorStringObject extends a.TestVectorStringObject {
   /// Vector of objects
-  final List<TestString> value;
+  final List<TestString?> value;
 
   TestVectorStringObject({
     required this.value,
@@ -34971,11 +34971,11 @@ class TestVectorStringObject extends a.TestVectorStringObject {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testVectorStringObject',
-    'value': value.map((_e1) => _e1.toJson()).toList(growable: false),
+    'value': value.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory TestVectorStringObject.fromJson(Map<String, dynamic> json) => TestVectorStringObject(
-    value: (json['value'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TestString).toList(growable: false),
+    value: (json['value'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TestString?).toList(growable: false),
   );
 }
 

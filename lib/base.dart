@@ -12,7 +12,7 @@ abstract class TdBase {
     if (json == null) {
       return null;
     }
-    final type = json!['@type'] as String;
+    final type = json['@type'] as String;
     final constructors = {
       'error': (json) => o.Error.fromJson(json),
       'ok': (json) => o.Ok.fromJson(json),
@@ -896,6 +896,6 @@ abstract class TdBase {
       'testVectorString': (json) => o.TestVectorString.fromJson(json),
       'testVectorStringObject': (json) => o.TestVectorStringObject.fromJson(json),
     };
-    return constructors[type]!(json!);
+    return constructors[type]!(json);
   }
 }

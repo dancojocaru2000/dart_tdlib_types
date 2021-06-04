@@ -355,8 +355,8 @@ class AuthenticationCodeInfo extends a.AuthenticationCodeInfo {
   Map<String, dynamic> toJson() => {
     '@type': 'authenticationCodeInfo',
     'phone_number': phoneNumber,
-    'type': type,
-    'next_type': nextType,
+    'type': type.toJson(),
+    'next_type': nextType.toJson(),
     'timeout': timeout,
   };
 
@@ -442,7 +442,7 @@ class TextEntity extends a.TextEntity {
     '@type': 'textEntity',
     'offset': offset,
     'length': length,
-    'type': type,
+    'type': type.toJson(),
   };
 
   factory TextEntity.fromJson(Map<String, dynamic> json) => TextEntity(
@@ -477,7 +477,7 @@ class TextEntities extends a.TextEntities {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'textEntities',
-    'entities': entities,
+    'entities': entities.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory TextEntities.fromJson(Map<String, dynamic> json) => TextEntities(
@@ -515,7 +515,7 @@ class FormattedText extends a.FormattedText {
   Map<String, dynamic> toJson() => {
     '@type': 'formattedText',
     'text': text,
-    'entities': entities,
+    'entities': entities.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory FormattedText.fromJson(Map<String, dynamic> json) => FormattedText(
@@ -557,7 +557,7 @@ class TermsOfService extends a.TermsOfService {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'termsOfService',
-    'text': text,
+    'text': text.toJson(),
     'min_user_age': minUserAge,
     'show_popup': showPopup,
   };
@@ -677,7 +677,7 @@ class AuthorizationStateWaitCode extends a.AuthorizationState {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'authorizationStateWaitCode',
-    'code_info': codeInfo,
+    'code_info': codeInfo.toJson(),
   };
 
   factory AuthorizationStateWaitCode.fromJson(Map<String, dynamic> json) => AuthorizationStateWaitCode(
@@ -743,7 +743,7 @@ class AuthorizationStateWaitRegistration extends a.AuthorizationState {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'authorizationStateWaitRegistration',
-    'terms_of_service': termsOfService,
+    'terms_of_service': termsOfService.toJson(),
   };
 
   factory AuthorizationStateWaitRegistration.fromJson(Map<String, dynamic> json) => AuthorizationStateWaitRegistration(
@@ -941,7 +941,7 @@ class PasswordState extends a.PasswordState {
     'password_hint': passwordHint,
     'has_recovery_email_address': hasRecoveryEmailAddress,
     'has_passport_data': hasPassportData,
-    'recovery_email_address_code_info': recoveryEmailAddressCodeInfo,
+    'recovery_email_address_code_info': recoveryEmailAddressCodeInfo.toJson(),
   };
 
   factory PasswordState.fromJson(Map<String, dynamic> json) => PasswordState(
@@ -1201,8 +1201,8 @@ class File extends a.File {
     'id': id,
     'size': size,
     'expected_size': expectedSize,
-    'local': local,
-    'remote': remote,
+    'local': local.toJson(),
+    'remote': remote.toJson(),
   };
 
   factory File.fromJson(Map<String, dynamic> json) => File(
@@ -1400,10 +1400,10 @@ class PhotoSize extends a.PhotoSize {
   Map<String, dynamic> toJson() => {
     '@type': 'photoSize',
     'type': type,
-    'photo': photo,
+    'photo': photo.toJson(),
     'width': width,
     'height': height,
-    'progressive_sizes': progressiveSizes,
+    'progressive_sizes': progressiveSizes.map((_e1) => _e1).toList(growable: false),
   };
 
   factory PhotoSize.fromJson(Map<String, dynamic> json) => PhotoSize(
@@ -1450,7 +1450,7 @@ class Minithumbnail extends a.Minithumbnail {
     '@type': 'minithumbnail',
     'width': width,
     'height': height,
-    'data': data,
+    'data': base64.encode(data),
   };
 
   factory Minithumbnail.fromJson(Map<String, dynamic> json) => Minithumbnail(
@@ -1647,10 +1647,10 @@ class Thumbnail extends a.Thumbnail {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'thumbnail',
-    'format': format,
+    'format': format.toJson(),
     'width': width,
     'height': height,
-    'file': file,
+    'file': file.toJson(),
   };
 
   factory Thumbnail.fromJson(Map<String, dynamic> json) => Thumbnail(
@@ -1798,7 +1798,7 @@ class MaskPosition extends a.MaskPosition {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'maskPosition',
-    'point': point,
+    'point': point.toJson(),
     'x_shift': xShift,
     'y_shift': yShift,
     'scale': scale,
@@ -1837,7 +1837,7 @@ class ClosedVectorPath extends a.ClosedVectorPath {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'closedVectorPath',
-    'commands': commands,
+    'commands': commands.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ClosedVectorPath.fromJson(Map<String, dynamic> json) => ClosedVectorPath(
@@ -1965,7 +1965,7 @@ class PollTypeQuiz extends a.PollType {
   Map<String, dynamic> toJson() => {
     '@type': 'pollTypeQuiz',
     'correct_option_id': correctOptionId,
-    'explanation': explanation,
+    'explanation': explanation.toJson(),
   };
 
   factory PollTypeQuiz.fromJson(Map<String, dynamic> json) => PollTypeQuiz(
@@ -2037,9 +2037,9 @@ class Animation extends a.Animation {
     'file_name': fileName,
     'mime_type': mimeType,
     'has_stickers': hasStickers,
-    'minithumbnail': minithumbnail,
-    'thumbnail': thumbnail,
-    'animation': animation,
+    'minithumbnail': minithumbnail.toJson(),
+    'thumbnail': thumbnail.toJson(),
+    'animation': animation.toJson(),
   };
 
   factory Animation.fromJson(Map<String, dynamic> json) => Animation(
@@ -2113,9 +2113,9 @@ class Audio extends a.Audio {
     'performer': performer,
     'file_name': fileName,
     'mime_type': mimeType,
-    'album_cover_minithumbnail': albumCoverMinithumbnail,
-    'album_cover_thumbnail': albumCoverThumbnail,
-    'audio': audio,
+    'album_cover_minithumbnail': albumCoverMinithumbnail.toJson(),
+    'album_cover_thumbnail': albumCoverThumbnail.toJson(),
+    'audio': audio.toJson(),
   };
 
   factory Audio.fromJson(Map<String, dynamic> json) => Audio(
@@ -2173,9 +2173,9 @@ class Document extends a.Document {
     '@type': 'document',
     'file_name': fileName,
     'mime_type': mimeType,
-    'minithumbnail': minithumbnail,
-    'thumbnail': thumbnail,
-    'document': document,
+    'minithumbnail': minithumbnail.toJson(),
+    'thumbnail': thumbnail.toJson(),
+    'document': document.toJson(),
   };
 
   factory Document.fromJson(Map<String, dynamic> json) => Document(
@@ -2221,8 +2221,8 @@ class Photo extends a.Photo {
   Map<String, dynamic> toJson() => {
     '@type': 'photo',
     'has_stickers': hasStickers,
-    'minithumbnail': minithumbnail,
-    'sizes': sizes,
+    'minithumbnail': minithumbnail.toJson(),
+    'sizes': sizes.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory Photo.fromJson(Map<String, dynamic> json) => Photo(
@@ -2293,16 +2293,16 @@ class Sticker extends a.Sticker {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'sticker',
-    'set_id': setId,
+    'set_id': setId.toString(),
     'width': width,
     'height': height,
     'emoji': emoji,
     'is_animated': isAnimated,
     'is_mask': isMask,
-    'mask_position': maskPosition,
-    'outline': outline,
-    'thumbnail': thumbnail,
-    'sticker': sticker,
+    'mask_position': maskPosition.toJson(),
+    'outline': outline.map((_e1) => _e1.toJson()).toList(growable: false),
+    'thumbnail': thumbnail.toJson(),
+    'sticker': sticker.toJson(),
   };
 
   factory Sticker.fromJson(Map<String, dynamic> json) => Sticker(
@@ -2387,9 +2387,9 @@ class Video extends a.Video {
     'mime_type': mimeType,
     'has_stickers': hasStickers,
     'supports_streaming': supportsStreaming,
-    'minithumbnail': minithumbnail,
-    'thumbnail': thumbnail,
-    'video': video,
+    'minithumbnail': minithumbnail.toJson(),
+    'thumbnail': thumbnail.toJson(),
+    'video': video.toJson(),
   };
 
   factory Video.fromJson(Map<String, dynamic> json) => Video(
@@ -2449,9 +2449,9 @@ class VideoNote extends a.VideoNote {
     '@type': 'videoNote',
     'duration': duration,
     'length': length,
-    'minithumbnail': minithumbnail,
-    'thumbnail': thumbnail,
-    'video': video,
+    'minithumbnail': minithumbnail.toJson(),
+    'thumbnail': thumbnail.toJson(),
+    'video': video.toJson(),
   };
 
   factory VideoNote.fromJson(Map<String, dynamic> json) => VideoNote(
@@ -2501,9 +2501,9 @@ class VoiceNote extends a.VoiceNote {
   Map<String, dynamic> toJson() => {
     '@type': 'voiceNote',
     'duration': duration,
-    'waveform': waveform,
+    'waveform': base64.encode(waveform),
     'mime_type': mimeType,
-    'voice': voice,
+    'voice': voice.toJson(),
   };
 
   factory VoiceNote.fromJson(Map<String, dynamic> json) => VoiceNote(
@@ -2661,7 +2661,7 @@ class Venue extends a.Venue {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'venue',
-    'location': location,
+    'location': location.toJson(),
     'title': title,
     'address': address,
     'provider': provider,
@@ -2728,13 +2728,13 @@ class Game extends a.Game {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'game',
-    'id': id,
+    'id': id.toString(),
     'short_name': shortName,
     'title': title,
-    'text': text,
+    'text': text.toJson(),
     'description': description,
-    'photo': photo,
-    'animation': animation,
+    'photo': photo.toJson(),
+    'animation': animation.toJson(),
   };
 
   factory Game.fromJson(Map<String, dynamic> json) => Game(
@@ -2809,13 +2809,13 @@ class Poll extends a.Poll {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'poll',
-    'id': id,
+    'id': id.toString(),
     'question': question,
-    'options': options,
+    'options': options.map((_e1) => _e1.toJson()).toList(growable: false),
     'total_voter_count': totalVoterCount,
-    'recent_voter_user_ids': recentVoterUserIds,
+    'recent_voter_user_ids': recentVoterUserIds.map((_e1) => _e1).toList(growable: false),
     'is_anonymous': isAnonymous,
-    'type': type,
+    'type': type.toJson(),
     'open_period': openPeriod,
     'close_date': closeDate,
     'is_closed': isClosed,
@@ -2876,10 +2876,10 @@ class ProfilePhoto extends a.ProfilePhoto {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'profilePhoto',
-    'id': id,
-    'small': small,
-    'big': big,
-    'minithumbnail': minithumbnail,
+    'id': id.toString(),
+    'small': small.toJson(),
+    'big': big.toJson(),
+    'minithumbnail': minithumbnail.toJson(),
     'has_animation': hasAnimation,
   };
 
@@ -2929,9 +2929,9 @@ class ChatPhotoInfo extends a.ChatPhotoInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatPhotoInfo',
-    'small': small,
-    'big': big,
-    'minithumbnail': minithumbnail,
+    'small': small.toJson(),
+    'big': big.toJson(),
+    'minithumbnail': minithumbnail.toJson(),
     'has_animation': hasAnimation,
   };
 
@@ -3144,7 +3144,7 @@ class BotInfo extends a.BotInfo {
   Map<String, dynamic> toJson() => {
     '@type': 'botInfo',
     'description': description,
-    'commands': commands,
+    'commands': commands.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory BotInfo.fromJson(Map<String, dynamic> json) => BotInfo(
@@ -3182,7 +3182,7 @@ class ChatLocation extends a.ChatLocation {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatLocation',
-    'location': location,
+    'location': location.toJson(),
     'address': address,
   };
 
@@ -3226,7 +3226,7 @@ class AnimatedChatPhoto extends a.AnimatedChatPhoto {
   Map<String, dynamic> toJson() => {
     '@type': 'animatedChatPhoto',
     'length': length,
-    'file': file,
+    'file': file.toJson(),
     'main_frame_timestamp': mainFrameTimestamp,
   };
 
@@ -3278,11 +3278,11 @@ class ChatPhoto extends a.ChatPhoto {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatPhoto',
-    'id': id,
+    'id': id.toString(),
     'added_date': addedDate,
-    'minithumbnail': minithumbnail,
-    'sizes': sizes,
-    'animation': animation,
+    'minithumbnail': minithumbnail.toJson(),
+    'sizes': sizes.map((_e1) => _e1.toJson()).toList(growable: false),
+    'animation': animation.toJson(),
   };
 
   factory ChatPhoto.fromJson(Map<String, dynamic> json) => ChatPhoto(
@@ -3324,7 +3324,7 @@ class ChatPhotos extends a.ChatPhotos {
   Map<String, dynamic> toJson() => {
     '@type': 'chatPhotos',
     'total_count': totalCount,
-    'photos': photos,
+    'photos': photos.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ChatPhotos.fromJson(Map<String, dynamic> json) => ChatPhotos(
@@ -3358,7 +3358,7 @@ class InputChatPhotoPrevious extends a.InputChatPhoto {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputChatPhotoPrevious',
-    'chat_photo_id': chatPhotoId,
+    'chat_photo_id': chatPhotoId.toString(),
   };
 
   factory InputChatPhotoPrevious.fromJson(Map<String, dynamic> json) => InputChatPhotoPrevious(
@@ -3391,7 +3391,7 @@ class InputChatPhotoStatic extends a.InputChatPhoto {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputChatPhotoStatic',
-    'photo': photo,
+    'photo': photo.toJson(),
   };
 
   factory InputChatPhotoStatic.fromJson(Map<String, dynamic> json) => InputChatPhotoStatic(
@@ -3428,7 +3428,7 @@ class InputChatPhotoAnimation extends a.InputChatPhoto {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputChatPhotoAnimation',
-    'animation': animation,
+    'animation': animation.toJson(),
     'main_frame_timestamp': mainFrameTimestamp,
   };
 
@@ -3532,8 +3532,8 @@ class User extends a.User {
     'last_name': lastName,
     'username': username,
     'phone_number': phoneNumber,
-    'status': status,
-    'profile_photo': profilePhoto,
+    'status': status.toJson(),
+    'profile_photo': profilePhoto.toJson(),
     'is_contact': isContact,
     'is_mutual_contact': isMutualContact,
     'is_verified': isVerified,
@@ -3542,7 +3542,7 @@ class User extends a.User {
     'is_scam': isScam,
     'is_fake': isFake,
     'have_access': haveAccess,
-    'type': type,
+    'type': type.toJson(),
     'language_code': languageCode,
   };
 
@@ -3628,7 +3628,7 @@ class UserFullInfo extends a.UserFullInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'userFullInfo',
-    'photo': photo,
+    'photo': photo.toJson(),
     'is_blocked': isBlocked,
     'can_be_called': canBeCalled,
     'supports_video_calls': supportsVideoCalls,
@@ -3637,7 +3637,7 @@ class UserFullInfo extends a.UserFullInfo {
     'bio': bio,
     'share_text': shareText,
     'group_in_common_count': groupInCommonCount,
-    'bot_info': botInfo,
+    'bot_info': botInfo.toJson(),
   };
 
   factory UserFullInfo.fromJson(Map<String, dynamic> json) => UserFullInfo(
@@ -3684,7 +3684,7 @@ class Users extends a.Users {
   Map<String, dynamic> toJson() => {
     '@type': 'users',
     'total_count': totalCount,
-    'user_ids': userIds,
+    'user_ids': userIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory Users.fromJson(Map<String, dynamic> json) => Users(
@@ -3763,7 +3763,7 @@ class ChatAdministrators extends a.ChatAdministrators {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatAdministrators',
-    'administrators': administrators,
+    'administrators': administrators.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ChatAdministrators.fromJson(Map<String, dynamic> json) => ChatAdministrators(
@@ -4056,7 +4056,7 @@ class ChatMemberStatusRestricted extends a.ChatMemberStatus {
     '@type': 'chatMemberStatusRestricted',
     'is_member': isMember,
     'restricted_until_date': restrictedUntilDate,
-    'permissions': permissions,
+    'permissions': permissions.toJson(),
   };
 
   factory ChatMemberStatusRestricted.fromJson(Map<String, dynamic> json) => ChatMemberStatusRestricted(
@@ -4165,11 +4165,11 @@ class ChatMember extends a.ChatMember {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatMember',
-    'member_id': memberId,
+    'member_id': memberId.toJson(),
     'inviter_user_id': inviterUserId,
     'joined_chat_date': joinedChatDate,
-    'status': status,
-    'bot_info': botInfo,
+    'status': status.toJson(),
+    'bot_info': botInfo.toJson(),
   };
 
   factory ChatMember.fromJson(Map<String, dynamic> json) => ChatMember(
@@ -4211,7 +4211,7 @@ class ChatMembers extends a.ChatMembers {
   Map<String, dynamic> toJson() => {
     '@type': 'chatMembers',
     'total_count': totalCount,
-    'members': members,
+    'members': members.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ChatMembers.fromJson(Map<String, dynamic> json) => ChatMembers(
@@ -4760,7 +4760,7 @@ class ChatInviteLinks extends a.ChatInviteLinks {
   Map<String, dynamic> toJson() => {
     '@type': 'chatInviteLinks',
     'total_count': totalCount,
-    'invite_links': inviteLinks,
+    'invite_links': inviteLinks.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ChatInviteLinks.fromJson(Map<String, dynamic> json) => ChatInviteLinks(
@@ -4839,7 +4839,7 @@ class ChatInviteLinkCounts extends a.ChatInviteLinkCounts {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatInviteLinkCounts',
-    'invite_link_counts': inviteLinkCounts,
+    'invite_link_counts': inviteLinkCounts.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ChatInviteLinkCounts.fromJson(Map<String, dynamic> json) => ChatInviteLinkCounts(
@@ -4916,7 +4916,7 @@ class ChatInviteLinkMembers extends a.ChatInviteLinkMembers {
   Map<String, dynamic> toJson() => {
     '@type': 'chatInviteLinkMembers',
     'total_count': totalCount,
-    'members': members,
+    'members': members.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ChatInviteLinkMembers.fromJson(Map<String, dynamic> json) => ChatInviteLinkMembers(
@@ -4980,11 +4980,11 @@ class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
     '@type': 'chatInviteLinkInfo',
     'chat_id': chatId,
     'accessible_for': accessibleFor,
-    'type': type,
+    'type': type.toJson(),
     'title': title,
-    'photo': photo,
+    'photo': photo.toJson(),
     'member_count': memberCount,
-    'member_user_ids': memberUserIds,
+    'member_user_ids': memberUserIds.map((_e1) => _e1).toList(growable: false),
     'is_public': isPublic,
   };
 
@@ -5043,7 +5043,7 @@ class BasicGroup extends a.BasicGroup {
     '@type': 'basicGroup',
     'id': id,
     'member_count': memberCount,
-    'status': status,
+    'status': status.toJson(),
     'is_active': isActive,
     'upgraded_to_supergroup_id': upgradedToSupergroupId,
   };
@@ -5098,11 +5098,11 @@ class BasicGroupFullInfo extends a.BasicGroupFullInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'basicGroupFullInfo',
-    'photo': photo,
+    'photo': photo.toJson(),
     'description': description,
     'creator_user_id': creatorUserId,
-    'members': members,
-    'invite_link': inviteLink,
+    'members': members.map((_e1) => _e1.toJson()).toList(growable: false),
+    'invite_link': inviteLink.toJson(),
   };
 
   factory BasicGroupFullInfo.fromJson(Map<String, dynamic> json) => BasicGroupFullInfo(
@@ -5198,7 +5198,7 @@ class Supergroup extends a.Supergroup {
     'id': id,
     'username': username,
     'date': date,
-    'status': status,
+    'status': status.toJson(),
     'member_count': memberCount,
     'has_linked_chat': hasLinkedChat,
     'has_location': hasLocation,
@@ -5332,7 +5332,7 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'supergroupFullInfo',
-    'photo': photo,
+    'photo': photo.toJson(),
     'description': description,
     'member_count': memberCount,
     'administrator_count': administratorCount,
@@ -5347,9 +5347,9 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
     'can_set_location': canSetLocation,
     'can_get_statistics': canGetStatistics,
     'is_all_history_available': isAllHistoryAvailable,
-    'sticker_set_id': stickerSetId,
-    'location': location,
-    'invite_link': inviteLink,
+    'sticker_set_id': stickerSetId.toString(),
+    'location': location.toJson(),
+    'invite_link': inviteLink.toJson(),
     'upgraded_from_basic_group_id': upgradedFromBasicGroupId,
     'upgraded_from_max_message_id': upgradedFromMaxMessageId,
   };
@@ -5500,9 +5500,9 @@ class SecretChat extends a.SecretChat {
     '@type': 'secretChat',
     'id': id,
     'user_id': userId,
-    'state': state,
+    'state': state.toJson(),
     'is_outbound': isOutbound,
-    'key_hash': keyHash,
+    'key_hash': base64.encode(keyHash),
     'layer': layer,
   };
 
@@ -5612,7 +5612,7 @@ class MessageSenders extends a.MessageSenders {
   Map<String, dynamic> toJson() => {
     '@type': 'messageSenders',
     'total_count': totalCount,
-    'senders': senders,
+    'senders': senders.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory MessageSenders.fromJson(Map<String, dynamic> json) => MessageSenders(
@@ -5845,7 +5845,7 @@ class MessageForwardInfo extends a.MessageForwardInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageForwardInfo',
-    'origin': origin,
+    'origin': origin.toJson(),
     'date': date,
     'public_service_announcement_type': publicServiceAnnouncementType,
     'from_chat_id': fromChatId,
@@ -5903,7 +5903,7 @@ class MessageReplyInfo extends a.MessageReplyInfo {
   Map<String, dynamic> toJson() => {
     '@type': 'messageReplyInfo',
     'reply_count': replyCount,
-    'recent_repliers': recentRepliers,
+    'recent_repliers': recentRepliers.map((_e1) => _e1.toJson()).toList(growable: false),
     'last_read_inbox_message_id': lastReadInboxMessageId,
     'last_read_outbox_message_id': lastReadOutboxMessageId,
     'last_message_id': lastMessageId,
@@ -5953,7 +5953,7 @@ class MessageInteractionInfo extends a.MessageInteractionInfo {
     '@type': 'messageInteractionInfo',
     'view_count': viewCount,
     'forward_count': forwardCount,
-    'reply_info': replyInfo,
+    'reply_info': replyInfo.toJson(),
   };
 
   factory MessageInteractionInfo.fromJson(Map<String, dynamic> json) => MessageInteractionInfo(
@@ -6181,10 +6181,10 @@ class Message extends a.Message {
   Map<String, dynamic> toJson() => {
     '@type': 'message',
     'id': id,
-    'sender': sender,
+    'sender': sender.toJson(),
     'chat_id': chatId,
-    'sending_state': sendingState,
-    'scheduling_state': schedulingState,
+    'sending_state': sendingState.toJson(),
+    'scheduling_state': schedulingState.toJson(),
     'is_outgoing': isOutgoing,
     'is_pinned': isPinned,
     'can_be_edited': canBeEdited,
@@ -6197,8 +6197,8 @@ class Message extends a.Message {
     'contains_unread_mention': containsUnreadMention,
     'date': date,
     'edit_date': editDate,
-    'forward_info': forwardInfo,
-    'interaction_info': interactionInfo,
+    'forward_info': forwardInfo.toJson(),
+    'interaction_info': interactionInfo.toJson(),
     'reply_in_chat_id': replyInChatId,
     'reply_to_message_id': replyToMessageId,
     'message_thread_id': messageThreadId,
@@ -6206,10 +6206,10 @@ class Message extends a.Message {
     'ttl_expires_in': ttlExpiresIn,
     'via_bot_user_id': viaBotUserId,
     'author_signature': authorSignature,
-    'media_album_id': mediaAlbumId,
+    'media_album_id': mediaAlbumId.toString(),
     'restriction_reason': restrictionReason,
-    'content': content,
-    'reply_markup': replyMarkup,
+    'content': content.toJson(),
+    'reply_markup': replyMarkup.toJson(),
   };
 
   factory Message.fromJson(Map<String, dynamic> json) => Message(
@@ -6276,7 +6276,7 @@ class Messages extends a.Messages {
   Map<String, dynamic> toJson() => {
     '@type': 'messages',
     'total_count': totalCount,
-    'messages': messages,
+    'messages': messages.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory Messages.fromJson(Map<String, dynamic> json) => Messages(
@@ -6319,7 +6319,7 @@ class FoundMessages extends a.FoundMessages {
   Map<String, dynamic> toJson() => {
     '@type': 'foundMessages',
     'total_count': totalCount,
-    'messages': messages,
+    'messages': messages.map((_e1) => _e1.toJson()).toList(growable: false),
     'next_offset': nextOffset,
   };
 
@@ -6584,7 +6584,7 @@ class DraftMessage extends a.DraftMessage {
     '@type': 'draftMessage',
     'reply_to_message_id': replyToMessageId,
     'date': date,
-    'input_message_text': inputMessageText,
+    'input_message_text': inputMessageText.toJson(),
   };
 
   factory DraftMessage.fromJson(Map<String, dynamic> json) => DraftMessage(
@@ -6813,9 +6813,9 @@ class ChatFilter extends a.ChatFilter {
     '@type': 'chatFilter',
     'title': title,
     'icon_name': iconName,
-    'pinned_chat_ids': pinnedChatIds,
-    'included_chat_ids': includedChatIds,
-    'excluded_chat_ids': excludedChatIds,
+    'pinned_chat_ids': pinnedChatIds.map((_e1) => _e1).toList(growable: false),
+    'included_chat_ids': includedChatIds.map((_e1) => _e1).toList(growable: false),
+    'excluded_chat_ids': excludedChatIds.map((_e1) => _e1).toList(growable: false),
     'exclude_muted': excludeMuted,
     'exclude_read': excludeRead,
     'exclude_archived': excludeArchived,
@@ -6917,7 +6917,7 @@ class RecommendedChatFilter extends a.RecommendedChatFilter {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'recommendedChatFilter',
-    'filter': filter,
+    'filter': filter.toJson(),
     'description': description,
   };
 
@@ -6952,7 +6952,7 @@ class RecommendedChatFilters extends a.RecommendedChatFilters {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'recommendedChatFilters',
-    'chat_filters': chatFilters,
+    'chat_filters': chatFilters.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory RecommendedChatFilters.fromJson(Map<String, dynamic> json) => RecommendedChatFilters(
@@ -7068,7 +7068,7 @@ class ChatLists extends a.ChatLists {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatLists',
-    'chat_lists': chatLists,
+    'chat_lists': chatLists.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ChatLists.fromJson(Map<String, dynamic> json) => ChatLists(
@@ -7177,10 +7177,10 @@ class ChatPosition extends a.ChatPosition {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatPosition',
-    'list': list,
-    'order': order,
+    'list': list.toJson(),
+    'order': order.toString(),
     'is_pinned': isPinned,
-    'source': source,
+    'source': source.toJson(),
   };
 
   factory ChatPosition.fromJson(Map<String, dynamic> json) => ChatPosition(
@@ -7226,7 +7226,7 @@ class VoiceChat extends a.VoiceChat {
     '@type': 'voiceChat',
     'group_call_id': groupCallId,
     'has_participants': hasParticipants,
-    'default_participant_id': defaultParticipantId,
+    'default_participant_id': defaultParticipantId.toJson(),
   };
 
   factory VoiceChat.fromJson(Map<String, dynamic> json) => VoiceChat(
@@ -7358,12 +7358,12 @@ class Chat extends a.Chat {
   Map<String, dynamic> toJson() => {
     '@type': 'chat',
     'id': id,
-    'type': type,
+    'type': type.toJson(),
     'title': title,
-    'photo': photo,
-    'permissions': permissions,
-    'last_message': lastMessage,
-    'positions': positions,
+    'photo': photo.toJson(),
+    'permissions': permissions.toJson(),
+    'last_message': lastMessage.toJson(),
+    'positions': positions.map((_e1) => _e1.toJson()).toList(growable: false),
     'is_marked_as_unread': isMarkedAsUnread,
     'is_blocked': isBlocked,
     'has_scheduled_messages': hasScheduledMessages,
@@ -7375,12 +7375,12 @@ class Chat extends a.Chat {
     'last_read_inbox_message_id': lastReadInboxMessageId,
     'last_read_outbox_message_id': lastReadOutboxMessageId,
     'unread_mention_count': unreadMentionCount,
-    'notification_settings': notificationSettings,
+    'notification_settings': notificationSettings.toJson(),
     'message_ttl_setting': messageTtlSetting,
-    'action_bar': actionBar,
-    'voice_chat': voiceChat,
+    'action_bar': actionBar.toJson(),
+    'voice_chat': voiceChat.toJson(),
     'reply_markup_message_id': replyMarkupMessageId,
-    'draft_message': draftMessage,
+    'draft_message': draftMessage.toJson(),
     'client_data': clientData,
   };
 
@@ -7443,7 +7443,7 @@ class Chats extends a.Chats {
   Map<String, dynamic> toJson() => {
     '@type': 'chats',
     'total_count': totalCount,
-    'chat_ids': chatIds,
+    'chat_ids': chatIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory Chats.fromJson(Map<String, dynamic> json) => Chats(
@@ -7520,8 +7520,8 @@ class ChatsNearby extends a.ChatsNearby {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatsNearby',
-    'users_nearby': usersNearby,
-    'supergroups_nearby': supergroupsNearby,
+    'users_nearby': usersNearby.map((_e1) => _e1.toJson()).toList(growable: false),
+    'supergroups_nearby': supergroupsNearby.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ChatsNearby.fromJson(Map<String, dynamic> json) => ChatsNearby(
@@ -7896,7 +7896,7 @@ class KeyboardButton extends a.KeyboardButton {
   Map<String, dynamic> toJson() => {
     '@type': 'keyboardButton',
     'text': text,
-    'type': type,
+    'type': type.toJson(),
   };
 
   factory KeyboardButton.fromJson(Map<String, dynamic> json) => KeyboardButton(
@@ -8008,7 +8008,7 @@ class InlineKeyboardButtonTypeCallback extends a.InlineKeyboardButtonType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inlineKeyboardButtonTypeCallback',
-    'data': data,
+    'data': base64.encode(data),
   };
 
   factory InlineKeyboardButtonTypeCallback.fromJson(Map<String, dynamic> json) => InlineKeyboardButtonTypeCallback(
@@ -8041,7 +8041,7 @@ class InlineKeyboardButtonTypeCallbackWithPassword extends a.InlineKeyboardButto
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inlineKeyboardButtonTypeCallbackWithPassword',
-    'data': data,
+    'data': base64.encode(data),
   };
 
   factory InlineKeyboardButtonTypeCallbackWithPassword.fromJson(Map<String, dynamic> json) => InlineKeyboardButtonTypeCallbackWithPassword(
@@ -8168,7 +8168,7 @@ class InlineKeyboardButton extends a.InlineKeyboardButton {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineKeyboardButton',
     'text': text,
-    'type': type,
+    'type': type.toJson(),
   };
 
   factory InlineKeyboardButton.fromJson(Map<String, dynamic> json) => InlineKeyboardButton(
@@ -8280,7 +8280,7 @@ class ReplyMarkupShowKeyboard extends a.ReplyMarkup {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'replyMarkupShowKeyboard',
-    'rows': rows,
+    'rows': rows.map((_e1) => _e1.map((_e2) => _e2.toJson()).toList(growable: false)).toList(growable: false),
     'resize_keyboard': resizeKeyboard,
     'one_time': oneTime,
     'is_personal': isPersonal,
@@ -8319,7 +8319,7 @@ class ReplyMarkupInlineKeyboard extends a.ReplyMarkup {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'replyMarkupInlineKeyboard',
-    'rows': rows,
+    'rows': rows.map((_e1) => _e1.map((_e2) => _e2.toJson()).toList(growable: false)).toList(growable: false),
   };
 
   factory ReplyMarkupInlineKeyboard.fromJson(Map<String, dynamic> json) => ReplyMarkupInlineKeyboard(
@@ -8460,9 +8460,9 @@ class MessageThreadInfo extends a.MessageThreadInfo {
     '@type': 'messageThreadInfo',
     'chat_id': chatId,
     'message_thread_id': messageThreadId,
-    'reply_info': replyInfo,
-    'messages': messages,
-    'draft_message': draftMessage,
+    'reply_info': replyInfo.toJson(),
+    'messages': messages.map((_e1) => _e1.toJson()).toList(growable: false),
+    'draft_message': draftMessage.toJson(),
   };
 
   factory MessageThreadInfo.fromJson(Map<String, dynamic> json) => MessageThreadInfo(
@@ -8532,7 +8532,7 @@ class RichTextBold extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextBold',
-    'text': text,
+    'text': text.toJson(),
   };
 
   factory RichTextBold.fromJson(Map<String, dynamic> json) => RichTextBold(
@@ -8565,7 +8565,7 @@ class RichTextItalic extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextItalic',
-    'text': text,
+    'text': text.toJson(),
   };
 
   factory RichTextItalic.fromJson(Map<String, dynamic> json) => RichTextItalic(
@@ -8598,7 +8598,7 @@ class RichTextUnderline extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextUnderline',
-    'text': text,
+    'text': text.toJson(),
   };
 
   factory RichTextUnderline.fromJson(Map<String, dynamic> json) => RichTextUnderline(
@@ -8631,7 +8631,7 @@ class RichTextStrikethrough extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextStrikethrough',
-    'text': text,
+    'text': text.toJson(),
   };
 
   factory RichTextStrikethrough.fromJson(Map<String, dynamic> json) => RichTextStrikethrough(
@@ -8664,7 +8664,7 @@ class RichTextFixed extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextFixed',
-    'text': text,
+    'text': text.toJson(),
   };
 
   factory RichTextFixed.fromJson(Map<String, dynamic> json) => RichTextFixed(
@@ -8705,7 +8705,7 @@ class RichTextUrl extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextUrl',
-    'text': text,
+    'text': text.toJson(),
     'url': url,
     'is_cached': isCached,
   };
@@ -8746,7 +8746,7 @@ class RichTextEmailAddress extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextEmailAddress',
-    'text': text,
+    'text': text.toJson(),
     'email_address': emailAddress,
   };
 
@@ -8781,7 +8781,7 @@ class RichTextSubscript extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextSubscript',
-    'text': text,
+    'text': text.toJson(),
   };
 
   factory RichTextSubscript.fromJson(Map<String, dynamic> json) => RichTextSubscript(
@@ -8814,7 +8814,7 @@ class RichTextSuperscript extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextSuperscript',
-    'text': text,
+    'text': text.toJson(),
   };
 
   factory RichTextSuperscript.fromJson(Map<String, dynamic> json) => RichTextSuperscript(
@@ -8847,7 +8847,7 @@ class RichTextMarked extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextMarked',
-    'text': text,
+    'text': text.toJson(),
   };
 
   factory RichTextMarked.fromJson(Map<String, dynamic> json) => RichTextMarked(
@@ -8884,7 +8884,7 @@ class RichTextPhoneNumber extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextPhoneNumber',
-    'text': text,
+    'text': text.toJson(),
     'phone_number': phoneNumber,
   };
 
@@ -8927,7 +8927,7 @@ class RichTextIcon extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextIcon',
-    'document': document,
+    'document': document.toJson(),
     'width': width,
     'height': height,
   };
@@ -8972,7 +8972,7 @@ class RichTextReference extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextReference',
-    'text': text,
+    'text': text.toJson(),
     'anchor_name': anchorName,
     'url': url,
   };
@@ -9050,7 +9050,7 @@ class RichTextAnchorLink extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTextAnchorLink',
-    'text': text,
+    'text': text.toJson(),
     'anchor_name': anchorName,
     'url': url,
   };
@@ -9087,7 +9087,7 @@ class RichTexts extends a.RichText {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'richTexts',
-    'texts': texts,
+    'texts': texts.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory RichTexts.fromJson(Map<String, dynamic> json) => RichTexts(
@@ -9124,8 +9124,8 @@ class PageBlockCaption extends a.PageBlockCaption {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockCaption',
-    'text': text,
-    'credit': credit,
+    'text': text.toJson(),
+    'credit': credit.toJson(),
   };
 
   factory PageBlockCaption.fromJson(Map<String, dynamic> json) => PageBlockCaption(
@@ -9164,7 +9164,7 @@ class PageBlockListItem extends a.PageBlockListItem {
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockListItem',
     'label': label,
-    'page_blocks': pageBlocks,
+    'page_blocks': pageBlocks.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory PageBlockListItem.fromJson(Map<String, dynamic> json) => PageBlockListItem(
@@ -9368,12 +9368,12 @@ class PageBlockTableCell extends a.PageBlockTableCell {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockTableCell',
-    'text': text,
+    'text': text.toJson(),
     'is_header': isHeader,
     'colspan': colspan,
     'rowspan': rowspan,
-    'align': align,
-    'valign': valign,
+    'align': align.toJson(),
+    'valign': valign.toJson(),
   };
 
   factory PageBlockTableCell.fromJson(Map<String, dynamic> json) => PageBlockTableCell(
@@ -9434,7 +9434,7 @@ class PageBlockRelatedArticle extends a.PageBlockRelatedArticle {
     'url': url,
     'title': title,
     'description': description,
-    'photo': photo,
+    'photo': photo.toJson(),
     'author': author,
     'publish_date': publishDate,
   };
@@ -9474,7 +9474,7 @@ class PageBlockTitle extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockTitle',
-    'title': title,
+    'title': title.toJson(),
   };
 
   factory PageBlockTitle.fromJson(Map<String, dynamic> json) => PageBlockTitle(
@@ -9507,7 +9507,7 @@ class PageBlockSubtitle extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockSubtitle',
-    'subtitle': subtitle,
+    'subtitle': subtitle.toJson(),
   };
 
   factory PageBlockSubtitle.fromJson(Map<String, dynamic> json) => PageBlockSubtitle(
@@ -9544,7 +9544,7 @@ class PageBlockAuthorDate extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockAuthorDate',
-    'author': author,
+    'author': author.toJson(),
     'publish_date': publishDate,
   };
 
@@ -9579,7 +9579,7 @@ class PageBlockHeader extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockHeader',
-    'header': header,
+    'header': header.toJson(),
   };
 
   factory PageBlockHeader.fromJson(Map<String, dynamic> json) => PageBlockHeader(
@@ -9612,7 +9612,7 @@ class PageBlockSubheader extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockSubheader',
-    'subheader': subheader,
+    'subheader': subheader.toJson(),
   };
 
   factory PageBlockSubheader.fromJson(Map<String, dynamic> json) => PageBlockSubheader(
@@ -9645,7 +9645,7 @@ class PageBlockKicker extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockKicker',
-    'kicker': kicker,
+    'kicker': kicker.toJson(),
   };
 
   factory PageBlockKicker.fromJson(Map<String, dynamic> json) => PageBlockKicker(
@@ -9678,7 +9678,7 @@ class PageBlockParagraph extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockParagraph',
-    'text': text,
+    'text': text.toJson(),
   };
 
   factory PageBlockParagraph.fromJson(Map<String, dynamic> json) => PageBlockParagraph(
@@ -9715,7 +9715,7 @@ class PageBlockPreformatted extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockPreformatted',
-    'text': text,
+    'text': text.toJson(),
     'language': language,
   };
 
@@ -9750,7 +9750,7 @@ class PageBlockFooter extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockFooter',
-    'footer': footer,
+    'footer': footer.toJson(),
   };
 
   factory PageBlockFooter.fromJson(Map<String, dynamic> json) => PageBlockFooter(
@@ -9841,7 +9841,7 @@ class PageBlockList extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockList',
-    'items': items,
+    'items': items.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory PageBlockList.fromJson(Map<String, dynamic> json) => PageBlockList(
@@ -9878,8 +9878,8 @@ class PageBlockBlockQuote extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockBlockQuote',
-    'text': text,
-    'credit': credit,
+    'text': text.toJson(),
+    'credit': credit.toJson(),
   };
 
   factory PageBlockBlockQuote.fromJson(Map<String, dynamic> json) => PageBlockBlockQuote(
@@ -9917,8 +9917,8 @@ class PageBlockPullQuote extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockPullQuote',
-    'text': text,
-    'credit': credit,
+    'text': text.toJson(),
+    'credit': credit.toJson(),
   };
 
   factory PageBlockPullQuote.fromJson(Map<String, dynamic> json) => PageBlockPullQuote(
@@ -9960,8 +9960,8 @@ class PageBlockAnimation extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockAnimation',
-    'animation': animation,
-    'caption': caption,
+    'animation': animation.toJson(),
+    'caption': caption.toJson(),
     'need_autoplay': needAutoplay,
   };
 
@@ -10001,8 +10001,8 @@ class PageBlockAudio extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockAudio',
-    'audio': audio,
-    'caption': caption,
+    'audio': audio.toJson(),
+    'caption': caption.toJson(),
   };
 
   factory PageBlockAudio.fromJson(Map<String, dynamic> json) => PageBlockAudio(
@@ -10044,8 +10044,8 @@ class PageBlockPhoto extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockPhoto',
-    'photo': photo,
-    'caption': caption,
+    'photo': photo.toJson(),
+    'caption': caption.toJson(),
     'url': url,
   };
 
@@ -10093,8 +10093,8 @@ class PageBlockVideo extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockVideo',
-    'video': video,
-    'caption': caption,
+    'video': video.toJson(),
+    'caption': caption.toJson(),
     'need_autoplay': needAutoplay,
     'is_looped': isLooped,
   };
@@ -10136,8 +10136,8 @@ class PageBlockVoiceNote extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockVoiceNote',
-    'voice_note': voiceNote,
-    'caption': caption,
+    'voice_note': voiceNote.toJson(),
+    'caption': caption.toJson(),
   };
 
   factory PageBlockVoiceNote.fromJson(Map<String, dynamic> json) => PageBlockVoiceNote(
@@ -10171,7 +10171,7 @@ class PageBlockCover extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockCover',
-    'cover': cover,
+    'cover': cover.toJson(),
   };
 
   factory PageBlockCover.fromJson(Map<String, dynamic> json) => PageBlockCover(
@@ -10234,10 +10234,10 @@ class PageBlockEmbedded extends a.PageBlock {
     '@type': 'pageBlockEmbedded',
     'url': url,
     'html': html,
-    'poster_photo': posterPhoto,
+    'poster_photo': posterPhoto.toJson(),
     'width': width,
     'height': height,
-    'caption': caption,
+    'caption': caption.toJson(),
     'is_full_width': isFullWidth,
     'allow_scrolling': allowScrolling,
   };
@@ -10301,10 +10301,10 @@ class PageBlockEmbeddedPost extends a.PageBlock {
     '@type': 'pageBlockEmbeddedPost',
     'url': url,
     'author': author,
-    'author_photo': authorPhoto,
+    'author_photo': authorPhoto.toJson(),
     'date': date,
-    'page_blocks': pageBlocks,
-    'caption': caption,
+    'page_blocks': pageBlocks.map((_e1) => _e1.toJson()).toList(growable: false),
+    'caption': caption.toJson(),
   };
 
   factory PageBlockEmbeddedPost.fromJson(Map<String, dynamic> json) => PageBlockEmbeddedPost(
@@ -10346,8 +10346,8 @@ class PageBlockCollage extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockCollage',
-    'page_blocks': pageBlocks,
-    'caption': caption,
+    'page_blocks': pageBlocks.map((_e1) => _e1.toJson()).toList(growable: false),
+    'caption': caption.toJson(),
   };
 
   factory PageBlockCollage.fromJson(Map<String, dynamic> json) => PageBlockCollage(
@@ -10385,8 +10385,8 @@ class PageBlockSlideshow extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockSlideshow',
-    'page_blocks': pageBlocks,
-    'caption': caption,
+    'page_blocks': pageBlocks.map((_e1) => _e1.toJson()).toList(growable: false),
+    'caption': caption.toJson(),
   };
 
   factory PageBlockSlideshow.fromJson(Map<String, dynamic> json) => PageBlockSlideshow(
@@ -10429,7 +10429,7 @@ class PageBlockChatLink extends a.PageBlock {
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockChatLink',
     'title': title,
-    'photo': photo,
+    'photo': photo.toJson(),
     'username': username,
   };
 
@@ -10477,8 +10477,8 @@ class PageBlockTable extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockTable',
-    'caption': caption,
-    'cells': cells,
+    'caption': caption.toJson(),
+    'cells': cells.map((_e1) => _e1.map((_e2) => _e2.toJson()).toList(growable: false)).toList(growable: false),
     'is_bordered': isBordered,
     'is_striped': isStriped,
   };
@@ -10524,8 +10524,8 @@ class PageBlockDetails extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockDetails',
-    'header': header,
-    'page_blocks': pageBlocks,
+    'header': header.toJson(),
+    'page_blocks': pageBlocks.map((_e1) => _e1.toJson()).toList(growable: false),
     'is_open': isOpen,
   };
 
@@ -10565,8 +10565,8 @@ class PageBlockRelatedArticles extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockRelatedArticles',
-    'header': header,
-    'articles': articles,
+    'header': header.toJson(),
+    'articles': articles.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory PageBlockRelatedArticles.fromJson(Map<String, dynamic> json) => PageBlockRelatedArticles(
@@ -10616,11 +10616,11 @@ class PageBlockMap extends a.PageBlock {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pageBlockMap',
-    'location': location,
+    'location': location.toJson(),
     'zoom': zoom,
     'width': width,
     'height': height,
-    'caption': caption,
+    'caption': caption.toJson(),
   };
 
   factory PageBlockMap.fromJson(Map<String, dynamic> json) => PageBlockMap(
@@ -10673,7 +10673,7 @@ class WebPageInstantView extends a.WebPageInstantView {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'webPageInstantView',
-    'page_blocks': pageBlocks,
+    'page_blocks': pageBlocks.map((_e1) => _e1.toJson()).toList(growable: false),
     'view_count': viewCount,
     'version': version,
     'is_rtl': isRtl,
@@ -10799,21 +10799,21 @@ class WebPage extends a.WebPage {
     'type': type,
     'site_name': siteName,
     'title': title,
-    'description': description,
-    'photo': photo,
+    'description': description.toJson(),
+    'photo': photo.toJson(),
     'embed_url': embedUrl,
     'embed_type': embedType,
     'embed_width': embedWidth,
     'embed_height': embedHeight,
     'duration': duration,
     'author': author,
-    'animation': animation,
-    'audio': audio,
-    'document': document,
-    'sticker': sticker,
-    'video': video,
-    'video_note': videoNote,
-    'voice_note': voiceNote,
+    'animation': animation.toJson(),
+    'audio': audio.toJson(),
+    'document': document.toJson(),
+    'sticker': sticker.toJson(),
+    'video': video.toJson(),
+    'video_note': videoNote.toJson(),
+    'voice_note': voiceNote.toJson(),
     'instant_view_version': instantViewVersion,
   };
 
@@ -10887,7 +10887,7 @@ class CountryInfo extends a.CountryInfo {
     'name': name,
     'english_name': englishName,
     'is_hidden': isHidden,
-    'calling_codes': callingCodes,
+    'calling_codes': callingCodes.map((_e1) => _e1).toList(growable: false),
   };
 
   factory CountryInfo.fromJson(Map<String, dynamic> json) => CountryInfo(
@@ -10924,7 +10924,7 @@ class Countries extends a.Countries {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'countries',
-    'countries': countries,
+    'countries': countries.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory Countries.fromJson(Map<String, dynamic> json) => Countries(
@@ -10965,7 +10965,7 @@ class PhoneNumberInfo extends a.PhoneNumberInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'phoneNumberInfo',
-    'country': country,
+    'country': country.toJson(),
     'country_calling_code': countryCallingCode,
     'formatted_phone_number': formattedPhoneNumber,
   };
@@ -11046,7 +11046,7 @@ class BankCardInfo extends a.BankCardInfo {
   Map<String, dynamic> toJson() => {
     '@type': 'bankCardInfo',
     'title': title,
-    'actions': actions,
+    'actions': actions.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory BankCardInfo.fromJson(Map<String, dynamic> json) => BankCardInfo(
@@ -11227,9 +11227,9 @@ class Invoice extends a.Invoice {
   Map<String, dynamic> toJson() => {
     '@type': 'invoice',
     'currency': currency,
-    'price_parts': priceParts,
+    'price_parts': priceParts.map((_e1) => _e1.toJson()).toList(growable: false),
     'max_tip_amount': maxTipAmount,
-    'suggested_tip_amounts': suggestedTipAmounts,
+    'suggested_tip_amounts': suggestedTipAmounts.map((_e1) => _e1).toList(growable: false),
     'is_test': isTest,
     'need_name': needName,
     'need_phone_number': needPhoneNumber,
@@ -11296,7 +11296,7 @@ class OrderInfo extends a.OrderInfo {
     'name': name,
     'phone_number': phoneNumber,
     'email_address': emailAddress,
-    'shipping_address': shippingAddress,
+    'shipping_address': shippingAddress.toJson(),
   };
 
   factory OrderInfo.fromJson(Map<String, dynamic> json) => OrderInfo(
@@ -11342,7 +11342,7 @@ class ShippingOption extends a.ShippingOption {
     '@type': 'shippingOption',
     'id': id,
     'title': title,
-    'price_parts': priceParts,
+    'price_parts': priceParts.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ShippingOption.fromJson(Map<String, dynamic> json) => ShippingOption(
@@ -11704,14 +11704,14 @@ class PaymentForm extends a.PaymentForm {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'paymentForm',
-    'id': id,
-    'invoice': invoice,
+    'id': id.toString(),
+    'invoice': invoice.toJson(),
     'url': url,
     'seller_bot_user_id': sellerBotUserId,
     'payments_provider_user_id': paymentsProviderUserId,
-    'payments_provider': paymentsProvider,
-    'saved_order_info': savedOrderInfo,
-    'saved_credentials': savedCredentials,
+    'payments_provider': paymentsProvider.toJson(),
+    'saved_order_info': savedOrderInfo.toJson(),
+    'saved_credentials': savedCredentials.toJson(),
     'can_save_credentials': canSaveCredentials,
     'need_password': needPassword,
   };
@@ -11760,7 +11760,7 @@ class ValidatedOrderInfo extends a.ValidatedOrderInfo {
   Map<String, dynamic> toJson() => {
     '@type': 'validatedOrderInfo',
     'order_info_id': orderInfoId,
-    'shipping_options': shippingOptions,
+    'shipping_options': shippingOptions.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ValidatedOrderInfo.fromJson(Map<String, dynamic> json) => ValidatedOrderInfo(
@@ -11875,13 +11875,13 @@ class PaymentReceipt extends a.PaymentReceipt {
     '@type': 'paymentReceipt',
     'title': title,
     'description': description,
-    'photo': photo,
+    'photo': photo.toJson(),
     'date': date,
     'seller_bot_user_id': sellerBotUserId,
     'payments_provider_user_id': paymentsProviderUserId,
-    'invoice': invoice,
-    'order_info': orderInfo,
-    'shipping_option': shippingOption,
+    'invoice': invoice.toJson(),
+    'order_info': orderInfo.toJson(),
+    'shipping_option': shippingOption.toJson(),
     'credentials_title': credentialsTitle,
     'tip_amount': tipAmount,
   };
@@ -11930,7 +11930,7 @@ class DatedFile extends a.DatedFile {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'datedFile',
-    'file': file,
+    'file': file.toJson(),
     'date': date,
   };
 
@@ -12377,7 +12377,7 @@ class PersonalDetails extends a.PersonalDetails {
     'native_first_name': nativeFirstName,
     'native_middle_name': nativeMiddleName,
     'native_last_name': nativeLastName,
-    'birthdate': birthdate,
+    'birthdate': birthdate.toJson(),
     'gender': gender,
     'country_code': countryCode,
     'residence_country_code': residenceCountryCode,
@@ -12443,11 +12443,11 @@ class IdentityDocument extends a.IdentityDocument {
   Map<String, dynamic> toJson() => {
     '@type': 'identityDocument',
     'number': number,
-    'expiry_date': expiryDate,
-    'front_side': frontSide,
-    'reverse_side': reverseSide,
-    'selfie': selfie,
-    'translation': translation,
+    'expiry_date': expiryDate.toJson(),
+    'front_side': frontSide.toJson(),
+    'reverse_side': reverseSide.toJson(),
+    'selfie': selfie.toJson(),
+    'translation': translation.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory IdentityDocument.fromJson(Map<String, dynamic> json) => IdentityDocument(
@@ -12506,11 +12506,11 @@ class InputIdentityDocument extends a.InputIdentityDocument {
   Map<String, dynamic> toJson() => {
     '@type': 'inputIdentityDocument',
     'number': number,
-    'expiry_date': expiryDate,
-    'front_side': frontSide,
-    'reverse_side': reverseSide,
-    'selfie': selfie,
-    'translation': translation,
+    'expiry_date': expiryDate.toJson(),
+    'front_side': frontSide.toJson(),
+    'reverse_side': reverseSide.toJson(),
+    'selfie': selfie.toJson(),
+    'translation': translation.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory InputIdentityDocument.fromJson(Map<String, dynamic> json) => InputIdentityDocument(
@@ -12552,8 +12552,8 @@ class PersonalDocument extends a.PersonalDocument {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'personalDocument',
-    'files': files,
-    'translation': translation,
+    'files': files.map((_e1) => _e1.toJson()).toList(growable: false),
+    'translation': translation.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory PersonalDocument.fromJson(Map<String, dynamic> json) => PersonalDocument(
@@ -12591,8 +12591,8 @@ class InputPersonalDocument extends a.InputPersonalDocument {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPersonalDocument',
-    'files': files,
-    'translation': translation,
+    'files': files.map((_e1) => _e1.toJson()).toList(growable: false),
+    'translation': translation.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory InputPersonalDocument.fromJson(Map<String, dynamic> json) => InputPersonalDocument(
@@ -12626,7 +12626,7 @@ class PassportElementPersonalDetails extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementPersonalDetails',
-    'personal_details': personalDetails,
+    'personal_details': personalDetails.toJson(),
   };
 
   factory PassportElementPersonalDetails.fromJson(Map<String, dynamic> json) => PassportElementPersonalDetails(
@@ -12659,7 +12659,7 @@ class PassportElementPassport extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementPassport',
-    'passport': passport,
+    'passport': passport.toJson(),
   };
 
   factory PassportElementPassport.fromJson(Map<String, dynamic> json) => PassportElementPassport(
@@ -12692,7 +12692,7 @@ class PassportElementDriverLicense extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementDriverLicense',
-    'driver_license': driverLicense,
+    'driver_license': driverLicense.toJson(),
   };
 
   factory PassportElementDriverLicense.fromJson(Map<String, dynamic> json) => PassportElementDriverLicense(
@@ -12725,7 +12725,7 @@ class PassportElementIdentityCard extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementIdentityCard',
-    'identity_card': identityCard,
+    'identity_card': identityCard.toJson(),
   };
 
   factory PassportElementIdentityCard.fromJson(Map<String, dynamic> json) => PassportElementIdentityCard(
@@ -12758,7 +12758,7 @@ class PassportElementInternalPassport extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementInternalPassport',
-    'internal_passport': internalPassport,
+    'internal_passport': internalPassport.toJson(),
   };
 
   factory PassportElementInternalPassport.fromJson(Map<String, dynamic> json) => PassportElementInternalPassport(
@@ -12791,7 +12791,7 @@ class PassportElementAddress extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementAddress',
-    'address': address,
+    'address': address.toJson(),
   };
 
   factory PassportElementAddress.fromJson(Map<String, dynamic> json) => PassportElementAddress(
@@ -12824,7 +12824,7 @@ class PassportElementUtilityBill extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementUtilityBill',
-    'utility_bill': utilityBill,
+    'utility_bill': utilityBill.toJson(),
   };
 
   factory PassportElementUtilityBill.fromJson(Map<String, dynamic> json) => PassportElementUtilityBill(
@@ -12857,7 +12857,7 @@ class PassportElementBankStatement extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementBankStatement',
-    'bank_statement': bankStatement,
+    'bank_statement': bankStatement.toJson(),
   };
 
   factory PassportElementBankStatement.fromJson(Map<String, dynamic> json) => PassportElementBankStatement(
@@ -12890,7 +12890,7 @@ class PassportElementRentalAgreement extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementRentalAgreement',
-    'rental_agreement': rentalAgreement,
+    'rental_agreement': rentalAgreement.toJson(),
   };
 
   factory PassportElementRentalAgreement.fromJson(Map<String, dynamic> json) => PassportElementRentalAgreement(
@@ -12923,7 +12923,7 @@ class PassportElementPassportRegistration extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementPassportRegistration',
-    'passport_registration': passportRegistration,
+    'passport_registration': passportRegistration.toJson(),
   };
 
   factory PassportElementPassportRegistration.fromJson(Map<String, dynamic> json) => PassportElementPassportRegistration(
@@ -12956,7 +12956,7 @@ class PassportElementTemporaryRegistration extends a.PassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementTemporaryRegistration',
-    'temporary_registration': temporaryRegistration,
+    'temporary_registration': temporaryRegistration.toJson(),
   };
 
   factory PassportElementTemporaryRegistration.fromJson(Map<String, dynamic> json) => PassportElementTemporaryRegistration(
@@ -13055,7 +13055,7 @@ class InputPassportElementPersonalDetails extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementPersonalDetails',
-    'personal_details': personalDetails,
+    'personal_details': personalDetails.toJson(),
   };
 
   factory InputPassportElementPersonalDetails.fromJson(Map<String, dynamic> json) => InputPassportElementPersonalDetails(
@@ -13088,7 +13088,7 @@ class InputPassportElementPassport extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementPassport',
-    'passport': passport,
+    'passport': passport.toJson(),
   };
 
   factory InputPassportElementPassport.fromJson(Map<String, dynamic> json) => InputPassportElementPassport(
@@ -13121,7 +13121,7 @@ class InputPassportElementDriverLicense extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementDriverLicense',
-    'driver_license': driverLicense,
+    'driver_license': driverLicense.toJson(),
   };
 
   factory InputPassportElementDriverLicense.fromJson(Map<String, dynamic> json) => InputPassportElementDriverLicense(
@@ -13154,7 +13154,7 @@ class InputPassportElementIdentityCard extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementIdentityCard',
-    'identity_card': identityCard,
+    'identity_card': identityCard.toJson(),
   };
 
   factory InputPassportElementIdentityCard.fromJson(Map<String, dynamic> json) => InputPassportElementIdentityCard(
@@ -13187,7 +13187,7 @@ class InputPassportElementInternalPassport extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementInternalPassport',
-    'internal_passport': internalPassport,
+    'internal_passport': internalPassport.toJson(),
   };
 
   factory InputPassportElementInternalPassport.fromJson(Map<String, dynamic> json) => InputPassportElementInternalPassport(
@@ -13220,7 +13220,7 @@ class InputPassportElementAddress extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementAddress',
-    'address': address,
+    'address': address.toJson(),
   };
 
   factory InputPassportElementAddress.fromJson(Map<String, dynamic> json) => InputPassportElementAddress(
@@ -13253,7 +13253,7 @@ class InputPassportElementUtilityBill extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementUtilityBill',
-    'utility_bill': utilityBill,
+    'utility_bill': utilityBill.toJson(),
   };
 
   factory InputPassportElementUtilityBill.fromJson(Map<String, dynamic> json) => InputPassportElementUtilityBill(
@@ -13286,7 +13286,7 @@ class InputPassportElementBankStatement extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementBankStatement',
-    'bank_statement': bankStatement,
+    'bank_statement': bankStatement.toJson(),
   };
 
   factory InputPassportElementBankStatement.fromJson(Map<String, dynamic> json) => InputPassportElementBankStatement(
@@ -13319,7 +13319,7 @@ class InputPassportElementRentalAgreement extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementRentalAgreement',
-    'rental_agreement': rentalAgreement,
+    'rental_agreement': rentalAgreement.toJson(),
   };
 
   factory InputPassportElementRentalAgreement.fromJson(Map<String, dynamic> json) => InputPassportElementRentalAgreement(
@@ -13352,7 +13352,7 @@ class InputPassportElementPassportRegistration extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementPassportRegistration',
-    'passport_registration': passportRegistration,
+    'passport_registration': passportRegistration.toJson(),
   };
 
   factory InputPassportElementPassportRegistration.fromJson(Map<String, dynamic> json) => InputPassportElementPassportRegistration(
@@ -13385,7 +13385,7 @@ class InputPassportElementTemporaryRegistration extends a.InputPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementTemporaryRegistration',
-    'temporary_registration': temporaryRegistration,
+    'temporary_registration': temporaryRegistration.toJson(),
   };
 
   factory InputPassportElementTemporaryRegistration.fromJson(Map<String, dynamic> json) => InputPassportElementTemporaryRegistration(
@@ -13484,7 +13484,7 @@ class PassportElements extends a.PassportElements {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElements',
-    'elements': elements,
+    'elements': elements.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory PassportElements.fromJson(Map<String, dynamic> json) => PassportElements(
@@ -13774,9 +13774,9 @@ class PassportElementError extends a.PassportElementError {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementError',
-    'type': type,
+    'type': type.toJson(),
     'message': message,
-    'source': source,
+    'source': source.toJson(),
   };
 
   factory PassportElementError.fromJson(Map<String, dynamic> json) => PassportElementError(
@@ -13823,7 +13823,7 @@ class PassportSuitableElement extends a.PassportSuitableElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportSuitableElement',
-    'type': type,
+    'type': type.toJson(),
     'is_selfie_required': isSelfieRequired,
     'is_translation_required': isTranslationRequired,
     'is_native_name_required': isNativeNameRequired,
@@ -13862,7 +13862,7 @@ class PassportRequiredElement extends a.PassportRequiredElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportRequiredElement',
-    'suitable_elements': suitableElements,
+    'suitable_elements': suitableElements.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory PassportRequiredElement.fromJson(Map<String, dynamic> json) => PassportRequiredElement(
@@ -13904,7 +13904,7 @@ class PassportAuthorizationForm extends a.PassportAuthorizationForm {
   Map<String, dynamic> toJson() => {
     '@type': 'passportAuthorizationForm',
     'id': id,
-    'required_elements': requiredElements,
+    'required_elements': requiredElements.map((_e1) => _e1.toJson()).toList(growable: false),
     'privacy_policy_url': privacyPolicyUrl,
   };
 
@@ -13944,8 +13944,8 @@ class PassportElementsWithErrors extends a.PassportElementsWithErrors {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'passportElementsWithErrors',
-    'elements': elements,
-    'errors': errors,
+    'elements': elements.map((_e1) => _e1.toJson()).toList(growable: false),
+    'errors': errors.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory PassportElementsWithErrors.fromJson(Map<String, dynamic> json) => PassportElementsWithErrors(
@@ -13987,9 +13987,9 @@ class EncryptedCredentials extends a.EncryptedCredentials {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'encryptedCredentials',
-    'data': data,
-    'hash': hash,
-    'secret': secret,
+    'data': base64.encode(data),
+    'hash': base64.encode(hash),
+    'secret': base64.encode(secret),
   };
 
   factory EncryptedCredentials.fromJson(Map<String, dynamic> json) => EncryptedCredentials(
@@ -14056,13 +14056,13 @@ class EncryptedPassportElement extends a.EncryptedPassportElement {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'encryptedPassportElement',
-    'type': type,
-    'data': data,
-    'front_side': frontSide,
-    'reverse_side': reverseSide,
-    'selfie': selfie,
-    'translation': translation,
-    'files': files,
+    'type': type.toJson(),
+    'data': base64.encode(data),
+    'front_side': frontSide.toJson(),
+    'reverse_side': reverseSide.toJson(),
+    'selfie': selfie.toJson(),
+    'translation': translation.map((_e1) => _e1.toJson()).toList(growable: false),
+    'files': files.map((_e1) => _e1.toJson()).toList(growable: false),
     'value': value,
     'hash': hash,
   };
@@ -14105,7 +14105,7 @@ class InputPassportElementErrorSourceUnspecified extends a.InputPassportElementE
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementErrorSourceUnspecified',
-    'element_hash': elementHash,
+    'element_hash': base64.encode(elementHash),
   };
 
   factory InputPassportElementErrorSourceUnspecified.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceUnspecified(
@@ -14143,7 +14143,7 @@ class InputPassportElementErrorSourceDataField extends a.InputPassportElementErr
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementErrorSourceDataField',
     'field_name': fieldName,
-    'data_hash': dataHash,
+    'data_hash': base64.encode(dataHash),
   };
 
   factory InputPassportElementErrorSourceDataField.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceDataField(
@@ -14177,7 +14177,7 @@ class InputPassportElementErrorSourceFrontSide extends a.InputPassportElementErr
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementErrorSourceFrontSide',
-    'file_hash': fileHash,
+    'file_hash': base64.encode(fileHash),
   };
 
   factory InputPassportElementErrorSourceFrontSide.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceFrontSide(
@@ -14210,7 +14210,7 @@ class InputPassportElementErrorSourceReverseSide extends a.InputPassportElementE
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementErrorSourceReverseSide',
-    'file_hash': fileHash,
+    'file_hash': base64.encode(fileHash),
   };
 
   factory InputPassportElementErrorSourceReverseSide.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceReverseSide(
@@ -14243,7 +14243,7 @@ class InputPassportElementErrorSourceSelfie extends a.InputPassportElementErrorS
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementErrorSourceSelfie',
-    'file_hash': fileHash,
+    'file_hash': base64.encode(fileHash),
   };
 
   factory InputPassportElementErrorSourceSelfie.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceSelfie(
@@ -14276,7 +14276,7 @@ class InputPassportElementErrorSourceTranslationFile extends a.InputPassportElem
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementErrorSourceTranslationFile',
-    'file_hash': fileHash,
+    'file_hash': base64.encode(fileHash),
   };
 
   factory InputPassportElementErrorSourceTranslationFile.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceTranslationFile(
@@ -14309,7 +14309,7 @@ class InputPassportElementErrorSourceTranslationFiles extends a.InputPassportEle
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementErrorSourceTranslationFiles',
-    'file_hashes': fileHashes,
+    'file_hashes': fileHashes.map((_e1) => base64.encode(_e1)).toList(growable: false),
   };
 
   factory InputPassportElementErrorSourceTranslationFiles.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceTranslationFiles(
@@ -14342,7 +14342,7 @@ class InputPassportElementErrorSourceFile extends a.InputPassportElementErrorSou
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementErrorSourceFile',
-    'file_hash': fileHash,
+    'file_hash': base64.encode(fileHash),
   };
 
   factory InputPassportElementErrorSourceFile.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceFile(
@@ -14375,7 +14375,7 @@ class InputPassportElementErrorSourceFiles extends a.InputPassportElementErrorSo
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementErrorSourceFiles',
-    'file_hashes': fileHashes,
+    'file_hashes': fileHashes.map((_e1) => base64.encode(_e1)).toList(growable: false),
   };
 
   factory InputPassportElementErrorSourceFiles.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceFiles(
@@ -14416,9 +14416,9 @@ class InputPassportElementError extends a.InputPassportElementError {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputPassportElementError',
-    'type': type,
+    'type': type.toJson(),
     'message': message,
-    'source': source,
+    'source': source.toJson(),
   };
 
   factory InputPassportElementError.fromJson(Map<String, dynamic> json) => InputPassportElementError(
@@ -14457,8 +14457,8 @@ class MessageText extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageText',
-    'text': text,
-    'web_page': webPage,
+    'text': text.toJson(),
+    'web_page': webPage.toJson(),
   };
 
   factory MessageText.fromJson(Map<String, dynamic> json) => MessageText(
@@ -14500,8 +14500,8 @@ class MessageAnimation extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageAnimation',
-    'animation': animation,
-    'caption': caption,
+    'animation': animation.toJson(),
+    'caption': caption.toJson(),
     'is_secret': isSecret,
   };
 
@@ -14541,8 +14541,8 @@ class MessageAudio extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageAudio',
-    'audio': audio,
-    'caption': caption,
+    'audio': audio.toJson(),
+    'caption': caption.toJson(),
   };
 
   factory MessageAudio.fromJson(Map<String, dynamic> json) => MessageAudio(
@@ -14580,8 +14580,8 @@ class MessageDocument extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageDocument',
-    'document': document,
-    'caption': caption,
+    'document': document.toJson(),
+    'caption': caption.toJson(),
   };
 
   factory MessageDocument.fromJson(Map<String, dynamic> json) => MessageDocument(
@@ -14623,8 +14623,8 @@ class MessagePhoto extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messagePhoto',
-    'photo': photo,
-    'caption': caption,
+    'photo': photo.toJson(),
+    'caption': caption.toJson(),
     'is_secret': isSecret,
   };
 
@@ -14685,7 +14685,7 @@ class MessageSticker extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageSticker',
-    'sticker': sticker,
+    'sticker': sticker.toJson(),
   };
 
   factory MessageSticker.fromJson(Map<String, dynamic> json) => MessageSticker(
@@ -14726,8 +14726,8 @@ class MessageVideo extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageVideo',
-    'video': video,
-    'caption': caption,
+    'video': video.toJson(),
+    'caption': caption.toJson(),
     'is_secret': isSecret,
   };
 
@@ -14796,7 +14796,7 @@ class MessageVideoNote extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageVideoNote',
-    'video_note': videoNote,
+    'video_note': videoNote.toJson(),
     'is_viewed': isViewed,
     'is_secret': isSecret,
   };
@@ -14841,8 +14841,8 @@ class MessageVoiceNote extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageVoiceNote',
-    'voice_note': voiceNote,
-    'caption': caption,
+    'voice_note': voiceNote.toJson(),
+    'caption': caption.toJson(),
     'is_listened': isListened,
   };
 
@@ -14894,7 +14894,7 @@ class MessageLocation extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageLocation',
-    'location': location,
+    'location': location.toJson(),
     'live_period': livePeriod,
     'expires_in': expiresIn,
     'heading': heading,
@@ -14935,7 +14935,7 @@ class MessageVenue extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageVenue',
-    'venue': venue,
+    'venue': venue.toJson(),
   };
 
   factory MessageVenue.fromJson(Map<String, dynamic> json) => MessageVenue(
@@ -14968,7 +14968,7 @@ class MessageContact extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageContact',
-    'contact': contact,
+    'contact': contact.toJson(),
   };
 
   factory MessageContact.fromJson(Map<String, dynamic> json) => MessageContact(
@@ -15017,8 +15017,8 @@ class MessageDice extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageDice',
-    'initial_state': initialState,
-    'final_state': finalState,
+    'initial_state': initialState.toJson(),
+    'final_state': finalState.toJson(),
     'emoji': emoji,
     'value': value,
     'success_animation_frame_number': successAnimationFrameNumber,
@@ -15058,7 +15058,7 @@ class MessageGame extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageGame',
-    'game': game,
+    'game': game.toJson(),
   };
 
   factory MessageGame.fromJson(Map<String, dynamic> json) => MessageGame(
@@ -15091,7 +15091,7 @@ class MessagePoll extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messagePoll',
-    'poll': poll,
+    'poll': poll.toJson(),
   };
 
   factory MessagePoll.fromJson(Map<String, dynamic> json) => MessagePoll(
@@ -15158,7 +15158,7 @@ class MessageInvoice extends a.MessageContent {
     '@type': 'messageInvoice',
     'title': title,
     'description': description,
-    'photo': photo,
+    'photo': photo.toJson(),
     'currency': currency,
     'total_amount': totalAmount,
     'start_parameter': startParameter,
@@ -15214,7 +15214,7 @@ class MessageCall extends a.MessageContent {
   Map<String, dynamic> toJson() => {
     '@type': 'messageCall',
     'is_video': isVideo,
-    'discard_reason': discardReason,
+    'discard_reason': discardReason.toJson(),
     'duration': duration,
   };
 
@@ -15360,7 +15360,7 @@ class MessageInviteVoiceChatParticipants extends a.MessageContent {
   Map<String, dynamic> toJson() => {
     '@type': 'messageInviteVoiceChatParticipants',
     'group_call_id': groupCallId,
-    'user_ids': userIds,
+    'user_ids': userIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory MessageInviteVoiceChatParticipants.fromJson(Map<String, dynamic> json) => MessageInviteVoiceChatParticipants(
@@ -15399,7 +15399,7 @@ class MessageBasicGroupChatCreate extends a.MessageContent {
   Map<String, dynamic> toJson() => {
     '@type': 'messageBasicGroupChatCreate',
     'title': title,
-    'member_user_ids': memberUserIds,
+    'member_user_ids': memberUserIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory MessageBasicGroupChatCreate.fromJson(Map<String, dynamic> json) => MessageBasicGroupChatCreate(
@@ -15499,7 +15499,7 @@ class MessageChatChangePhoto extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageChatChangePhoto',
-    'photo': photo,
+    'photo': photo.toJson(),
   };
 
   factory MessageChatChangePhoto.fromJson(Map<String, dynamic> json) => MessageChatChangePhoto(
@@ -15557,7 +15557,7 @@ class MessageChatAddMembers extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageChatAddMembers',
-    'member_user_ids': memberUserIds,
+    'member_user_ids': memberUserIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory MessageChatAddMembers.fromJson(Map<String, dynamic> json) => MessageChatAddMembers(
@@ -15853,7 +15853,7 @@ class MessageGameScore extends a.MessageContent {
   Map<String, dynamic> toJson() => {
     '@type': 'messageGameScore',
     'game_message_id': gameMessageId,
-    'game_id': gameId,
+    'game_id': gameId.toString(),
     'score': score,
   };
 
@@ -15966,9 +15966,9 @@ class MessagePaymentSuccessfulBot extends a.MessageContent {
     '@type': 'messagePaymentSuccessfulBot',
     'currency': currency,
     'total_amount': totalAmount,
-    'invoice_payload': invoicePayload,
+    'invoice_payload': base64.encode(invoicePayload),
     'shipping_option_id': shippingOptionId,
-    'order_info': orderInfo,
+    'order_info': orderInfo.toJson(),
     'telegram_payment_charge_id': telegramPaymentChargeId,
     'provider_payment_charge_id': providerPaymentChargeId,
   };
@@ -16067,7 +16067,7 @@ class MessagePassportDataSent extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messagePassportDataSent',
-    'types': types,
+    'types': types.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory MessagePassportDataSent.fromJson(Map<String, dynamic> json) => MessagePassportDataSent(
@@ -16104,8 +16104,8 @@ class MessagePassportDataReceived extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messagePassportDataReceived',
-    'elements': elements,
-    'credentials': credentials,
+    'elements': elements.map((_e1) => _e1.toJson()).toList(growable: false),
+    'credentials': credentials.toJson(),
   };
 
   factory MessagePassportDataReceived.fromJson(Map<String, dynamic> json) => MessagePassportDataReceived(
@@ -16147,8 +16147,8 @@ class MessageProximityAlertTriggered extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageProximityAlertTriggered',
-    'traveler': traveler,
-    'watcher': watcher,
+    'traveler': traveler.toJson(),
+    'watcher': watcher.toJson(),
     'distance': distance,
   };
 
@@ -16666,7 +16666,7 @@ class InputThumbnail extends a.InputThumbnail {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputThumbnail',
-    'thumbnail': thumbnail,
+    'thumbnail': thumbnail.toJson(),
     'width': width,
     'height': height,
   };
@@ -16771,7 +16771,7 @@ class MessageSendOptions extends a.MessageSendOptions {
     '@type': 'messageSendOptions',
     'disable_notification': disableNotification,
     'from_background': fromBackground,
-    'scheduling_state': schedulingState,
+    'scheduling_state': schedulingState.toJson(),
   };
 
   factory MessageSendOptions.fromJson(Map<String, dynamic> json) => MessageSendOptions(
@@ -16816,7 +16816,7 @@ class MessageCopyOptions extends a.MessageCopyOptions {
     '@type': 'messageCopyOptions',
     'send_copy': sendCopy,
     'replace_caption': replaceCaption,
-    'new_caption': newCaption,
+    'new_caption': newCaption.toJson(),
   };
 
   factory MessageCopyOptions.fromJson(Map<String, dynamic> json) => MessageCopyOptions(
@@ -16859,7 +16859,7 @@ class InputMessageText extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageText',
-    'text': text,
+    'text': text.toJson(),
     'disable_web_page_preview': disableWebPagePreview,
     'clear_draft': clearDraft,
   };
@@ -16920,13 +16920,13 @@ class InputMessageAnimation extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageAnimation',
-    'animation': animation,
-    'thumbnail': thumbnail,
-    'added_sticker_file_ids': addedStickerFileIds,
+    'animation': animation.toJson(),
+    'thumbnail': thumbnail.toJson(),
+    'added_sticker_file_ids': addedStickerFileIds.map((_e1) => _e1).toList(growable: false),
     'duration': duration,
     'width': width,
     'height': height,
-    'caption': caption,
+    'caption': caption.toJson(),
   };
 
   factory InputMessageAnimation.fromJson(Map<String, dynamic> json) => InputMessageAnimation(
@@ -16985,12 +16985,12 @@ class InputMessageAudio extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageAudio',
-    'audio': audio,
-    'album_cover_thumbnail': albumCoverThumbnail,
+    'audio': audio.toJson(),
+    'album_cover_thumbnail': albumCoverThumbnail.toJson(),
     'duration': duration,
     'title': title,
     'performer': performer,
-    'caption': caption,
+    'caption': caption.toJson(),
   };
 
   factory InputMessageAudio.fromJson(Map<String, dynamic> json) => InputMessageAudio(
@@ -17040,10 +17040,10 @@ class InputMessageDocument extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageDocument',
-    'document': document,
-    'thumbnail': thumbnail,
+    'document': document.toJson(),
+    'thumbnail': thumbnail.toJson(),
     'disable_content_type_detection': disableContentTypeDetection,
-    'caption': caption,
+    'caption': caption.toJson(),
   };
 
   factory InputMessageDocument.fromJson(Map<String, dynamic> json) => InputMessageDocument(
@@ -17103,12 +17103,12 @@ class InputMessagePhoto extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessagePhoto',
-    'photo': photo,
-    'thumbnail': thumbnail,
-    'added_sticker_file_ids': addedStickerFileIds,
+    'photo': photo.toJson(),
+    'thumbnail': thumbnail.toJson(),
+    'added_sticker_file_ids': addedStickerFileIds.map((_e1) => _e1).toList(growable: false),
     'width': width,
     'height': height,
-    'caption': caption,
+    'caption': caption.toJson(),
     'ttl': ttl,
   };
 
@@ -17164,8 +17164,8 @@ class InputMessageSticker extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageSticker',
-    'sticker': sticker,
-    'thumbnail': thumbnail,
+    'sticker': sticker.toJson(),
+    'thumbnail': thumbnail.toJson(),
     'width': width,
     'height': height,
     'emoji': emoji,
@@ -17237,14 +17237,14 @@ class InputMessageVideo extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageVideo',
-    'video': video,
-    'thumbnail': thumbnail,
-    'added_sticker_file_ids': addedStickerFileIds,
+    'video': video.toJson(),
+    'thumbnail': thumbnail.toJson(),
+    'added_sticker_file_ids': addedStickerFileIds.map((_e1) => _e1).toList(growable: false),
     'duration': duration,
     'width': width,
     'height': height,
     'supports_streaming': supportsStreaming,
-    'caption': caption,
+    'caption': caption.toJson(),
     'ttl': ttl,
   };
 
@@ -17298,8 +17298,8 @@ class InputMessageVideoNote extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageVideoNote',
-    'video_note': videoNote,
-    'thumbnail': thumbnail,
+    'video_note': videoNote.toJson(),
+    'thumbnail': thumbnail.toJson(),
     'duration': duration,
     'length': length,
   };
@@ -17349,10 +17349,10 @@ class InputMessageVoiceNote extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageVoiceNote',
-    'voice_note': voiceNote,
+    'voice_note': voiceNote.toJson(),
     'duration': duration,
-    'waveform': waveform,
-    'caption': caption,
+    'waveform': base64.encode(waveform),
+    'caption': caption.toJson(),
   };
 
   factory InputMessageVoiceNote.fromJson(Map<String, dynamic> json) => InputMessageVoiceNote(
@@ -17400,7 +17400,7 @@ class InputMessageLocation extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageLocation',
-    'location': location,
+    'location': location.toJson(),
     'live_period': livePeriod,
     'heading': heading,
     'proximity_alert_radius': proximityAlertRadius,
@@ -17439,7 +17439,7 @@ class InputMessageVenue extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageVenue',
-    'venue': venue,
+    'venue': venue.toJson(),
   };
 
   factory InputMessageVenue.fromJson(Map<String, dynamic> json) => InputMessageVenue(
@@ -17472,7 +17472,7 @@ class InputMessageContact extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageContact',
-    'contact': contact,
+    'contact': contact.toJson(),
   };
 
   factory InputMessageContact.fromJson(Map<String, dynamic> json) => InputMessageContact(
@@ -17623,14 +17623,14 @@ class InputMessageInvoice extends a.InputMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessageInvoice',
-    'invoice': invoice,
+    'invoice': invoice.toJson(),
     'title': title,
     'description': description,
     'photo_url': photoUrl,
     'photo_size': photoSize,
     'photo_width': photoWidth,
     'photo_height': photoHeight,
-    'payload': payload,
+    'payload': base64.encode(payload),
     'provider_token': providerToken,
     'provider_data': providerData,
     'start_parameter': startParameter,
@@ -17701,9 +17701,9 @@ class InputMessagePoll extends a.InputMessageContent {
   Map<String, dynamic> toJson() => {
     '@type': 'inputMessagePoll',
     'question': question,
-    'options': options,
+    'options': options.map((_e1) => _e1).toList(growable: false),
     'is_anonymous': isAnonymous,
-    'type': type,
+    'type': type.toJson(),
     'open_period': openPeriod,
     'close_date': closeDate,
     'is_closed': isClosed,
@@ -17760,7 +17760,7 @@ class InputMessageForwarded extends a.InputMessageContent {
     'from_chat_id': fromChatId,
     'message_id': messageId,
     'in_game_share': inGameShare,
-    'copy_options': copyOptions,
+    'copy_options': copyOptions.toJson(),
   };
 
   factory InputMessageForwarded.fromJson(Map<String, dynamic> json) => InputMessageForwarded(
@@ -18777,7 +18777,7 @@ class Stickers extends a.Stickers {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'stickers',
-    'stickers': stickers,
+    'stickers': stickers.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory Stickers.fromJson(Map<String, dynamic> json) => Stickers(
@@ -18810,7 +18810,7 @@ class Emojis extends a.Emojis {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'emojis',
-    'emojis': emojis,
+    'emojis': emojis.map((_e1) => _e1).toList(growable: false),
   };
 
   factory Emojis.fromJson(Map<String, dynamic> json) => Emojis(
@@ -18891,19 +18891,19 @@ class StickerSet extends a.StickerSet {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'stickerSet',
-    'id': id,
+    'id': id.toString(),
     'title': title,
     'name': name,
-    'thumbnail': thumbnail,
-    'thumbnail_outline': thumbnailOutline,
+    'thumbnail': thumbnail.toJson(),
+    'thumbnail_outline': thumbnailOutline.map((_e1) => _e1.toJson()).toList(growable: false),
     'is_installed': isInstalled,
     'is_archived': isArchived,
     'is_official': isOfficial,
     'is_animated': isAnimated,
     'is_masks': isMasks,
     'is_viewed': isViewed,
-    'stickers': stickers,
-    'emojis': emojis,
+    'stickers': stickers.map((_e1) => _e1.toJson()).toList(growable: false),
+    'emojis': emojis.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory StickerSet.fromJson(Map<String, dynamic> json) => StickerSet(
@@ -18996,11 +18996,11 @@ class StickerSetInfo extends a.StickerSetInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'stickerSetInfo',
-    'id': id,
+    'id': id.toString(),
     'title': title,
     'name': name,
-    'thumbnail': thumbnail,
-    'thumbnail_outline': thumbnailOutline,
+    'thumbnail': thumbnail.toJson(),
+    'thumbnail_outline': thumbnailOutline.map((_e1) => _e1.toJson()).toList(growable: false),
     'is_installed': isInstalled,
     'is_archived': isArchived,
     'is_official': isOfficial,
@@ -19008,7 +19008,7 @@ class StickerSetInfo extends a.StickerSetInfo {
     'is_masks': isMasks,
     'is_viewed': isViewed,
     'size': size,
-    'covers': covers,
+    'covers': covers.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory StickerSetInfo.fromJson(Map<String, dynamic> json) => StickerSetInfo(
@@ -19058,7 +19058,7 @@ class StickerSets extends a.StickerSets {
   Map<String, dynamic> toJson() => {
     '@type': 'stickerSets',
     'total_count': totalCount,
-    'sets': sets,
+    'sets': sets.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory StickerSets.fromJson(Map<String, dynamic> json) => StickerSets(
@@ -19237,7 +19237,7 @@ class CallProtocol extends a.CallProtocol {
     'udp_reflector': udpReflector,
     'min_layer': minLayer,
     'max_layer': maxLayer,
-    'library_versions': libraryVersions,
+    'library_versions': libraryVersions.map((_e1) => _e1).toList(growable: false),
   };
 
   factory CallProtocol.fromJson(Map<String, dynamic> json) => CallProtocol(
@@ -19274,7 +19274,7 @@ class CallServerTypeTelegramReflector extends a.CallServerType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'callServerTypeTelegramReflector',
-    'peer_tag': peerTag,
+    'peer_tag': base64.encode(peerTag),
   };
 
   factory CallServerTypeTelegramReflector.fromJson(Map<String, dynamic> json) => CallServerTypeTelegramReflector(
@@ -19374,11 +19374,11 @@ class CallServer extends a.CallServer {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'callServer',
-    'id': id,
+    'id': id.toString(),
     'ip_address': ipAddress,
     'ipv6_address': ipv6Address,
     'port': port,
-    'type': type,
+    'type': type.toJson(),
   };
 
   factory CallServer.fromJson(Map<String, dynamic> json) => CallServer(
@@ -19565,11 +19565,11 @@ class CallStateReady extends a.CallState {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'callStateReady',
-    'protocol': protocol,
-    'servers': servers,
+    'protocol': protocol.toJson(),
+    'servers': servers.map((_e1) => _e1.toJson()).toList(growable: false),
     'config': config,
-    'encryption_key': encryptionKey,
-    'emojis': emojis,
+    'encryption_key': base64.encode(encryptionKey),
+    'emojis': emojis.map((_e1) => _e1).toList(growable: false),
     'allow_p2p': allowP2p,
   };
 
@@ -19641,7 +19641,7 @@ class CallStateDiscarded extends a.CallState {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'callStateDiscarded',
-    'reason': reason,
+    'reason': reason.toJson(),
     'need_rating': needRating,
     'need_debug_information': needDebugInformation,
   };
@@ -19678,7 +19678,7 @@ class CallStateError extends a.CallState {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'callStateError',
-    'error': error,
+    'error': error.toJson(),
   };
 
   factory CallStateError.fromJson(Map<String, dynamic> json) => CallStateError(
@@ -19715,7 +19715,7 @@ class GroupCallRecentSpeaker extends a.GroupCallRecentSpeaker {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'groupCallRecentSpeaker',
-    'participant_id': participantId,
+    'participant_id': participantId.toJson(),
     'is_speaking': isSpeaking,
   };
 
@@ -19816,7 +19816,7 @@ class GroupCall extends a.GroupCall {
     'can_be_managed': canBeManaged,
     'participant_count': participantCount,
     'loaded_all_participants': loadedAllParticipants,
-    'recent_speakers': recentSpeakers,
+    'recent_speakers': recentSpeakers.map((_e1) => _e1.toJson()).toList(growable: false),
     'mute_new_participants': muteNewParticipants,
     'can_change_mute_new_participants': canChangeMuteNewParticipants,
     'record_duration': recordDuration,
@@ -19922,7 +19922,7 @@ class GroupCallPayload extends a.GroupCallPayload {
     '@type': 'groupCallPayload',
     'ufrag': ufrag,
     'pwd': pwd,
-    'fingerprints': fingerprints,
+    'fingerprints': fingerprints.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory GroupCallPayload.fromJson(Map<String, dynamic> json) => GroupCallPayload(
@@ -20066,8 +20066,8 @@ class GroupCallJoinResponseWebrtc extends a.GroupCallJoinResponse {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'groupCallJoinResponseWebrtc',
-    'payload': payload,
-    'candidates': candidates,
+    'payload': payload.toJson(),
+    'candidates': candidates.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory GroupCallJoinResponseWebrtc.fromJson(Map<String, dynamic> json) => GroupCallJoinResponseWebrtc(
@@ -20182,7 +20182,7 @@ class GroupCallParticipant extends a.GroupCallParticipant {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'groupCallParticipant',
-    'participant_id': participantId,
+    'participant_id': participantId.toJson(),
     'source': source,
     'bio': bio,
     'is_current_user': isCurrentUser,
@@ -20488,7 +20488,7 @@ class Call extends a.Call {
     'user_id': userId,
     'is_outgoing': isOutgoing,
     'is_video': isVideo,
-    'state': state,
+    'state': state.toJson(),
   };
 
   factory Call.fromJson(Map<String, dynamic> json) => Call(
@@ -20570,7 +20570,7 @@ class Animations extends a.Animations {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'animations',
-    'animations': animations,
+    'animations': animations.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory Animations.fromJson(Map<String, dynamic> json) => Animations(
@@ -20603,7 +20603,7 @@ class DiceStickersRegular extends a.DiceStickers {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'diceStickersRegular',
-    'sticker': sticker,
+    'sticker': sticker.toJson(),
   };
 
   factory DiceStickersRegular.fromJson(Map<String, dynamic> json) => DiceStickersRegular(
@@ -20652,11 +20652,11 @@ class DiceStickersSlotMachine extends a.DiceStickers {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'diceStickersSlotMachine',
-    'background': background,
-    'lever': lever,
-    'left_reel': leftReel,
-    'center_reel': centerReel,
-    'right_reel': rightReel,
+    'background': background.toJson(),
+    'lever': lever.toJson(),
+    'left_reel': leftReel.toJson(),
+    'center_reel': centerReel.toJson(),
+    'right_reel': rightReel.toJson(),
   };
 
   factory DiceStickersSlotMachine.fromJson(Map<String, dynamic> json) => DiceStickersSlotMachine(
@@ -20697,8 +20697,8 @@ class ImportedContacts extends a.ImportedContacts {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'importedContacts',
-    'user_ids': userIds,
-    'importer_count': importerCount,
+    'user_ids': userIds.map((_e1) => _e1).toList(growable: false),
+    'importer_count': importerCount.map((_e1) => _e1).toList(growable: false),
   };
 
   factory ImportedContacts.fromJson(Map<String, dynamic> json) => ImportedContacts(
@@ -20814,8 +20814,8 @@ class InputInlineQueryResultAnimation extends a.InputInlineQueryResult {
     'video_duration': videoDuration,
     'video_width': videoWidth,
     'video_height': videoHeight,
-    'reply_markup': replyMarkup,
-    'input_message_content': inputMessageContent,
+    'reply_markup': replyMarkup.toJson(),
+    'input_message_content': inputMessageContent.toJson(),
   };
 
   factory InputInlineQueryResultAnimation.fromJson(Map<String, dynamic> json) => InputInlineQueryResultAnimation(
@@ -20902,8 +20902,8 @@ class InputInlineQueryResultArticle extends a.InputInlineQueryResult {
     'thumbnail_url': thumbnailUrl,
     'thumbnail_width': thumbnailWidth,
     'thumbnail_height': thumbnailHeight,
-    'reply_markup': replyMarkup,
-    'input_message_content': inputMessageContent,
+    'reply_markup': replyMarkup.toJson(),
+    'input_message_content': inputMessageContent.toJson(),
   };
 
   factory InputInlineQueryResultArticle.fromJson(Map<String, dynamic> json) => InputInlineQueryResultArticle(
@@ -20974,8 +20974,8 @@ class InputInlineQueryResultAudio extends a.InputInlineQueryResult {
     'performer': performer,
     'audio_url': audioUrl,
     'audio_duration': audioDuration,
-    'reply_markup': replyMarkup,
-    'input_message_content': inputMessageContent,
+    'reply_markup': replyMarkup.toJson(),
+    'input_message_content': inputMessageContent.toJson(),
   };
 
   factory InputInlineQueryResultAudio.fromJson(Map<String, dynamic> json) => InputInlineQueryResultAudio(
@@ -21039,12 +21039,12 @@ class InputInlineQueryResultContact extends a.InputInlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inputInlineQueryResultContact',
     'id': id,
-    'contact': contact,
+    'contact': contact.toJson(),
     'thumbnail_url': thumbnailUrl,
     'thumbnail_width': thumbnailWidth,
     'thumbnail_height': thumbnailHeight,
-    'reply_markup': replyMarkup,
-    'input_message_content': inputMessageContent,
+    'reply_markup': replyMarkup.toJson(),
+    'input_message_content': inputMessageContent.toJson(),
   };
 
   factory InputInlineQueryResultContact.fromJson(Map<String, dynamic> json) => InputInlineQueryResultContact(
@@ -21127,8 +21127,8 @@ class InputInlineQueryResultDocument extends a.InputInlineQueryResult {
     'thumbnail_url': thumbnailUrl,
     'thumbnail_width': thumbnailWidth,
     'thumbnail_height': thumbnailHeight,
-    'reply_markup': replyMarkup,
-    'input_message_content': inputMessageContent,
+    'reply_markup': replyMarkup.toJson(),
+    'input_message_content': inputMessageContent.toJson(),
   };
 
   factory InputInlineQueryResultDocument.fromJson(Map<String, dynamic> json) => InputInlineQueryResultDocument(
@@ -21180,7 +21180,7 @@ class InputInlineQueryResultGame extends a.InputInlineQueryResult {
     '@type': 'inputInlineQueryResultGame',
     'id': id,
     'game_short_name': gameShortName,
-    'reply_markup': replyMarkup,
+    'reply_markup': replyMarkup.toJson(),
   };
 
   factory InputInlineQueryResultGame.fromJson(Map<String, dynamic> json) => InputInlineQueryResultGame(
@@ -21248,14 +21248,14 @@ class InputInlineQueryResultLocation extends a.InputInlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inputInlineQueryResultLocation',
     'id': id,
-    'location': location,
+    'location': location.toJson(),
     'live_period': livePeriod,
     'title': title,
     'thumbnail_url': thumbnailUrl,
     'thumbnail_width': thumbnailWidth,
     'thumbnail_height': thumbnailHeight,
-    'reply_markup': replyMarkup,
-    'input_message_content': inputMessageContent,
+    'reply_markup': replyMarkup.toJson(),
+    'input_message_content': inputMessageContent.toJson(),
   };
 
   factory InputInlineQueryResultLocation.fromJson(Map<String, dynamic> json) => InputInlineQueryResultLocation(
@@ -21335,8 +21335,8 @@ class InputInlineQueryResultPhoto extends a.InputInlineQueryResult {
     'photo_url': photoUrl,
     'photo_width': photoWidth,
     'photo_height': photoHeight,
-    'reply_markup': replyMarkup,
-    'input_message_content': inputMessageContent,
+    'reply_markup': replyMarkup.toJson(),
+    'input_message_content': inputMessageContent.toJson(),
   };
 
   factory InputInlineQueryResultPhoto.fromJson(Map<String, dynamic> json) => InputInlineQueryResultPhoto(
@@ -21406,8 +21406,8 @@ class InputInlineQueryResultSticker extends a.InputInlineQueryResult {
     'sticker_url': stickerUrl,
     'sticker_width': stickerWidth,
     'sticker_height': stickerHeight,
-    'reply_markup': replyMarkup,
-    'input_message_content': inputMessageContent,
+    'reply_markup': replyMarkup.toJson(),
+    'input_message_content': inputMessageContent.toJson(),
   };
 
   factory InputInlineQueryResultSticker.fromJson(Map<String, dynamic> json) => InputInlineQueryResultSticker(
@@ -21471,12 +21471,12 @@ class InputInlineQueryResultVenue extends a.InputInlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inputInlineQueryResultVenue',
     'id': id,
-    'venue': venue,
+    'venue': venue.toJson(),
     'thumbnail_url': thumbnailUrl,
     'thumbnail_width': thumbnailWidth,
     'thumbnail_height': thumbnailHeight,
-    'reply_markup': replyMarkup,
-    'input_message_content': inputMessageContent,
+    'reply_markup': replyMarkup.toJson(),
+    'input_message_content': inputMessageContent.toJson(),
   };
 
   factory InputInlineQueryResultVenue.fromJson(Map<String, dynamic> json) => InputInlineQueryResultVenue(
@@ -21564,8 +21564,8 @@ class InputInlineQueryResultVideo extends a.InputInlineQueryResult {
     'video_width': videoWidth,
     'video_height': videoHeight,
     'video_duration': videoDuration,
-    'reply_markup': replyMarkup,
-    'input_message_content': inputMessageContent,
+    'reply_markup': replyMarkup.toJson(),
+    'input_message_content': inputMessageContent.toJson(),
   };
 
   factory InputInlineQueryResultVideo.fromJson(Map<String, dynamic> json) => InputInlineQueryResultVideo(
@@ -21632,8 +21632,8 @@ class InputInlineQueryResultVoiceNote extends a.InputInlineQueryResult {
     'title': title,
     'voice_note_url': voiceNoteUrl,
     'voice_note_duration': voiceNoteDuration,
-    'reply_markup': replyMarkup,
-    'input_message_content': inputMessageContent,
+    'reply_markup': replyMarkup.toJson(),
+    'input_message_content': inputMessageContent.toJson(),
   };
 
   factory InputInlineQueryResultVoiceNote.fromJson(Map<String, dynamic> json) => InputInlineQueryResultVoiceNote(
@@ -21696,7 +21696,7 @@ class InlineQueryResultArticle extends a.InlineQueryResult {
     'hide_url': hideUrl,
     'title': title,
     'description': description,
-    'thumbnail': thumbnail,
+    'thumbnail': thumbnail.toJson(),
   };
 
   factory InlineQueryResultArticle.fromJson(Map<String, dynamic> json) => InlineQueryResultArticle(
@@ -21743,8 +21743,8 @@ class InlineQueryResultContact extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultContact',
     'id': id,
-    'contact': contact,
-    'thumbnail': thumbnail,
+    'contact': contact.toJson(),
+    'thumbnail': thumbnail.toJson(),
   };
 
   factory InlineQueryResultContact.fromJson(Map<String, dynamic> json) => InlineQueryResultContact(
@@ -21792,9 +21792,9 @@ class InlineQueryResultLocation extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultLocation',
     'id': id,
-    'location': location,
+    'location': location.toJson(),
     'title': title,
-    'thumbnail': thumbnail,
+    'thumbnail': thumbnail.toJson(),
   };
 
   factory InlineQueryResultLocation.fromJson(Map<String, dynamic> json) => InlineQueryResultLocation(
@@ -21839,8 +21839,8 @@ class InlineQueryResultVenue extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultVenue',
     'id': id,
-    'venue': venue,
-    'thumbnail': thumbnail,
+    'venue': venue.toJson(),
+    'thumbnail': thumbnail.toJson(),
   };
 
   factory InlineQueryResultVenue.fromJson(Map<String, dynamic> json) => InlineQueryResultVenue(
@@ -21880,7 +21880,7 @@ class InlineQueryResultGame extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultGame',
     'id': id,
-    'game': game,
+    'game': game.toJson(),
   };
 
   factory InlineQueryResultGame.fromJson(Map<String, dynamic> json) => InlineQueryResultGame(
@@ -21923,7 +21923,7 @@ class InlineQueryResultAnimation extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultAnimation',
     'id': id,
-    'animation': animation,
+    'animation': animation.toJson(),
     'title': title,
   };
 
@@ -21964,7 +21964,7 @@ class InlineQueryResultAudio extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultAudio',
     'id': id,
-    'audio': audio,
+    'audio': audio.toJson(),
   };
 
   factory InlineQueryResultAudio.fromJson(Map<String, dynamic> json) => InlineQueryResultAudio(
@@ -22011,7 +22011,7 @@ class InlineQueryResultDocument extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultDocument',
     'id': id,
-    'document': document,
+    'document': document.toJson(),
     'title': title,
     'description': description,
   };
@@ -22062,7 +22062,7 @@ class InlineQueryResultPhoto extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultPhoto',
     'id': id,
-    'photo': photo,
+    'photo': photo.toJson(),
     'title': title,
     'description': description,
   };
@@ -22105,7 +22105,7 @@ class InlineQueryResultSticker extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultSticker',
     'id': id,
-    'sticker': sticker,
+    'sticker': sticker.toJson(),
   };
 
   factory InlineQueryResultSticker.fromJson(Map<String, dynamic> json) => InlineQueryResultSticker(
@@ -22152,7 +22152,7 @@ class InlineQueryResultVideo extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultVideo',
     'id': id,
-    'video': video,
+    'video': video.toJson(),
     'title': title,
     'description': description,
   };
@@ -22199,7 +22199,7 @@ class InlineQueryResultVoiceNote extends a.InlineQueryResult {
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResultVoiceNote',
     'id': id,
-    'voice_note': voiceNote,
+    'voice_note': voiceNote.toJson(),
     'title': title,
   };
 
@@ -22251,9 +22251,9 @@ class InlineQueryResults extends a.InlineQueryResults {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inlineQueryResults',
-    'inline_query_id': inlineQueryId,
+    'inline_query_id': inlineQueryId.toString(),
     'next_offset': nextOffset,
-    'results': results,
+    'results': results.map((_e1) => _e1.toJson()).toList(growable: false),
     'switch_pm_text': switchPmText,
     'switch_pm_parameter': switchPmParameter,
   };
@@ -22292,7 +22292,7 @@ class CallbackQueryPayloadData extends a.CallbackQueryPayload {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'callbackQueryPayloadData',
-    'data': data,
+    'data': base64.encode(data),
   };
 
   factory CallbackQueryPayloadData.fromJson(Map<String, dynamic> json) => CallbackQueryPayloadData(
@@ -22330,7 +22330,7 @@ class CallbackQueryPayloadDataWithPassword extends a.CallbackQueryPayload {
   Map<String, dynamic> toJson() => {
     '@type': 'callbackQueryPayloadDataWithPassword',
     'password': password,
-    'data': data,
+    'data': base64.encode(data),
   };
 
   factory CallbackQueryPayloadDataWithPassword.fromJson(Map<String, dynamic> json) => CallbackQueryPayloadDataWithPassword(
@@ -22520,7 +22520,7 @@ class GameHighScores extends a.GameHighScores {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'gameHighScores',
-    'scores': scores,
+    'scores': scores.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory GameHighScores.fromJson(Map<String, dynamic> json) => GameHighScores(
@@ -22557,8 +22557,8 @@ class ChatEventMessageEdited extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMessageEdited',
-    'old_message': oldMessage,
-    'new_message': newMessage,
+    'old_message': oldMessage.toJson(),
+    'new_message': newMessage.toJson(),
   };
 
   factory ChatEventMessageEdited.fromJson(Map<String, dynamic> json) => ChatEventMessageEdited(
@@ -22592,7 +22592,7 @@ class ChatEventMessageDeleted extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMessageDeleted',
-    'message': message,
+    'message': message.toJson(),
   };
 
   factory ChatEventMessageDeleted.fromJson(Map<String, dynamic> json) => ChatEventMessageDeleted(
@@ -22625,7 +22625,7 @@ class ChatEventPollStopped extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventPollStopped',
-    'message': message,
+    'message': message.toJson(),
   };
 
   factory ChatEventPollStopped.fromJson(Map<String, dynamic> json) => ChatEventPollStopped(
@@ -22658,7 +22658,7 @@ class ChatEventMessagePinned extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMessagePinned',
-    'message': message,
+    'message': message.toJson(),
   };
 
   factory ChatEventMessagePinned.fromJson(Map<String, dynamic> json) => ChatEventMessagePinned(
@@ -22691,7 +22691,7 @@ class ChatEventMessageUnpinned extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMessageUnpinned',
-    'message': message,
+    'message': message.toJson(),
   };
 
   factory ChatEventMessageUnpinned.fromJson(Map<String, dynamic> json) => ChatEventMessageUnpinned(
@@ -22749,7 +22749,7 @@ class ChatEventMemberJoinedByInviteLink extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMemberJoinedByInviteLink',
-    'invite_link': inviteLink,
+    'invite_link': inviteLink.toJson(),
   };
 
   factory ChatEventMemberJoinedByInviteLink.fromJson(Map<String, dynamic> json) => ChatEventMemberJoinedByInviteLink(
@@ -22812,7 +22812,7 @@ class ChatEventMemberInvited extends a.ChatEventAction {
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMemberInvited',
     'user_id': userId,
-    'status': status,
+    'status': status.toJson(),
   };
 
   factory ChatEventMemberInvited.fromJson(Map<String, dynamic> json) => ChatEventMemberInvited(
@@ -22855,8 +22855,8 @@ class ChatEventMemberPromoted extends a.ChatEventAction {
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMemberPromoted',
     'user_id': userId,
-    'old_status': oldStatus,
-    'new_status': newStatus,
+    'old_status': oldStatus.toJson(),
+    'new_status': newStatus.toJson(),
   };
 
   factory ChatEventMemberPromoted.fromJson(Map<String, dynamic> json) => ChatEventMemberPromoted(
@@ -22899,9 +22899,9 @@ class ChatEventMemberRestricted extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMemberRestricted',
-    'member_id': memberId,
-    'old_status': oldStatus,
-    'new_status': newStatus,
+    'member_id': memberId.toJson(),
+    'old_status': oldStatus.toJson(),
+    'new_status': newStatus.toJson(),
   };
 
   factory ChatEventMemberRestricted.fromJson(Map<String, dynamic> json) => ChatEventMemberRestricted(
@@ -22979,8 +22979,8 @@ class ChatEventPermissionsChanged extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventPermissionsChanged',
-    'old_permissions': oldPermissions,
-    'new_permissions': newPermissions,
+    'old_permissions': oldPermissions.toJson(),
+    'new_permissions': newPermissions.toJson(),
   };
 
   factory ChatEventPermissionsChanged.fromJson(Map<String, dynamic> json) => ChatEventPermissionsChanged(
@@ -23096,8 +23096,8 @@ class ChatEventPhotoChanged extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventPhotoChanged',
-    'old_photo': oldPhoto,
-    'new_photo': newPhoto,
+    'old_photo': oldPhoto.toJson(),
+    'new_photo': newPhoto.toJson(),
   };
 
   factory ChatEventPhotoChanged.fromJson(Map<String, dynamic> json) => ChatEventPhotoChanged(
@@ -23318,8 +23318,8 @@ class ChatEventStickerSetChanged extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventStickerSetChanged',
-    'old_sticker_set_id': oldStickerSetId,
-    'new_sticker_set_id': newStickerSetId,
+    'old_sticker_set_id': oldStickerSetId.toString(),
+    'new_sticker_set_id': newStickerSetId.toString(),
   };
 
   factory ChatEventStickerSetChanged.fromJson(Map<String, dynamic> json) => ChatEventStickerSetChanged(
@@ -23357,8 +23357,8 @@ class ChatEventLocationChanged extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventLocationChanged',
-    'old_location': oldLocation,
-    'new_location': newLocation,
+    'old_location': oldLocation.toJson(),
+    'new_location': newLocation.toJson(),
   };
 
   factory ChatEventLocationChanged.fromJson(Map<String, dynamic> json) => ChatEventLocationChanged(
@@ -23429,8 +23429,8 @@ class ChatEventInviteLinkEdited extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventInviteLinkEdited',
-    'old_invite_link': oldInviteLink,
-    'new_invite_link': newInviteLink,
+    'old_invite_link': oldInviteLink.toJson(),
+    'new_invite_link': newInviteLink.toJson(),
   };
 
   factory ChatEventInviteLinkEdited.fromJson(Map<String, dynamic> json) => ChatEventInviteLinkEdited(
@@ -23464,7 +23464,7 @@ class ChatEventInviteLinkRevoked extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventInviteLinkRevoked',
-    'invite_link': inviteLink,
+    'invite_link': inviteLink.toJson(),
   };
 
   factory ChatEventInviteLinkRevoked.fromJson(Map<String, dynamic> json) => ChatEventInviteLinkRevoked(
@@ -23497,7 +23497,7 @@ class ChatEventInviteLinkDeleted extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventInviteLinkDeleted',
-    'invite_link': inviteLink,
+    'invite_link': inviteLink.toJson(),
   };
 
   factory ChatEventInviteLinkDeleted.fromJson(Map<String, dynamic> json) => ChatEventInviteLinkDeleted(
@@ -23600,7 +23600,7 @@ class ChatEventVoiceChatParticipantIsMutedToggled extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventVoiceChatParticipantIsMutedToggled',
-    'participant_id': participantId,
+    'participant_id': participantId.toJson(),
     'is_muted': isMuted,
   };
 
@@ -23639,7 +23639,7 @@ class ChatEventVoiceChatParticipantVolumeLevelChanged extends a.ChatEventAction 
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventVoiceChatParticipantVolumeLevelChanged',
-    'participant_id': participantId,
+    'participant_id': participantId.toJson(),
     'volume_level': volumeLevel,
   };
 
@@ -23719,10 +23719,10 @@ class ChatEvent extends a.ChatEvent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEvent',
-    'id': id,
+    'id': id.toString(),
     'date': date,
     'user_id': userId,
-    'action': action,
+    'action': action.toJson(),
   };
 
   factory ChatEvent.fromJson(Map<String, dynamic> json) => ChatEvent(
@@ -23758,7 +23758,7 @@ class ChatEvents extends a.ChatEvents {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEvents',
-    'events': events,
+    'events': events.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ChatEvents.fromJson(Map<String, dynamic> json) => ChatEvents(
@@ -24016,7 +24016,7 @@ class LanguagePackString extends a.LanguagePackString {
   Map<String, dynamic> toJson() => {
     '@type': 'languagePackString',
     'key': key,
-    'value': value,
+    'value': value.toJson(),
   };
 
   factory LanguagePackString.fromJson(Map<String, dynamic> json) => LanguagePackString(
@@ -24050,7 +24050,7 @@ class LanguagePackStrings extends a.LanguagePackStrings {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'languagePackStrings',
-    'strings': strings,
+    'strings': strings.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory LanguagePackStrings.fromJson(Map<String, dynamic> json) => LanguagePackStrings(
@@ -24188,7 +24188,7 @@ class LocalizationTargetInfo extends a.LocalizationTargetInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'localizationTargetInfo',
-    'language_packs': languagePacks,
+    'language_packs': languagePacks.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory LocalizationTargetInfo.fromJson(Map<String, dynamic> json) => LocalizationTargetInfo(
@@ -24620,7 +24620,7 @@ class PushReceiverId extends a.PushReceiverId {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushReceiverId',
-    'id': id,
+    'id': id.toString(),
   };
 
   factory PushReceiverId.fromJson(Map<String, dynamic> json) => PushReceiverId(
@@ -24778,7 +24778,7 @@ class BackgroundTypePattern extends a.BackgroundType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'backgroundTypePattern',
-    'fill': fill,
+    'fill': fill.toJson(),
     'intensity': intensity,
     'is_moving': isMoving,
   };
@@ -24815,7 +24815,7 @@ class BackgroundTypeFill extends a.BackgroundType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'backgroundTypeFill',
-    'fill': fill,
+    'fill': fill.toJson(),
   };
 
   factory BackgroundTypeFill.fromJson(Map<String, dynamic> json) => BackgroundTypeFill(
@@ -24868,12 +24868,12 @@ class Background extends a.Background {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'background',
-    'id': id,
+    'id': id.toString(),
     'is_default': isDefault,
     'is_dark': isDark,
     'name': name,
-    'document': document,
-    'type': type,
+    'document': document.toJson(),
+    'type': type.toJson(),
   };
 
   factory Background.fromJson(Map<String, dynamic> json) => Background(
@@ -24911,7 +24911,7 @@ class Backgrounds extends a.Backgrounds {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'backgrounds',
-    'backgrounds': backgrounds,
+    'backgrounds': backgrounds.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory Backgrounds.fromJson(Map<String, dynamic> json) => Backgrounds(
@@ -24944,7 +24944,7 @@ class InputBackgroundLocal extends a.InputBackground {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputBackgroundLocal',
-    'background': background,
+    'background': background.toJson(),
   };
 
   factory InputBackgroundLocal.fromJson(Map<String, dynamic> json) => InputBackgroundLocal(
@@ -24977,7 +24977,7 @@ class InputBackgroundRemote extends a.InputBackground {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputBackgroundRemote',
-    'background_id': backgroundId,
+    'background_id': backgroundId.toString(),
   };
 
   factory InputBackgroundRemote.fromJson(Map<String, dynamic> json) => InputBackgroundRemote(
@@ -25010,7 +25010,7 @@ class Hashtags extends a.Hashtags {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'hashtags',
-    'hashtags': hashtags,
+    'hashtags': hashtags.map((_e1) => _e1).toList(growable: false),
   };
 
   factory Hashtags.fromJson(Map<String, dynamic> json) => Hashtags(
@@ -25416,7 +25416,7 @@ class PushMessageContentAnimation extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentAnimation',
-    'animation': animation,
+    'animation': animation.toJson(),
     'caption': caption,
     'is_pinned': isPinned,
   };
@@ -25457,7 +25457,7 @@ class PushMessageContentAudio extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentAudio',
-    'audio': audio,
+    'audio': audio.toJson(),
     'is_pinned': isPinned,
   };
 
@@ -25560,7 +25560,7 @@ class PushMessageContentDocument extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentDocument',
-    'document': document,
+    'document': document.toJson(),
     'is_pinned': isPinned,
   };
 
@@ -25769,7 +25769,7 @@ class PushMessageContentPhoto extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentPhoto',
-    'photo': photo,
+    'photo': photo.toJson(),
     'caption': caption,
     'is_secret': isSecret,
     'is_pinned': isPinned,
@@ -25886,7 +25886,7 @@ class PushMessageContentSticker extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentSticker',
-    'sticker': sticker,
+    'sticker': sticker.toJson(),
     'emoji': emoji,
     'is_pinned': isPinned,
   };
@@ -25974,7 +25974,7 @@ class PushMessageContentVideo extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentVideo',
-    'video': video,
+    'video': video.toJson(),
     'caption': caption,
     'is_secret': isSecret,
     'is_pinned': isPinned,
@@ -26017,7 +26017,7 @@ class PushMessageContentVideoNote extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentVideoNote',
-    'video_note': videoNote,
+    'video_note': videoNote.toJson(),
     'is_pinned': isPinned,
   };
 
@@ -26056,7 +26056,7 @@ class PushMessageContentVoiceNote extends a.PushMessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'pushMessageContentVoiceNote',
-    'voice_note': voiceNote,
+    'voice_note': voiceNote.toJson(),
     'is_pinned': isPinned,
   };
 
@@ -26379,7 +26379,7 @@ class NotificationTypeNewMessage extends a.NotificationType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'notificationTypeNewMessage',
-    'message': message,
+    'message': message.toJson(),
   };
 
   factory NotificationTypeNewMessage.fromJson(Map<String, dynamic> json) => NotificationTypeNewMessage(
@@ -26487,10 +26487,10 @@ class NotificationTypeNewPushMessage extends a.NotificationType {
   Map<String, dynamic> toJson() => {
     '@type': 'notificationTypeNewPushMessage',
     'message_id': messageId,
-    'sender': sender,
+    'sender': sender.toJson(),
     'sender_name': senderName,
     'is_outgoing': isOutgoing,
-    'content': content,
+    'content': content.toJson(),
   };
 
   factory NotificationTypeNewPushMessage.fromJson(Map<String, dynamic> json) => NotificationTypeNewPushMessage(
@@ -26642,7 +26642,7 @@ class Notification extends a.Notification {
     'id': id,
     'date': date,
     'is_silent': isSilent,
-    'type': type,
+    'type': type.toJson(),
   };
 
   factory Notification.fromJson(Map<String, dynamic> json) => Notification(
@@ -26695,10 +26695,10 @@ class NotificationGroup extends a.NotificationGroup {
   Map<String, dynamic> toJson() => {
     '@type': 'notificationGroup',
     'id': id,
-    'type': type,
+    'type': type.toJson(),
     'chat_id': chatId,
     'total_count': totalCount,
-    'notifications': notifications,
+    'notifications': notifications.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory NotificationGroup.fromJson(Map<String, dynamic> json) => NotificationGroup(
@@ -26793,7 +26793,7 @@ class OptionValueInteger extends a.OptionValue {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'optionValueInteger',
-    'value': value,
+    'value': value.toString(),
   };
 
   factory OptionValueInteger.fromJson(Map<String, dynamic> json) => OptionValueInteger(
@@ -26864,7 +26864,7 @@ class JsonObjectMember extends a.JsonObjectMember {
   Map<String, dynamic> toJson() => {
     '@type': 'jsonObjectMember',
     'key': key,
-    'value': value,
+    'value': value.toJson(),
   };
 
   factory JsonObjectMember.fromJson(Map<String, dynamic> json) => JsonObjectMember(
@@ -27022,7 +27022,7 @@ class JsonValueArray extends a.JsonValue {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'jsonValueArray',
-    'values': values,
+    'values': values.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory JsonValueArray.fromJson(Map<String, dynamic> json) => JsonValueArray(
@@ -27055,7 +27055,7 @@ class JsonValueObject extends a.JsonValue {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'jsonValueObject',
-    'members': members,
+    'members': members.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory JsonValueObject.fromJson(Map<String, dynamic> json) => JsonValueObject(
@@ -27138,7 +27138,7 @@ class UserPrivacySettingRuleAllowUsers extends a.UserPrivacySettingRule {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'userPrivacySettingRuleAllowUsers',
-    'user_ids': userIds,
+    'user_ids': userIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory UserPrivacySettingRuleAllowUsers.fromJson(Map<String, dynamic> json) => UserPrivacySettingRuleAllowUsers(
@@ -27171,7 +27171,7 @@ class UserPrivacySettingRuleAllowChatMembers extends a.UserPrivacySettingRule {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'userPrivacySettingRuleAllowChatMembers',
-    'chat_ids': chatIds,
+    'chat_ids': chatIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory UserPrivacySettingRuleAllowChatMembers.fromJson(Map<String, dynamic> json) => UserPrivacySettingRuleAllowChatMembers(
@@ -27254,7 +27254,7 @@ class UserPrivacySettingRuleRestrictUsers extends a.UserPrivacySettingRule {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'userPrivacySettingRuleRestrictUsers',
-    'user_ids': userIds,
+    'user_ids': userIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory UserPrivacySettingRuleRestrictUsers.fromJson(Map<String, dynamic> json) => UserPrivacySettingRuleRestrictUsers(
@@ -27287,7 +27287,7 @@ class UserPrivacySettingRuleRestrictChatMembers extends a.UserPrivacySettingRule
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'userPrivacySettingRuleRestrictChatMembers',
-    'chat_ids': chatIds,
+    'chat_ids': chatIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory UserPrivacySettingRuleRestrictChatMembers.fromJson(Map<String, dynamic> json) => UserPrivacySettingRuleRestrictChatMembers(
@@ -27320,7 +27320,7 @@ class UserPrivacySettingRules extends a.UserPrivacySettingRules {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'userPrivacySettingRules',
-    'rules': rules,
+    'rules': rules.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory UserPrivacySettingRules.fromJson(Map<String, dynamic> json) => UserPrivacySettingRules(
@@ -27642,7 +27642,7 @@ class Session extends a.Session {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'session',
-    'id': id,
+    'id': id.toString(),
     'is_current': isCurrent,
     'is_password_pending': isPasswordPending,
     'api_id': apiId,
@@ -27703,7 +27703,7 @@ class Sessions extends a.Sessions {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'sessions',
-    'sessions': sessions,
+    'sessions': sessions.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory Sessions.fromJson(Map<String, dynamic> json) => Sessions(
@@ -27768,7 +27768,7 @@ class ConnectedWebsite extends a.ConnectedWebsite {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'connectedWebsite',
-    'id': id,
+    'id': id.toString(),
     'domain_name': domainName,
     'bot_user_id': botUserId,
     'browser': browser,
@@ -27817,7 +27817,7 @@ class ConnectedWebsites extends a.ConnectedWebsites {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'connectedWebsites',
-    'websites': websites,
+    'websites': websites.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ConnectedWebsites.fromJson(Map<String, dynamic> json) => ConnectedWebsites(
@@ -28107,7 +28107,7 @@ class MessageLinkInfo extends a.MessageLinkInfo {
     '@type': 'messageLinkInfo',
     'is_public': isPublic,
     'chat_id': chatId,
-    'message': message,
+    'message': message.toJson(),
     'for_album': forAlbum,
     'for_comment': forComment,
   };
@@ -28146,7 +28146,7 @@ class FilePart extends a.FilePart {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'filePart',
-    'data': data,
+    'data': base64.encode(data),
   };
 
   factory FilePart.fromJson(Map<String, dynamic> json) => FilePart(
@@ -28587,7 +28587,7 @@ class StorageStatisticsByFileType extends a.StorageStatisticsByFileType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'storageStatisticsByFileType',
-    'file_type': fileType,
+    'file_type': fileType.toJson(),
     'size': size,
     'count': count,
   };
@@ -28639,7 +28639,7 @@ class StorageStatisticsByChat extends a.StorageStatisticsByChat {
     'chat_id': chatId,
     'size': size,
     'count': count,
-    'by_file_type': byFileType,
+    'by_file_type': byFileType.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory StorageStatisticsByChat.fromJson(Map<String, dynamic> json) => StorageStatisticsByChat(
@@ -28685,7 +28685,7 @@ class StorageStatistics extends a.StorageStatistics {
     '@type': 'storageStatistics',
     'size': size,
     'count': count,
-    'by_chat': byChat,
+    'by_chat': byChat.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory StorageStatistics.fromJson(Map<String, dynamic> json) => StorageStatistics(
@@ -28947,8 +28947,8 @@ class NetworkStatisticsEntryFile extends a.NetworkStatisticsEntry {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'networkStatisticsEntryFile',
-    'file_type': fileType,
-    'network_type': networkType,
+    'file_type': fileType.toJson(),
+    'network_type': networkType.toJson(),
     'sent_bytes': sentBytes,
     'received_bytes': receivedBytes,
   };
@@ -28998,7 +28998,7 @@ class NetworkStatisticsEntryCall extends a.NetworkStatisticsEntry {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'networkStatisticsEntryCall',
-    'network_type': networkType,
+    'network_type': networkType.toJson(),
     'sent_bytes': sentBytes,
     'received_bytes': receivedBytes,
     'duration': duration,
@@ -29042,7 +29042,7 @@ class NetworkStatistics extends a.NetworkStatistics {
   Map<String, dynamic> toJson() => {
     '@type': 'networkStatistics',
     'since_date': sinceDate,
-    'entries': entries,
+    'entries': entries.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory NetworkStatistics.fromJson(Map<String, dynamic> json) => NetworkStatistics(
@@ -29159,9 +29159,9 @@ class AutoDownloadSettingsPresets extends a.AutoDownloadSettingsPresets {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'autoDownloadSettingsPresets',
-    'low': low,
-    'medium': medium,
-    'high': high,
+    'low': low.toJson(),
+    'medium': medium.toJson(),
+    'high': high.toJson(),
   };
 
   factory AutoDownloadSettingsPresets.fromJson(Map<String, dynamic> json) => AutoDownloadSettingsPresets(
@@ -29562,7 +29562,7 @@ class TMeUrlTypeChatInvite extends a.TMeUrlType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'tMeUrlTypeChatInvite',
-    'info': info,
+    'info': info.toJson(),
   };
 
   factory TMeUrlTypeChatInvite.fromJson(Map<String, dynamic> json) => TMeUrlTypeChatInvite(
@@ -29595,7 +29595,7 @@ class TMeUrlTypeStickerSet extends a.TMeUrlType {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'tMeUrlTypeStickerSet',
-    'sticker_set_id': stickerSetId,
+    'sticker_set_id': stickerSetId.toString(),
   };
 
   factory TMeUrlTypeStickerSet.fromJson(Map<String, dynamic> json) => TMeUrlTypeStickerSet(
@@ -29633,7 +29633,7 @@ class TMeUrl extends a.TMeUrl {
   Map<String, dynamic> toJson() => {
     '@type': 'tMeUrl',
     'url': url,
-    'type': type,
+    'type': type.toJson(),
   };
 
   factory TMeUrl.fromJson(Map<String, dynamic> json) => TMeUrl(
@@ -29667,7 +29667,7 @@ class TMeUrls extends a.TMeUrls {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'tMeUrls',
-    'urls': urls,
+    'urls': urls.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory TMeUrls.fromJson(Map<String, dynamic> json) => TMeUrls(
@@ -29911,7 +29911,7 @@ class DeepLinkInfo extends a.DeepLinkInfo {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'deepLinkInfo',
-    'text': text,
+    'text': text.toJson(),
     'need_update_application': needUpdateApplication,
   };
 
@@ -30146,7 +30146,7 @@ class Proxy extends a.Proxy {
     'port': port,
     'last_used_date': lastUsedDate,
     'is_enabled': isEnabled,
-    'type': type,
+    'type': type.toJson(),
   };
 
   factory Proxy.fromJson(Map<String, dynamic> json) => Proxy(
@@ -30184,7 +30184,7 @@ class Proxies extends a.Proxies {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'proxies',
-    'proxies': proxies,
+    'proxies': proxies.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory Proxies.fromJson(Map<String, dynamic> json) => Proxies(
@@ -30225,9 +30225,9 @@ class InputStickerStatic extends a.InputSticker {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputStickerStatic',
-    'sticker': sticker,
+    'sticker': sticker.toJson(),
     'emojis': emojis,
-    'mask_position': maskPosition,
+    'mask_position': maskPosition.toJson(),
   };
 
   factory InputStickerStatic.fromJson(Map<String, dynamic> json) => InputStickerStatic(
@@ -30266,7 +30266,7 @@ class InputStickerAnimated extends a.InputSticker {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inputStickerAnimated',
-    'sticker': sticker,
+    'sticker': sticker.toJson(),
     'emojis': emojis,
   };
 
@@ -30730,22 +30730,22 @@ class ChatStatisticsSupergroup extends a.ChatStatistics {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatStatisticsSupergroup',
-    'period': period,
-    'member_count': memberCount,
-    'message_count': messageCount,
-    'viewer_count': viewerCount,
-    'sender_count': senderCount,
-    'member_count_graph': memberCountGraph,
-    'join_graph': joinGraph,
-    'join_by_source_graph': joinBySourceGraph,
-    'language_graph': languageGraph,
-    'message_content_graph': messageContentGraph,
-    'action_graph': actionGraph,
-    'day_graph': dayGraph,
-    'week_graph': weekGraph,
-    'top_senders': topSenders,
-    'top_administrators': topAdministrators,
-    'top_inviters': topInviters,
+    'period': period.toJson(),
+    'member_count': memberCount.toJson(),
+    'message_count': messageCount.toJson(),
+    'viewer_count': viewerCount.toJson(),
+    'sender_count': senderCount.toJson(),
+    'member_count_graph': memberCountGraph.toJson(),
+    'join_graph': joinGraph.toJson(),
+    'join_by_source_graph': joinBySourceGraph.toJson(),
+    'language_graph': languageGraph.toJson(),
+    'message_content_graph': messageContentGraph.toJson(),
+    'action_graph': actionGraph.toJson(),
+    'day_graph': dayGraph.toJson(),
+    'week_graph': weekGraph.toJson(),
+    'top_senders': topSenders.map((_e1) => _e1.toJson()).toList(growable: false),
+    'top_administrators': topAdministrators.map((_e1) => _e1.toJson()).toList(growable: false),
+    'top_inviters': topInviters.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ChatStatisticsSupergroup.fromJson(Map<String, dynamic> json) => ChatStatisticsSupergroup(
@@ -30849,21 +30849,21 @@ class ChatStatisticsChannel extends a.ChatStatistics {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatStatisticsChannel',
-    'period': period,
-    'member_count': memberCount,
-    'mean_view_count': meanViewCount,
-    'mean_share_count': meanShareCount,
+    'period': period.toJson(),
+    'member_count': memberCount.toJson(),
+    'mean_view_count': meanViewCount.toJson(),
+    'mean_share_count': meanShareCount.toJson(),
     'enabled_notifications_percentage': enabledNotificationsPercentage,
-    'member_count_graph': memberCountGraph,
-    'join_graph': joinGraph,
-    'mute_graph': muteGraph,
-    'view_count_by_hour_graph': viewCountByHourGraph,
-    'view_count_by_source_graph': viewCountBySourceGraph,
-    'join_by_source_graph': joinBySourceGraph,
-    'language_graph': languageGraph,
-    'message_interaction_graph': messageInteractionGraph,
-    'instant_view_interaction_graph': instantViewInteractionGraph,
-    'recent_message_interactions': recentMessageInteractions,
+    'member_count_graph': memberCountGraph.toJson(),
+    'join_graph': joinGraph.toJson(),
+    'mute_graph': muteGraph.toJson(),
+    'view_count_by_hour_graph': viewCountByHourGraph.toJson(),
+    'view_count_by_source_graph': viewCountBySourceGraph.toJson(),
+    'join_by_source_graph': joinBySourceGraph.toJson(),
+    'language_graph': languageGraph.toJson(),
+    'message_interaction_graph': messageInteractionGraph.toJson(),
+    'instant_view_interaction_graph': instantViewInteractionGraph.toJson(),
+    'recent_message_interactions': recentMessageInteractions.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory ChatStatisticsChannel.fromJson(Map<String, dynamic> json) => ChatStatisticsChannel(
@@ -30910,7 +30910,7 @@ class MessageStatistics extends a.MessageStatistics {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageStatistics',
-    'message_interaction_graph': messageInteractionGraph,
+    'message_interaction_graph': messageInteractionGraph.toJson(),
   };
 
   factory MessageStatistics.fromJson(Map<String, dynamic> json) => MessageStatistics(
@@ -30982,7 +30982,7 @@ class VectorPathCommandLine extends a.VectorPathCommand {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'vectorPathCommandLine',
-    'end_point': endPoint,
+    'end_point': endPoint.toJson(),
   };
 
   factory VectorPathCommandLine.fromJson(Map<String, dynamic> json) => VectorPathCommandLine(
@@ -31023,9 +31023,9 @@ class VectorPathCommandCubicBezierCurve extends a.VectorPathCommand {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'vectorPathCommandCubicBezierCurve',
-    'start_control_point': startControlPoint,
-    'end_control_point': endControlPoint,
-    'end_point': endPoint,
+    'start_control_point': startControlPoint.toJson(),
+    'end_control_point': endControlPoint.toJson(),
+    'end_point': endPoint.toJson(),
   };
 
   factory VectorPathCommandCubicBezierCurve.fromJson(Map<String, dynamic> json) => VectorPathCommandCubicBezierCurve(
@@ -31060,7 +31060,7 @@ class UpdateAuthorizationState extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateAuthorizationState',
-    'authorization_state': authorizationState,
+    'authorization_state': authorizationState.toJson(),
   };
 
   factory UpdateAuthorizationState.fromJson(Map<String, dynamic> json) => UpdateAuthorizationState(
@@ -31093,7 +31093,7 @@ class UpdateNewMessage extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewMessage',
-    'message': message,
+    'message': message.toJson(),
   };
 
   factory UpdateNewMessage.fromJson(Map<String, dynamic> json) => UpdateNewMessage(
@@ -31169,7 +31169,7 @@ class UpdateMessageSendSucceeded extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateMessageSendSucceeded',
-    'message': message,
+    'message': message.toJson(),
     'old_message_id': oldMessageId,
   };
 
@@ -31216,7 +31216,7 @@ class UpdateMessageSendFailed extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateMessageSendFailed',
-    'message': message,
+    'message': message.toJson(),
     'old_message_id': oldMessageId,
     'error_code': errorCode,
     'error_message': errorMessage,
@@ -31265,7 +31265,7 @@ class UpdateMessageContent extends a.Update {
     '@type': 'updateMessageContent',
     'chat_id': chatId,
     'message_id': messageId,
-    'new_content': newContent,
+    'new_content': newContent.toJson(),
   };
 
   factory UpdateMessageContent.fromJson(Map<String, dynamic> json) => UpdateMessageContent(
@@ -31315,7 +31315,7 @@ class UpdateMessageEdited extends a.Update {
     'chat_id': chatId,
     'message_id': messageId,
     'edit_date': editDate,
-    'reply_markup': replyMarkup,
+    'reply_markup': replyMarkup.toJson(),
   };
 
   factory UpdateMessageEdited.fromJson(Map<String, dynamic> json) => UpdateMessageEdited(
@@ -31406,7 +31406,7 @@ class UpdateMessageInteractionInfo extends a.Update {
     '@type': 'updateMessageInteractionInfo',
     'chat_id': chatId,
     'message_id': messageId,
-    'interaction_info': interactionInfo,
+    'interaction_info': interactionInfo.toJson(),
   };
 
   factory UpdateMessageInteractionInfo.fromJson(Map<String, dynamic> json) => UpdateMessageInteractionInfo(
@@ -31564,7 +31564,7 @@ class UpdateNewChat extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewChat',
-    'chat': chat,
+    'chat': chat.toJson(),
   };
 
   factory UpdateNewChat.fromJson(Map<String, dynamic> json) => UpdateNewChat(
@@ -31641,7 +31641,7 @@ class UpdateChatPhoto extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatPhoto',
     'chat_id': chatId,
-    'photo': photo,
+    'photo': photo.toJson(),
   };
 
   factory UpdateChatPhoto.fromJson(Map<String, dynamic> json) => UpdateChatPhoto(
@@ -31680,7 +31680,7 @@ class UpdateChatPermissions extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatPermissions',
     'chat_id': chatId,
-    'permissions': permissions,
+    'permissions': permissions.toJson(),
   };
 
   factory UpdateChatPermissions.fromJson(Map<String, dynamic> json) => UpdateChatPermissions(
@@ -31723,8 +31723,8 @@ class UpdateChatLastMessage extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatLastMessage',
     'chat_id': chatId,
-    'last_message': lastMessage,
-    'positions': positions,
+    'last_message': lastMessage.toJson(),
+    'positions': positions.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory UpdateChatLastMessage.fromJson(Map<String, dynamic> json) => UpdateChatLastMessage(
@@ -31764,7 +31764,7 @@ class UpdateChatPosition extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatPosition',
     'chat_id': chatId,
-    'position': position,
+    'position': position.toJson(),
   };
 
   factory UpdateChatPosition.fromJson(Map<String, dynamic> json) => UpdateChatPosition(
@@ -31920,7 +31920,7 @@ class UpdateChatVoiceChat extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatVoiceChat',
     'chat_id': chatId,
-    'voice_chat': voiceChat,
+    'voice_chat': voiceChat.toJson(),
   };
 
   factory UpdateChatVoiceChat.fromJson(Map<String, dynamic> json) => UpdateChatVoiceChat(
@@ -32121,7 +32121,7 @@ class UpdateChatNotificationSettings extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatNotificationSettings',
     'chat_id': chatId,
-    'notification_settings': notificationSettings,
+    'notification_settings': notificationSettings.toJson(),
   };
 
   factory UpdateChatNotificationSettings.fromJson(Map<String, dynamic> json) => UpdateChatNotificationSettings(
@@ -32159,8 +32159,8 @@ class UpdateScopeNotificationSettings extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateScopeNotificationSettings',
-    'scope': scope,
-    'notification_settings': notificationSettings,
+    'scope': scope.toJson(),
+    'notification_settings': notificationSettings.toJson(),
   };
 
   factory UpdateScopeNotificationSettings.fromJson(Map<String, dynamic> json) => UpdateScopeNotificationSettings(
@@ -32238,7 +32238,7 @@ class UpdateChatActionBar extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatActionBar',
     'chat_id': chatId,
-    'action_bar': actionBar,
+    'action_bar': actionBar.toJson(),
   };
 
   factory UpdateChatActionBar.fromJson(Map<String, dynamic> json) => UpdateChatActionBar(
@@ -32320,8 +32320,8 @@ class UpdateChatDraftMessage extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatDraftMessage',
     'chat_id': chatId,
-    'draft_message': draftMessage,
-    'positions': positions,
+    'draft_message': draftMessage.toJson(),
+    'positions': positions.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory UpdateChatDraftMessage.fromJson(Map<String, dynamic> json) => UpdateChatDraftMessage(
@@ -32356,7 +32356,7 @@ class UpdateChatFilters extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateChatFilters',
-    'chat_filters': chatFilters,
+    'chat_filters': chatFilters.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory UpdateChatFilters.fromJson(Map<String, dynamic> json) => UpdateChatFilters(
@@ -32433,7 +32433,7 @@ class UpdateNotification extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateNotification',
     'notification_group_id': notificationGroupId,
-    'notification': notification,
+    'notification': notification.toJson(),
   };
 
   factory UpdateNotification.fromJson(Map<String, dynamic> json) => UpdateNotification(
@@ -32496,13 +32496,13 @@ class UpdateNotificationGroup extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateNotificationGroup',
     'notification_group_id': notificationGroupId,
-    'type': type,
+    'type': type.toJson(),
     'chat_id': chatId,
     'notification_settings_chat_id': notificationSettingsChatId,
     'is_silent': isSilent,
     'total_count': totalCount,
-    'added_notifications': addedNotifications,
-    'removed_notification_ids': removedNotificationIds,
+    'added_notifications': addedNotifications.map((_e1) => _e1.toJson()).toList(growable: false),
+    'removed_notification_ids': removedNotificationIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory UpdateNotificationGroup.fromJson(Map<String, dynamic> json) => UpdateNotificationGroup(
@@ -32542,7 +32542,7 @@ class UpdateActiveNotifications extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateActiveNotifications',
-    'groups': groups,
+    'groups': groups.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory UpdateActiveNotifications.fromJson(Map<String, dynamic> json) => UpdateActiveNotifications(
@@ -32627,7 +32627,7 @@ class UpdateDeleteMessages extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateDeleteMessages',
     'chat_id': chatId,
-    'message_ids': messageIds,
+    'message_ids': messageIds.map((_e1) => _e1).toList(growable: false),
     'is_permanent': isPermanent,
     'from_cache': fromCache,
   };
@@ -32680,7 +32680,7 @@ class UpdateUserChatAction extends a.Update {
     'chat_id': chatId,
     'message_thread_id': messageThreadId,
     'user_id': userId,
-    'action': action,
+    'action': action.toJson(),
   };
 
   factory UpdateUserChatAction.fromJson(Map<String, dynamic> json) => UpdateUserChatAction(
@@ -32721,7 +32721,7 @@ class UpdateUserStatus extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateUserStatus',
     'user_id': userId,
-    'status': status,
+    'status': status.toJson(),
   };
 
   factory UpdateUserStatus.fromJson(Map<String, dynamic> json) => UpdateUserStatus(
@@ -32755,7 +32755,7 @@ class UpdateUser extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateUser',
-    'user': user,
+    'user': user.toJson(),
   };
 
   factory UpdateUser.fromJson(Map<String, dynamic> json) => UpdateUser(
@@ -32788,7 +32788,7 @@ class UpdateBasicGroup extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateBasicGroup',
-    'basic_group': basicGroup,
+    'basic_group': basicGroup.toJson(),
   };
 
   factory UpdateBasicGroup.fromJson(Map<String, dynamic> json) => UpdateBasicGroup(
@@ -32821,7 +32821,7 @@ class UpdateSupergroup extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateSupergroup',
-    'supergroup': supergroup,
+    'supergroup': supergroup.toJson(),
   };
 
   factory UpdateSupergroup.fromJson(Map<String, dynamic> json) => UpdateSupergroup(
@@ -32854,7 +32854,7 @@ class UpdateSecretChat extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateSecretChat',
-    'secret_chat': secretChat,
+    'secret_chat': secretChat.toJson(),
   };
 
   factory UpdateSecretChat.fromJson(Map<String, dynamic> json) => UpdateSecretChat(
@@ -32892,7 +32892,7 @@ class UpdateUserFullInfo extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateUserFullInfo',
     'user_id': userId,
-    'user_full_info': userFullInfo,
+    'user_full_info': userFullInfo.toJson(),
   };
 
   factory UpdateUserFullInfo.fromJson(Map<String, dynamic> json) => UpdateUserFullInfo(
@@ -32931,7 +32931,7 @@ class UpdateBasicGroupFullInfo extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateBasicGroupFullInfo',
     'basic_group_id': basicGroupId,
-    'basic_group_full_info': basicGroupFullInfo,
+    'basic_group_full_info': basicGroupFullInfo.toJson(),
   };
 
   factory UpdateBasicGroupFullInfo.fromJson(Map<String, dynamic> json) => UpdateBasicGroupFullInfo(
@@ -32970,7 +32970,7 @@ class UpdateSupergroupFullInfo extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateSupergroupFullInfo',
     'supergroup_id': supergroupId,
-    'supergroup_full_info': supergroupFullInfo,
+    'supergroup_full_info': supergroupFullInfo.toJson(),
   };
 
   factory UpdateSupergroupFullInfo.fromJson(Map<String, dynamic> json) => UpdateSupergroupFullInfo(
@@ -33009,7 +33009,7 @@ class UpdateServiceNotification extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateServiceNotification',
     'type': type,
-    'content': content,
+    'content': content.toJson(),
   };
 
   factory UpdateServiceNotification.fromJson(Map<String, dynamic> json) => UpdateServiceNotification(
@@ -33043,7 +33043,7 @@ class UpdateFile extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateFile',
-    'file': file,
+    'file': file.toJson(),
   };
 
   factory UpdateFile.fromJson(Map<String, dynamic> json) => UpdateFile(
@@ -33088,7 +33088,7 @@ class UpdateFileGenerationStart extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateFileGenerationStart',
-    'generation_id': generationId,
+    'generation_id': generationId.toString(),
     'original_path': originalPath,
     'destination_path': destinationPath,
     'conversion': conversion,
@@ -33127,7 +33127,7 @@ class UpdateFileGenerationStop extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateFileGenerationStop',
-    'generation_id': generationId,
+    'generation_id': generationId.toString(),
   };
 
   factory UpdateFileGenerationStop.fromJson(Map<String, dynamic> json) => UpdateFileGenerationStop(
@@ -33160,7 +33160,7 @@ class UpdateCall extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateCall',
-    'call': call,
+    'call': call.toJson(),
   };
 
   factory UpdateCall.fromJson(Map<String, dynamic> json) => UpdateCall(
@@ -33193,7 +33193,7 @@ class UpdateGroupCall extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateGroupCall',
-    'group_call': groupCall,
+    'group_call': groupCall.toJson(),
   };
 
   factory UpdateGroupCall.fromJson(Map<String, dynamic> json) => UpdateGroupCall(
@@ -33231,7 +33231,7 @@ class UpdateGroupCallParticipant extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateGroupCallParticipant',
     'group_call_id': groupCallId,
-    'participant': participant,
+    'participant': participant.toJson(),
   };
 
   factory UpdateGroupCallParticipant.fromJson(Map<String, dynamic> json) => UpdateGroupCallParticipant(
@@ -33270,7 +33270,7 @@ class UpdateNewCallSignalingData extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewCallSignalingData',
     'call_id': callId,
-    'data': data,
+    'data': base64.encode(data),
   };
 
   factory UpdateNewCallSignalingData.fromJson(Map<String, dynamic> json) => UpdateNewCallSignalingData(
@@ -33308,8 +33308,8 @@ class UpdateUserPrivacySettingRules extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateUserPrivacySettingRules',
-    'setting': setting,
-    'rules': rules,
+    'setting': setting.toJson(),
+    'rules': rules.toJson(),
   };
 
   factory UpdateUserPrivacySettingRules.fromJson(Map<String, dynamic> json) => UpdateUserPrivacySettingRules(
@@ -33351,7 +33351,7 @@ class UpdateUnreadMessageCount extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateUnreadMessageCount',
-    'chat_list': chatList,
+    'chat_list': chatList.toJson(),
     'unread_count': unreadCount,
     'unread_unmuted_count': unreadUnmutedCount,
   };
@@ -33408,7 +33408,7 @@ class UpdateUnreadChatCount extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateUnreadChatCount',
-    'chat_list': chatList,
+    'chat_list': chatList.toJson(),
     'total_count': totalCount,
     'unread_count': unreadCount,
     'unread_unmuted_count': unreadUnmutedCount,
@@ -33456,7 +33456,7 @@ class UpdateOption extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateOption',
     'name': name,
-    'value': value,
+    'value': value.toJson(),
   };
 
   factory UpdateOption.fromJson(Map<String, dynamic> json) => UpdateOption(
@@ -33490,7 +33490,7 @@ class UpdateStickerSet extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateStickerSet',
-    'sticker_set': stickerSet,
+    'sticker_set': stickerSet.toJson(),
   };
 
   factory UpdateStickerSet.fromJson(Map<String, dynamic> json) => UpdateStickerSet(
@@ -33528,7 +33528,7 @@ class UpdateInstalledStickerSets extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateInstalledStickerSets',
     'is_masks': isMasks,
-    'sticker_set_ids': stickerSetIds,
+    'sticker_set_ids': stickerSetIds.map((_e1) => _e1.toString()).toList(growable: false),
   };
 
   factory UpdateInstalledStickerSets.fromJson(Map<String, dynamic> json) => UpdateInstalledStickerSets(
@@ -33562,7 +33562,7 @@ class UpdateTrendingStickerSets extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateTrendingStickerSets',
-    'sticker_sets': stickerSets,
+    'sticker_sets': stickerSets.toJson(),
   };
 
   factory UpdateTrendingStickerSets.fromJson(Map<String, dynamic> json) => UpdateTrendingStickerSets(
@@ -33600,7 +33600,7 @@ class UpdateRecentStickers extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateRecentStickers',
     'is_attached': isAttached,
-    'sticker_ids': stickerIds,
+    'sticker_ids': stickerIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory UpdateRecentStickers.fromJson(Map<String, dynamic> json) => UpdateRecentStickers(
@@ -33634,7 +33634,7 @@ class UpdateFavoriteStickers extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateFavoriteStickers',
-    'sticker_ids': stickerIds,
+    'sticker_ids': stickerIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory UpdateFavoriteStickers.fromJson(Map<String, dynamic> json) => UpdateFavoriteStickers(
@@ -33667,7 +33667,7 @@ class UpdateSavedAnimations extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateSavedAnimations',
-    'animation_ids': animationIds,
+    'animation_ids': animationIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory UpdateSavedAnimations.fromJson(Map<String, dynamic> json) => UpdateSavedAnimations(
@@ -33705,7 +33705,7 @@ class UpdateSelectedBackground extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateSelectedBackground',
     'for_dark_theme': forDarkTheme,
-    'background': background,
+    'background': background.toJson(),
   };
 
   factory UpdateSelectedBackground.fromJson(Map<String, dynamic> json) => UpdateSelectedBackground(
@@ -33749,7 +33749,7 @@ class UpdateLanguagePackStrings extends a.Update {
     '@type': 'updateLanguagePackStrings',
     'localization_target': localizationTarget,
     'language_pack_id': languagePackId,
-    'strings': strings,
+    'strings': strings.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory UpdateLanguagePackStrings.fromJson(Map<String, dynamic> json) => UpdateLanguagePackStrings(
@@ -33784,7 +33784,7 @@ class UpdateConnectionState extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateConnectionState',
-    'state': state,
+    'state': state.toJson(),
   };
 
   factory UpdateConnectionState.fromJson(Map<String, dynamic> json) => UpdateConnectionState(
@@ -33822,7 +33822,7 @@ class UpdateTermsOfService extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateTermsOfService',
     'terms_of_service_id': termsOfServiceId,
-    'terms_of_service': termsOfService,
+    'terms_of_service': termsOfService.toJson(),
   };
 
   factory UpdateTermsOfService.fromJson(Map<String, dynamic> json) => UpdateTermsOfService(
@@ -33856,7 +33856,7 @@ class UpdateUsersNearby extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateUsersNearby',
-    'users_nearby': usersNearby,
+    'users_nearby': usersNearby.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory UpdateUsersNearby.fromJson(Map<String, dynamic> json) => UpdateUsersNearby(
@@ -33889,7 +33889,7 @@ class UpdateDiceEmojis extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateDiceEmojis',
-    'emojis': emojis,
+    'emojis': emojis.map((_e1) => _e1).toList(growable: false),
   };
 
   factory UpdateDiceEmojis.fromJson(Map<String, dynamic> json) => UpdateDiceEmojis(
@@ -33927,7 +33927,7 @@ class UpdateAnimationSearchParameters extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateAnimationSearchParameters',
     'provider': provider,
-    'emojis': emojis,
+    'emojis': emojis.map((_e1) => _e1).toList(growable: false),
   };
 
   factory UpdateAnimationSearchParameters.fromJson(Map<String, dynamic> json) => UpdateAnimationSearchParameters(
@@ -33965,8 +33965,8 @@ class UpdateSuggestedActions extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateSuggestedActions',
-    'added_actions': addedActions,
-    'removed_actions': removedActions,
+    'added_actions': addedActions.map((_e1) => _e1.toJson()).toList(growable: false),
+    'removed_actions': removedActions.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory UpdateSuggestedActions.fromJson(Map<String, dynamic> json) => UpdateSuggestedActions(
@@ -34020,10 +34020,10 @@ class UpdateNewInlineQuery extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewInlineQuery',
-    'id': id,
+    'id': id.toString(),
     'sender_user_id': senderUserId,
-    'user_location': userLocation,
-    'chat_type': chatType,
+    'user_location': userLocation.toJson(),
+    'chat_type': chatType.toJson(),
     'query': query,
     'offset': offset,
   };
@@ -34080,7 +34080,7 @@ class UpdateNewChosenInlineResult extends a.Update {
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewChosenInlineResult',
     'sender_user_id': senderUserId,
-    'user_location': userLocation,
+    'user_location': userLocation.toJson(),
     'query': query,
     'result_id': resultId,
     'inline_message_id': inlineMessageId,
@@ -34140,12 +34140,12 @@ class UpdateNewCallbackQuery extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewCallbackQuery',
-    'id': id,
+    'id': id.toString(),
     'sender_user_id': senderUserId,
     'chat_id': chatId,
     'message_id': messageId,
-    'chat_instance': chatInstance,
-    'payload': payload,
+    'chat_instance': chatInstance.toString(),
+    'payload': payload.toJson(),
   };
 
   factory UpdateNewCallbackQuery.fromJson(Map<String, dynamic> json) => UpdateNewCallbackQuery(
@@ -34199,11 +34199,11 @@ class UpdateNewInlineCallbackQuery extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewInlineCallbackQuery',
-    'id': id,
+    'id': id.toString(),
     'sender_user_id': senderUserId,
     'inline_message_id': inlineMessageId,
-    'chat_instance': chatInstance,
-    'payload': payload,
+    'chat_instance': chatInstance.toString(),
+    'payload': payload.toJson(),
   };
 
   factory UpdateNewInlineCallbackQuery.fromJson(Map<String, dynamic> json) => UpdateNewInlineCallbackQuery(
@@ -34252,10 +34252,10 @@ class UpdateNewShippingQuery extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewShippingQuery',
-    'id': id,
+    'id': id.toString(),
     'sender_user_id': senderUserId,
     'invoice_payload': invoicePayload,
-    'shipping_address': shippingAddress,
+    'shipping_address': shippingAddress.toJson(),
   };
 
   factory UpdateNewShippingQuery.fromJson(Map<String, dynamic> json) => UpdateNewShippingQuery(
@@ -34315,13 +34315,13 @@ class UpdateNewPreCheckoutQuery extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewPreCheckoutQuery',
-    'id': id,
+    'id': id.toString(),
     'sender_user_id': senderUserId,
     'currency': currency,
     'total_amount': totalAmount,
-    'invoice_payload': invoicePayload,
+    'invoice_payload': base64.encode(invoicePayload),
     'shipping_option_id': shippingOptionId,
-    'order_info': orderInfo,
+    'order_info': orderInfo.toJson(),
   };
 
   factory UpdateNewPreCheckoutQuery.fromJson(Map<String, dynamic> json) => UpdateNewPreCheckoutQuery(
@@ -34401,7 +34401,7 @@ class UpdateNewCustomQuery extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updateNewCustomQuery',
-    'id': id,
+    'id': id.toString(),
     'data': data,
     'timeout': timeout,
   };
@@ -34438,7 +34438,7 @@ class UpdatePoll extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updatePoll',
-    'poll': poll,
+    'poll': poll.toJson(),
   };
 
   factory UpdatePoll.fromJson(Map<String, dynamic> json) => UpdatePoll(
@@ -34479,9 +34479,9 @@ class UpdatePollAnswer extends a.Update {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updatePollAnswer',
-    'poll_id': pollId,
+    'poll_id': pollId.toString(),
     'user_id': userId,
-    'option_ids': optionIds,
+    'option_ids': optionIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory UpdatePollAnswer.fromJson(Map<String, dynamic> json) => UpdatePollAnswer(
@@ -34539,9 +34539,9 @@ class UpdateChatMember extends a.Update {
     'chat_id': chatId,
     'actor_user_id': actorUserId,
     'date': date,
-    'invite_link': inviteLink,
-    'old_chat_member': oldChatMember,
-    'new_chat_member': newChatMember,
+    'invite_link': inviteLink.toJson(),
+    'old_chat_member': oldChatMember.toJson(),
+    'new_chat_member': newChatMember.toJson(),
   };
 
   factory UpdateChatMember.fromJson(Map<String, dynamic> json) => UpdateChatMember(
@@ -34579,7 +34579,7 @@ class Updates extends a.Updates {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'updates',
-    'updates': updates,
+    'updates': updates.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory Updates.fromJson(Map<String, dynamic> json) => Updates(
@@ -34740,7 +34740,7 @@ class LogTags extends a.LogTags {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'logTags',
-    'tags': tags,
+    'tags': tags.map((_e1) => _e1).toList(growable: false),
   };
 
   factory LogTags.fromJson(Map<String, dynamic> json) => LogTags(
@@ -34839,7 +34839,7 @@ class TestBytes extends a.TestBytes {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testBytes',
-    'value': value,
+    'value': base64.encode(value),
   };
 
   factory TestBytes.fromJson(Map<String, dynamic> json) => TestBytes(
@@ -34872,7 +34872,7 @@ class TestVectorInt extends a.TestVectorInt {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testVectorInt',
-    'value': value,
+    'value': value.map((_e1) => _e1).toList(growable: false),
   };
 
   factory TestVectorInt.fromJson(Map<String, dynamic> json) => TestVectorInt(
@@ -34905,7 +34905,7 @@ class TestVectorIntObject extends a.TestVectorIntObject {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testVectorIntObject',
-    'value': value,
+    'value': value.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory TestVectorIntObject.fromJson(Map<String, dynamic> json) => TestVectorIntObject(
@@ -34938,7 +34938,7 @@ class TestVectorString extends a.TestVectorString {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testVectorString',
-    'value': value,
+    'value': value.map((_e1) => _e1).toList(growable: false),
   };
 
   factory TestVectorString.fromJson(Map<String, dynamic> json) => TestVectorString(
@@ -34971,7 +34971,7 @@ class TestVectorStringObject extends a.TestVectorStringObject {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testVectorStringObject',
-    'value': value,
+    'value': value.map((_e1) => _e1.toJson()).toList(growable: false),
   };
 
   factory TestVectorStringObject.fromJson(Map<String, dynamic> json) => TestVectorStringObject(

@@ -38,8 +38,8 @@ class Error extends a.Error {
   };
 
   factory Error.fromJson(Map<String, dynamic> json) => Error(
-    code: json['code'],
-    message: json['message'],
+    code: json['code'] as int,
+    message: json['message'] as String,
   );
 }
 
@@ -167,21 +167,21 @@ class TdlibParameters extends a.TdlibParameters {
   };
 
   factory TdlibParameters.fromJson(Map<String, dynamic> json) => TdlibParameters(
-    useTestDc: json['use_test_dc'],
-    databaseDirectory: json['database_directory'],
-    filesDirectory: json['files_directory'],
-    useFileDatabase: json['use_file_database'],
-    useChatInfoDatabase: json['use_chat_info_database'],
-    useMessageDatabase: json['use_message_database'],
-    useSecretChats: json['use_secret_chats'],
-    apiId: json['api_id'],
-    apiHash: json['api_hash'],
-    systemLanguageCode: json['system_language_code'],
-    deviceModel: json['device_model'],
-    systemVersion: json['system_version'],
-    applicationVersion: json['application_version'],
-    enableStorageOptimizer: json['enable_storage_optimizer'],
-    ignoreFileNames: json['ignore_file_names'],
+    useTestDc: json['use_test_dc'] as bool,
+    databaseDirectory: json['database_directory'] as String,
+    filesDirectory: json['files_directory'] as String,
+    useFileDatabase: json['use_file_database'] as bool,
+    useChatInfoDatabase: json['use_chat_info_database'] as bool,
+    useMessageDatabase: json['use_message_database'] as bool,
+    useSecretChats: json['use_secret_chats'] as bool,
+    apiId: json['api_id'] as int,
+    apiHash: json['api_hash'] as String,
+    systemLanguageCode: json['system_language_code'] as String,
+    deviceModel: json['device_model'] as String,
+    systemVersion: json['system_version'] as String,
+    applicationVersion: json['application_version'] as String,
+    enableStorageOptimizer: json['enable_storage_optimizer'] as bool,
+    ignoreFileNames: json['ignore_file_names'] as bool,
   );
 }
 
@@ -214,7 +214,7 @@ class AuthenticationCodeTypeTelegramMessage extends a.AuthenticationCodeType {
   };
 
   factory AuthenticationCodeTypeTelegramMessage.fromJson(Map<String, dynamic> json) => AuthenticationCodeTypeTelegramMessage(
-    length: json['length'],
+    length: json['length'] as int,
   );
 }
 
@@ -247,7 +247,7 @@ class AuthenticationCodeTypeSms extends a.AuthenticationCodeType {
   };
 
   factory AuthenticationCodeTypeSms.fromJson(Map<String, dynamic> json) => AuthenticationCodeTypeSms(
-    length: json['length'],
+    length: json['length'] as int,
   );
 }
 
@@ -280,7 +280,7 @@ class AuthenticationCodeTypeCall extends a.AuthenticationCodeType {
   };
 
   factory AuthenticationCodeTypeCall.fromJson(Map<String, dynamic> json) => AuthenticationCodeTypeCall(
-    length: json['length'],
+    length: json['length'] as int,
   );
 }
 
@@ -313,7 +313,7 @@ class AuthenticationCodeTypeFlashCall extends a.AuthenticationCodeType {
   };
 
   factory AuthenticationCodeTypeFlashCall.fromJson(Map<String, dynamic> json) => AuthenticationCodeTypeFlashCall(
-    pattern: json['pattern'],
+    pattern: json['pattern'] as String,
   );
 }
 
@@ -361,10 +361,10 @@ class AuthenticationCodeInfo extends a.AuthenticationCodeInfo {
   };
 
   factory AuthenticationCodeInfo.fromJson(Map<String, dynamic> json) => AuthenticationCodeInfo(
-    phoneNumber: json['phone_number'],
+    phoneNumber: json['phone_number'] as String,
     type: b.TdBase.fromJson(json['type']) as a.AuthenticationCodeType?,
     nextType: b.TdBase.fromJson(json['next_type']) as a.AuthenticationCodeType?,
-    timeout: json['timeout'],
+    timeout: json['timeout'] as int,
   );
 }
 
@@ -402,8 +402,8 @@ class EmailAddressAuthenticationCodeInfo extends a.EmailAddressAuthenticationCod
   };
 
   factory EmailAddressAuthenticationCodeInfo.fromJson(Map<String, dynamic> json) => EmailAddressAuthenticationCodeInfo(
-    emailAddressPattern: json['email_address_pattern'],
-    length: json['length'],
+    emailAddressPattern: json['email_address_pattern'] as String,
+    length: json['length'] as int,
   );
 }
 
@@ -446,8 +446,8 @@ class TextEntity extends a.TextEntity {
   };
 
   factory TextEntity.fromJson(Map<String, dynamic> json) => TextEntity(
-    offset: json['offset'],
-    length: json['length'],
+    offset: json['offset'] as int,
+    length: json['length'] as int,
     type: b.TdBase.fromJson(json['type']) as a.TextEntityType?,
   );
 }
@@ -481,7 +481,7 @@ class TextEntities extends a.TextEntities {
   };
 
   factory TextEntities.fromJson(Map<String, dynamic> json) => TextEntities(
-    entities: (json['entities'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TextEntity?).toList(growable: false),
+    entities: (json['entities'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TextEntity?)).toList(growable: false),
   );
 }
 
@@ -519,8 +519,8 @@ class FormattedText extends a.FormattedText {
   };
 
   factory FormattedText.fromJson(Map<String, dynamic> json) => FormattedText(
-    text: json['text'],
-    entities: (json['entities'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TextEntity?).toList(growable: false),
+    text: json['text'] as String,
+    entities: (json['entities'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TextEntity?)).toList(growable: false),
   );
 }
 
@@ -564,8 +564,8 @@ class TermsOfService extends a.TermsOfService {
 
   factory TermsOfService.fromJson(Map<String, dynamic> json) => TermsOfService(
     text: b.TdBase.fromJson(json['text']) as FormattedText?,
-    minUserAge: json['min_user_age'],
-    showPopup: json['show_popup'],
+    minUserAge: json['min_user_age'] as int,
+    showPopup: json['show_popup'] as bool,
   );
 }
 
@@ -623,7 +623,7 @@ class AuthorizationStateWaitEncryptionKey extends a.AuthorizationState {
   };
 
   factory AuthorizationStateWaitEncryptionKey.fromJson(Map<String, dynamic> json) => AuthorizationStateWaitEncryptionKey(
-    isEncrypted: json['is_encrypted'],
+    isEncrypted: json['is_encrypted'] as bool,
   );
 }
 
@@ -714,7 +714,7 @@ class AuthorizationStateWaitOtherDeviceConfirmation extends a.AuthorizationState
   };
 
   factory AuthorizationStateWaitOtherDeviceConfirmation.fromJson(Map<String, dynamic> json) => AuthorizationStateWaitOtherDeviceConfirmation(
-    link: json['link'],
+    link: json['link'] as String,
   );
 }
 
@@ -790,9 +790,9 @@ class AuthorizationStateWaitPassword extends a.AuthorizationState {
   };
 
   factory AuthorizationStateWaitPassword.fromJson(Map<String, dynamic> json) => AuthorizationStateWaitPassword(
-    passwordHint: json['password_hint'],
-    hasRecoveryEmailAddress: json['has_recovery_email_address'],
-    recoveryEmailAddressPattern: json['recovery_email_address_pattern'],
+    passwordHint: json['password_hint'] as String,
+    hasRecoveryEmailAddress: json['has_recovery_email_address'] as bool,
+    recoveryEmailAddressPattern: json['recovery_email_address_pattern'] as String,
   );
 }
 
@@ -945,10 +945,10 @@ class PasswordState extends a.PasswordState {
   };
 
   factory PasswordState.fromJson(Map<String, dynamic> json) => PasswordState(
-    hasPassword: json['has_password'],
-    passwordHint: json['password_hint'],
-    hasRecoveryEmailAddress: json['has_recovery_email_address'],
-    hasPassportData: json['has_passport_data'],
+    hasPassword: json['has_password'] as bool,
+    passwordHint: json['password_hint'] as String,
+    hasRecoveryEmailAddress: json['has_recovery_email_address'] as bool,
+    hasPassportData: json['has_passport_data'] as bool,
     recoveryEmailAddressCodeInfo: b.TdBase.fromJson(json['recovery_email_address_code_info']) as EmailAddressAuthenticationCodeInfo?,
   );
 }
@@ -982,7 +982,7 @@ class RecoveryEmailAddress extends a.RecoveryEmailAddress {
   };
 
   factory RecoveryEmailAddress.fromJson(Map<String, dynamic> json) => RecoveryEmailAddress(
-    recoveryEmailAddress: json['recovery_email_address'],
+    recoveryEmailAddress: json['recovery_email_address'] as String,
   );
 }
 
@@ -1020,8 +1020,8 @@ class TemporaryPasswordState extends a.TemporaryPasswordState {
   };
 
   factory TemporaryPasswordState.fromJson(Map<String, dynamic> json) => TemporaryPasswordState(
-    hasPassword: json['has_password'],
-    validFor: json['valid_for'],
+    hasPassword: json['has_password'] as bool,
+    validFor: json['valid_for'] as int,
   );
 }
 
@@ -1089,14 +1089,14 @@ class LocalFile extends a.LocalFile {
   };
 
   factory LocalFile.fromJson(Map<String, dynamic> json) => LocalFile(
-    path: json['path'],
-    canBeDownloaded: json['can_be_downloaded'],
-    canBeDeleted: json['can_be_deleted'],
-    isDownloadingActive: json['is_downloading_active'],
-    isDownloadingCompleted: json['is_downloading_completed'],
-    downloadOffset: json['download_offset'],
-    downloadedPrefixSize: json['downloaded_prefix_size'],
-    downloadedSize: json['downloaded_size'],
+    path: json['path'] as String,
+    canBeDownloaded: json['can_be_downloaded'] as bool,
+    canBeDeleted: json['can_be_deleted'] as bool,
+    isDownloadingActive: json['is_downloading_active'] as bool,
+    isDownloadingCompleted: json['is_downloading_completed'] as bool,
+    downloadOffset: json['download_offset'] as int,
+    downloadedPrefixSize: json['downloaded_prefix_size'] as int,
+    downloadedSize: json['downloaded_size'] as int,
   );
 }
 
@@ -1149,11 +1149,11 @@ class RemoteFile extends a.RemoteFile {
   };
 
   factory RemoteFile.fromJson(Map<String, dynamic> json) => RemoteFile(
-    id: json['id'],
-    uniqueId: json['unique_id'],
-    isUploadingActive: json['is_uploading_active'],
-    isUploadingCompleted: json['is_uploading_completed'],
-    uploadedSize: json['uploaded_size'],
+    id: json['id'] as String,
+    uniqueId: json['unique_id'] as String,
+    isUploadingActive: json['is_uploading_active'] as bool,
+    isUploadingCompleted: json['is_uploading_completed'] as bool,
+    uploadedSize: json['uploaded_size'] as int,
   );
 }
 
@@ -1206,9 +1206,9 @@ class File extends a.File {
   };
 
   factory File.fromJson(Map<String, dynamic> json) => File(
-    id: json['id'],
-    size: json['size'],
-    expectedSize: json['expected_size'],
+    id: json['id'] as int,
+    size: json['size'] as int,
+    expectedSize: json['expected_size'] as int,
     local: b.TdBase.fromJson(json['local']) as LocalFile?,
     remote: b.TdBase.fromJson(json['remote']) as RemoteFile?,
   );
@@ -1243,7 +1243,7 @@ class InputFileId extends a.InputFile {
   };
 
   factory InputFileId.fromJson(Map<String, dynamic> json) => InputFileId(
-    id: json['id'],
+    id: json['id'] as int,
   );
 }
 
@@ -1276,7 +1276,7 @@ class InputFileRemote extends a.InputFile {
   };
 
   factory InputFileRemote.fromJson(Map<String, dynamic> json) => InputFileRemote(
-    id: json['id'],
+    id: json['id'] as String,
   );
 }
 
@@ -1309,7 +1309,7 @@ class InputFileLocal extends a.InputFile {
   };
 
   factory InputFileLocal.fromJson(Map<String, dynamic> json) => InputFileLocal(
-    path: json['path'],
+    path: json['path'] as String,
   );
 }
 
@@ -1352,9 +1352,9 @@ class InputFileGenerated extends a.InputFile {
   };
 
   factory InputFileGenerated.fromJson(Map<String, dynamic> json) => InputFileGenerated(
-    originalPath: json['original_path'],
-    conversion: json['conversion'],
-    expectedSize: json['expected_size'],
+    originalPath: json['original_path'] as String,
+    conversion: json['conversion'] as String,
+    expectedSize: json['expected_size'] as int,
   );
 }
 
@@ -1407,11 +1407,11 @@ class PhotoSize extends a.PhotoSize {
   };
 
   factory PhotoSize.fromJson(Map<String, dynamic> json) => PhotoSize(
-    type: json['type'],
+    type: json['type'] as String,
     photo: b.TdBase.fromJson(json['photo']) as File?,
-    width: json['width'],
-    height: json['height'],
-    progressiveSizes: (json['progressive_sizes'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    width: json['width'] as int,
+    height: json['height'] as int,
+    progressiveSizes: (json['progressive_sizes'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -1454,8 +1454,8 @@ class Minithumbnail extends a.Minithumbnail {
   };
 
   factory Minithumbnail.fromJson(Map<String, dynamic> json) => Minithumbnail(
-    width: json['width'],
-    height: json['height'],
+    width: json['width'] as int,
+    height: json['height'] as int,
     data: base64.decode(json['data']),
   );
 }
@@ -1655,8 +1655,8 @@ class Thumbnail extends a.Thumbnail {
 
   factory Thumbnail.fromJson(Map<String, dynamic> json) => Thumbnail(
     format: b.TdBase.fromJson(json['format']) as a.ThumbnailFormat?,
-    width: json['width'],
-    height: json['height'],
+    width: json['width'] as int,
+    height: json['height'] as int,
     file: b.TdBase.fromJson(json['file']) as File?,
   );
 }
@@ -1806,9 +1806,9 @@ class MaskPosition extends a.MaskPosition {
 
   factory MaskPosition.fromJson(Map<String, dynamic> json) => MaskPosition(
     point: b.TdBase.fromJson(json['point']) as a.MaskPoint?,
-    xShift: json['x_shift'],
-    yShift: json['y_shift'],
-    scale: json['scale'],
+    xShift: json['x_shift'] as double,
+    yShift: json['y_shift'] as double,
+    scale: json['scale'] as double,
   );
 }
 
@@ -1841,7 +1841,7 @@ class ClosedVectorPath extends a.ClosedVectorPath {
   };
 
   factory ClosedVectorPath.fromJson(Map<String, dynamic> json) => ClosedVectorPath(
-    commands: (json['commands'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.VectorPathCommand?).toList(growable: false),
+    commands: (json['commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.VectorPathCommand?)).toList(growable: false),
   );
 }
 
@@ -1894,11 +1894,11 @@ class PollOption extends a.PollOption {
   };
 
   factory PollOption.fromJson(Map<String, dynamic> json) => PollOption(
-    text: json['text'],
-    voterCount: json['voter_count'],
-    votePercentage: json['vote_percentage'],
-    isChosen: json['is_chosen'],
-    isBeingChosen: json['is_being_chosen'],
+    text: json['text'] as String,
+    voterCount: json['voter_count'] as int,
+    votePercentage: json['vote_percentage'] as int,
+    isChosen: json['is_chosen'] as bool,
+    isBeingChosen: json['is_being_chosen'] as bool,
   );
 }
 
@@ -1931,7 +1931,7 @@ class PollTypeRegular extends a.PollType {
   };
 
   factory PollTypeRegular.fromJson(Map<String, dynamic> json) => PollTypeRegular(
-    allowMultipleAnswers: json['allow_multiple_answers'],
+    allowMultipleAnswers: json['allow_multiple_answers'] as bool,
   );
 }
 
@@ -1969,7 +1969,7 @@ class PollTypeQuiz extends a.PollType {
   };
 
   factory PollTypeQuiz.fromJson(Map<String, dynamic> json) => PollTypeQuiz(
-    correctOptionId: json['correct_option_id'],
+    correctOptionId: json['correct_option_id'] as int,
     explanation: b.TdBase.fromJson(json['explanation']) as FormattedText?,
   );
 }
@@ -2043,12 +2043,12 @@ class Animation extends a.Animation {
   };
 
   factory Animation.fromJson(Map<String, dynamic> json) => Animation(
-    duration: json['duration'],
-    width: json['width'],
-    height: json['height'],
-    fileName: json['file_name'],
-    mimeType: json['mime_type'],
-    hasStickers: json['has_stickers'],
+    duration: json['duration'] as int,
+    width: json['width'] as int,
+    height: json['height'] as int,
+    fileName: json['file_name'] as String,
+    mimeType: json['mime_type'] as String,
+    hasStickers: json['has_stickers'] as bool,
     minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
     animation: b.TdBase.fromJson(json['animation']) as File?,
@@ -2119,11 +2119,11 @@ class Audio extends a.Audio {
   };
 
   factory Audio.fromJson(Map<String, dynamic> json) => Audio(
-    duration: json['duration'],
-    title: json['title'],
-    performer: json['performer'],
-    fileName: json['file_name'],
-    mimeType: json['mime_type'],
+    duration: json['duration'] as int,
+    title: json['title'] as String,
+    performer: json['performer'] as String,
+    fileName: json['file_name'] as String,
+    mimeType: json['mime_type'] as String,
     albumCoverMinithumbnail: b.TdBase.fromJson(json['album_cover_minithumbnail']) as Minithumbnail?,
     albumCoverThumbnail: b.TdBase.fromJson(json['album_cover_thumbnail']) as Thumbnail?,
     audio: b.TdBase.fromJson(json['audio']) as File?,
@@ -2179,8 +2179,8 @@ class Document extends a.Document {
   };
 
   factory Document.fromJson(Map<String, dynamic> json) => Document(
-    fileName: json['file_name'],
-    mimeType: json['mime_type'],
+    fileName: json['file_name'] as String,
+    mimeType: json['mime_type'] as String,
     minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
     document: b.TdBase.fromJson(json['document']) as File?,
@@ -2226,9 +2226,9 @@ class Photo extends a.Photo {
   };
 
   factory Photo.fromJson(Map<String, dynamic> json) => Photo(
-    hasStickers: json['has_stickers'],
+    hasStickers: json['has_stickers'] as bool,
     minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
-    sizes: (json['sizes'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PhotoSize?).toList(growable: false),
+    sizes: (json['sizes'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PhotoSize?)).toList(growable: false),
   );
 }
 
@@ -2307,13 +2307,13 @@ class Sticker extends a.Sticker {
 
   factory Sticker.fromJson(Map<String, dynamic> json) => Sticker(
     setId: int.parse(json['set_id']),
-    width: json['width'],
-    height: json['height'],
-    emoji: json['emoji'],
-    isAnimated: json['is_animated'],
-    isMask: json['is_mask'],
+    width: json['width'] as int,
+    height: json['height'] as int,
+    emoji: json['emoji'] as String,
+    isAnimated: json['is_animated'] as bool,
+    isMask: json['is_mask'] as bool,
     maskPosition: b.TdBase.fromJson(json['mask_position']) as MaskPosition?,
-    outline: (json['outline'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ClosedVectorPath?).toList(growable: false),
+    outline: (json['outline'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ClosedVectorPath?)).toList(growable: false),
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
     sticker: b.TdBase.fromJson(json['sticker']) as File?,
   );
@@ -2393,13 +2393,13 @@ class Video extends a.Video {
   };
 
   factory Video.fromJson(Map<String, dynamic> json) => Video(
-    duration: json['duration'],
-    width: json['width'],
-    height: json['height'],
-    fileName: json['file_name'],
-    mimeType: json['mime_type'],
-    hasStickers: json['has_stickers'],
-    supportsStreaming: json['supports_streaming'],
+    duration: json['duration'] as int,
+    width: json['width'] as int,
+    height: json['height'] as int,
+    fileName: json['file_name'] as String,
+    mimeType: json['mime_type'] as String,
+    hasStickers: json['has_stickers'] as bool,
+    supportsStreaming: json['supports_streaming'] as bool,
     minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
     video: b.TdBase.fromJson(json['video']) as File?,
@@ -2455,8 +2455,8 @@ class VideoNote extends a.VideoNote {
   };
 
   factory VideoNote.fromJson(Map<String, dynamic> json) => VideoNote(
-    duration: json['duration'],
-    length: json['length'],
+    duration: json['duration'] as int,
+    length: json['length'] as int,
     minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
     video: b.TdBase.fromJson(json['video']) as File?,
@@ -2507,9 +2507,9 @@ class VoiceNote extends a.VoiceNote {
   };
 
   factory VoiceNote.fromJson(Map<String, dynamic> json) => VoiceNote(
-    duration: json['duration'],
+    duration: json['duration'] as int,
     waveform: base64.decode(json['waveform']),
-    mimeType: json['mime_type'],
+    mimeType: json['mime_type'] as String,
     voice: b.TdBase.fromJson(json['voice']) as File?,
   );
 }
@@ -2563,11 +2563,11 @@ class Contact extends a.Contact {
   };
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
-    phoneNumber: json['phone_number'],
-    firstName: json['first_name'],
-    lastName: json['last_name'],
-    vcard: json['vcard'],
-    userId: json['user_id'],
+    phoneNumber: json['phone_number'] as String,
+    firstName: json['first_name'] as String,
+    lastName: json['last_name'] as String,
+    vcard: json['vcard'] as String,
+    userId: json['user_id'] as int,
   );
 }
 
@@ -2610,9 +2610,9 @@ class Location extends a.Location {
   };
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-    latitude: json['latitude'],
-    longitude: json['longitude'],
-    horizontalAccuracy: json['horizontal_accuracy'],
+    latitude: json['latitude'] as double,
+    longitude: json['longitude'] as double,
+    horizontalAccuracy: json['horizontal_accuracy'] as double,
   );
 }
 
@@ -2671,11 +2671,11 @@ class Venue extends a.Venue {
 
   factory Venue.fromJson(Map<String, dynamic> json) => Venue(
     location: b.TdBase.fromJson(json['location']) as Location?,
-    title: json['title'],
-    address: json['address'],
-    provider: json['provider'],
-    id: json['id'],
-    type: json['type'],
+    title: json['title'] as String,
+    address: json['address'] as String,
+    provider: json['provider'] as String,
+    id: json['id'] as String,
+    type: json['type'] as String,
   );
 }
 
@@ -2739,10 +2739,10 @@ class Game extends a.Game {
 
   factory Game.fromJson(Map<String, dynamic> json) => Game(
     id: int.parse(json['id']),
-    shortName: json['short_name'],
-    title: json['title'],
+    shortName: json['short_name'] as String,
+    title: json['title'] as String,
     text: b.TdBase.fromJson(json['text']) as FormattedText?,
-    description: json['description'],
+    description: json['description'] as String,
     photo: b.TdBase.fromJson(json['photo']) as Photo?,
     animation: b.TdBase.fromJson(json['animation']) as Animation?,
   );
@@ -2823,15 +2823,15 @@ class Poll extends a.Poll {
 
   factory Poll.fromJson(Map<String, dynamic> json) => Poll(
     id: int.parse(json['id']),
-    question: json['question'],
-    options: (json['options'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PollOption?).toList(growable: false),
-    totalVoterCount: json['total_voter_count'],
-    recentVoterUserIds: (json['recent_voter_user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    isAnonymous: json['is_anonymous'],
+    question: json['question'] as String,
+    options: (json['options'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PollOption?)).toList(growable: false),
+    totalVoterCount: json['total_voter_count'] as int,
+    recentVoterUserIds: (json['recent_voter_user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    isAnonymous: json['is_anonymous'] as bool,
     type: b.TdBase.fromJson(json['type']) as a.PollType?,
-    openPeriod: json['open_period'],
-    closeDate: json['close_date'],
-    isClosed: json['is_closed'],
+    openPeriod: json['open_period'] as int,
+    closeDate: json['close_date'] as int,
+    isClosed: json['is_closed'] as bool,
   );
 }
 
@@ -2888,7 +2888,7 @@ class ProfilePhoto extends a.ProfilePhoto {
     small: b.TdBase.fromJson(json['small']) as File?,
     big: b.TdBase.fromJson(json['big']) as File?,
     minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
-    hasAnimation: json['has_animation'],
+    hasAnimation: json['has_animation'] as bool,
   );
 }
 
@@ -2939,7 +2939,7 @@ class ChatPhotoInfo extends a.ChatPhotoInfo {
     small: b.TdBase.fromJson(json['small']) as File?,
     big: b.TdBase.fromJson(json['big']) as File?,
     minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
-    hasAnimation: json['has_animation'],
+    hasAnimation: json['has_animation'] as bool,
   );
 }
 
@@ -3042,11 +3042,11 @@ class UserTypeBot extends a.UserType {
   };
 
   factory UserTypeBot.fromJson(Map<String, dynamic> json) => UserTypeBot(
-    canJoinGroups: json['can_join_groups'],
-    canReadAllGroupMessages: json['can_read_all_group_messages'],
-    isInline: json['is_inline'],
-    inlineQueryPlaceholder: json['inline_query_placeholder'],
-    needLocation: json['need_location'],
+    canJoinGroups: json['can_join_groups'] as bool,
+    canReadAllGroupMessages: json['can_read_all_group_messages'] as bool,
+    isInline: json['is_inline'] as bool,
+    inlineQueryPlaceholder: json['inline_query_placeholder'] as String,
+    needLocation: json['need_location'] as bool,
   );
 }
 
@@ -3109,8 +3109,8 @@ class BotCommand extends a.BotCommand {
   };
 
   factory BotCommand.fromJson(Map<String, dynamic> json) => BotCommand(
-    command: json['command'],
-    description: json['description'],
+    command: json['command'] as String,
+    description: json['description'] as String,
   );
 }
 
@@ -3148,8 +3148,8 @@ class BotInfo extends a.BotInfo {
   };
 
   factory BotInfo.fromJson(Map<String, dynamic> json) => BotInfo(
-    description: json['description'],
-    commands: (json['commands'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as BotCommand?).toList(growable: false),
+    description: json['description'] as String,
+    commands: (json['commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as BotCommand?)).toList(growable: false),
   );
 }
 
@@ -3188,7 +3188,7 @@ class ChatLocation extends a.ChatLocation {
 
   factory ChatLocation.fromJson(Map<String, dynamic> json) => ChatLocation(
     location: b.TdBase.fromJson(json['location']) as Location?,
-    address: json['address'],
+    address: json['address'] as String,
   );
 }
 
@@ -3231,9 +3231,9 @@ class AnimatedChatPhoto extends a.AnimatedChatPhoto {
   };
 
   factory AnimatedChatPhoto.fromJson(Map<String, dynamic> json) => AnimatedChatPhoto(
-    length: json['length'],
+    length: json['length'] as int,
     file: b.TdBase.fromJson(json['file']) as File?,
-    mainFrameTimestamp: json['main_frame_timestamp'],
+    mainFrameTimestamp: json['main_frame_timestamp'] as double,
   );
 }
 
@@ -3287,9 +3287,9 @@ class ChatPhoto extends a.ChatPhoto {
 
   factory ChatPhoto.fromJson(Map<String, dynamic> json) => ChatPhoto(
     id: int.parse(json['id']),
-    addedDate: json['added_date'],
+    addedDate: json['added_date'] as int,
     minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
-    sizes: (json['sizes'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PhotoSize?).toList(growable: false),
+    sizes: (json['sizes'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PhotoSize?)).toList(growable: false),
     animation: b.TdBase.fromJson(json['animation']) as AnimatedChatPhoto?,
   );
 }
@@ -3328,8 +3328,8 @@ class ChatPhotos extends a.ChatPhotos {
   };
 
   factory ChatPhotos.fromJson(Map<String, dynamic> json) => ChatPhotos(
-    totalCount: json['total_count'],
-    photos: (json['photos'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatPhoto?).toList(growable: false),
+    totalCount: json['total_count'] as int,
+    photos: (json['photos'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPhoto?)).toList(growable: false),
   );
 }
 
@@ -3434,7 +3434,7 @@ class InputChatPhotoAnimation extends a.InputChatPhoto {
 
   factory InputChatPhotoAnimation.fromJson(Map<String, dynamic> json) => InputChatPhotoAnimation(
     animation: b.TdBase.fromJson(json['animation']) as a.InputFile?,
-    mainFrameTimestamp: json['main_frame_timestamp'],
+    mainFrameTimestamp: json['main_frame_timestamp'] as double,
   );
 }
 
@@ -3547,23 +3547,23 @@ class User extends a.User {
   };
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json['id'],
-    firstName: json['first_name'],
-    lastName: json['last_name'],
-    username: json['username'],
-    phoneNumber: json['phone_number'],
+    id: json['id'] as int,
+    firstName: json['first_name'] as String,
+    lastName: json['last_name'] as String,
+    username: json['username'] as String,
+    phoneNumber: json['phone_number'] as String,
     status: b.TdBase.fromJson(json['status']) as a.UserStatus?,
     profilePhoto: b.TdBase.fromJson(json['profile_photo']) as ProfilePhoto?,
-    isContact: json['is_contact'],
-    isMutualContact: json['is_mutual_contact'],
-    isVerified: json['is_verified'],
-    isSupport: json['is_support'],
-    restrictionReason: json['restriction_reason'],
-    isScam: json['is_scam'],
-    isFake: json['is_fake'],
-    haveAccess: json['have_access'],
+    isContact: json['is_contact'] as bool,
+    isMutualContact: json['is_mutual_contact'] as bool,
+    isVerified: json['is_verified'] as bool,
+    isSupport: json['is_support'] as bool,
+    restrictionReason: json['restriction_reason'] as String,
+    isScam: json['is_scam'] as bool,
+    isFake: json['is_fake'] as bool,
+    haveAccess: json['have_access'] as bool,
     type: b.TdBase.fromJson(json['type']) as a.UserType?,
-    languageCode: json['language_code'],
+    languageCode: json['language_code'] as String,
   );
 }
 
@@ -3642,14 +3642,14 @@ class UserFullInfo extends a.UserFullInfo {
 
   factory UserFullInfo.fromJson(Map<String, dynamic> json) => UserFullInfo(
     photo: b.TdBase.fromJson(json['photo']) as ChatPhoto?,
-    isBlocked: json['is_blocked'],
-    canBeCalled: json['can_be_called'],
-    supportsVideoCalls: json['supports_video_calls'],
-    hasPrivateCalls: json['has_private_calls'],
-    needPhoneNumberPrivacyException: json['need_phone_number_privacy_exception'],
-    bio: json['bio'],
-    shareText: json['share_text'],
-    groupInCommonCount: json['group_in_common_count'],
+    isBlocked: json['is_blocked'] as bool,
+    canBeCalled: json['can_be_called'] as bool,
+    supportsVideoCalls: json['supports_video_calls'] as bool,
+    hasPrivateCalls: json['has_private_calls'] as bool,
+    needPhoneNumberPrivacyException: json['need_phone_number_privacy_exception'] as bool,
+    bio: json['bio'] as String,
+    shareText: json['share_text'] as String,
+    groupInCommonCount: json['group_in_common_count'] as int,
     botInfo: b.TdBase.fromJson(json['bot_info']) as BotInfo?,
   );
 }
@@ -3688,8 +3688,8 @@ class Users extends a.Users {
   };
 
   factory Users.fromJson(Map<String, dynamic> json) => Users(
-    totalCount: json['total_count'],
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    totalCount: json['total_count'] as int,
+    userIds: (json['user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -3732,9 +3732,9 @@ class ChatAdministrator extends a.ChatAdministrator {
   };
 
   factory ChatAdministrator.fromJson(Map<String, dynamic> json) => ChatAdministrator(
-    userId: json['user_id'],
-    customTitle: json['custom_title'],
-    isOwner: json['is_owner'],
+    userId: json['user_id'] as int,
+    customTitle: json['custom_title'] as String,
+    isOwner: json['is_owner'] as bool,
   );
 }
 
@@ -3767,7 +3767,7 @@ class ChatAdministrators extends a.ChatAdministrators {
   };
 
   factory ChatAdministrators.fromJson(Map<String, dynamic> json) => ChatAdministrators(
-    administrators: (json['administrators'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatAdministrator?).toList(growable: false),
+    administrators: (json['administrators'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatAdministrator?)).toList(growable: false),
   );
 }
 
@@ -3835,14 +3835,14 @@ class ChatPermissions extends a.ChatPermissions {
   };
 
   factory ChatPermissions.fromJson(Map<String, dynamic> json) => ChatPermissions(
-    canSendMessages: json['can_send_messages'],
-    canSendMediaMessages: json['can_send_media_messages'],
-    canSendPolls: json['can_send_polls'],
-    canSendOtherMessages: json['can_send_other_messages'],
-    canAddWebPagePreviews: json['can_add_web_page_previews'],
-    canChangeInfo: json['can_change_info'],
-    canInviteUsers: json['can_invite_users'],
-    canPinMessages: json['can_pin_messages'],
+    canSendMessages: json['can_send_messages'] as bool,
+    canSendMediaMessages: json['can_send_media_messages'] as bool,
+    canSendPolls: json['can_send_polls'] as bool,
+    canSendOtherMessages: json['can_send_other_messages'] as bool,
+    canAddWebPagePreviews: json['can_add_web_page_previews'] as bool,
+    canChangeInfo: json['can_change_info'] as bool,
+    canInviteUsers: json['can_invite_users'] as bool,
+    canPinMessages: json['can_pin_messages'] as bool,
   );
 }
 
@@ -3885,9 +3885,9 @@ class ChatMemberStatusCreator extends a.ChatMemberStatus {
   };
 
   factory ChatMemberStatusCreator.fromJson(Map<String, dynamic> json) => ChatMemberStatusCreator(
-    customTitle: json['custom_title'],
-    isAnonymous: json['is_anonymous'],
-    isMember: json['is_member'],
+    customTitle: json['custom_title'] as String,
+    isAnonymous: json['is_anonymous'] as bool,
+    isMember: json['is_member'] as bool,
   );
 }
 
@@ -3980,19 +3980,19 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
   };
 
   factory ChatMemberStatusAdministrator.fromJson(Map<String, dynamic> json) => ChatMemberStatusAdministrator(
-    customTitle: json['custom_title'],
-    canBeEdited: json['can_be_edited'],
-    canManageChat: json['can_manage_chat'],
-    canChangeInfo: json['can_change_info'],
-    canPostMessages: json['can_post_messages'],
-    canEditMessages: json['can_edit_messages'],
-    canDeleteMessages: json['can_delete_messages'],
-    canInviteUsers: json['can_invite_users'],
-    canRestrictMembers: json['can_restrict_members'],
-    canPinMessages: json['can_pin_messages'],
-    canPromoteMembers: json['can_promote_members'],
-    canManageVoiceChats: json['can_manage_voice_chats'],
-    isAnonymous: json['is_anonymous'],
+    customTitle: json['custom_title'] as String,
+    canBeEdited: json['can_be_edited'] as bool,
+    canManageChat: json['can_manage_chat'] as bool,
+    canChangeInfo: json['can_change_info'] as bool,
+    canPostMessages: json['can_post_messages'] as bool,
+    canEditMessages: json['can_edit_messages'] as bool,
+    canDeleteMessages: json['can_delete_messages'] as bool,
+    canInviteUsers: json['can_invite_users'] as bool,
+    canRestrictMembers: json['can_restrict_members'] as bool,
+    canPinMessages: json['can_pin_messages'] as bool,
+    canPromoteMembers: json['can_promote_members'] as bool,
+    canManageVoiceChats: json['can_manage_voice_chats'] as bool,
+    isAnonymous: json['is_anonymous'] as bool,
   );
 }
 
@@ -4060,8 +4060,8 @@ class ChatMemberStatusRestricted extends a.ChatMemberStatus {
   };
 
   factory ChatMemberStatusRestricted.fromJson(Map<String, dynamic> json) => ChatMemberStatusRestricted(
-    isMember: json['is_member'],
-    restrictedUntilDate: json['restricted_until_date'],
+    isMember: json['is_member'] as bool,
+    restrictedUntilDate: json['restricted_until_date'] as int,
     permissions: b.TdBase.fromJson(json['permissions']) as ChatPermissions?,
   );
 }
@@ -4120,7 +4120,7 @@ class ChatMemberStatusBanned extends a.ChatMemberStatus {
   };
 
   factory ChatMemberStatusBanned.fromJson(Map<String, dynamic> json) => ChatMemberStatusBanned(
-    bannedUntilDate: json['banned_until_date'],
+    bannedUntilDate: json['banned_until_date'] as int,
   );
 }
 
@@ -4174,8 +4174,8 @@ class ChatMember extends a.ChatMember {
 
   factory ChatMember.fromJson(Map<String, dynamic> json) => ChatMember(
     memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
-    inviterUserId: json['inviter_user_id'],
-    joinedChatDate: json['joined_chat_date'],
+    inviterUserId: json['inviter_user_id'] as int,
+    joinedChatDate: json['joined_chat_date'] as int,
     status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
     botInfo: b.TdBase.fromJson(json['bot_info']) as BotInfo?,
   );
@@ -4215,8 +4215,8 @@ class ChatMembers extends a.ChatMembers {
   };
 
   factory ChatMembers.fromJson(Map<String, dynamic> json) => ChatMembers(
-    totalCount: json['total_count'],
-    members: (json['members'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatMember?).toList(growable: false),
+    totalCount: json['total_count'] as int,
+    members: (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatMember?)).toList(growable: false),
   );
 }
 
@@ -4324,7 +4324,7 @@ class ChatMembersFilterMention extends a.ChatMembersFilter {
   };
 
   factory ChatMembersFilterMention.fromJson(Map<String, dynamic> json) => ChatMembersFilterMention(
-    messageThreadId: json['message_thread_id'],
+    messageThreadId: json['message_thread_id'] as int,
   );
 }
 
@@ -4457,7 +4457,7 @@ class SupergroupMembersFilterContacts extends a.SupergroupMembersFilter {
   };
 
   factory SupergroupMembersFilterContacts.fromJson(Map<String, dynamic> json) => SupergroupMembersFilterContacts(
-    query: json['query'],
+    query: json['query'] as String,
   );
 }
 
@@ -4515,7 +4515,7 @@ class SupergroupMembersFilterSearch extends a.SupergroupMembersFilter {
   };
 
   factory SupergroupMembersFilterSearch.fromJson(Map<String, dynamic> json) => SupergroupMembersFilterSearch(
-    query: json['query'],
+    query: json['query'] as String,
   );
 }
 
@@ -4548,7 +4548,7 @@ class SupergroupMembersFilterRestricted extends a.SupergroupMembersFilter {
   };
 
   factory SupergroupMembersFilterRestricted.fromJson(Map<String, dynamic> json) => SupergroupMembersFilterRestricted(
-    query: json['query'],
+    query: json['query'] as String,
   );
 }
 
@@ -4581,7 +4581,7 @@ class SupergroupMembersFilterBanned extends a.SupergroupMembersFilter {
   };
 
   factory SupergroupMembersFilterBanned.fromJson(Map<String, dynamic> json) => SupergroupMembersFilterBanned(
-    query: json['query'],
+    query: json['query'] as String,
   );
 }
 
@@ -4619,8 +4619,8 @@ class SupergroupMembersFilterMention extends a.SupergroupMembersFilter {
   };
 
   factory SupergroupMembersFilterMention.fromJson(Map<String, dynamic> json) => SupergroupMembersFilterMention(
-    query: json['query'],
-    messageThreadId: json['message_thread_id'],
+    query: json['query'] as String,
+    messageThreadId: json['message_thread_id'] as int,
   );
 }
 
@@ -4718,15 +4718,15 @@ class ChatInviteLink extends a.ChatInviteLink {
   };
 
   factory ChatInviteLink.fromJson(Map<String, dynamic> json) => ChatInviteLink(
-    inviteLink: json['invite_link'],
-    creatorUserId: json['creator_user_id'],
-    date: json['date'],
-    editDate: json['edit_date'],
-    expireDate: json['expire_date'],
-    memberLimit: json['member_limit'],
-    memberCount: json['member_count'],
-    isPrimary: json['is_primary'],
-    isRevoked: json['is_revoked'],
+    inviteLink: json['invite_link'] as String,
+    creatorUserId: json['creator_user_id'] as int,
+    date: json['date'] as int,
+    editDate: json['edit_date'] as int,
+    expireDate: json['expire_date'] as int,
+    memberLimit: json['member_limit'] as int,
+    memberCount: json['member_count'] as int,
+    isPrimary: json['is_primary'] as bool,
+    isRevoked: json['is_revoked'] as bool,
   );
 }
 
@@ -4764,8 +4764,8 @@ class ChatInviteLinks extends a.ChatInviteLinks {
   };
 
   factory ChatInviteLinks.fromJson(Map<String, dynamic> json) => ChatInviteLinks(
-    totalCount: json['total_count'],
-    inviteLinks: (json['invite_links'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatInviteLink?).toList(growable: false),
+    totalCount: json['total_count'] as int,
+    inviteLinks: (json['invite_links'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatInviteLink?)).toList(growable: false),
   );
 }
 
@@ -4808,9 +4808,9 @@ class ChatInviteLinkCount extends a.ChatInviteLinkCount {
   };
 
   factory ChatInviteLinkCount.fromJson(Map<String, dynamic> json) => ChatInviteLinkCount(
-    userId: json['user_id'],
-    inviteLinkCount: json['invite_link_count'],
-    revokedInviteLinkCount: json['revoked_invite_link_count'],
+    userId: json['user_id'] as int,
+    inviteLinkCount: json['invite_link_count'] as int,
+    revokedInviteLinkCount: json['revoked_invite_link_count'] as int,
   );
 }
 
@@ -4843,7 +4843,7 @@ class ChatInviteLinkCounts extends a.ChatInviteLinkCounts {
   };
 
   factory ChatInviteLinkCounts.fromJson(Map<String, dynamic> json) => ChatInviteLinkCounts(
-    inviteLinkCounts: (json['invite_link_counts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatInviteLinkCount?).toList(growable: false),
+    inviteLinkCounts: (json['invite_link_counts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatInviteLinkCount?)).toList(growable: false),
   );
 }
 
@@ -4881,8 +4881,8 @@ class ChatInviteLinkMember extends a.ChatInviteLinkMember {
   };
 
   factory ChatInviteLinkMember.fromJson(Map<String, dynamic> json) => ChatInviteLinkMember(
-    userId: json['user_id'],
-    joinedChatDate: json['joined_chat_date'],
+    userId: json['user_id'] as int,
+    joinedChatDate: json['joined_chat_date'] as int,
   );
 }
 
@@ -4920,8 +4920,8 @@ class ChatInviteLinkMembers extends a.ChatInviteLinkMembers {
   };
 
   factory ChatInviteLinkMembers.fromJson(Map<String, dynamic> json) => ChatInviteLinkMembers(
-    totalCount: json['total_count'],
-    members: (json['members'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatInviteLinkMember?).toList(growable: false),
+    totalCount: json['total_count'] as int,
+    members: (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatInviteLinkMember?)).toList(growable: false),
   );
 }
 
@@ -4989,14 +4989,14 @@ class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
   };
 
   factory ChatInviteLinkInfo.fromJson(Map<String, dynamic> json) => ChatInviteLinkInfo(
-    chatId: json['chat_id'],
-    accessibleFor: json['accessible_for'],
+    chatId: json['chat_id'] as int,
+    accessibleFor: json['accessible_for'] as int,
     type: b.TdBase.fromJson(json['type']) as a.ChatType?,
-    title: json['title'],
+    title: json['title'] as String,
     photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
-    memberCount: json['member_count'],
-    memberUserIds: (json['member_user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    isPublic: json['is_public'],
+    memberCount: json['member_count'] as int,
+    memberUserIds: (json['member_user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    isPublic: json['is_public'] as bool,
   );
 }
 
@@ -5049,11 +5049,11 @@ class BasicGroup extends a.BasicGroup {
   };
 
   factory BasicGroup.fromJson(Map<String, dynamic> json) => BasicGroup(
-    id: json['id'],
-    memberCount: json['member_count'],
+    id: json['id'] as int,
+    memberCount: json['member_count'] as int,
     status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
-    isActive: json['is_active'],
-    upgradedToSupergroupId: json['upgraded_to_supergroup_id'],
+    isActive: json['is_active'] as bool,
+    upgradedToSupergroupId: json['upgraded_to_supergroup_id'] as int,
   );
 }
 
@@ -5107,9 +5107,9 @@ class BasicGroupFullInfo extends a.BasicGroupFullInfo {
 
   factory BasicGroupFullInfo.fromJson(Map<String, dynamic> json) => BasicGroupFullInfo(
     photo: b.TdBase.fromJson(json['photo']) as ChatPhoto?,
-    description: json['description'],
-    creatorUserId: json['creator_user_id'],
-    members: (json['members'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatMember?).toList(growable: false),
+    description: json['description'] as String,
+    creatorUserId: json['creator_user_id'] as int,
+    members: (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatMember?)).toList(growable: false),
     inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
   );
 }
@@ -5213,21 +5213,21 @@ class Supergroup extends a.Supergroup {
   };
 
   factory Supergroup.fromJson(Map<String, dynamic> json) => Supergroup(
-    id: json['id'],
-    username: json['username'],
-    date: json['date'],
+    id: json['id'] as int,
+    username: json['username'] as String,
+    date: json['date'] as int,
     status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
-    memberCount: json['member_count'],
-    hasLinkedChat: json['has_linked_chat'],
-    hasLocation: json['has_location'],
-    signMessages: json['sign_messages'],
-    isSlowModeEnabled: json['is_slow_mode_enabled'],
-    isChannel: json['is_channel'],
-    isBroadcastGroup: json['is_broadcast_group'],
-    isVerified: json['is_verified'],
-    restrictionReason: json['restriction_reason'],
-    isScam: json['is_scam'],
-    isFake: json['is_fake'],
+    memberCount: json['member_count'] as int,
+    hasLinkedChat: json['has_linked_chat'] as bool,
+    hasLocation: json['has_location'] as bool,
+    signMessages: json['sign_messages'] as bool,
+    isSlowModeEnabled: json['is_slow_mode_enabled'] as bool,
+    isChannel: json['is_channel'] as bool,
+    isBroadcastGroup: json['is_broadcast_group'] as bool,
+    isVerified: json['is_verified'] as bool,
+    restrictionReason: json['restriction_reason'] as String,
+    isScam: json['is_scam'] as bool,
+    isFake: json['is_fake'] as bool,
   );
 }
 
@@ -5356,25 +5356,25 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
 
   factory SupergroupFullInfo.fromJson(Map<String, dynamic> json) => SupergroupFullInfo(
     photo: b.TdBase.fromJson(json['photo']) as ChatPhoto?,
-    description: json['description'],
-    memberCount: json['member_count'],
-    administratorCount: json['administrator_count'],
-    restrictedCount: json['restricted_count'],
-    bannedCount: json['banned_count'],
-    linkedChatId: json['linked_chat_id'],
-    slowModeDelay: json['slow_mode_delay'],
-    slowModeDelayExpiresIn: json['slow_mode_delay_expires_in'],
-    canGetMembers: json['can_get_members'],
-    canSetUsername: json['can_set_username'],
-    canSetStickerSet: json['can_set_sticker_set'],
-    canSetLocation: json['can_set_location'],
-    canGetStatistics: json['can_get_statistics'],
-    isAllHistoryAvailable: json['is_all_history_available'],
+    description: json['description'] as String,
+    memberCount: json['member_count'] as int,
+    administratorCount: json['administrator_count'] as int,
+    restrictedCount: json['restricted_count'] as int,
+    bannedCount: json['banned_count'] as int,
+    linkedChatId: json['linked_chat_id'] as int,
+    slowModeDelay: json['slow_mode_delay'] as int,
+    slowModeDelayExpiresIn: json['slow_mode_delay_expires_in'] as double,
+    canGetMembers: json['can_get_members'] as bool,
+    canSetUsername: json['can_set_username'] as bool,
+    canSetStickerSet: json['can_set_sticker_set'] as bool,
+    canSetLocation: json['can_set_location'] as bool,
+    canGetStatistics: json['can_get_statistics'] as bool,
+    isAllHistoryAvailable: json['is_all_history_available'] as bool,
     stickerSetId: int.parse(json['sticker_set_id']),
     location: b.TdBase.fromJson(json['location']) as ChatLocation?,
     inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
-    upgradedFromBasicGroupId: json['upgraded_from_basic_group_id'],
-    upgradedFromMaxMessageId: json['upgraded_from_max_message_id'],
+    upgradedFromBasicGroupId: json['upgraded_from_basic_group_id'] as int,
+    upgradedFromMaxMessageId: json['upgraded_from_max_message_id'] as int,
   );
 }
 
@@ -5507,12 +5507,12 @@ class SecretChat extends a.SecretChat {
   };
 
   factory SecretChat.fromJson(Map<String, dynamic> json) => SecretChat(
-    id: json['id'],
-    userId: json['user_id'],
+    id: json['id'] as int,
+    userId: json['user_id'] as int,
     state: b.TdBase.fromJson(json['state']) as a.SecretChatState?,
-    isOutbound: json['is_outbound'],
+    isOutbound: json['is_outbound'] as bool,
     keyHash: base64.decode(json['key_hash']),
-    layer: json['layer'],
+    layer: json['layer'] as int,
   );
 }
 
@@ -5545,7 +5545,7 @@ class MessageSenderUser extends a.MessageSender {
   };
 
   factory MessageSenderUser.fromJson(Map<String, dynamic> json) => MessageSenderUser(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
   );
 }
 
@@ -5578,7 +5578,7 @@ class MessageSenderChat extends a.MessageSender {
   };
 
   factory MessageSenderChat.fromJson(Map<String, dynamic> json) => MessageSenderChat(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -5616,8 +5616,8 @@ class MessageSenders extends a.MessageSenders {
   };
 
   factory MessageSenders.fromJson(Map<String, dynamic> json) => MessageSenders(
-    totalCount: json['total_count'],
-    senders: (json['senders'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.MessageSender?).toList(growable: false),
+    totalCount: json['total_count'] as int,
+    senders: (json['senders'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.MessageSender?)).toList(growable: false),
   );
 }
 
@@ -5650,7 +5650,7 @@ class MessageForwardOriginUser extends a.MessageForwardOrigin {
   };
 
   factory MessageForwardOriginUser.fromJson(Map<String, dynamic> json) => MessageForwardOriginUser(
-    senderUserId: json['sender_user_id'],
+    senderUserId: json['sender_user_id'] as int,
   );
 }
 
@@ -5688,8 +5688,8 @@ class MessageForwardOriginChat extends a.MessageForwardOrigin {
   };
 
   factory MessageForwardOriginChat.fromJson(Map<String, dynamic> json) => MessageForwardOriginChat(
-    senderChatId: json['sender_chat_id'],
-    authorSignature: json['author_signature'],
+    senderChatId: json['sender_chat_id'] as int,
+    authorSignature: json['author_signature'] as String,
   );
 }
 
@@ -5722,7 +5722,7 @@ class MessageForwardOriginHiddenUser extends a.MessageForwardOrigin {
   };
 
   factory MessageForwardOriginHiddenUser.fromJson(Map<String, dynamic> json) => MessageForwardOriginHiddenUser(
-    senderName: json['sender_name'],
+    senderName: json['sender_name'] as String,
   );
 }
 
@@ -5765,9 +5765,9 @@ class MessageForwardOriginChannel extends a.MessageForwardOrigin {
   };
 
   factory MessageForwardOriginChannel.fromJson(Map<String, dynamic> json) => MessageForwardOriginChannel(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    authorSignature: json['author_signature'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    authorSignature: json['author_signature'] as String,
   );
 }
 
@@ -5800,7 +5800,7 @@ class MessageForwardOriginMessageImport extends a.MessageForwardOrigin {
   };
 
   factory MessageForwardOriginMessageImport.fromJson(Map<String, dynamic> json) => MessageForwardOriginMessageImport(
-    senderName: json['sender_name'],
+    senderName: json['sender_name'] as String,
   );
 }
 
@@ -5854,10 +5854,10 @@ class MessageForwardInfo extends a.MessageForwardInfo {
 
   factory MessageForwardInfo.fromJson(Map<String, dynamic> json) => MessageForwardInfo(
     origin: b.TdBase.fromJson(json['origin']) as a.MessageForwardOrigin?,
-    date: json['date'],
-    publicServiceAnnouncementType: json['public_service_announcement_type'],
-    fromChatId: json['from_chat_id'],
-    fromMessageId: json['from_message_id'],
+    date: json['date'] as int,
+    publicServiceAnnouncementType: json['public_service_announcement_type'] as String,
+    fromChatId: json['from_chat_id'] as int,
+    fromMessageId: json['from_message_id'] as int,
   );
 }
 
@@ -5910,11 +5910,11 @@ class MessageReplyInfo extends a.MessageReplyInfo {
   };
 
   factory MessageReplyInfo.fromJson(Map<String, dynamic> json) => MessageReplyInfo(
-    replyCount: json['reply_count'],
-    recentRepliers: (json['recent_repliers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.MessageSender?).toList(growable: false),
-    lastReadInboxMessageId: json['last_read_inbox_message_id'],
-    lastReadOutboxMessageId: json['last_read_outbox_message_id'],
-    lastMessageId: json['last_message_id'],
+    replyCount: json['reply_count'] as int,
+    recentRepliers: (json['recent_repliers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.MessageSender?)).toList(growable: false),
+    lastReadInboxMessageId: json['last_read_inbox_message_id'] as int,
+    lastReadOutboxMessageId: json['last_read_outbox_message_id'] as int,
+    lastMessageId: json['last_message_id'] as int,
   );
 }
 
@@ -5957,8 +5957,8 @@ class MessageInteractionInfo extends a.MessageInteractionInfo {
   };
 
   factory MessageInteractionInfo.fromJson(Map<String, dynamic> json) => MessageInteractionInfo(
-    viewCount: json['view_count'],
-    forwardCount: json['forward_count'],
+    viewCount: json['view_count'] as int,
+    forwardCount: json['forward_count'] as int,
     replyInfo: b.TdBase.fromJson(json['reply_info']) as MessageReplyInfo?,
   );
 }
@@ -6032,10 +6032,10 @@ class MessageSendingStateFailed extends a.MessageSendingState {
   };
 
   factory MessageSendingStateFailed.fromJson(Map<String, dynamic> json) => MessageSendingStateFailed(
-    errorCode: json['error_code'],
-    errorMessage: json['error_message'],
-    canRetry: json['can_retry'],
-    retryAfter: json['retry_after'],
+    errorCode: json['error_code'] as int,
+    errorMessage: json['error_message'] as String,
+    canRetry: json['can_retry'] as bool,
+    retryAfter: json['retry_after'] as double,
   );
 }
 
@@ -6213,34 +6213,34 @@ class Message extends a.Message {
   };
 
   factory Message.fromJson(Map<String, dynamic> json) => Message(
-    id: json['id'],
+    id: json['id'] as int,
     sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     sendingState: b.TdBase.fromJson(json['sending_state']) as a.MessageSendingState?,
     schedulingState: b.TdBase.fromJson(json['scheduling_state']) as a.MessageSchedulingState?,
-    isOutgoing: json['is_outgoing'],
-    isPinned: json['is_pinned'],
-    canBeEdited: json['can_be_edited'],
-    canBeForwarded: json['can_be_forwarded'],
-    canBeDeletedOnlyForSelf: json['can_be_deleted_only_for_self'],
-    canBeDeletedForAllUsers: json['can_be_deleted_for_all_users'],
-    canGetStatistics: json['can_get_statistics'],
-    canGetMessageThread: json['can_get_message_thread'],
-    isChannelPost: json['is_channel_post'],
-    containsUnreadMention: json['contains_unread_mention'],
-    date: json['date'],
-    editDate: json['edit_date'],
+    isOutgoing: json['is_outgoing'] as bool,
+    isPinned: json['is_pinned'] as bool,
+    canBeEdited: json['can_be_edited'] as bool,
+    canBeForwarded: json['can_be_forwarded'] as bool,
+    canBeDeletedOnlyForSelf: json['can_be_deleted_only_for_self'] as bool,
+    canBeDeletedForAllUsers: json['can_be_deleted_for_all_users'] as bool,
+    canGetStatistics: json['can_get_statistics'] as bool,
+    canGetMessageThread: json['can_get_message_thread'] as bool,
+    isChannelPost: json['is_channel_post'] as bool,
+    containsUnreadMention: json['contains_unread_mention'] as bool,
+    date: json['date'] as int,
+    editDate: json['edit_date'] as int,
     forwardInfo: b.TdBase.fromJson(json['forward_info']) as MessageForwardInfo?,
     interactionInfo: b.TdBase.fromJson(json['interaction_info']) as MessageInteractionInfo?,
-    replyInChatId: json['reply_in_chat_id'],
-    replyToMessageId: json['reply_to_message_id'],
-    messageThreadId: json['message_thread_id'],
-    ttl: json['ttl'],
-    ttlExpiresIn: json['ttl_expires_in'],
-    viaBotUserId: json['via_bot_user_id'],
-    authorSignature: json['author_signature'],
+    replyInChatId: json['reply_in_chat_id'] as int,
+    replyToMessageId: json['reply_to_message_id'] as int,
+    messageThreadId: json['message_thread_id'] as int,
+    ttl: json['ttl'] as int,
+    ttlExpiresIn: json['ttl_expires_in'] as double,
+    viaBotUserId: json['via_bot_user_id'] as int,
+    authorSignature: json['author_signature'] as String,
     mediaAlbumId: int.parse(json['media_album_id']),
-    restrictionReason: json['restriction_reason'],
+    restrictionReason: json['restriction_reason'] as String,
     content: b.TdBase.fromJson(json['content']) as a.MessageContent?,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
   );
@@ -6280,8 +6280,8 @@ class Messages extends a.Messages {
   };
 
   factory Messages.fromJson(Map<String, dynamic> json) => Messages(
-    totalCount: json['total_count'],
-    messages: (json['messages'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Message?).toList(growable: false),
+    totalCount: json['total_count'] as int,
+    messages: (json['messages'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Message?)).toList(growable: false),
   );
 }
 
@@ -6324,9 +6324,9 @@ class FoundMessages extends a.FoundMessages {
   };
 
   factory FoundMessages.fromJson(Map<String, dynamic> json) => FoundMessages(
-    totalCount: json['total_count'],
-    messages: (json['messages'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Message?).toList(growable: false),
-    nextOffset: json['next_offset'],
+    totalCount: json['total_count'] as int,
+    messages: (json['messages'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Message?)).toList(growable: false),
+    nextOffset: json['next_offset'] as String,
   );
 }
 
@@ -6479,16 +6479,16 @@ class ChatNotificationSettings extends a.ChatNotificationSettings {
   };
 
   factory ChatNotificationSettings.fromJson(Map<String, dynamic> json) => ChatNotificationSettings(
-    useDefaultMuteFor: json['use_default_mute_for'],
-    muteFor: json['mute_for'],
-    useDefaultSound: json['use_default_sound'],
-    sound: json['sound'],
-    useDefaultShowPreview: json['use_default_show_preview'],
-    showPreview: json['show_preview'],
-    useDefaultDisablePinnedMessageNotifications: json['use_default_disable_pinned_message_notifications'],
-    disablePinnedMessageNotifications: json['disable_pinned_message_notifications'],
-    useDefaultDisableMentionNotifications: json['use_default_disable_mention_notifications'],
-    disableMentionNotifications: json['disable_mention_notifications'],
+    useDefaultMuteFor: json['use_default_mute_for'] as bool,
+    muteFor: json['mute_for'] as int,
+    useDefaultSound: json['use_default_sound'] as bool,
+    sound: json['sound'] as String,
+    useDefaultShowPreview: json['use_default_show_preview'] as bool,
+    showPreview: json['show_preview'] as bool,
+    useDefaultDisablePinnedMessageNotifications: json['use_default_disable_pinned_message_notifications'] as bool,
+    disablePinnedMessageNotifications: json['disable_pinned_message_notifications'] as bool,
+    useDefaultDisableMentionNotifications: json['use_default_disable_mention_notifications'] as bool,
+    disableMentionNotifications: json['disable_mention_notifications'] as bool,
   );
 }
 
@@ -6541,11 +6541,11 @@ class ScopeNotificationSettings extends a.ScopeNotificationSettings {
   };
 
   factory ScopeNotificationSettings.fromJson(Map<String, dynamic> json) => ScopeNotificationSettings(
-    muteFor: json['mute_for'],
-    sound: json['sound'],
-    showPreview: json['show_preview'],
-    disablePinnedMessageNotifications: json['disable_pinned_message_notifications'],
-    disableMentionNotifications: json['disable_mention_notifications'],
+    muteFor: json['mute_for'] as int,
+    sound: json['sound'] as String,
+    showPreview: json['show_preview'] as bool,
+    disablePinnedMessageNotifications: json['disable_pinned_message_notifications'] as bool,
+    disableMentionNotifications: json['disable_mention_notifications'] as bool,
   );
 }
 
@@ -6588,8 +6588,8 @@ class DraftMessage extends a.DraftMessage {
   };
 
   factory DraftMessage.fromJson(Map<String, dynamic> json) => DraftMessage(
-    replyToMessageId: json['reply_to_message_id'],
-    date: json['date'],
+    replyToMessageId: json['reply_to_message_id'] as int,
+    date: json['date'] as int,
     inputMessageText: b.TdBase.fromJson(json['input_message_text']) as a.InputMessageContent?,
   );
 }
@@ -6623,7 +6623,7 @@ class ChatTypePrivate extends a.ChatType {
   };
 
   factory ChatTypePrivate.fromJson(Map<String, dynamic> json) => ChatTypePrivate(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
   );
 }
 
@@ -6656,7 +6656,7 @@ class ChatTypeBasicGroup extends a.ChatType {
   };
 
   factory ChatTypeBasicGroup.fromJson(Map<String, dynamic> json) => ChatTypeBasicGroup(
-    basicGroupId: json['basic_group_id'],
+    basicGroupId: json['basic_group_id'] as int,
   );
 }
 
@@ -6694,8 +6694,8 @@ class ChatTypeSupergroup extends a.ChatType {
   };
 
   factory ChatTypeSupergroup.fromJson(Map<String, dynamic> json) => ChatTypeSupergroup(
-    supergroupId: json['supergroup_id'],
-    isChannel: json['is_channel'],
+    supergroupId: json['supergroup_id'] as int,
+    isChannel: json['is_channel'] as bool,
   );
 }
 
@@ -6733,8 +6733,8 @@ class ChatTypeSecret extends a.ChatType {
   };
 
   factory ChatTypeSecret.fromJson(Map<String, dynamic> json) => ChatTypeSecret(
-    secretChatId: json['secret_chat_id'],
-    userId: json['user_id'],
+    secretChatId: json['secret_chat_id'] as int,
+    userId: json['user_id'] as int,
   );
 }
 
@@ -6827,19 +6827,19 @@ class ChatFilter extends a.ChatFilter {
   };
 
   factory ChatFilter.fromJson(Map<String, dynamic> json) => ChatFilter(
-    title: json['title'],
-    iconName: json['icon_name'],
-    pinnedChatIds: (json['pinned_chat_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    includedChatIds: (json['included_chat_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    excludedChatIds: (json['excluded_chat_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    excludeMuted: json['exclude_muted'],
-    excludeRead: json['exclude_read'],
-    excludeArchived: json['exclude_archived'],
-    includeContacts: json['include_contacts'],
-    includeNonContacts: json['include_non_contacts'],
-    includeBots: json['include_bots'],
-    includeGroups: json['include_groups'],
-    includeChannels: json['include_channels'],
+    title: json['title'] as String,
+    iconName: json['icon_name'] as String,
+    pinnedChatIds: (json['pinned_chat_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    includedChatIds: (json['included_chat_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    excludedChatIds: (json['excluded_chat_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    excludeMuted: json['exclude_muted'] as bool,
+    excludeRead: json['exclude_read'] as bool,
+    excludeArchived: json['exclude_archived'] as bool,
+    includeContacts: json['include_contacts'] as bool,
+    includeNonContacts: json['include_non_contacts'] as bool,
+    includeBots: json['include_bots'] as bool,
+    includeGroups: json['include_groups'] as bool,
+    includeChannels: json['include_channels'] as bool,
   );
 }
 
@@ -6882,9 +6882,9 @@ class ChatFilterInfo extends a.ChatFilterInfo {
   };
 
   factory ChatFilterInfo.fromJson(Map<String, dynamic> json) => ChatFilterInfo(
-    id: json['id'],
-    title: json['title'],
-    iconName: json['icon_name'],
+    id: json['id'] as int,
+    title: json['title'] as String,
+    iconName: json['icon_name'] as String,
   );
 }
 
@@ -6923,7 +6923,7 @@ class RecommendedChatFilter extends a.RecommendedChatFilter {
 
   factory RecommendedChatFilter.fromJson(Map<String, dynamic> json) => RecommendedChatFilter(
     filter: b.TdBase.fromJson(json['filter']) as ChatFilter?,
-    description: json['description'],
+    description: json['description'] as String,
   );
 }
 
@@ -6956,7 +6956,7 @@ class RecommendedChatFilters extends a.RecommendedChatFilters {
   };
 
   factory RecommendedChatFilters.fromJson(Map<String, dynamic> json) => RecommendedChatFilters(
-    chatFilters: (json['chat_filters'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as RecommendedChatFilter?).toList(growable: false),
+    chatFilters: (json['chat_filters'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as RecommendedChatFilter?)).toList(growable: false),
   );
 }
 
@@ -7039,7 +7039,7 @@ class ChatListFilter extends a.ChatList {
   };
 
   factory ChatListFilter.fromJson(Map<String, dynamic> json) => ChatListFilter(
-    chatFilterId: json['chat_filter_id'],
+    chatFilterId: json['chat_filter_id'] as int,
   );
 }
 
@@ -7072,7 +7072,7 @@ class ChatLists extends a.ChatLists {
   };
 
   factory ChatLists.fromJson(Map<String, dynamic> json) => ChatLists(
-    chatLists: (json['chat_lists'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.ChatList?).toList(growable: false),
+    chatLists: (json['chat_lists'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.ChatList?)).toList(growable: false),
   );
 }
 
@@ -7135,8 +7135,8 @@ class ChatSourcePublicServiceAnnouncement extends a.ChatSource {
   };
 
   factory ChatSourcePublicServiceAnnouncement.fromJson(Map<String, dynamic> json) => ChatSourcePublicServiceAnnouncement(
-    type: json['type'],
-    text: json['text'],
+    type: json['type'] as String,
+    text: json['text'] as String,
   );
 }
 
@@ -7186,7 +7186,7 @@ class ChatPosition extends a.ChatPosition {
   factory ChatPosition.fromJson(Map<String, dynamic> json) => ChatPosition(
     list: b.TdBase.fromJson(json['list']) as a.ChatList?,
     order: int.parse(json['order']),
-    isPinned: json['is_pinned'],
+    isPinned: json['is_pinned'] as bool,
     source: b.TdBase.fromJson(json['source']) as a.ChatSource?,
   );
 }
@@ -7230,8 +7230,8 @@ class VoiceChat extends a.VoiceChat {
   };
 
   factory VoiceChat.fromJson(Map<String, dynamic> json) => VoiceChat(
-    groupCallId: json['group_call_id'],
-    hasParticipants: json['has_participants'],
+    groupCallId: json['group_call_id'] as int,
+    hasParticipants: json['has_participants'] as bool,
     defaultParticipantId: b.TdBase.fromJson(json['default_participant_id']) as a.MessageSender?,
   );
 }
@@ -7385,31 +7385,31 @@ class Chat extends a.Chat {
   };
 
   factory Chat.fromJson(Map<String, dynamic> json) => Chat(
-    id: json['id'],
+    id: json['id'] as int,
     type: b.TdBase.fromJson(json['type']) as a.ChatType?,
-    title: json['title'],
+    title: json['title'] as String,
     photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
     permissions: b.TdBase.fromJson(json['permissions']) as ChatPermissions?,
     lastMessage: b.TdBase.fromJson(json['last_message']) as Message?,
-    positions: (json['positions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatPosition?).toList(growable: false),
-    isMarkedAsUnread: json['is_marked_as_unread'],
-    isBlocked: json['is_blocked'],
-    hasScheduledMessages: json['has_scheduled_messages'],
-    canBeDeletedOnlyForSelf: json['can_be_deleted_only_for_self'],
-    canBeDeletedForAllUsers: json['can_be_deleted_for_all_users'],
-    canBeReported: json['can_be_reported'],
-    defaultDisableNotification: json['default_disable_notification'],
-    unreadCount: json['unread_count'],
-    lastReadInboxMessageId: json['last_read_inbox_message_id'],
-    lastReadOutboxMessageId: json['last_read_outbox_message_id'],
-    unreadMentionCount: json['unread_mention_count'],
+    positions: (json['positions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPosition?)).toList(growable: false),
+    isMarkedAsUnread: json['is_marked_as_unread'] as bool,
+    isBlocked: json['is_blocked'] as bool,
+    hasScheduledMessages: json['has_scheduled_messages'] as bool,
+    canBeDeletedOnlyForSelf: json['can_be_deleted_only_for_self'] as bool,
+    canBeDeletedForAllUsers: json['can_be_deleted_for_all_users'] as bool,
+    canBeReported: json['can_be_reported'] as bool,
+    defaultDisableNotification: json['default_disable_notification'] as bool,
+    unreadCount: json['unread_count'] as int,
+    lastReadInboxMessageId: json['last_read_inbox_message_id'] as int,
+    lastReadOutboxMessageId: json['last_read_outbox_message_id'] as int,
+    unreadMentionCount: json['unread_mention_count'] as int,
     notificationSettings: b.TdBase.fromJson(json['notification_settings']) as ChatNotificationSettings?,
-    messageTtlSetting: json['message_ttl_setting'],
+    messageTtlSetting: json['message_ttl_setting'] as int,
     actionBar: b.TdBase.fromJson(json['action_bar']) as a.ChatActionBar?,
     voiceChat: b.TdBase.fromJson(json['voice_chat']) as VoiceChat?,
-    replyMarkupMessageId: json['reply_markup_message_id'],
+    replyMarkupMessageId: json['reply_markup_message_id'] as int,
     draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage?,
-    clientData: json['client_data'],
+    clientData: json['client_data'] as String,
   );
 }
 
@@ -7447,8 +7447,8 @@ class Chats extends a.Chats {
   };
 
   factory Chats.fromJson(Map<String, dynamic> json) => Chats(
-    totalCount: json['total_count'],
-    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    totalCount: json['total_count'] as int,
+    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -7486,8 +7486,8 @@ class ChatNearby extends a.ChatNearby {
   };
 
   factory ChatNearby.fromJson(Map<String, dynamic> json) => ChatNearby(
-    chatId: json['chat_id'],
-    distance: json['distance'],
+    chatId: json['chat_id'] as int,
+    distance: json['distance'] as int,
   );
 }
 
@@ -7525,8 +7525,8 @@ class ChatsNearby extends a.ChatsNearby {
   };
 
   factory ChatsNearby.fromJson(Map<String, dynamic> json) => ChatsNearby(
-    usersNearby: (json['users_nearby'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatNearby?).toList(growable: false),
-    supergroupsNearby: (json['supergroups_nearby'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatNearby?).toList(growable: false),
+    usersNearby: (json['users_nearby'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatNearby?)).toList(growable: false),
+    supergroupsNearby: (json['supergroups_nearby'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatNearby?)).toList(growable: false),
   );
 }
 
@@ -7609,7 +7609,7 @@ class ChatActionBarReportSpam extends a.ChatActionBar {
   };
 
   factory ChatActionBarReportSpam.fromJson(Map<String, dynamic> json) => ChatActionBarReportSpam(
-    canUnarchive: json['can_unarchive'],
+    canUnarchive: json['can_unarchive'] as bool,
   );
 }
 
@@ -7697,8 +7697,8 @@ class ChatActionBarReportAddBlock extends a.ChatActionBar {
   };
 
   factory ChatActionBarReportAddBlock.fromJson(Map<String, dynamic> json) => ChatActionBarReportAddBlock(
-    canUnarchive: json['can_unarchive'],
-    distance: json['distance'],
+    canUnarchive: json['can_unarchive'] as bool,
+    distance: json['distance'] as int,
   );
 }
 
@@ -7861,8 +7861,8 @@ class KeyboardButtonTypeRequestPoll extends a.KeyboardButtonType {
   };
 
   factory KeyboardButtonTypeRequestPoll.fromJson(Map<String, dynamic> json) => KeyboardButtonTypeRequestPoll(
-    forceRegular: json['force_regular'],
-    forceQuiz: json['force_quiz'],
+    forceRegular: json['force_regular'] as bool,
+    forceQuiz: json['force_quiz'] as bool,
   );
 }
 
@@ -7900,7 +7900,7 @@ class KeyboardButton extends a.KeyboardButton {
   };
 
   factory KeyboardButton.fromJson(Map<String, dynamic> json) => KeyboardButton(
-    text: json['text'],
+    text: json['text'] as String,
     type: b.TdBase.fromJson(json['type']) as a.KeyboardButtonType?,
   );
 }
@@ -7934,7 +7934,7 @@ class InlineKeyboardButtonTypeUrl extends a.InlineKeyboardButtonType {
   };
 
   factory InlineKeyboardButtonTypeUrl.fromJson(Map<String, dynamic> json) => InlineKeyboardButtonTypeUrl(
-    url: json['url'],
+    url: json['url'] as String,
   );
 }
 
@@ -7977,9 +7977,9 @@ class InlineKeyboardButtonTypeLoginUrl extends a.InlineKeyboardButtonType {
   };
 
   factory InlineKeyboardButtonTypeLoginUrl.fromJson(Map<String, dynamic> json) => InlineKeyboardButtonTypeLoginUrl(
-    url: json['url'],
-    id: json['id'],
-    forwardText: json['forward_text'],
+    url: json['url'] as String,
+    id: json['id'] as int,
+    forwardText: json['forward_text'] as String,
   );
 }
 
@@ -8108,8 +8108,8 @@ class InlineKeyboardButtonTypeSwitchInline extends a.InlineKeyboardButtonType {
   };
 
   factory InlineKeyboardButtonTypeSwitchInline.fromJson(Map<String, dynamic> json) => InlineKeyboardButtonTypeSwitchInline(
-    query: json['query'],
-    inCurrentChat: json['in_current_chat'],
+    query: json['query'] as String,
+    inCurrentChat: json['in_current_chat'] as bool,
   );
 }
 
@@ -8172,7 +8172,7 @@ class InlineKeyboardButton extends a.InlineKeyboardButton {
   };
 
   factory InlineKeyboardButton.fromJson(Map<String, dynamic> json) => InlineKeyboardButton(
-    text: json['text'],
+    text: json['text'] as String,
     type: b.TdBase.fromJson(json['type']) as a.InlineKeyboardButtonType?,
   );
 }
@@ -8206,7 +8206,7 @@ class ReplyMarkupRemoveKeyboard extends a.ReplyMarkup {
   };
 
   factory ReplyMarkupRemoveKeyboard.fromJson(Map<String, dynamic> json) => ReplyMarkupRemoveKeyboard(
-    isPersonal: json['is_personal'],
+    isPersonal: json['is_personal'] as bool,
   );
 }
 
@@ -8239,7 +8239,7 @@ class ReplyMarkupForceReply extends a.ReplyMarkup {
   };
 
   factory ReplyMarkupForceReply.fromJson(Map<String, dynamic> json) => ReplyMarkupForceReply(
-    isPersonal: json['is_personal'],
+    isPersonal: json['is_personal'] as bool,
   );
 }
 
@@ -8287,10 +8287,10 @@ class ReplyMarkupShowKeyboard extends a.ReplyMarkup {
   };
 
   factory ReplyMarkupShowKeyboard.fromJson(Map<String, dynamic> json) => ReplyMarkupShowKeyboard(
-    rows: (json['rows'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as List<KeyboardButton?>).toList(growable: false),
-    resizeKeyboard: json['resize_keyboard'],
-    oneTime: json['one_time'],
-    isPersonal: json['is_personal'],
+    rows: (json['rows'] as List<dynamic>).map((e) => ((json[''] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as KeyboardButton?)).toList(growable: false))).toList(growable: false),
+    resizeKeyboard: json['resize_keyboard'] as bool,
+    oneTime: json['one_time'] as bool,
+    isPersonal: json['is_personal'] as bool,
   );
 }
 
@@ -8323,7 +8323,7 @@ class ReplyMarkupInlineKeyboard extends a.ReplyMarkup {
   };
 
   factory ReplyMarkupInlineKeyboard.fromJson(Map<String, dynamic> json) => ReplyMarkupInlineKeyboard(
-    rows: (json['rows'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as List<InlineKeyboardButton?>).toList(growable: false),
+    rows: (json['rows'] as List<dynamic>).map((e) => ((json[''] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as InlineKeyboardButton?)).toList(growable: false))).toList(growable: false),
   );
 }
 
@@ -8361,8 +8361,8 @@ class LoginUrlInfoOpen extends a.LoginUrlInfo {
   };
 
   factory LoginUrlInfoOpen.fromJson(Map<String, dynamic> json) => LoginUrlInfoOpen(
-    url: json['url'],
-    skipConfirm: json['skip_confirm'],
+    url: json['url'] as String,
+    skipConfirm: json['skip_confirm'] as bool,
   );
 }
 
@@ -8410,10 +8410,10 @@ class LoginUrlInfoRequestConfirmation extends a.LoginUrlInfo {
   };
 
   factory LoginUrlInfoRequestConfirmation.fromJson(Map<String, dynamic> json) => LoginUrlInfoRequestConfirmation(
-    url: json['url'],
-    domain: json['domain'],
-    botUserId: json['bot_user_id'],
-    requestWriteAccess: json['request_write_access'],
+    url: json['url'] as String,
+    domain: json['domain'] as String,
+    botUserId: json['bot_user_id'] as int,
+    requestWriteAccess: json['request_write_access'] as bool,
   );
 }
 
@@ -8466,10 +8466,10 @@ class MessageThreadInfo extends a.MessageThreadInfo {
   };
 
   factory MessageThreadInfo.fromJson(Map<String, dynamic> json) => MessageThreadInfo(
-    chatId: json['chat_id'],
-    messageThreadId: json['message_thread_id'],
+    chatId: json['chat_id'] as int,
+    messageThreadId: json['message_thread_id'] as int,
     replyInfo: b.TdBase.fromJson(json['reply_info']) as MessageReplyInfo?,
-    messages: (json['messages'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Message?).toList(growable: false),
+    messages: (json['messages'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Message?)).toList(growable: false),
     draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage?,
   );
 }
@@ -8503,7 +8503,7 @@ class RichTextPlain extends a.RichText {
   };
 
   factory RichTextPlain.fromJson(Map<String, dynamic> json) => RichTextPlain(
-    text: json['text'],
+    text: json['text'] as String,
   );
 }
 
@@ -8712,8 +8712,8 @@ class RichTextUrl extends a.RichText {
 
   factory RichTextUrl.fromJson(Map<String, dynamic> json) => RichTextUrl(
     text: b.TdBase.fromJson(json['text']) as a.RichText?,
-    url: json['url'],
-    isCached: json['is_cached'],
+    url: json['url'] as String,
+    isCached: json['is_cached'] as bool,
   );
 }
 
@@ -8752,7 +8752,7 @@ class RichTextEmailAddress extends a.RichText {
 
   factory RichTextEmailAddress.fromJson(Map<String, dynamic> json) => RichTextEmailAddress(
     text: b.TdBase.fromJson(json['text']) as a.RichText?,
-    emailAddress: json['email_address'],
+    emailAddress: json['email_address'] as String,
   );
 }
 
@@ -8890,7 +8890,7 @@ class RichTextPhoneNumber extends a.RichText {
 
   factory RichTextPhoneNumber.fromJson(Map<String, dynamic> json) => RichTextPhoneNumber(
     text: b.TdBase.fromJson(json['text']) as a.RichText?,
-    phoneNumber: json['phone_number'],
+    phoneNumber: json['phone_number'] as String,
   );
 }
 
@@ -8934,8 +8934,8 @@ class RichTextIcon extends a.RichText {
 
   factory RichTextIcon.fromJson(Map<String, dynamic> json) => RichTextIcon(
     document: b.TdBase.fromJson(json['document']) as Document?,
-    width: json['width'],
-    height: json['height'],
+    width: json['width'] as int,
+    height: json['height'] as int,
   );
 }
 
@@ -8979,8 +8979,8 @@ class RichTextReference extends a.RichText {
 
   factory RichTextReference.fromJson(Map<String, dynamic> json) => RichTextReference(
     text: b.TdBase.fromJson(json['text']) as a.RichText?,
-    anchorName: json['anchor_name'],
-    url: json['url'],
+    anchorName: json['anchor_name'] as String,
+    url: json['url'] as String,
   );
 }
 
@@ -9013,7 +9013,7 @@ class RichTextAnchor extends a.RichText {
   };
 
   factory RichTextAnchor.fromJson(Map<String, dynamic> json) => RichTextAnchor(
-    name: json['name'],
+    name: json['name'] as String,
   );
 }
 
@@ -9057,8 +9057,8 @@ class RichTextAnchorLink extends a.RichText {
 
   factory RichTextAnchorLink.fromJson(Map<String, dynamic> json) => RichTextAnchorLink(
     text: b.TdBase.fromJson(json['text']) as a.RichText?,
-    anchorName: json['anchor_name'],
-    url: json['url'],
+    anchorName: json['anchor_name'] as String,
+    url: json['url'] as String,
   );
 }
 
@@ -9091,7 +9091,7 @@ class RichTexts extends a.RichText {
   };
 
   factory RichTexts.fromJson(Map<String, dynamic> json) => RichTexts(
-    texts: (json['texts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.RichText?).toList(growable: false),
+    texts: (json['texts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.RichText?)).toList(growable: false),
   );
 }
 
@@ -9168,8 +9168,8 @@ class PageBlockListItem extends a.PageBlockListItem {
   };
 
   factory PageBlockListItem.fromJson(Map<String, dynamic> json) => PageBlockListItem(
-    label: json['label'],
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock?).toList(growable: false),
+    label: json['label'] as String,
+    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
   );
 }
 
@@ -9378,9 +9378,9 @@ class PageBlockTableCell extends a.PageBlockTableCell {
 
   factory PageBlockTableCell.fromJson(Map<String, dynamic> json) => PageBlockTableCell(
     text: b.TdBase.fromJson(json['text']) as a.RichText?,
-    isHeader: json['is_header'],
-    colspan: json['colspan'],
-    rowspan: json['rowspan'],
+    isHeader: json['is_header'] as bool,
+    colspan: json['colspan'] as int,
+    rowspan: json['rowspan'] as int,
     align: b.TdBase.fromJson(json['align']) as a.PageBlockHorizontalAlignment?,
     valign: b.TdBase.fromJson(json['valign']) as a.PageBlockVerticalAlignment?,
   );
@@ -9440,12 +9440,12 @@ class PageBlockRelatedArticle extends a.PageBlockRelatedArticle {
   };
 
   factory PageBlockRelatedArticle.fromJson(Map<String, dynamic> json) => PageBlockRelatedArticle(
-    url: json['url'],
-    title: json['title'],
-    description: json['description'],
+    url: json['url'] as String,
+    title: json['title'] as String,
+    description: json['description'] as String,
     photo: b.TdBase.fromJson(json['photo']) as Photo?,
-    author: json['author'],
-    publishDate: json['publish_date'],
+    author: json['author'] as String,
+    publishDate: json['publish_date'] as int,
   );
 }
 
@@ -9550,7 +9550,7 @@ class PageBlockAuthorDate extends a.PageBlock {
 
   factory PageBlockAuthorDate.fromJson(Map<String, dynamic> json) => PageBlockAuthorDate(
     author: b.TdBase.fromJson(json['author']) as a.RichText?,
-    publishDate: json['publish_date'],
+    publishDate: json['publish_date'] as int,
   );
 }
 
@@ -9721,7 +9721,7 @@ class PageBlockPreformatted extends a.PageBlock {
 
   factory PageBlockPreformatted.fromJson(Map<String, dynamic> json) => PageBlockPreformatted(
     text: b.TdBase.fromJson(json['text']) as a.RichText?,
-    language: json['language'],
+    language: json['language'] as String,
   );
 }
 
@@ -9812,7 +9812,7 @@ class PageBlockAnchor extends a.PageBlock {
   };
 
   factory PageBlockAnchor.fromJson(Map<String, dynamic> json) => PageBlockAnchor(
-    name: json['name'],
+    name: json['name'] as String,
   );
 }
 
@@ -9845,7 +9845,7 @@ class PageBlockList extends a.PageBlock {
   };
 
   factory PageBlockList.fromJson(Map<String, dynamic> json) => PageBlockList(
-    items: (json['items'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PageBlockListItem?).toList(growable: false),
+    items: (json['items'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PageBlockListItem?)).toList(growable: false),
   );
 }
 
@@ -9968,7 +9968,7 @@ class PageBlockAnimation extends a.PageBlock {
   factory PageBlockAnimation.fromJson(Map<String, dynamic> json) => PageBlockAnimation(
     animation: b.TdBase.fromJson(json['animation']) as Animation?,
     caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
-    needAutoplay: json['need_autoplay'],
+    needAutoplay: json['need_autoplay'] as bool,
   );
 }
 
@@ -10052,7 +10052,7 @@ class PageBlockPhoto extends a.PageBlock {
   factory PageBlockPhoto.fromJson(Map<String, dynamic> json) => PageBlockPhoto(
     photo: b.TdBase.fromJson(json['photo']) as Photo?,
     caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
-    url: json['url'],
+    url: json['url'] as String,
   );
 }
 
@@ -10102,8 +10102,8 @@ class PageBlockVideo extends a.PageBlock {
   factory PageBlockVideo.fromJson(Map<String, dynamic> json) => PageBlockVideo(
     video: b.TdBase.fromJson(json['video']) as Video?,
     caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
-    needAutoplay: json['need_autoplay'],
-    isLooped: json['is_looped'],
+    needAutoplay: json['need_autoplay'] as bool,
+    isLooped: json['is_looped'] as bool,
   );
 }
 
@@ -10243,14 +10243,14 @@ class PageBlockEmbedded extends a.PageBlock {
   };
 
   factory PageBlockEmbedded.fromJson(Map<String, dynamic> json) => PageBlockEmbedded(
-    url: json['url'],
-    html: json['html'],
+    url: json['url'] as String,
+    html: json['html'] as String,
     posterPhoto: b.TdBase.fromJson(json['poster_photo']) as Photo?,
-    width: json['width'],
-    height: json['height'],
+    width: json['width'] as int,
+    height: json['height'] as int,
     caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
-    isFullWidth: json['is_full_width'],
-    allowScrolling: json['allow_scrolling'],
+    isFullWidth: json['is_full_width'] as bool,
+    allowScrolling: json['allow_scrolling'] as bool,
   );
 }
 
@@ -10308,11 +10308,11 @@ class PageBlockEmbeddedPost extends a.PageBlock {
   };
 
   factory PageBlockEmbeddedPost.fromJson(Map<String, dynamic> json) => PageBlockEmbeddedPost(
-    url: json['url'],
-    author: json['author'],
+    url: json['url'] as String,
+    author: json['author'] as String,
     authorPhoto: b.TdBase.fromJson(json['author_photo']) as Photo?,
-    date: json['date'],
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock?).toList(growable: false),
+    date: json['date'] as int,
+    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
     caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
@@ -10351,7 +10351,7 @@ class PageBlockCollage extends a.PageBlock {
   };
 
   factory PageBlockCollage.fromJson(Map<String, dynamic> json) => PageBlockCollage(
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock?).toList(growable: false),
+    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
     caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
@@ -10390,7 +10390,7 @@ class PageBlockSlideshow extends a.PageBlock {
   };
 
   factory PageBlockSlideshow.fromJson(Map<String, dynamic> json) => PageBlockSlideshow(
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock?).toList(growable: false),
+    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
     caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
@@ -10434,9 +10434,9 @@ class PageBlockChatLink extends a.PageBlock {
   };
 
   factory PageBlockChatLink.fromJson(Map<String, dynamic> json) => PageBlockChatLink(
-    title: json['title'],
+    title: json['title'] as String,
     photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
-    username: json['username'],
+    username: json['username'] as String,
   );
 }
 
@@ -10485,9 +10485,9 @@ class PageBlockTable extends a.PageBlock {
 
   factory PageBlockTable.fromJson(Map<String, dynamic> json) => PageBlockTable(
     caption: b.TdBase.fromJson(json['caption']) as a.RichText?,
-    cells: (json['cells'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as List<PageBlockTableCell?>).toList(growable: false),
-    isBordered: json['is_bordered'],
-    isStriped: json['is_striped'],
+    cells: (json['cells'] as List<dynamic>).map((e) => ((json[''] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PageBlockTableCell?)).toList(growable: false))).toList(growable: false),
+    isBordered: json['is_bordered'] as bool,
+    isStriped: json['is_striped'] as bool,
   );
 }
 
@@ -10531,8 +10531,8 @@ class PageBlockDetails extends a.PageBlock {
 
   factory PageBlockDetails.fromJson(Map<String, dynamic> json) => PageBlockDetails(
     header: b.TdBase.fromJson(json['header']) as a.RichText?,
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock?).toList(growable: false),
-    isOpen: json['is_open'],
+    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
+    isOpen: json['is_open'] as bool,
   );
 }
 
@@ -10571,7 +10571,7 @@ class PageBlockRelatedArticles extends a.PageBlock {
 
   factory PageBlockRelatedArticles.fromJson(Map<String, dynamic> json) => PageBlockRelatedArticles(
     header: b.TdBase.fromJson(json['header']) as a.RichText?,
-    articles: (json['articles'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PageBlockRelatedArticle?).toList(growable: false),
+    articles: (json['articles'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PageBlockRelatedArticle?)).toList(growable: false),
   );
 }
 
@@ -10625,9 +10625,9 @@ class PageBlockMap extends a.PageBlock {
 
   factory PageBlockMap.fromJson(Map<String, dynamic> json) => PageBlockMap(
     location: b.TdBase.fromJson(json['location']) as Location?,
-    zoom: json['zoom'],
-    width: json['width'],
-    height: json['height'],
+    zoom: json['zoom'] as int,
+    width: json['width'] as int,
+    height: json['height'] as int,
     caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
@@ -10681,11 +10681,11 @@ class WebPageInstantView extends a.WebPageInstantView {
   };
 
   factory WebPageInstantView.fromJson(Map<String, dynamic> json) => WebPageInstantView(
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PageBlock?).toList(growable: false),
-    viewCount: json['view_count'],
-    version: json['version'],
-    isRtl: json['is_rtl'],
-    isFull: json['is_full'],
+    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
+    viewCount: json['view_count'] as int,
+    version: json['version'] as int,
+    isRtl: json['is_rtl'] as bool,
+    isFull: json['is_full'] as bool,
   );
 }
 
@@ -10818,19 +10818,19 @@ class WebPage extends a.WebPage {
   };
 
   factory WebPage.fromJson(Map<String, dynamic> json) => WebPage(
-    url: json['url'],
-    displayUrl: json['display_url'],
-    type: json['type'],
-    siteName: json['site_name'],
-    title: json['title'],
+    url: json['url'] as String,
+    displayUrl: json['display_url'] as String,
+    type: json['type'] as String,
+    siteName: json['site_name'] as String,
+    title: json['title'] as String,
     description: b.TdBase.fromJson(json['description']) as FormattedText?,
     photo: b.TdBase.fromJson(json['photo']) as Photo?,
-    embedUrl: json['embed_url'],
-    embedType: json['embed_type'],
-    embedWidth: json['embed_width'],
-    embedHeight: json['embed_height'],
-    duration: json['duration'],
-    author: json['author'],
+    embedUrl: json['embed_url'] as String,
+    embedType: json['embed_type'] as String,
+    embedWidth: json['embed_width'] as int,
+    embedHeight: json['embed_height'] as int,
+    duration: json['duration'] as int,
+    author: json['author'] as String,
     animation: b.TdBase.fromJson(json['animation']) as Animation?,
     audio: b.TdBase.fromJson(json['audio']) as Audio?,
     document: b.TdBase.fromJson(json['document']) as Document?,
@@ -10838,7 +10838,7 @@ class WebPage extends a.WebPage {
     video: b.TdBase.fromJson(json['video']) as Video?,
     videoNote: b.TdBase.fromJson(json['video_note']) as VideoNote?,
     voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote?,
-    instantViewVersion: json['instant_view_version'],
+    instantViewVersion: json['instant_view_version'] as int,
   );
 }
 
@@ -10891,11 +10891,11 @@ class CountryInfo extends a.CountryInfo {
   };
 
   factory CountryInfo.fromJson(Map<String, dynamic> json) => CountryInfo(
-    countryCode: json['country_code'],
-    name: json['name'],
-    englishName: json['english_name'],
-    isHidden: json['is_hidden'],
-    callingCodes: (json['calling_codes'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
+    countryCode: json['country_code'] as String,
+    name: json['name'] as String,
+    englishName: json['english_name'] as String,
+    isHidden: json['is_hidden'] as bool,
+    callingCodes: (json['calling_codes'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
   );
 }
 
@@ -10928,7 +10928,7 @@ class Countries extends a.Countries {
   };
 
   factory Countries.fromJson(Map<String, dynamic> json) => Countries(
-    countries: (json['countries'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as CountryInfo?).toList(growable: false),
+    countries: (json['countries'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as CountryInfo?)).toList(growable: false),
   );
 }
 
@@ -10972,8 +10972,8 @@ class PhoneNumberInfo extends a.PhoneNumberInfo {
 
   factory PhoneNumberInfo.fromJson(Map<String, dynamic> json) => PhoneNumberInfo(
     country: b.TdBase.fromJson(json['country']) as CountryInfo?,
-    countryCallingCode: json['country_calling_code'],
-    formattedPhoneNumber: json['formatted_phone_number'],
+    countryCallingCode: json['country_calling_code'] as String,
+    formattedPhoneNumber: json['formatted_phone_number'] as String,
   );
 }
 
@@ -11011,8 +11011,8 @@ class BankCardActionOpenUrl extends a.BankCardActionOpenUrl {
   };
 
   factory BankCardActionOpenUrl.fromJson(Map<String, dynamic> json) => BankCardActionOpenUrl(
-    text: json['text'],
-    url: json['url'],
+    text: json['text'] as String,
+    url: json['url'] as String,
   );
 }
 
@@ -11050,8 +11050,8 @@ class BankCardInfo extends a.BankCardInfo {
   };
 
   factory BankCardInfo.fromJson(Map<String, dynamic> json) => BankCardInfo(
-    title: json['title'],
-    actions: (json['actions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as BankCardActionOpenUrl?).toList(growable: false),
+    title: json['title'] as String,
+    actions: (json['actions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as BankCardActionOpenUrl?)).toList(growable: false),
   );
 }
 
@@ -11109,12 +11109,12 @@ class Address extends a.Address {
   };
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
-    countryCode: json['country_code'],
-    state: json['state'],
-    city: json['city'],
-    streetLine1: json['street_line1'],
-    streetLine2: json['street_line2'],
-    postalCode: json['postal_code'],
+    countryCode: json['country_code'] as String,
+    state: json['state'] as String,
+    city: json['city'] as String,
+    streetLine1: json['street_line1'] as String,
+    streetLine2: json['street_line2'] as String,
+    postalCode: json['postal_code'] as String,
   );
 }
 
@@ -11152,8 +11152,8 @@ class LabeledPricePart extends a.LabeledPricePart {
   };
 
   factory LabeledPricePart.fromJson(Map<String, dynamic> json) => LabeledPricePart(
-    label: json['label'],
-    amount: json['amount'],
+    label: json['label'] as String,
+    amount: json['amount'] as int,
   );
 }
 
@@ -11241,18 +11241,18 @@ class Invoice extends a.Invoice {
   };
 
   factory Invoice.fromJson(Map<String, dynamic> json) => Invoice(
-    currency: json['currency'],
-    priceParts: (json['price_parts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LabeledPricePart?).toList(growable: false),
-    maxTipAmount: json['max_tip_amount'],
-    suggestedTipAmounts: (json['suggested_tip_amounts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    isTest: json['is_test'],
-    needName: json['need_name'],
-    needPhoneNumber: json['need_phone_number'],
-    needEmailAddress: json['need_email_address'],
-    needShippingAddress: json['need_shipping_address'],
-    sendPhoneNumberToProvider: json['send_phone_number_to_provider'],
-    sendEmailAddressToProvider: json['send_email_address_to_provider'],
-    isFlexible: json['is_flexible'],
+    currency: json['currency'] as String,
+    priceParts: (json['price_parts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LabeledPricePart?)).toList(growable: false),
+    maxTipAmount: json['max_tip_amount'] as int,
+    suggestedTipAmounts: (json['suggested_tip_amounts'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    isTest: json['is_test'] as bool,
+    needName: json['need_name'] as bool,
+    needPhoneNumber: json['need_phone_number'] as bool,
+    needEmailAddress: json['need_email_address'] as bool,
+    needShippingAddress: json['need_shipping_address'] as bool,
+    sendPhoneNumberToProvider: json['send_phone_number_to_provider'] as bool,
+    sendEmailAddressToProvider: json['send_email_address_to_provider'] as bool,
+    isFlexible: json['is_flexible'] as bool,
   );
 }
 
@@ -11300,9 +11300,9 @@ class OrderInfo extends a.OrderInfo {
   };
 
   factory OrderInfo.fromJson(Map<String, dynamic> json) => OrderInfo(
-    name: json['name'],
-    phoneNumber: json['phone_number'],
-    emailAddress: json['email_address'],
+    name: json['name'] as String,
+    phoneNumber: json['phone_number'] as String,
+    emailAddress: json['email_address'] as String,
     shippingAddress: b.TdBase.fromJson(json['shipping_address']) as Address?,
   );
 }
@@ -11346,9 +11346,9 @@ class ShippingOption extends a.ShippingOption {
   };
 
   factory ShippingOption.fromJson(Map<String, dynamic> json) => ShippingOption(
-    id: json['id'],
-    title: json['title'],
-    priceParts: (json['price_parts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LabeledPricePart?).toList(growable: false),
+    id: json['id'] as String,
+    title: json['title'] as String,
+    priceParts: (json['price_parts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LabeledPricePart?)).toList(growable: false),
   );
 }
 
@@ -11386,8 +11386,8 @@ class SavedCredentials extends a.SavedCredentials {
   };
 
   factory SavedCredentials.fromJson(Map<String, dynamic> json) => SavedCredentials(
-    id: json['id'],
-    title: json['title'],
+    id: json['id'] as String,
+    title: json['title'] as String,
   );
 }
 
@@ -11420,7 +11420,7 @@ class InputCredentialsSaved extends a.InputCredentials {
   };
 
   factory InputCredentialsSaved.fromJson(Map<String, dynamic> json) => InputCredentialsSaved(
-    savedCredentialsId: json['saved_credentials_id'],
+    savedCredentialsId: json['saved_credentials_id'] as String,
   );
 }
 
@@ -11458,8 +11458,8 @@ class InputCredentialsNew extends a.InputCredentials {
   };
 
   factory InputCredentialsNew.fromJson(Map<String, dynamic> json) => InputCredentialsNew(
-    data: json['data'],
-    allowSave: json['allow_save'],
+    data: json['data'] as String,
+    allowSave: json['allow_save'] as bool,
   );
 }
 
@@ -11492,7 +11492,7 @@ class InputCredentialsApplePay extends a.InputCredentials {
   };
 
   factory InputCredentialsApplePay.fromJson(Map<String, dynamic> json) => InputCredentialsApplePay(
-    data: json['data'],
+    data: json['data'] as String,
   );
 }
 
@@ -11525,7 +11525,7 @@ class InputCredentialsGooglePay extends a.InputCredentials {
   };
 
   factory InputCredentialsGooglePay.fromJson(Map<String, dynamic> json) => InputCredentialsGooglePay(
-    data: json['data'],
+    data: json['data'] as String,
   );
 }
 
@@ -11573,10 +11573,10 @@ class PaymentsProviderStripe extends a.PaymentsProviderStripe {
   };
 
   factory PaymentsProviderStripe.fromJson(Map<String, dynamic> json) => PaymentsProviderStripe(
-    publishableKey: json['publishable_key'],
-    needCountry: json['need_country'],
-    needPostalCode: json['need_postal_code'],
-    needCardholderName: json['need_cardholder_name'],
+    publishableKey: json['publishable_key'] as String,
+    needCountry: json['need_country'] as bool,
+    needPostalCode: json['need_postal_code'] as bool,
+    needCardholderName: json['need_cardholder_name'] as bool,
   );
 }
 
@@ -11634,12 +11634,12 @@ class PaymentFormTheme extends a.PaymentFormTheme {
   };
 
   factory PaymentFormTheme.fromJson(Map<String, dynamic> json) => PaymentFormTheme(
-    backgroundColor: json['background_color'],
-    textColor: json['text_color'],
-    hintColor: json['hint_color'],
-    linkColor: json['link_color'],
-    buttonColor: json['button_color'],
-    buttonTextColor: json['button_text_color'],
+    backgroundColor: json['background_color'] as int,
+    textColor: json['text_color'] as int,
+    hintColor: json['hint_color'] as int,
+    linkColor: json['link_color'] as int,
+    buttonColor: json['button_color'] as int,
+    buttonTextColor: json['button_text_color'] as int,
   );
 }
 
@@ -11719,14 +11719,14 @@ class PaymentForm extends a.PaymentForm {
   factory PaymentForm.fromJson(Map<String, dynamic> json) => PaymentForm(
     id: int.parse(json['id']),
     invoice: b.TdBase.fromJson(json['invoice']) as Invoice?,
-    url: json['url'],
-    sellerBotUserId: json['seller_bot_user_id'],
-    paymentsProviderUserId: json['payments_provider_user_id'],
+    url: json['url'] as String,
+    sellerBotUserId: json['seller_bot_user_id'] as int,
+    paymentsProviderUserId: json['payments_provider_user_id'] as int,
     paymentsProvider: b.TdBase.fromJson(json['payments_provider']) as PaymentsProviderStripe?,
     savedOrderInfo: b.TdBase.fromJson(json['saved_order_info']) as OrderInfo?,
     savedCredentials: b.TdBase.fromJson(json['saved_credentials']) as SavedCredentials?,
-    canSaveCredentials: json['can_save_credentials'],
-    needPassword: json['need_password'],
+    canSaveCredentials: json['can_save_credentials'] as bool,
+    needPassword: json['need_password'] as bool,
   );
 }
 
@@ -11764,8 +11764,8 @@ class ValidatedOrderInfo extends a.ValidatedOrderInfo {
   };
 
   factory ValidatedOrderInfo.fromJson(Map<String, dynamic> json) => ValidatedOrderInfo(
-    orderInfoId: json['order_info_id'],
-    shippingOptions: (json['shipping_options'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ShippingOption?).toList(growable: false),
+    orderInfoId: json['order_info_id'] as String,
+    shippingOptions: (json['shipping_options'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ShippingOption?)).toList(growable: false),
   );
 }
 
@@ -11803,8 +11803,8 @@ class PaymentResult extends a.PaymentResult {
   };
 
   factory PaymentResult.fromJson(Map<String, dynamic> json) => PaymentResult(
-    success: json['success'],
-    verificationUrl: json['verification_url'],
+    success: json['success'] as bool,
+    verificationUrl: json['verification_url'] as String,
   );
 }
 
@@ -11887,17 +11887,17 @@ class PaymentReceipt extends a.PaymentReceipt {
   };
 
   factory PaymentReceipt.fromJson(Map<String, dynamic> json) => PaymentReceipt(
-    title: json['title'],
-    description: json['description'],
+    title: json['title'] as String,
+    description: json['description'] as String,
     photo: b.TdBase.fromJson(json['photo']) as Photo?,
-    date: json['date'],
-    sellerBotUserId: json['seller_bot_user_id'],
-    paymentsProviderUserId: json['payments_provider_user_id'],
+    date: json['date'] as int,
+    sellerBotUserId: json['seller_bot_user_id'] as int,
+    paymentsProviderUserId: json['payments_provider_user_id'] as int,
     invoice: b.TdBase.fromJson(json['invoice']) as Invoice?,
     orderInfo: b.TdBase.fromJson(json['order_info']) as OrderInfo?,
     shippingOption: b.TdBase.fromJson(json['shipping_option']) as ShippingOption?,
-    credentialsTitle: json['credentials_title'],
-    tipAmount: json['tip_amount'],
+    credentialsTitle: json['credentials_title'] as String,
+    tipAmount: json['tip_amount'] as int,
   );
 }
 
@@ -11936,7 +11936,7 @@ class DatedFile extends a.DatedFile {
 
   factory DatedFile.fromJson(Map<String, dynamic> json) => DatedFile(
     file: b.TdBase.fromJson(json['file']) as File?,
-    date: json['date'],
+    date: json['date'] as int,
   );
 }
 
@@ -12304,9 +12304,9 @@ class Date extends a.Date {
   };
 
   factory Date.fromJson(Map<String, dynamic> json) => Date(
-    day: json['day'],
-    month: json['month'],
-    year: json['year'],
+    day: json['day'] as int,
+    month: json['month'] as int,
+    year: json['year'] as int,
   );
 }
 
@@ -12384,16 +12384,16 @@ class PersonalDetails extends a.PersonalDetails {
   };
 
   factory PersonalDetails.fromJson(Map<String, dynamic> json) => PersonalDetails(
-    firstName: json['first_name'],
-    middleName: json['middle_name'],
-    lastName: json['last_name'],
-    nativeFirstName: json['native_first_name'],
-    nativeMiddleName: json['native_middle_name'],
-    nativeLastName: json['native_last_name'],
+    firstName: json['first_name'] as String,
+    middleName: json['middle_name'] as String,
+    lastName: json['last_name'] as String,
+    nativeFirstName: json['native_first_name'] as String,
+    nativeMiddleName: json['native_middle_name'] as String,
+    nativeLastName: json['native_last_name'] as String,
     birthdate: b.TdBase.fromJson(json['birthdate']) as Date?,
-    gender: json['gender'],
-    countryCode: json['country_code'],
-    residenceCountryCode: json['residence_country_code'],
+    gender: json['gender'] as String,
+    countryCode: json['country_code'] as String,
+    residenceCountryCode: json['residence_country_code'] as String,
   );
 }
 
@@ -12451,12 +12451,12 @@ class IdentityDocument extends a.IdentityDocument {
   };
 
   factory IdentityDocument.fromJson(Map<String, dynamic> json) => IdentityDocument(
-    number: json['number'],
+    number: json['number'] as String,
     expiryDate: b.TdBase.fromJson(json['expiry_date']) as Date?,
     frontSide: b.TdBase.fromJson(json['front_side']) as DatedFile?,
     reverseSide: b.TdBase.fromJson(json['reverse_side']) as DatedFile?,
     selfie: b.TdBase.fromJson(json['selfie']) as DatedFile?,
-    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile?).toList(growable: false),
+    translation: (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
   );
 }
 
@@ -12514,12 +12514,12 @@ class InputIdentityDocument extends a.InputIdentityDocument {
   };
 
   factory InputIdentityDocument.fromJson(Map<String, dynamic> json) => InputIdentityDocument(
-    number: json['number'],
+    number: json['number'] as String,
     expiryDate: b.TdBase.fromJson(json['expiry_date']) as Date?,
     frontSide: b.TdBase.fromJson(json['front_side']) as a.InputFile?,
     reverseSide: b.TdBase.fromJson(json['reverse_side']) as a.InputFile?,
     selfie: b.TdBase.fromJson(json['selfie']) as a.InputFile?,
-    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputFile?).toList(growable: false),
+    translation: (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputFile?)).toList(growable: false),
   );
 }
 
@@ -12557,8 +12557,8 @@ class PersonalDocument extends a.PersonalDocument {
   };
 
   factory PersonalDocument.fromJson(Map<String, dynamic> json) => PersonalDocument(
-    files: (json['files'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile?).toList(growable: false),
-    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile?).toList(growable: false),
+    files: (json['files'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
+    translation: (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
   );
 }
 
@@ -12596,8 +12596,8 @@ class InputPersonalDocument extends a.InputPersonalDocument {
   };
 
   factory InputPersonalDocument.fromJson(Map<String, dynamic> json) => InputPersonalDocument(
-    files: (json['files'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputFile?).toList(growable: false),
-    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputFile?).toList(growable: false),
+    files: (json['files'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputFile?)).toList(growable: false),
+    translation: (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputFile?)).toList(growable: false),
   );
 }
 
@@ -12993,7 +12993,7 @@ class PassportElementPhoneNumber extends a.PassportElement {
   };
 
   factory PassportElementPhoneNumber.fromJson(Map<String, dynamic> json) => PassportElementPhoneNumber(
-    phoneNumber: json['phone_number'],
+    phoneNumber: json['phone_number'] as String,
   );
 }
 
@@ -13026,7 +13026,7 @@ class PassportElementEmailAddress extends a.PassportElement {
   };
 
   factory PassportElementEmailAddress.fromJson(Map<String, dynamic> json) => PassportElementEmailAddress(
-    emailAddress: json['email_address'],
+    emailAddress: json['email_address'] as String,
   );
 }
 
@@ -13422,7 +13422,7 @@ class InputPassportElementPhoneNumber extends a.InputPassportElement {
   };
 
   factory InputPassportElementPhoneNumber.fromJson(Map<String, dynamic> json) => InputPassportElementPhoneNumber(
-    phoneNumber: json['phone_number'],
+    phoneNumber: json['phone_number'] as String,
   );
 }
 
@@ -13455,7 +13455,7 @@ class InputPassportElementEmailAddress extends a.InputPassportElement {
   };
 
   factory InputPassportElementEmailAddress.fromJson(Map<String, dynamic> json) => InputPassportElementEmailAddress(
-    emailAddress: json['email_address'],
+    emailAddress: json['email_address'] as String,
   );
 }
 
@@ -13488,7 +13488,7 @@ class PassportElements extends a.PassportElements {
   };
 
   factory PassportElements.fromJson(Map<String, dynamic> json) => PassportElements(
-    elements: (json['elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PassportElement?).toList(growable: false),
+    elements: (json['elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PassportElement?)).toList(growable: false),
   );
 }
 
@@ -13546,7 +13546,7 @@ class PassportElementErrorSourceDataField extends a.PassportElementErrorSource {
   };
 
   factory PassportElementErrorSourceDataField.fromJson(Map<String, dynamic> json) => PassportElementErrorSourceDataField(
-    fieldName: json['field_name'],
+    fieldName: json['field_name'] as String,
   );
 }
 
@@ -13654,7 +13654,7 @@ class PassportElementErrorSourceTranslationFile extends a.PassportElementErrorSo
   };
 
   factory PassportElementErrorSourceTranslationFile.fromJson(Map<String, dynamic> json) => PassportElementErrorSourceTranslationFile(
-    fileIndex: json['file_index'],
+    fileIndex: json['file_index'] as int,
   );
 }
 
@@ -13712,7 +13712,7 @@ class PassportElementErrorSourceFile extends a.PassportElementErrorSource {
   };
 
   factory PassportElementErrorSourceFile.fromJson(Map<String, dynamic> json) => PassportElementErrorSourceFile(
-    fileIndex: json['file_index'],
+    fileIndex: json['file_index'] as int,
   );
 }
 
@@ -13781,7 +13781,7 @@ class PassportElementError extends a.PassportElementError {
 
   factory PassportElementError.fromJson(Map<String, dynamic> json) => PassportElementError(
     type: b.TdBase.fromJson(json['type']) as a.PassportElementType?,
-    message: json['message'],
+    message: json['message'] as String,
     source: b.TdBase.fromJson(json['source']) as a.PassportElementErrorSource?,
   );
 }
@@ -13831,9 +13831,9 @@ class PassportSuitableElement extends a.PassportSuitableElement {
 
   factory PassportSuitableElement.fromJson(Map<String, dynamic> json) => PassportSuitableElement(
     type: b.TdBase.fromJson(json['type']) as a.PassportElementType?,
-    isSelfieRequired: json['is_selfie_required'],
-    isTranslationRequired: json['is_translation_required'],
-    isNativeNameRequired: json['is_native_name_required'],
+    isSelfieRequired: json['is_selfie_required'] as bool,
+    isTranslationRequired: json['is_translation_required'] as bool,
+    isNativeNameRequired: json['is_native_name_required'] as bool,
   );
 }
 
@@ -13866,7 +13866,7 @@ class PassportRequiredElement extends a.PassportRequiredElement {
   };
 
   factory PassportRequiredElement.fromJson(Map<String, dynamic> json) => PassportRequiredElement(
-    suitableElements: (json['suitable_elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PassportSuitableElement?).toList(growable: false),
+    suitableElements: (json['suitable_elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PassportSuitableElement?)).toList(growable: false),
   );
 }
 
@@ -13909,9 +13909,9 @@ class PassportAuthorizationForm extends a.PassportAuthorizationForm {
   };
 
   factory PassportAuthorizationForm.fromJson(Map<String, dynamic> json) => PassportAuthorizationForm(
-    id: json['id'],
-    requiredElements: (json['required_elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PassportRequiredElement?).toList(growable: false),
-    privacyPolicyUrl: json['privacy_policy_url'],
+    id: json['id'] as int,
+    requiredElements: (json['required_elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PassportRequiredElement?)).toList(growable: false),
+    privacyPolicyUrl: json['privacy_policy_url'] as String,
   );
 }
 
@@ -13949,8 +13949,8 @@ class PassportElementsWithErrors extends a.PassportElementsWithErrors {
   };
 
   factory PassportElementsWithErrors.fromJson(Map<String, dynamic> json) => PassportElementsWithErrors(
-    elements: (json['elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PassportElement?).toList(growable: false),
-    errors: (json['errors'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as PassportElementError?).toList(growable: false),
+    elements: (json['elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PassportElement?)).toList(growable: false),
+    errors: (json['errors'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PassportElementError?)).toList(growable: false),
   );
 }
 
@@ -14073,10 +14073,10 @@ class EncryptedPassportElement extends a.EncryptedPassportElement {
     frontSide: b.TdBase.fromJson(json['front_side']) as DatedFile?,
     reverseSide: b.TdBase.fromJson(json['reverse_side']) as DatedFile?,
     selfie: b.TdBase.fromJson(json['selfie']) as DatedFile?,
-    translation: (json['translation'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile?).toList(growable: false),
-    files: (json['files'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as DatedFile?).toList(growable: false),
-    value: json['value'],
-    hash: json['hash'],
+    translation: (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
+    files: (json['files'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
+    value: json['value'] as String,
+    hash: json['hash'] as String,
   );
 }
 
@@ -14147,7 +14147,7 @@ class InputPassportElementErrorSourceDataField extends a.InputPassportElementErr
   };
 
   factory InputPassportElementErrorSourceDataField.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceDataField(
-    fieldName: json['field_name'],
+    fieldName: json['field_name'] as String,
     dataHash: base64.decode(json['data_hash']),
   );
 }
@@ -14313,7 +14313,7 @@ class InputPassportElementErrorSourceTranslationFiles extends a.InputPassportEle
   };
 
   factory InputPassportElementErrorSourceTranslationFiles.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceTranslationFiles(
-    fileHashes: (json['file_hashes'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Uint8List).toList(growable: false),
+    fileHashes: (json['file_hashes'] as List<dynamic>).map((e) => (base64.decode(e))).toList(growable: false),
   );
 }
 
@@ -14379,7 +14379,7 @@ class InputPassportElementErrorSourceFiles extends a.InputPassportElementErrorSo
   };
 
   factory InputPassportElementErrorSourceFiles.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceFiles(
-    fileHashes: (json['file_hashes'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Uint8List).toList(growable: false),
+    fileHashes: (json['file_hashes'] as List<dynamic>).map((e) => (base64.decode(e))).toList(growable: false),
   );
 }
 
@@ -14423,7 +14423,7 @@ class InputPassportElementError extends a.InputPassportElementError {
 
   factory InputPassportElementError.fromJson(Map<String, dynamic> json) => InputPassportElementError(
     type: b.TdBase.fromJson(json['type']) as a.PassportElementType?,
-    message: json['message'],
+    message: json['message'] as String,
     source: b.TdBase.fromJson(json['source']) as a.InputPassportElementErrorSource?,
   );
 }
@@ -14508,7 +14508,7 @@ class MessageAnimation extends a.MessageContent {
   factory MessageAnimation.fromJson(Map<String, dynamic> json) => MessageAnimation(
     animation: b.TdBase.fromJson(json['animation']) as Animation?,
     caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
-    isSecret: json['is_secret'],
+    isSecret: json['is_secret'] as bool,
   );
 }
 
@@ -14631,7 +14631,7 @@ class MessagePhoto extends a.MessageContent {
   factory MessagePhoto.fromJson(Map<String, dynamic> json) => MessagePhoto(
     photo: b.TdBase.fromJson(json['photo']) as Photo?,
     caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
-    isSecret: json['is_secret'],
+    isSecret: json['is_secret'] as bool,
   );
 }
 
@@ -14734,7 +14734,7 @@ class MessageVideo extends a.MessageContent {
   factory MessageVideo.fromJson(Map<String, dynamic> json) => MessageVideo(
     video: b.TdBase.fromJson(json['video']) as Video?,
     caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
-    isSecret: json['is_secret'],
+    isSecret: json['is_secret'] as bool,
   );
 }
 
@@ -14803,8 +14803,8 @@ class MessageVideoNote extends a.MessageContent {
 
   factory MessageVideoNote.fromJson(Map<String, dynamic> json) => MessageVideoNote(
     videoNote: b.TdBase.fromJson(json['video_note']) as VideoNote?,
-    isViewed: json['is_viewed'],
-    isSecret: json['is_secret'],
+    isViewed: json['is_viewed'] as bool,
+    isSecret: json['is_secret'] as bool,
   );
 }
 
@@ -14849,7 +14849,7 @@ class MessageVoiceNote extends a.MessageContent {
   factory MessageVoiceNote.fromJson(Map<String, dynamic> json) => MessageVoiceNote(
     voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote?,
     caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
-    isListened: json['is_listened'],
+    isListened: json['is_listened'] as bool,
   );
 }
 
@@ -14903,10 +14903,10 @@ class MessageLocation extends a.MessageContent {
 
   factory MessageLocation.fromJson(Map<String, dynamic> json) => MessageLocation(
     location: b.TdBase.fromJson(json['location']) as Location?,
-    livePeriod: json['live_period'],
-    expiresIn: json['expires_in'],
-    heading: json['heading'],
-    proximityAlertRadius: json['proximity_alert_radius'],
+    livePeriod: json['live_period'] as int,
+    expiresIn: json['expires_in'] as int,
+    heading: json['heading'] as int,
+    proximityAlertRadius: json['proximity_alert_radius'] as int,
   );
 }
 
@@ -15027,9 +15027,9 @@ class MessageDice extends a.MessageContent {
   factory MessageDice.fromJson(Map<String, dynamic> json) => MessageDice(
     initialState: b.TdBase.fromJson(json['initial_state']) as a.DiceStickers?,
     finalState: b.TdBase.fromJson(json['final_state']) as a.DiceStickers?,
-    emoji: json['emoji'],
-    value: json['value'],
-    successAnimationFrameNumber: json['success_animation_frame_number'],
+    emoji: json['emoji'] as String,
+    value: json['value'] as int,
+    successAnimationFrameNumber: json['success_animation_frame_number'] as int,
   );
 }
 
@@ -15168,15 +15168,15 @@ class MessageInvoice extends a.MessageContent {
   };
 
   factory MessageInvoice.fromJson(Map<String, dynamic> json) => MessageInvoice(
-    title: json['title'],
-    description: json['description'],
+    title: json['title'] as String,
+    description: json['description'] as String,
     photo: b.TdBase.fromJson(json['photo']) as Photo?,
-    currency: json['currency'],
-    totalAmount: json['total_amount'],
-    startParameter: json['start_parameter'],
-    isTest: json['is_test'],
-    needShippingAddress: json['need_shipping_address'],
-    receiptMessageId: json['receipt_message_id'],
+    currency: json['currency'] as String,
+    totalAmount: json['total_amount'] as int,
+    startParameter: json['start_parameter'] as String,
+    isTest: json['is_test'] as bool,
+    needShippingAddress: json['need_shipping_address'] as bool,
+    receiptMessageId: json['receipt_message_id'] as int,
   );
 }
 
@@ -15219,9 +15219,9 @@ class MessageCall extends a.MessageContent {
   };
 
   factory MessageCall.fromJson(Map<String, dynamic> json) => MessageCall(
-    isVideo: json['is_video'],
+    isVideo: json['is_video'] as bool,
     discardReason: b.TdBase.fromJson(json['discard_reason']) as a.CallDiscardReason?,
-    duration: json['duration'],
+    duration: json['duration'] as int,
   );
 }
 
@@ -15259,8 +15259,8 @@ class MessageVoiceChatScheduled extends a.MessageContent {
   };
 
   factory MessageVoiceChatScheduled.fromJson(Map<String, dynamic> json) => MessageVoiceChatScheduled(
-    groupCallId: json['group_call_id'],
-    startDate: json['start_date'],
+    groupCallId: json['group_call_id'] as int,
+    startDate: json['start_date'] as int,
   );
 }
 
@@ -15293,7 +15293,7 @@ class MessageVoiceChatStarted extends a.MessageContent {
   };
 
   factory MessageVoiceChatStarted.fromJson(Map<String, dynamic> json) => MessageVoiceChatStarted(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
   );
 }
 
@@ -15326,7 +15326,7 @@ class MessageVoiceChatEnded extends a.MessageContent {
   };
 
   factory MessageVoiceChatEnded.fromJson(Map<String, dynamic> json) => MessageVoiceChatEnded(
-    duration: json['duration'],
+    duration: json['duration'] as int,
   );
 }
 
@@ -15364,8 +15364,8 @@ class MessageInviteVoiceChatParticipants extends a.MessageContent {
   };
 
   factory MessageInviteVoiceChatParticipants.fromJson(Map<String, dynamic> json) => MessageInviteVoiceChatParticipants(
-    groupCallId: json['group_call_id'],
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    groupCallId: json['group_call_id'] as int,
+    userIds: (json['user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -15403,8 +15403,8 @@ class MessageBasicGroupChatCreate extends a.MessageContent {
   };
 
   factory MessageBasicGroupChatCreate.fromJson(Map<String, dynamic> json) => MessageBasicGroupChatCreate(
-    title: json['title'],
-    memberUserIds: (json['member_user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    title: json['title'] as String,
+    memberUserIds: (json['member_user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -15437,7 +15437,7 @@ class MessageSupergroupChatCreate extends a.MessageContent {
   };
 
   factory MessageSupergroupChatCreate.fromJson(Map<String, dynamic> json) => MessageSupergroupChatCreate(
-    title: json['title'],
+    title: json['title'] as String,
   );
 }
 
@@ -15470,7 +15470,7 @@ class MessageChatChangeTitle extends a.MessageContent {
   };
 
   factory MessageChatChangeTitle.fromJson(Map<String, dynamic> json) => MessageChatChangeTitle(
-    title: json['title'],
+    title: json['title'] as String,
   );
 }
 
@@ -15561,7 +15561,7 @@ class MessageChatAddMembers extends a.MessageContent {
   };
 
   factory MessageChatAddMembers.fromJson(Map<String, dynamic> json) => MessageChatAddMembers(
-    memberUserIds: (json['member_user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    memberUserIds: (json['member_user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -15619,7 +15619,7 @@ class MessageChatDeleteMember extends a.MessageContent {
   };
 
   factory MessageChatDeleteMember.fromJson(Map<String, dynamic> json) => MessageChatDeleteMember(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
   );
 }
 
@@ -15652,7 +15652,7 @@ class MessageChatUpgradeTo extends a.MessageContent {
   };
 
   factory MessageChatUpgradeTo.fromJson(Map<String, dynamic> json) => MessageChatUpgradeTo(
-    supergroupId: json['supergroup_id'],
+    supergroupId: json['supergroup_id'] as int,
   );
 }
 
@@ -15690,8 +15690,8 @@ class MessageChatUpgradeFrom extends a.MessageContent {
   };
 
   factory MessageChatUpgradeFrom.fromJson(Map<String, dynamic> json) => MessageChatUpgradeFrom(
-    title: json['title'],
-    basicGroupId: json['basic_group_id'],
+    title: json['title'] as String,
+    basicGroupId: json['basic_group_id'] as int,
   );
 }
 
@@ -15724,7 +15724,7 @@ class MessagePinMessage extends a.MessageContent {
   };
 
   factory MessagePinMessage.fromJson(Map<String, dynamic> json) => MessagePinMessage(
-    messageId: json['message_id'],
+    messageId: json['message_id'] as int,
   );
 }
 
@@ -15782,7 +15782,7 @@ class MessageChatSetTtl extends a.MessageContent {
   };
 
   factory MessageChatSetTtl.fromJson(Map<String, dynamic> json) => MessageChatSetTtl(
-    ttl: json['ttl'],
+    ttl: json['ttl'] as int,
   );
 }
 
@@ -15815,7 +15815,7 @@ class MessageCustomServiceAction extends a.MessageContent {
   };
 
   factory MessageCustomServiceAction.fromJson(Map<String, dynamic> json) => MessageCustomServiceAction(
-    text: json['text'],
+    text: json['text'] as String,
   );
 }
 
@@ -15858,9 +15858,9 @@ class MessageGameScore extends a.MessageContent {
   };
 
   factory MessageGameScore.fromJson(Map<String, dynamic> json) => MessageGameScore(
-    gameMessageId: json['game_message_id'],
+    gameMessageId: json['game_message_id'] as int,
     gameId: int.parse(json['game_id']),
-    score: json['score'],
+    score: json['score'] as int,
   );
 }
 
@@ -15908,10 +15908,10 @@ class MessagePaymentSuccessful extends a.MessageContent {
   };
 
   factory MessagePaymentSuccessful.fromJson(Map<String, dynamic> json) => MessagePaymentSuccessful(
-    invoiceChatId: json['invoice_chat_id'],
-    invoiceMessageId: json['invoice_message_id'],
-    currency: json['currency'],
-    totalAmount: json['total_amount'],
+    invoiceChatId: json['invoice_chat_id'] as int,
+    invoiceMessageId: json['invoice_message_id'] as int,
+    currency: json['currency'] as String,
+    totalAmount: json['total_amount'] as int,
   );
 }
 
@@ -15974,13 +15974,13 @@ class MessagePaymentSuccessfulBot extends a.MessageContent {
   };
 
   factory MessagePaymentSuccessfulBot.fromJson(Map<String, dynamic> json) => MessagePaymentSuccessfulBot(
-    currency: json['currency'],
-    totalAmount: json['total_amount'],
+    currency: json['currency'] as String,
+    totalAmount: json['total_amount'] as int,
     invoicePayload: base64.decode(json['invoice_payload']),
-    shippingOptionId: json['shipping_option_id'],
+    shippingOptionId: json['shipping_option_id'] as String,
     orderInfo: b.TdBase.fromJson(json['order_info']) as OrderInfo?,
-    telegramPaymentChargeId: json['telegram_payment_charge_id'],
-    providerPaymentChargeId: json['provider_payment_charge_id'],
+    telegramPaymentChargeId: json['telegram_payment_charge_id'] as String,
+    providerPaymentChargeId: json['provider_payment_charge_id'] as String,
   );
 }
 
@@ -16038,7 +16038,7 @@ class MessageWebsiteConnected extends a.MessageContent {
   };
 
   factory MessageWebsiteConnected.fromJson(Map<String, dynamic> json) => MessageWebsiteConnected(
-    domainName: json['domain_name'],
+    domainName: json['domain_name'] as String,
   );
 }
 
@@ -16071,7 +16071,7 @@ class MessagePassportDataSent extends a.MessageContent {
   };
 
   factory MessagePassportDataSent.fromJson(Map<String, dynamic> json) => MessagePassportDataSent(
-    types: (json['types'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PassportElementType?).toList(growable: false),
+    types: (json['types'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PassportElementType?)).toList(growable: false),
   );
 }
 
@@ -16109,7 +16109,7 @@ class MessagePassportDataReceived extends a.MessageContent {
   };
 
   factory MessagePassportDataReceived.fromJson(Map<String, dynamic> json) => MessagePassportDataReceived(
-    elements: (json['elements'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as EncryptedPassportElement?).toList(growable: false),
+    elements: (json['elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as EncryptedPassportElement?)).toList(growable: false),
     credentials: b.TdBase.fromJson(json['credentials']) as EncryptedCredentials?,
   );
 }
@@ -16155,7 +16155,7 @@ class MessageProximityAlertTriggered extends a.MessageContent {
   factory MessageProximityAlertTriggered.fromJson(Map<String, dynamic> json) => MessageProximityAlertTriggered(
     traveler: b.TdBase.fromJson(json['traveler']) as a.MessageSender?,
     watcher: b.TdBase.fromJson(json['watcher']) as a.MessageSender?,
-    distance: json['distance'],
+    distance: json['distance'] as int,
   );
 }
 
@@ -16563,7 +16563,7 @@ class TextEntityTypePreCode extends a.TextEntityType {
   };
 
   factory TextEntityTypePreCode.fromJson(Map<String, dynamic> json) => TextEntityTypePreCode(
-    language: json['language'],
+    language: json['language'] as String,
   );
 }
 
@@ -16596,7 +16596,7 @@ class TextEntityTypeTextUrl extends a.TextEntityType {
   };
 
   factory TextEntityTypeTextUrl.fromJson(Map<String, dynamic> json) => TextEntityTypeTextUrl(
-    url: json['url'],
+    url: json['url'] as String,
   );
 }
 
@@ -16629,7 +16629,7 @@ class TextEntityTypeMentionName extends a.TextEntityType {
   };
 
   factory TextEntityTypeMentionName.fromJson(Map<String, dynamic> json) => TextEntityTypeMentionName(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
   );
 }
 
@@ -16673,8 +16673,8 @@ class InputThumbnail extends a.InputThumbnail {
 
   factory InputThumbnail.fromJson(Map<String, dynamic> json) => InputThumbnail(
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as a.InputFile?,
-    width: json['width'],
-    height: json['height'],
+    width: json['width'] as int,
+    height: json['height'] as int,
   );
 }
 
@@ -16707,7 +16707,7 @@ class MessageSchedulingStateSendAtDate extends a.MessageSchedulingState {
   };
 
   factory MessageSchedulingStateSendAtDate.fromJson(Map<String, dynamic> json) => MessageSchedulingStateSendAtDate(
-    sendDate: json['send_date'],
+    sendDate: json['send_date'] as int,
   );
 }
 
@@ -16775,8 +16775,8 @@ class MessageSendOptions extends a.MessageSendOptions {
   };
 
   factory MessageSendOptions.fromJson(Map<String, dynamic> json) => MessageSendOptions(
-    disableNotification: json['disable_notification'],
-    fromBackground: json['from_background'],
+    disableNotification: json['disable_notification'] as bool,
+    fromBackground: json['from_background'] as bool,
     schedulingState: b.TdBase.fromJson(json['scheduling_state']) as a.MessageSchedulingState?,
   );
 }
@@ -16820,8 +16820,8 @@ class MessageCopyOptions extends a.MessageCopyOptions {
   };
 
   factory MessageCopyOptions.fromJson(Map<String, dynamic> json) => MessageCopyOptions(
-    sendCopy: json['send_copy'],
-    replaceCaption: json['replace_caption'],
+    sendCopy: json['send_copy'] as bool,
+    replaceCaption: json['replace_caption'] as bool,
     newCaption: b.TdBase.fromJson(json['new_caption']) as FormattedText?,
   );
 }
@@ -16866,8 +16866,8 @@ class InputMessageText extends a.InputMessageContent {
 
   factory InputMessageText.fromJson(Map<String, dynamic> json) => InputMessageText(
     text: b.TdBase.fromJson(json['text']) as FormattedText?,
-    disableWebPagePreview: json['disable_web_page_preview'],
-    clearDraft: json['clear_draft'],
+    disableWebPagePreview: json['disable_web_page_preview'] as bool,
+    clearDraft: json['clear_draft'] as bool,
   );
 }
 
@@ -16932,10 +16932,10 @@ class InputMessageAnimation extends a.InputMessageContent {
   factory InputMessageAnimation.fromJson(Map<String, dynamic> json) => InputMessageAnimation(
     animation: b.TdBase.fromJson(json['animation']) as a.InputFile?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
-    addedStickerFileIds: (json['added_sticker_file_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    duration: json['duration'],
-    width: json['width'],
-    height: json['height'],
+    addedStickerFileIds: (json['added_sticker_file_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    duration: json['duration'] as int,
+    width: json['width'] as int,
+    height: json['height'] as int,
     caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
   );
 }
@@ -16996,9 +16996,9 @@ class InputMessageAudio extends a.InputMessageContent {
   factory InputMessageAudio.fromJson(Map<String, dynamic> json) => InputMessageAudio(
     audio: b.TdBase.fromJson(json['audio']) as a.InputFile?,
     albumCoverThumbnail: b.TdBase.fromJson(json['album_cover_thumbnail']) as InputThumbnail?,
-    duration: json['duration'],
-    title: json['title'],
-    performer: json['performer'],
+    duration: json['duration'] as int,
+    title: json['title'] as String,
+    performer: json['performer'] as String,
     caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
   );
 }
@@ -17049,7 +17049,7 @@ class InputMessageDocument extends a.InputMessageContent {
   factory InputMessageDocument.fromJson(Map<String, dynamic> json) => InputMessageDocument(
     document: b.TdBase.fromJson(json['document']) as a.InputFile?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
-    disableContentTypeDetection: json['disable_content_type_detection'],
+    disableContentTypeDetection: json['disable_content_type_detection'] as bool,
     caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
   );
 }
@@ -17115,11 +17115,11 @@ class InputMessagePhoto extends a.InputMessageContent {
   factory InputMessagePhoto.fromJson(Map<String, dynamic> json) => InputMessagePhoto(
     photo: b.TdBase.fromJson(json['photo']) as a.InputFile?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
-    addedStickerFileIds: (json['added_sticker_file_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    width: json['width'],
-    height: json['height'],
+    addedStickerFileIds: (json['added_sticker_file_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    width: json['width'] as int,
+    height: json['height'] as int,
     caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
-    ttl: json['ttl'],
+    ttl: json['ttl'] as int,
   );
 }
 
@@ -17174,9 +17174,9 @@ class InputMessageSticker extends a.InputMessageContent {
   factory InputMessageSticker.fromJson(Map<String, dynamic> json) => InputMessageSticker(
     sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
-    width: json['width'],
-    height: json['height'],
-    emoji: json['emoji'],
+    width: json['width'] as int,
+    height: json['height'] as int,
+    emoji: json['emoji'] as String,
   );
 }
 
@@ -17251,13 +17251,13 @@ class InputMessageVideo extends a.InputMessageContent {
   factory InputMessageVideo.fromJson(Map<String, dynamic> json) => InputMessageVideo(
     video: b.TdBase.fromJson(json['video']) as a.InputFile?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
-    addedStickerFileIds: (json['added_sticker_file_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    duration: json['duration'],
-    width: json['width'],
-    height: json['height'],
-    supportsStreaming: json['supports_streaming'],
+    addedStickerFileIds: (json['added_sticker_file_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    duration: json['duration'] as int,
+    width: json['width'] as int,
+    height: json['height'] as int,
+    supportsStreaming: json['supports_streaming'] as bool,
     caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
-    ttl: json['ttl'],
+    ttl: json['ttl'] as int,
   );
 }
 
@@ -17307,8 +17307,8 @@ class InputMessageVideoNote extends a.InputMessageContent {
   factory InputMessageVideoNote.fromJson(Map<String, dynamic> json) => InputMessageVideoNote(
     videoNote: b.TdBase.fromJson(json['video_note']) as a.InputFile?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
-    duration: json['duration'],
-    length: json['length'],
+    duration: json['duration'] as int,
+    length: json['length'] as int,
   );
 }
 
@@ -17357,7 +17357,7 @@ class InputMessageVoiceNote extends a.InputMessageContent {
 
   factory InputMessageVoiceNote.fromJson(Map<String, dynamic> json) => InputMessageVoiceNote(
     voiceNote: b.TdBase.fromJson(json['voice_note']) as a.InputFile?,
-    duration: json['duration'],
+    duration: json['duration'] as int,
     waveform: base64.decode(json['waveform']),
     caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
   );
@@ -17408,9 +17408,9 @@ class InputMessageLocation extends a.InputMessageContent {
 
   factory InputMessageLocation.fromJson(Map<String, dynamic> json) => InputMessageLocation(
     location: b.TdBase.fromJson(json['location']) as Location?,
-    livePeriod: json['live_period'],
-    heading: json['heading'],
-    proximityAlertRadius: json['proximity_alert_radius'],
+    livePeriod: json['live_period'] as int,
+    heading: json['heading'] as int,
+    proximityAlertRadius: json['proximity_alert_radius'] as int,
   );
 }
 
@@ -17514,8 +17514,8 @@ class InputMessageDice extends a.InputMessageContent {
   };
 
   factory InputMessageDice.fromJson(Map<String, dynamic> json) => InputMessageDice(
-    emoji: json['emoji'],
-    clearDraft: json['clear_draft'],
+    emoji: json['emoji'] as String,
+    clearDraft: json['clear_draft'] as bool,
   );
 }
 
@@ -17553,8 +17553,8 @@ class InputMessageGame extends a.InputMessageContent {
   };
 
   factory InputMessageGame.fromJson(Map<String, dynamic> json) => InputMessageGame(
-    botUserId: json['bot_user_id'],
-    gameShortName: json['game_short_name'],
+    botUserId: json['bot_user_id'] as int,
+    gameShortName: json['game_short_name'] as String,
   );
 }
 
@@ -17638,16 +17638,16 @@ class InputMessageInvoice extends a.InputMessageContent {
 
   factory InputMessageInvoice.fromJson(Map<String, dynamic> json) => InputMessageInvoice(
     invoice: b.TdBase.fromJson(json['invoice']) as Invoice?,
-    title: json['title'],
-    description: json['description'],
-    photoUrl: json['photo_url'],
-    photoSize: json['photo_size'],
-    photoWidth: json['photo_width'],
-    photoHeight: json['photo_height'],
+    title: json['title'] as String,
+    description: json['description'] as String,
+    photoUrl: json['photo_url'] as String,
+    photoSize: json['photo_size'] as int,
+    photoWidth: json['photo_width'] as int,
+    photoHeight: json['photo_height'] as int,
     payload: base64.decode(json['payload']),
-    providerToken: json['provider_token'],
-    providerData: json['provider_data'],
-    startParameter: json['start_parameter'],
+    providerToken: json['provider_token'] as String,
+    providerData: json['provider_data'] as String,
+    startParameter: json['start_parameter'] as String,
   );
 }
 
@@ -17710,13 +17710,13 @@ class InputMessagePoll extends a.InputMessageContent {
   };
 
   factory InputMessagePoll.fromJson(Map<String, dynamic> json) => InputMessagePoll(
-    question: json['question'],
-    options: (json['options'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
-    isAnonymous: json['is_anonymous'],
+    question: json['question'] as String,
+    options: (json['options'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
+    isAnonymous: json['is_anonymous'] as bool,
     type: b.TdBase.fromJson(json['type']) as a.PollType?,
-    openPeriod: json['open_period'],
-    closeDate: json['close_date'],
-    isClosed: json['is_closed'],
+    openPeriod: json['open_period'] as int,
+    closeDate: json['close_date'] as int,
+    isClosed: json['is_closed'] as bool,
   );
 }
 
@@ -17764,9 +17764,9 @@ class InputMessageForwarded extends a.InputMessageContent {
   };
 
   factory InputMessageForwarded.fromJson(Map<String, dynamic> json) => InputMessageForwarded(
-    fromChatId: json['from_chat_id'],
-    messageId: json['message_id'],
-    inGameShare: json['in_game_share'],
+    fromChatId: json['from_chat_id'] as int,
+    messageId: json['message_id'] as int,
+    inGameShare: json['in_game_share'] as bool,
     copyOptions: b.TdBase.fromJson(json['copy_options']) as MessageCopyOptions?,
   );
 }
@@ -18300,7 +18300,7 @@ class ChatActionUploadingVideo extends a.ChatAction {
   };
 
   factory ChatActionUploadingVideo.fromJson(Map<String, dynamic> json) => ChatActionUploadingVideo(
-    progress: json['progress'],
+    progress: json['progress'] as int,
   );
 }
 
@@ -18358,7 +18358,7 @@ class ChatActionUploadingVoiceNote extends a.ChatAction {
   };
 
   factory ChatActionUploadingVoiceNote.fromJson(Map<String, dynamic> json) => ChatActionUploadingVoiceNote(
-    progress: json['progress'],
+    progress: json['progress'] as int,
   );
 }
 
@@ -18391,7 +18391,7 @@ class ChatActionUploadingPhoto extends a.ChatAction {
   };
 
   factory ChatActionUploadingPhoto.fromJson(Map<String, dynamic> json) => ChatActionUploadingPhoto(
-    progress: json['progress'],
+    progress: json['progress'] as int,
   );
 }
 
@@ -18424,7 +18424,7 @@ class ChatActionUploadingDocument extends a.ChatAction {
   };
 
   factory ChatActionUploadingDocument.fromJson(Map<String, dynamic> json) => ChatActionUploadingDocument(
-    progress: json['progress'],
+    progress: json['progress'] as int,
   );
 }
 
@@ -18557,7 +18557,7 @@ class ChatActionUploadingVideoNote extends a.ChatAction {
   };
 
   factory ChatActionUploadingVideoNote.fromJson(Map<String, dynamic> json) => ChatActionUploadingVideoNote(
-    progress: json['progress'],
+    progress: json['progress'] as int,
   );
 }
 
@@ -18640,7 +18640,7 @@ class UserStatusOnline extends a.UserStatus {
   };
 
   factory UserStatusOnline.fromJson(Map<String, dynamic> json) => UserStatusOnline(
-    expires: json['expires'],
+    expires: json['expires'] as int,
   );
 }
 
@@ -18673,7 +18673,7 @@ class UserStatusOffline extends a.UserStatus {
   };
 
   factory UserStatusOffline.fromJson(Map<String, dynamic> json) => UserStatusOffline(
-    wasOnline: json['was_online'],
+    wasOnline: json['was_online'] as int,
   );
 }
 
@@ -18781,7 +18781,7 @@ class Stickers extends a.Stickers {
   };
 
   factory Stickers.fromJson(Map<String, dynamic> json) => Stickers(
-    stickers: (json['stickers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Sticker?).toList(growable: false),
+    stickers: (json['stickers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Sticker?)).toList(growable: false),
   );
 }
 
@@ -18814,7 +18814,7 @@ class Emojis extends a.Emojis {
   };
 
   factory Emojis.fromJson(Map<String, dynamic> json) => Emojis(
-    emojis: (json['emojis'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
+    emojis: (json['emojis'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
   );
 }
 
@@ -18908,18 +18908,18 @@ class StickerSet extends a.StickerSet {
 
   factory StickerSet.fromJson(Map<String, dynamic> json) => StickerSet(
     id: int.parse(json['id']),
-    title: json['title'],
-    name: json['name'],
+    title: json['title'] as String,
+    name: json['name'] as String,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
-    thumbnailOutline: (json['thumbnail_outline'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ClosedVectorPath?).toList(growable: false),
-    isInstalled: json['is_installed'],
-    isArchived: json['is_archived'],
-    isOfficial: json['is_official'],
-    isAnimated: json['is_animated'],
-    isMasks: json['is_masks'],
-    isViewed: json['is_viewed'],
-    stickers: (json['stickers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Sticker?).toList(growable: false),
-    emojis: (json['emojis'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Emojis?).toList(growable: false),
+    thumbnailOutline: (json['thumbnail_outline'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ClosedVectorPath?)).toList(growable: false),
+    isInstalled: json['is_installed'] as bool,
+    isArchived: json['is_archived'] as bool,
+    isOfficial: json['is_official'] as bool,
+    isAnimated: json['is_animated'] as bool,
+    isMasks: json['is_masks'] as bool,
+    isViewed: json['is_viewed'] as bool,
+    stickers: (json['stickers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Sticker?)).toList(growable: false),
+    emojis: (json['emojis'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Emojis?)).toList(growable: false),
   );
 }
 
@@ -19013,18 +19013,18 @@ class StickerSetInfo extends a.StickerSetInfo {
 
   factory StickerSetInfo.fromJson(Map<String, dynamic> json) => StickerSetInfo(
     id: int.parse(json['id']),
-    title: json['title'],
-    name: json['name'],
+    title: json['title'] as String,
+    name: json['name'] as String,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
-    thumbnailOutline: (json['thumbnail_outline'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ClosedVectorPath?).toList(growable: false),
-    isInstalled: json['is_installed'],
-    isArchived: json['is_archived'],
-    isOfficial: json['is_official'],
-    isAnimated: json['is_animated'],
-    isMasks: json['is_masks'],
-    isViewed: json['is_viewed'],
-    size: json['size'],
-    covers: (json['covers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Sticker?).toList(growable: false),
+    thumbnailOutline: (json['thumbnail_outline'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ClosedVectorPath?)).toList(growable: false),
+    isInstalled: json['is_installed'] as bool,
+    isArchived: json['is_archived'] as bool,
+    isOfficial: json['is_official'] as bool,
+    isAnimated: json['is_animated'] as bool,
+    isMasks: json['is_masks'] as bool,
+    isViewed: json['is_viewed'] as bool,
+    size: json['size'] as int,
+    covers: (json['covers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Sticker?)).toList(growable: false),
   );
 }
 
@@ -19062,8 +19062,8 @@ class StickerSets extends a.StickerSets {
   };
 
   factory StickerSets.fromJson(Map<String, dynamic> json) => StickerSets(
-    totalCount: json['total_count'],
-    sets: (json['sets'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as StickerSetInfo?).toList(growable: false),
+    totalCount: json['total_count'] as int,
+    sets: (json['sets'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as StickerSetInfo?)).toList(growable: false),
   );
 }
 
@@ -19241,11 +19241,11 @@ class CallProtocol extends a.CallProtocol {
   };
 
   factory CallProtocol.fromJson(Map<String, dynamic> json) => CallProtocol(
-    udpP2p: json['udp_p2p'],
-    udpReflector: json['udp_reflector'],
-    minLayer: json['min_layer'],
-    maxLayer: json['max_layer'],
-    libraryVersions: (json['library_versions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
+    udpP2p: json['udp_p2p'] as bool,
+    udpReflector: json['udp_reflector'] as bool,
+    minLayer: json['min_layer'] as int,
+    maxLayer: json['max_layer'] as int,
+    libraryVersions: (json['library_versions'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
   );
 }
 
@@ -19326,10 +19326,10 @@ class CallServerTypeWebrtc extends a.CallServerType {
   };
 
   factory CallServerTypeWebrtc.fromJson(Map<String, dynamic> json) => CallServerTypeWebrtc(
-    username: json['username'],
-    password: json['password'],
-    supportsTurn: json['supports_turn'],
-    supportsStun: json['supports_stun'],
+    username: json['username'] as String,
+    password: json['password'] as String,
+    supportsTurn: json['supports_turn'] as bool,
+    supportsStun: json['supports_stun'] as bool,
   );
 }
 
@@ -19383,9 +19383,9 @@ class CallServer extends a.CallServer {
 
   factory CallServer.fromJson(Map<String, dynamic> json) => CallServer(
     id: int.parse(json['id']),
-    ipAddress: json['ip_address'],
-    ipv6Address: json['ipv6_address'],
-    port: json['port'],
+    ipAddress: json['ip_address'] as String,
+    ipv6Address: json['ipv6_address'] as String,
+    port: json['port'] as int,
     type: b.TdBase.fromJson(json['type']) as a.CallServerType?,
   );
 }
@@ -19419,7 +19419,7 @@ class CallId extends a.CallId {
   };
 
   factory CallId.fromJson(Map<String, dynamic> json) => CallId(
-    id: json['id'],
+    id: json['id'] as int,
   );
 }
 
@@ -19452,7 +19452,7 @@ class GroupCallId extends a.GroupCallId {
   };
 
   factory GroupCallId.fromJson(Map<String, dynamic> json) => GroupCallId(
-    id: json['id'],
+    id: json['id'] as int,
   );
 }
 
@@ -19490,8 +19490,8 @@ class CallStatePending extends a.CallState {
   };
 
   factory CallStatePending.fromJson(Map<String, dynamic> json) => CallStatePending(
-    isCreated: json['is_created'],
-    isReceived: json['is_received'],
+    isCreated: json['is_created'] as bool,
+    isReceived: json['is_received'] as bool,
   );
 }
 
@@ -19575,11 +19575,11 @@ class CallStateReady extends a.CallState {
 
   factory CallStateReady.fromJson(Map<String, dynamic> json) => CallStateReady(
     protocol: b.TdBase.fromJson(json['protocol']) as CallProtocol?,
-    servers: (json['servers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as CallServer?).toList(growable: false),
-    config: json['config'],
+    servers: (json['servers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as CallServer?)).toList(growable: false),
+    config: json['config'] as String,
     encryptionKey: base64.decode(json['encryption_key']),
-    emojis: (json['emojis'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
-    allowP2p: json['allow_p2p'],
+    emojis: (json['emojis'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
+    allowP2p: json['allow_p2p'] as bool,
   );
 }
 
@@ -19648,8 +19648,8 @@ class CallStateDiscarded extends a.CallState {
 
   factory CallStateDiscarded.fromJson(Map<String, dynamic> json) => CallStateDiscarded(
     reason: b.TdBase.fromJson(json['reason']) as a.CallDiscardReason?,
-    needRating: json['need_rating'],
-    needDebugInformation: json['need_debug_information'],
+    needRating: json['need_rating'] as bool,
+    needDebugInformation: json['need_debug_information'] as bool,
   );
 }
 
@@ -19721,7 +19721,7 @@ class GroupCallRecentSpeaker extends a.GroupCallRecentSpeaker {
 
   factory GroupCallRecentSpeaker.fromJson(Map<String, dynamic> json) => GroupCallRecentSpeaker(
     participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    isSpeaking: json['is_speaking'],
+    isSpeaking: json['is_speaking'] as bool,
   );
 }
 
@@ -19824,21 +19824,21 @@ class GroupCall extends a.GroupCall {
   };
 
   factory GroupCall.fromJson(Map<String, dynamic> json) => GroupCall(
-    id: json['id'],
-    title: json['title'],
-    scheduledStartDate: json['scheduled_start_date'],
-    enabledStartNotification: json['enabled_start_notification'],
-    isActive: json['is_active'],
-    isJoined: json['is_joined'],
-    needRejoin: json['need_rejoin'],
-    canBeManaged: json['can_be_managed'],
-    participantCount: json['participant_count'],
-    loadedAllParticipants: json['loaded_all_participants'],
-    recentSpeakers: (json['recent_speakers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as GroupCallRecentSpeaker?).toList(growable: false),
-    muteNewParticipants: json['mute_new_participants'],
-    canChangeMuteNewParticipants: json['can_change_mute_new_participants'],
-    recordDuration: json['record_duration'],
-    duration: json['duration'],
+    id: json['id'] as int,
+    title: json['title'] as String,
+    scheduledStartDate: json['scheduled_start_date'] as int,
+    enabledStartNotification: json['enabled_start_notification'] as bool,
+    isActive: json['is_active'] as bool,
+    isJoined: json['is_joined'] as bool,
+    needRejoin: json['need_rejoin'] as bool,
+    canBeManaged: json['can_be_managed'] as bool,
+    participantCount: json['participant_count'] as int,
+    loadedAllParticipants: json['loaded_all_participants'] as bool,
+    recentSpeakers: (json['recent_speakers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallRecentSpeaker?)).toList(growable: false),
+    muteNewParticipants: json['mute_new_participants'] as bool,
+    canChangeMuteNewParticipants: json['can_change_mute_new_participants'] as bool,
+    recordDuration: json['record_duration'] as int,
+    duration: json['duration'] as int,
   );
 }
 
@@ -19881,9 +19881,9 @@ class GroupCallPayloadFingerprint extends a.GroupCallPayloadFingerprint {
   };
 
   factory GroupCallPayloadFingerprint.fromJson(Map<String, dynamic> json) => GroupCallPayloadFingerprint(
-    hash: json['hash'],
-    setup: json['setup'],
-    fingerprint: json['fingerprint'],
+    hash: json['hash'] as String,
+    setup: json['setup'] as String,
+    fingerprint: json['fingerprint'] as String,
   );
 }
 
@@ -19926,9 +19926,9 @@ class GroupCallPayload extends a.GroupCallPayload {
   };
 
   factory GroupCallPayload.fromJson(Map<String, dynamic> json) => GroupCallPayload(
-    ufrag: json['ufrag'],
-    pwd: json['pwd'],
-    fingerprints: (json['fingerprints'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as GroupCallPayloadFingerprint?).toList(growable: false),
+    ufrag: json['ufrag'] as String,
+    pwd: json['pwd'] as String,
+    fingerprints: (json['fingerprints'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallPayloadFingerprint?)).toList(growable: false),
   );
 }
 
@@ -20021,19 +20021,19 @@ class GroupCallJoinResponseCandidate extends a.GroupCallJoinResponseCandidate {
   };
 
   factory GroupCallJoinResponseCandidate.fromJson(Map<String, dynamic> json) => GroupCallJoinResponseCandidate(
-    port: json['port'],
-    protocol: json['protocol'],
-    network: json['network'],
-    generation: json['generation'],
-    id: json['id'],
-    component: json['component'],
-    foundation: json['foundation'],
-    priority: json['priority'],
-    ip: json['ip'],
-    type: json['type'],
-    tcpType: json['tcp_type'],
-    relAddr: json['rel_addr'],
-    relPort: json['rel_port'],
+    port: json['port'] as String,
+    protocol: json['protocol'] as String,
+    network: json['network'] as String,
+    generation: json['generation'] as String,
+    id: json['id'] as String,
+    component: json['component'] as String,
+    foundation: json['foundation'] as String,
+    priority: json['priority'] as String,
+    ip: json['ip'] as String,
+    type: json['type'] as String,
+    tcpType: json['tcp_type'] as String,
+    relAddr: json['rel_addr'] as String,
+    relPort: json['rel_port'] as String,
   );
 }
 
@@ -20072,7 +20072,7 @@ class GroupCallJoinResponseWebrtc extends a.GroupCallJoinResponse {
 
   factory GroupCallJoinResponseWebrtc.fromJson(Map<String, dynamic> json) => GroupCallJoinResponseWebrtc(
     payload: b.TdBase.fromJson(json['payload']) as GroupCallPayload?,
-    candidates: (json['candidates'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as GroupCallJoinResponseCandidate?).toList(growable: false),
+    candidates: (json['candidates'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallJoinResponseCandidate?)).toList(growable: false),
   );
 }
 
@@ -20201,20 +20201,20 @@ class GroupCallParticipant extends a.GroupCallParticipant {
 
   factory GroupCallParticipant.fromJson(Map<String, dynamic> json) => GroupCallParticipant(
     participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    source: json['source'],
-    bio: json['bio'],
-    isCurrentUser: json['is_current_user'],
-    isSpeaking: json['is_speaking'],
-    isHandRaised: json['is_hand_raised'],
-    canBeMutedForAllUsers: json['can_be_muted_for_all_users'],
-    canBeUnmutedForAllUsers: json['can_be_unmuted_for_all_users'],
-    canBeMutedForCurrentUser: json['can_be_muted_for_current_user'],
-    canBeUnmutedForCurrentUser: json['can_be_unmuted_for_current_user'],
-    isMutedForAllUsers: json['is_muted_for_all_users'],
-    isMutedForCurrentUser: json['is_muted_for_current_user'],
-    canUnmuteSelf: json['can_unmute_self'],
-    volumeLevel: json['volume_level'],
-    order: json['order'],
+    source: json['source'] as int,
+    bio: json['bio'] as String,
+    isCurrentUser: json['is_current_user'] as bool,
+    isSpeaking: json['is_speaking'] as bool,
+    isHandRaised: json['is_hand_raised'] as bool,
+    canBeMutedForAllUsers: json['can_be_muted_for_all_users'] as bool,
+    canBeUnmutedForAllUsers: json['can_be_unmuted_for_all_users'] as bool,
+    canBeMutedForCurrentUser: json['can_be_muted_for_current_user'] as bool,
+    canBeUnmutedForCurrentUser: json['can_be_unmuted_for_current_user'] as bool,
+    isMutedForAllUsers: json['is_muted_for_all_users'] as bool,
+    isMutedForCurrentUser: json['is_muted_for_current_user'] as bool,
+    canUnmuteSelf: json['can_unmute_self'] as bool,
+    volumeLevel: json['volume_level'] as int,
+    order: json['order'] as String,
   );
 }
 
@@ -20492,10 +20492,10 @@ class Call extends a.Call {
   };
 
   factory Call.fromJson(Map<String, dynamic> json) => Call(
-    id: json['id'],
-    userId: json['user_id'],
-    isOutgoing: json['is_outgoing'],
-    isVideo: json['is_video'],
+    id: json['id'] as int,
+    userId: json['user_id'] as int,
+    isOutgoing: json['is_outgoing'] as bool,
+    isVideo: json['is_video'] as bool,
     state: b.TdBase.fromJson(json['state']) as a.CallState?,
   );
 }
@@ -20539,9 +20539,9 @@ class PhoneNumberAuthenticationSettings extends a.PhoneNumberAuthenticationSetti
   };
 
   factory PhoneNumberAuthenticationSettings.fromJson(Map<String, dynamic> json) => PhoneNumberAuthenticationSettings(
-    allowFlashCall: json['allow_flash_call'],
-    isCurrentPhoneNumber: json['is_current_phone_number'],
-    allowSmsRetrieverApi: json['allow_sms_retriever_api'],
+    allowFlashCall: json['allow_flash_call'] as bool,
+    isCurrentPhoneNumber: json['is_current_phone_number'] as bool,
+    allowSmsRetrieverApi: json['allow_sms_retriever_api'] as bool,
   );
 }
 
@@ -20574,7 +20574,7 @@ class Animations extends a.Animations {
   };
 
   factory Animations.fromJson(Map<String, dynamic> json) => Animations(
-    animations: (json['animations'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Animation?).toList(growable: false),
+    animations: (json['animations'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Animation?)).toList(growable: false),
   );
 }
 
@@ -20702,8 +20702,8 @@ class ImportedContacts extends a.ImportedContacts {
   };
 
   factory ImportedContacts.fromJson(Map<String, dynamic> json) => ImportedContacts(
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    importerCount: (json['importer_count'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    userIds: (json['user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    importerCount: (json['importer_count'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -20736,7 +20736,7 @@ class HttpUrl extends a.HttpUrl {
   };
 
   factory HttpUrl.fromJson(Map<String, dynamic> json) => HttpUrl(
-    url: json['url'],
+    url: json['url'] as String,
   );
 }
 
@@ -20819,15 +20819,15 @@ class InputInlineQueryResultAnimation extends a.InputInlineQueryResult {
   };
 
   factory InputInlineQueryResultAnimation.fromJson(Map<String, dynamic> json) => InputInlineQueryResultAnimation(
-    id: json['id'],
-    title: json['title'],
-    thumbnailUrl: json['thumbnail_url'],
-    thumbnailMimeType: json['thumbnail_mime_type'],
-    videoUrl: json['video_url'],
-    videoMimeType: json['video_mime_type'],
-    videoDuration: json['video_duration'],
-    videoWidth: json['video_width'],
-    videoHeight: json['video_height'],
+    id: json['id'] as String,
+    title: json['title'] as String,
+    thumbnailUrl: json['thumbnail_url'] as String,
+    thumbnailMimeType: json['thumbnail_mime_type'] as String,
+    videoUrl: json['video_url'] as String,
+    videoMimeType: json['video_mime_type'] as String,
+    videoDuration: json['video_duration'] as int,
+    videoWidth: json['video_width'] as int,
+    videoHeight: json['video_height'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -20907,14 +20907,14 @@ class InputInlineQueryResultArticle extends a.InputInlineQueryResult {
   };
 
   factory InputInlineQueryResultArticle.fromJson(Map<String, dynamic> json) => InputInlineQueryResultArticle(
-    id: json['id'],
-    url: json['url'],
-    hideUrl: json['hide_url'],
-    title: json['title'],
-    description: json['description'],
-    thumbnailUrl: json['thumbnail_url'],
-    thumbnailWidth: json['thumbnail_width'],
-    thumbnailHeight: json['thumbnail_height'],
+    id: json['id'] as String,
+    url: json['url'] as String,
+    hideUrl: json['hide_url'] as bool,
+    title: json['title'] as String,
+    description: json['description'] as String,
+    thumbnailUrl: json['thumbnail_url'] as String,
+    thumbnailWidth: json['thumbnail_width'] as int,
+    thumbnailHeight: json['thumbnail_height'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -20979,11 +20979,11 @@ class InputInlineQueryResultAudio extends a.InputInlineQueryResult {
   };
 
   factory InputInlineQueryResultAudio.fromJson(Map<String, dynamic> json) => InputInlineQueryResultAudio(
-    id: json['id'],
-    title: json['title'],
-    performer: json['performer'],
-    audioUrl: json['audio_url'],
-    audioDuration: json['audio_duration'],
+    id: json['id'] as String,
+    title: json['title'] as String,
+    performer: json['performer'] as String,
+    audioUrl: json['audio_url'] as String,
+    audioDuration: json['audio_duration'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -21048,11 +21048,11 @@ class InputInlineQueryResultContact extends a.InputInlineQueryResult {
   };
 
   factory InputInlineQueryResultContact.fromJson(Map<String, dynamic> json) => InputInlineQueryResultContact(
-    id: json['id'],
+    id: json['id'] as String,
     contact: b.TdBase.fromJson(json['contact']) as Contact?,
-    thumbnailUrl: json['thumbnail_url'],
-    thumbnailWidth: json['thumbnail_width'],
-    thumbnailHeight: json['thumbnail_height'],
+    thumbnailUrl: json['thumbnail_url'] as String,
+    thumbnailWidth: json['thumbnail_width'] as int,
+    thumbnailHeight: json['thumbnail_height'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -21132,14 +21132,14 @@ class InputInlineQueryResultDocument extends a.InputInlineQueryResult {
   };
 
   factory InputInlineQueryResultDocument.fromJson(Map<String, dynamic> json) => InputInlineQueryResultDocument(
-    id: json['id'],
-    title: json['title'],
-    description: json['description'],
-    documentUrl: json['document_url'],
-    mimeType: json['mime_type'],
-    thumbnailUrl: json['thumbnail_url'],
-    thumbnailWidth: json['thumbnail_width'],
-    thumbnailHeight: json['thumbnail_height'],
+    id: json['id'] as String,
+    title: json['title'] as String,
+    description: json['description'] as String,
+    documentUrl: json['document_url'] as String,
+    mimeType: json['mime_type'] as String,
+    thumbnailUrl: json['thumbnail_url'] as String,
+    thumbnailWidth: json['thumbnail_width'] as int,
+    thumbnailHeight: json['thumbnail_height'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -21184,8 +21184,8 @@ class InputInlineQueryResultGame extends a.InputInlineQueryResult {
   };
 
   factory InputInlineQueryResultGame.fromJson(Map<String, dynamic> json) => InputInlineQueryResultGame(
-    id: json['id'],
-    gameShortName: json['game_short_name'],
+    id: json['id'] as String,
+    gameShortName: json['game_short_name'] as String,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
   );
 }
@@ -21259,13 +21259,13 @@ class InputInlineQueryResultLocation extends a.InputInlineQueryResult {
   };
 
   factory InputInlineQueryResultLocation.fromJson(Map<String, dynamic> json) => InputInlineQueryResultLocation(
-    id: json['id'],
+    id: json['id'] as String,
     location: b.TdBase.fromJson(json['location']) as Location?,
-    livePeriod: json['live_period'],
-    title: json['title'],
-    thumbnailUrl: json['thumbnail_url'],
-    thumbnailWidth: json['thumbnail_width'],
-    thumbnailHeight: json['thumbnail_height'],
+    livePeriod: json['live_period'] as int,
+    title: json['title'] as String,
+    thumbnailUrl: json['thumbnail_url'] as String,
+    thumbnailWidth: json['thumbnail_width'] as int,
+    thumbnailHeight: json['thumbnail_height'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -21340,13 +21340,13 @@ class InputInlineQueryResultPhoto extends a.InputInlineQueryResult {
   };
 
   factory InputInlineQueryResultPhoto.fromJson(Map<String, dynamic> json) => InputInlineQueryResultPhoto(
-    id: json['id'],
-    title: json['title'],
-    description: json['description'],
-    thumbnailUrl: json['thumbnail_url'],
-    photoUrl: json['photo_url'],
-    photoWidth: json['photo_width'],
-    photoHeight: json['photo_height'],
+    id: json['id'] as String,
+    title: json['title'] as String,
+    description: json['description'] as String,
+    thumbnailUrl: json['thumbnail_url'] as String,
+    photoUrl: json['photo_url'] as String,
+    photoWidth: json['photo_width'] as int,
+    photoHeight: json['photo_height'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -21411,11 +21411,11 @@ class InputInlineQueryResultSticker extends a.InputInlineQueryResult {
   };
 
   factory InputInlineQueryResultSticker.fromJson(Map<String, dynamic> json) => InputInlineQueryResultSticker(
-    id: json['id'],
-    thumbnailUrl: json['thumbnail_url'],
-    stickerUrl: json['sticker_url'],
-    stickerWidth: json['sticker_width'],
-    stickerHeight: json['sticker_height'],
+    id: json['id'] as String,
+    thumbnailUrl: json['thumbnail_url'] as String,
+    stickerUrl: json['sticker_url'] as String,
+    stickerWidth: json['sticker_width'] as int,
+    stickerHeight: json['sticker_height'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -21480,11 +21480,11 @@ class InputInlineQueryResultVenue extends a.InputInlineQueryResult {
   };
 
   factory InputInlineQueryResultVenue.fromJson(Map<String, dynamic> json) => InputInlineQueryResultVenue(
-    id: json['id'],
+    id: json['id'] as String,
     venue: b.TdBase.fromJson(json['venue']) as Venue?,
-    thumbnailUrl: json['thumbnail_url'],
-    thumbnailWidth: json['thumbnail_width'],
-    thumbnailHeight: json['thumbnail_height'],
+    thumbnailUrl: json['thumbnail_url'] as String,
+    thumbnailWidth: json['thumbnail_width'] as int,
+    thumbnailHeight: json['thumbnail_height'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -21569,15 +21569,15 @@ class InputInlineQueryResultVideo extends a.InputInlineQueryResult {
   };
 
   factory InputInlineQueryResultVideo.fromJson(Map<String, dynamic> json) => InputInlineQueryResultVideo(
-    id: json['id'],
-    title: json['title'],
-    description: json['description'],
-    thumbnailUrl: json['thumbnail_url'],
-    videoUrl: json['video_url'],
-    mimeType: json['mime_type'],
-    videoWidth: json['video_width'],
-    videoHeight: json['video_height'],
-    videoDuration: json['video_duration'],
+    id: json['id'] as String,
+    title: json['title'] as String,
+    description: json['description'] as String,
+    thumbnailUrl: json['thumbnail_url'] as String,
+    videoUrl: json['video_url'] as String,
+    mimeType: json['mime_type'] as String,
+    videoWidth: json['video_width'] as int,
+    videoHeight: json['video_height'] as int,
+    videoDuration: json['video_duration'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -21637,10 +21637,10 @@ class InputInlineQueryResultVoiceNote extends a.InputInlineQueryResult {
   };
 
   factory InputInlineQueryResultVoiceNote.fromJson(Map<String, dynamic> json) => InputInlineQueryResultVoiceNote(
-    id: json['id'],
-    title: json['title'],
-    voiceNoteUrl: json['voice_note_url'],
-    voiceNoteDuration: json['voice_note_duration'],
+    id: json['id'] as String,
+    title: json['title'] as String,
+    voiceNoteUrl: json['voice_note_url'] as String,
+    voiceNoteDuration: json['voice_note_duration'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -21700,11 +21700,11 @@ class InlineQueryResultArticle extends a.InlineQueryResult {
   };
 
   factory InlineQueryResultArticle.fromJson(Map<String, dynamic> json) => InlineQueryResultArticle(
-    id: json['id'],
-    url: json['url'],
-    hideUrl: json['hide_url'],
-    title: json['title'],
-    description: json['description'],
+    id: json['id'] as String,
+    url: json['url'] as String,
+    hideUrl: json['hide_url'] as bool,
+    title: json['title'] as String,
+    description: json['description'] as String,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
   );
 }
@@ -21748,7 +21748,7 @@ class InlineQueryResultContact extends a.InlineQueryResult {
   };
 
   factory InlineQueryResultContact.fromJson(Map<String, dynamic> json) => InlineQueryResultContact(
-    id: json['id'],
+    id: json['id'] as String,
     contact: b.TdBase.fromJson(json['contact']) as Contact?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
   );
@@ -21798,9 +21798,9 @@ class InlineQueryResultLocation extends a.InlineQueryResult {
   };
 
   factory InlineQueryResultLocation.fromJson(Map<String, dynamic> json) => InlineQueryResultLocation(
-    id: json['id'],
+    id: json['id'] as String,
     location: b.TdBase.fromJson(json['location']) as Location?,
-    title: json['title'],
+    title: json['title'] as String,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
   );
 }
@@ -21844,7 +21844,7 @@ class InlineQueryResultVenue extends a.InlineQueryResult {
   };
 
   factory InlineQueryResultVenue.fromJson(Map<String, dynamic> json) => InlineQueryResultVenue(
-    id: json['id'],
+    id: json['id'] as String,
     venue: b.TdBase.fromJson(json['venue']) as Venue?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
   );
@@ -21884,7 +21884,7 @@ class InlineQueryResultGame extends a.InlineQueryResult {
   };
 
   factory InlineQueryResultGame.fromJson(Map<String, dynamic> json) => InlineQueryResultGame(
-    id: json['id'],
+    id: json['id'] as String,
     game: b.TdBase.fromJson(json['game']) as Game?,
   );
 }
@@ -21928,9 +21928,9 @@ class InlineQueryResultAnimation extends a.InlineQueryResult {
   };
 
   factory InlineQueryResultAnimation.fromJson(Map<String, dynamic> json) => InlineQueryResultAnimation(
-    id: json['id'],
+    id: json['id'] as String,
     animation: b.TdBase.fromJson(json['animation']) as Animation?,
-    title: json['title'],
+    title: json['title'] as String,
   );
 }
 
@@ -21968,7 +21968,7 @@ class InlineQueryResultAudio extends a.InlineQueryResult {
   };
 
   factory InlineQueryResultAudio.fromJson(Map<String, dynamic> json) => InlineQueryResultAudio(
-    id: json['id'],
+    id: json['id'] as String,
     audio: b.TdBase.fromJson(json['audio']) as Audio?,
   );
 }
@@ -22017,10 +22017,10 @@ class InlineQueryResultDocument extends a.InlineQueryResult {
   };
 
   factory InlineQueryResultDocument.fromJson(Map<String, dynamic> json) => InlineQueryResultDocument(
-    id: json['id'],
+    id: json['id'] as String,
     document: b.TdBase.fromJson(json['document']) as Document?,
-    title: json['title'],
-    description: json['description'],
+    title: json['title'] as String,
+    description: json['description'] as String,
   );
 }
 
@@ -22068,10 +22068,10 @@ class InlineQueryResultPhoto extends a.InlineQueryResult {
   };
 
   factory InlineQueryResultPhoto.fromJson(Map<String, dynamic> json) => InlineQueryResultPhoto(
-    id: json['id'],
+    id: json['id'] as String,
     photo: b.TdBase.fromJson(json['photo']) as Photo?,
-    title: json['title'],
-    description: json['description'],
+    title: json['title'] as String,
+    description: json['description'] as String,
   );
 }
 
@@ -22109,7 +22109,7 @@ class InlineQueryResultSticker extends a.InlineQueryResult {
   };
 
   factory InlineQueryResultSticker.fromJson(Map<String, dynamic> json) => InlineQueryResultSticker(
-    id: json['id'],
+    id: json['id'] as String,
     sticker: b.TdBase.fromJson(json['sticker']) as Sticker?,
   );
 }
@@ -22158,10 +22158,10 @@ class InlineQueryResultVideo extends a.InlineQueryResult {
   };
 
   factory InlineQueryResultVideo.fromJson(Map<String, dynamic> json) => InlineQueryResultVideo(
-    id: json['id'],
+    id: json['id'] as String,
     video: b.TdBase.fromJson(json['video']) as Video?,
-    title: json['title'],
-    description: json['description'],
+    title: json['title'] as String,
+    description: json['description'] as String,
   );
 }
 
@@ -22204,9 +22204,9 @@ class InlineQueryResultVoiceNote extends a.InlineQueryResult {
   };
 
   factory InlineQueryResultVoiceNote.fromJson(Map<String, dynamic> json) => InlineQueryResultVoiceNote(
-    id: json['id'],
+    id: json['id'] as String,
     voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote?,
-    title: json['title'],
+    title: json['title'] as String,
   );
 }
 
@@ -22260,10 +22260,10 @@ class InlineQueryResults extends a.InlineQueryResults {
 
   factory InlineQueryResults.fromJson(Map<String, dynamic> json) => InlineQueryResults(
     inlineQueryId: int.parse(json['inline_query_id']),
-    nextOffset: json['next_offset'],
-    results: (json['results'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InlineQueryResult?).toList(growable: false),
-    switchPmText: json['switch_pm_text'],
-    switchPmParameter: json['switch_pm_parameter'],
+    nextOffset: json['next_offset'] as String,
+    results: (json['results'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InlineQueryResult?)).toList(growable: false),
+    switchPmText: json['switch_pm_text'] as String,
+    switchPmParameter: json['switch_pm_parameter'] as String,
   );
 }
 
@@ -22334,7 +22334,7 @@ class CallbackQueryPayloadDataWithPassword extends a.CallbackQueryPayload {
   };
 
   factory CallbackQueryPayloadDataWithPassword.fromJson(Map<String, dynamic> json) => CallbackQueryPayloadDataWithPassword(
-    password: json['password'],
+    password: json['password'] as String,
     data: base64.decode(json['data']),
   );
 }
@@ -22368,7 +22368,7 @@ class CallbackQueryPayloadGame extends a.CallbackQueryPayload {
   };
 
   factory CallbackQueryPayloadGame.fromJson(Map<String, dynamic> json) => CallbackQueryPayloadGame(
-    gameShortName: json['game_short_name'],
+    gameShortName: json['game_short_name'] as String,
   );
 }
 
@@ -22411,9 +22411,9 @@ class CallbackQueryAnswer extends a.CallbackQueryAnswer {
   };
 
   factory CallbackQueryAnswer.fromJson(Map<String, dynamic> json) => CallbackQueryAnswer(
-    text: json['text'],
-    showAlert: json['show_alert'],
-    url: json['url'],
+    text: json['text'] as String,
+    showAlert: json['show_alert'] as bool,
+    url: json['url'] as String,
   );
 }
 
@@ -22446,7 +22446,7 @@ class CustomRequestResult extends a.CustomRequestResult {
   };
 
   factory CustomRequestResult.fromJson(Map<String, dynamic> json) => CustomRequestResult(
-    result: json['result'],
+    result: json['result'] as String,
   );
 }
 
@@ -22489,9 +22489,9 @@ class GameHighScore extends a.GameHighScore {
   };
 
   factory GameHighScore.fromJson(Map<String, dynamic> json) => GameHighScore(
-    position: json['position'],
-    userId: json['user_id'],
-    score: json['score'],
+    position: json['position'] as int,
+    userId: json['user_id'] as int,
+    score: json['score'] as int,
   );
 }
 
@@ -22524,7 +22524,7 @@ class GameHighScores extends a.GameHighScores {
   };
 
   factory GameHighScores.fromJson(Map<String, dynamic> json) => GameHighScores(
-    scores: (json['scores'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as GameHighScore?).toList(growable: false),
+    scores: (json['scores'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GameHighScore?)).toList(growable: false),
   );
 }
 
@@ -22816,7 +22816,7 @@ class ChatEventMemberInvited extends a.ChatEventAction {
   };
 
   factory ChatEventMemberInvited.fromJson(Map<String, dynamic> json) => ChatEventMemberInvited(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
     status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
   );
 }
@@ -22860,7 +22860,7 @@ class ChatEventMemberPromoted extends a.ChatEventAction {
   };
 
   factory ChatEventMemberPromoted.fromJson(Map<String, dynamic> json) => ChatEventMemberPromoted(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
     oldStatus: b.TdBase.fromJson(json['old_status']) as a.ChatMemberStatus?,
     newStatus: b.TdBase.fromJson(json['new_status']) as a.ChatMemberStatus?,
   );
@@ -22945,8 +22945,8 @@ class ChatEventTitleChanged extends a.ChatEventAction {
   };
 
   factory ChatEventTitleChanged.fromJson(Map<String, dynamic> json) => ChatEventTitleChanged(
-    oldTitle: json['old_title'],
-    newTitle: json['new_title'],
+    oldTitle: json['old_title'] as String,
+    newTitle: json['new_title'] as String,
   );
 }
 
@@ -23023,8 +23023,8 @@ class ChatEventDescriptionChanged extends a.ChatEventAction {
   };
 
   factory ChatEventDescriptionChanged.fromJson(Map<String, dynamic> json) => ChatEventDescriptionChanged(
-    oldDescription: json['old_description'],
-    newDescription: json['new_description'],
+    oldDescription: json['old_description'] as String,
+    newDescription: json['new_description'] as String,
   );
 }
 
@@ -23062,8 +23062,8 @@ class ChatEventUsernameChanged extends a.ChatEventAction {
   };
 
   factory ChatEventUsernameChanged.fromJson(Map<String, dynamic> json) => ChatEventUsernameChanged(
-    oldUsername: json['old_username'],
-    newUsername: json['new_username'],
+    oldUsername: json['old_username'] as String,
+    newUsername: json['new_username'] as String,
   );
 }
 
@@ -23135,7 +23135,7 @@ class ChatEventInvitesToggled extends a.ChatEventAction {
   };
 
   factory ChatEventInvitesToggled.fromJson(Map<String, dynamic> json) => ChatEventInvitesToggled(
-    canInviteUsers: json['can_invite_users'],
+    canInviteUsers: json['can_invite_users'] as bool,
   );
 }
 
@@ -23173,8 +23173,8 @@ class ChatEventLinkedChatChanged extends a.ChatEventAction {
   };
 
   factory ChatEventLinkedChatChanged.fromJson(Map<String, dynamic> json) => ChatEventLinkedChatChanged(
-    oldLinkedChatId: json['old_linked_chat_id'],
-    newLinkedChatId: json['new_linked_chat_id'],
+    oldLinkedChatId: json['old_linked_chat_id'] as int,
+    newLinkedChatId: json['new_linked_chat_id'] as int,
   );
 }
 
@@ -23212,8 +23212,8 @@ class ChatEventSlowModeDelayChanged extends a.ChatEventAction {
   };
 
   factory ChatEventSlowModeDelayChanged.fromJson(Map<String, dynamic> json) => ChatEventSlowModeDelayChanged(
-    oldSlowModeDelay: json['old_slow_mode_delay'],
-    newSlowModeDelay: json['new_slow_mode_delay'],
+    oldSlowModeDelay: json['old_slow_mode_delay'] as int,
+    newSlowModeDelay: json['new_slow_mode_delay'] as int,
   );
 }
 
@@ -23251,8 +23251,8 @@ class ChatEventMessageTtlSettingChanged extends a.ChatEventAction {
   };
 
   factory ChatEventMessageTtlSettingChanged.fromJson(Map<String, dynamic> json) => ChatEventMessageTtlSettingChanged(
-    oldMessageTtlSetting: json['old_message_ttl_setting'],
-    newMessageTtlSetting: json['new_message_ttl_setting'],
+    oldMessageTtlSetting: json['old_message_ttl_setting'] as int,
+    newMessageTtlSetting: json['new_message_ttl_setting'] as int,
   );
 }
 
@@ -23285,7 +23285,7 @@ class ChatEventSignMessagesToggled extends a.ChatEventAction {
   };
 
   factory ChatEventSignMessagesToggled.fromJson(Map<String, dynamic> json) => ChatEventSignMessagesToggled(
-    signMessages: json['sign_messages'],
+    signMessages: json['sign_messages'] as bool,
   );
 }
 
@@ -23396,7 +23396,7 @@ class ChatEventIsAllHistoryAvailableToggled extends a.ChatEventAction {
   };
 
   factory ChatEventIsAllHistoryAvailableToggled.fromJson(Map<String, dynamic> json) => ChatEventIsAllHistoryAvailableToggled(
-    isAllHistoryAvailable: json['is_all_history_available'],
+    isAllHistoryAvailable: json['is_all_history_available'] as bool,
   );
 }
 
@@ -23534,7 +23534,7 @@ class ChatEventVoiceChatCreated extends a.ChatEventAction {
   };
 
   factory ChatEventVoiceChatCreated.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatCreated(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
   );
 }
 
@@ -23567,7 +23567,7 @@ class ChatEventVoiceChatDiscarded extends a.ChatEventAction {
   };
 
   factory ChatEventVoiceChatDiscarded.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatDiscarded(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
   );
 }
 
@@ -23606,7 +23606,7 @@ class ChatEventVoiceChatParticipantIsMutedToggled extends a.ChatEventAction {
 
   factory ChatEventVoiceChatParticipantIsMutedToggled.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatParticipantIsMutedToggled(
     participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    isMuted: json['is_muted'],
+    isMuted: json['is_muted'] as bool,
   );
 }
 
@@ -23645,7 +23645,7 @@ class ChatEventVoiceChatParticipantVolumeLevelChanged extends a.ChatEventAction 
 
   factory ChatEventVoiceChatParticipantVolumeLevelChanged.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatParticipantVolumeLevelChanged(
     participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    volumeLevel: json['volume_level'],
+    volumeLevel: json['volume_level'] as int,
   );
 }
 
@@ -23678,7 +23678,7 @@ class ChatEventVoiceChatMuteNewParticipantsToggled extends a.ChatEventAction {
   };
 
   factory ChatEventVoiceChatMuteNewParticipantsToggled.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatMuteNewParticipantsToggled(
-    muteNewParticipants: json['mute_new_participants'],
+    muteNewParticipants: json['mute_new_participants'] as bool,
   );
 }
 
@@ -23727,8 +23727,8 @@ class ChatEvent extends a.ChatEvent {
 
   factory ChatEvent.fromJson(Map<String, dynamic> json) => ChatEvent(
     id: int.parse(json['id']),
-    date: json['date'],
-    userId: json['user_id'],
+    date: json['date'] as int,
+    userId: json['user_id'] as int,
     action: b.TdBase.fromJson(json['action']) as a.ChatEventAction?,
   );
 }
@@ -23762,7 +23762,7 @@ class ChatEvents extends a.ChatEvents {
   };
 
   factory ChatEvents.fromJson(Map<String, dynamic> json) => ChatEvents(
-    events: (json['events'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatEvent?).toList(growable: false),
+    events: (json['events'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatEvent?)).toList(growable: false),
   );
 }
 
@@ -23850,18 +23850,18 @@ class ChatEventLogFilters extends a.ChatEventLogFilters {
   };
 
   factory ChatEventLogFilters.fromJson(Map<String, dynamic> json) => ChatEventLogFilters(
-    messageEdits: json['message_edits'],
-    messageDeletions: json['message_deletions'],
-    messagePins: json['message_pins'],
-    memberJoins: json['member_joins'],
-    memberLeaves: json['member_leaves'],
-    memberInvites: json['member_invites'],
-    memberPromotions: json['member_promotions'],
-    memberRestrictions: json['member_restrictions'],
-    infoChanges: json['info_changes'],
-    settingChanges: json['setting_changes'],
-    inviteLinkChanges: json['invite_link_changes'],
-    voiceChatChanges: json['voice_chat_changes'],
+    messageEdits: json['message_edits'] as bool,
+    messageDeletions: json['message_deletions'] as bool,
+    messagePins: json['message_pins'] as bool,
+    memberJoins: json['member_joins'] as bool,
+    memberLeaves: json['member_leaves'] as bool,
+    memberInvites: json['member_invites'] as bool,
+    memberPromotions: json['member_promotions'] as bool,
+    memberRestrictions: json['member_restrictions'] as bool,
+    infoChanges: json['info_changes'] as bool,
+    settingChanges: json['setting_changes'] as bool,
+    inviteLinkChanges: json['invite_link_changes'] as bool,
+    voiceChatChanges: json['voice_chat_changes'] as bool,
   );
 }
 
@@ -23894,7 +23894,7 @@ class LanguagePackStringValueOrdinary extends a.LanguagePackStringValue {
   };
 
   factory LanguagePackStringValueOrdinary.fromJson(Map<String, dynamic> json) => LanguagePackStringValueOrdinary(
-    value: json['value'],
+    value: json['value'] as String,
   );
 }
 
@@ -23952,12 +23952,12 @@ class LanguagePackStringValuePluralized extends a.LanguagePackStringValue {
   };
 
   factory LanguagePackStringValuePluralized.fromJson(Map<String, dynamic> json) => LanguagePackStringValuePluralized(
-    zeroValue: json['zero_value'],
-    oneValue: json['one_value'],
-    twoValue: json['two_value'],
-    fewValue: json['few_value'],
-    manyValue: json['many_value'],
-    otherValue: json['other_value'],
+    zeroValue: json['zero_value'] as String,
+    oneValue: json['one_value'] as String,
+    twoValue: json['two_value'] as String,
+    fewValue: json['few_value'] as String,
+    manyValue: json['many_value'] as String,
+    otherValue: json['other_value'] as String,
   );
 }
 
@@ -24020,7 +24020,7 @@ class LanguagePackString extends a.LanguagePackString {
   };
 
   factory LanguagePackString.fromJson(Map<String, dynamic> json) => LanguagePackString(
-    key: json['key'],
+    key: json['key'] as String,
     value: b.TdBase.fromJson(json['value']) as a.LanguagePackStringValue?,
   );
 }
@@ -24054,7 +24054,7 @@ class LanguagePackStrings extends a.LanguagePackStrings {
   };
 
   factory LanguagePackStrings.fromJson(Map<String, dynamic> json) => LanguagePackStrings(
-    strings: (json['strings'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LanguagePackString?).toList(growable: false),
+    strings: (json['strings'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LanguagePackString?)).toList(growable: false),
   );
 }
 
@@ -24147,19 +24147,19 @@ class LanguagePackInfo extends a.LanguagePackInfo {
   };
 
   factory LanguagePackInfo.fromJson(Map<String, dynamic> json) => LanguagePackInfo(
-    id: json['id'],
-    baseLanguagePackId: json['base_language_pack_id'],
-    name: json['name'],
-    nativeName: json['native_name'],
-    pluralCode: json['plural_code'],
-    isOfficial: json['is_official'],
-    isRtl: json['is_rtl'],
-    isBeta: json['is_beta'],
-    isInstalled: json['is_installed'],
-    totalStringCount: json['total_string_count'],
-    translatedStringCount: json['translated_string_count'],
-    localStringCount: json['local_string_count'],
-    translationUrl: json['translation_url'],
+    id: json['id'] as String,
+    baseLanguagePackId: json['base_language_pack_id'] as String,
+    name: json['name'] as String,
+    nativeName: json['native_name'] as String,
+    pluralCode: json['plural_code'] as String,
+    isOfficial: json['is_official'] as bool,
+    isRtl: json['is_rtl'] as bool,
+    isBeta: json['is_beta'] as bool,
+    isInstalled: json['is_installed'] as bool,
+    totalStringCount: json['total_string_count'] as int,
+    translatedStringCount: json['translated_string_count'] as int,
+    localStringCount: json['local_string_count'] as int,
+    translationUrl: json['translation_url'] as String,
   );
 }
 
@@ -24192,7 +24192,7 @@ class LocalizationTargetInfo extends a.LocalizationTargetInfo {
   };
 
   factory LocalizationTargetInfo.fromJson(Map<String, dynamic> json) => LocalizationTargetInfo(
-    languagePacks: (json['language_packs'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LanguagePackInfo?).toList(growable: false),
+    languagePacks: (json['language_packs'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LanguagePackInfo?)).toList(growable: false),
   );
 }
 
@@ -24230,8 +24230,8 @@ class DeviceTokenFirebaseCloudMessaging extends a.DeviceToken {
   };
 
   factory DeviceTokenFirebaseCloudMessaging.fromJson(Map<String, dynamic> json) => DeviceTokenFirebaseCloudMessaging(
-    token: json['token'],
-    encrypt: json['encrypt'],
+    token: json['token'] as String,
+    encrypt: json['encrypt'] as bool,
   );
 }
 
@@ -24269,8 +24269,8 @@ class DeviceTokenApplePush extends a.DeviceToken {
   };
 
   factory DeviceTokenApplePush.fromJson(Map<String, dynamic> json) => DeviceTokenApplePush(
-    deviceToken: json['device_token'],
-    isAppSandbox: json['is_app_sandbox'],
+    deviceToken: json['device_token'] as String,
+    isAppSandbox: json['is_app_sandbox'] as bool,
   );
 }
 
@@ -24313,9 +24313,9 @@ class DeviceTokenApplePushVoIP extends a.DeviceToken {
   };
 
   factory DeviceTokenApplePushVoIP.fromJson(Map<String, dynamic> json) => DeviceTokenApplePushVoIP(
-    deviceToken: json['device_token'],
-    isAppSandbox: json['is_app_sandbox'],
-    encrypt: json['encrypt'],
+    deviceToken: json['device_token'] as String,
+    isAppSandbox: json['is_app_sandbox'] as bool,
+    encrypt: json['encrypt'] as bool,
   );
 }
 
@@ -24348,7 +24348,7 @@ class DeviceTokenWindowsPush extends a.DeviceToken {
   };
 
   factory DeviceTokenWindowsPush.fromJson(Map<String, dynamic> json) => DeviceTokenWindowsPush(
-    accessToken: json['access_token'],
+    accessToken: json['access_token'] as String,
   );
 }
 
@@ -24381,7 +24381,7 @@ class DeviceTokenMicrosoftPush extends a.DeviceToken {
   };
 
   factory DeviceTokenMicrosoftPush.fromJson(Map<String, dynamic> json) => DeviceTokenMicrosoftPush(
-    channelUri: json['channel_uri'],
+    channelUri: json['channel_uri'] as String,
   );
 }
 
@@ -24414,7 +24414,7 @@ class DeviceTokenMicrosoftPushVoIP extends a.DeviceToken {
   };
 
   factory DeviceTokenMicrosoftPushVoIP.fromJson(Map<String, dynamic> json) => DeviceTokenMicrosoftPushVoIP(
-    channelUri: json['channel_uri'],
+    channelUri: json['channel_uri'] as String,
   );
 }
 
@@ -24457,9 +24457,9 @@ class DeviceTokenWebPush extends a.DeviceToken {
   };
 
   factory DeviceTokenWebPush.fromJson(Map<String, dynamic> json) => DeviceTokenWebPush(
-    endpoint: json['endpoint'],
-    p256dhBase64url: json['p256dh_base64url'],
-    authBase64url: json['auth_base64url'],
+    endpoint: json['endpoint'] as String,
+    p256dhBase64url: json['p256dh_base64url'] as String,
+    authBase64url: json['auth_base64url'] as String,
   );
 }
 
@@ -24492,7 +24492,7 @@ class DeviceTokenSimplePush extends a.DeviceToken {
   };
 
   factory DeviceTokenSimplePush.fromJson(Map<String, dynamic> json) => DeviceTokenSimplePush(
-    endpoint: json['endpoint'],
+    endpoint: json['endpoint'] as String,
   );
 }
 
@@ -24525,7 +24525,7 @@ class DeviceTokenUbuntuPush extends a.DeviceToken {
   };
 
   factory DeviceTokenUbuntuPush.fromJson(Map<String, dynamic> json) => DeviceTokenUbuntuPush(
-    token: json['token'],
+    token: json['token'] as String,
   );
 }
 
@@ -24558,7 +24558,7 @@ class DeviceTokenBlackBerryPush extends a.DeviceToken {
   };
 
   factory DeviceTokenBlackBerryPush.fromJson(Map<String, dynamic> json) => DeviceTokenBlackBerryPush(
-    token: json['token'],
+    token: json['token'] as String,
   );
 }
 
@@ -24591,7 +24591,7 @@ class DeviceTokenTizenPush extends a.DeviceToken {
   };
 
   factory DeviceTokenTizenPush.fromJson(Map<String, dynamic> json) => DeviceTokenTizenPush(
-    regId: json['reg_id'],
+    regId: json['reg_id'] as String,
   );
 }
 
@@ -24657,7 +24657,7 @@ class BackgroundFillSolid extends a.BackgroundFill {
   };
 
   factory BackgroundFillSolid.fromJson(Map<String, dynamic> json) => BackgroundFillSolid(
-    color: json['color'],
+    color: json['color'] as int,
   );
 }
 
@@ -24700,9 +24700,9 @@ class BackgroundFillGradient extends a.BackgroundFill {
   };
 
   factory BackgroundFillGradient.fromJson(Map<String, dynamic> json) => BackgroundFillGradient(
-    topColor: json['top_color'],
-    bottomColor: json['bottom_color'],
-    rotationAngle: json['rotation_angle'],
+    topColor: json['top_color'] as int,
+    bottomColor: json['bottom_color'] as int,
+    rotationAngle: json['rotation_angle'] as int,
   );
 }
 
@@ -24740,8 +24740,8 @@ class BackgroundTypeWallpaper extends a.BackgroundType {
   };
 
   factory BackgroundTypeWallpaper.fromJson(Map<String, dynamic> json) => BackgroundTypeWallpaper(
-    isBlurred: json['is_blurred'],
-    isMoving: json['is_moving'],
+    isBlurred: json['is_blurred'] as bool,
+    isMoving: json['is_moving'] as bool,
   );
 }
 
@@ -24785,8 +24785,8 @@ class BackgroundTypePattern extends a.BackgroundType {
 
   factory BackgroundTypePattern.fromJson(Map<String, dynamic> json) => BackgroundTypePattern(
     fill: b.TdBase.fromJson(json['fill']) as a.BackgroundFill?,
-    intensity: json['intensity'],
-    isMoving: json['is_moving'],
+    intensity: json['intensity'] as int,
+    isMoving: json['is_moving'] as bool,
   );
 }
 
@@ -24878,9 +24878,9 @@ class Background extends a.Background {
 
   factory Background.fromJson(Map<String, dynamic> json) => Background(
     id: int.parse(json['id']),
-    isDefault: json['is_default'],
-    isDark: json['is_dark'],
-    name: json['name'],
+    isDefault: json['is_default'] as bool,
+    isDark: json['is_dark'] as bool,
+    name: json['name'] as String,
     document: b.TdBase.fromJson(json['document']) as Document?,
     type: b.TdBase.fromJson(json['type']) as a.BackgroundType?,
   );
@@ -24915,7 +24915,7 @@ class Backgrounds extends a.Backgrounds {
   };
 
   factory Backgrounds.fromJson(Map<String, dynamic> json) => Backgrounds(
-    backgrounds: (json['backgrounds'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Background?).toList(growable: false),
+    backgrounds: (json['backgrounds'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Background?)).toList(growable: false),
   );
 }
 
@@ -25014,7 +25014,7 @@ class Hashtags extends a.Hashtags {
   };
 
   factory Hashtags.fromJson(Map<String, dynamic> json) => Hashtags(
-    hashtags: (json['hashtags'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
+    hashtags: (json['hashtags'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
   );
 }
 
@@ -25097,7 +25097,7 @@ class CanTransferOwnershipResultPasswordTooFresh extends a.CanTransferOwnershipR
   };
 
   factory CanTransferOwnershipResultPasswordTooFresh.fromJson(Map<String, dynamic> json) => CanTransferOwnershipResultPasswordTooFresh(
-    retryAfter: json['retry_after'],
+    retryAfter: json['retry_after'] as int,
   );
 }
 
@@ -25130,7 +25130,7 @@ class CanTransferOwnershipResultSessionTooFresh extends a.CanTransferOwnershipRe
   };
 
   factory CanTransferOwnershipResultSessionTooFresh.fromJson(Map<String, dynamic> json) => CanTransferOwnershipResultSessionTooFresh(
-    retryAfter: json['retry_after'],
+    retryAfter: json['retry_after'] as int,
   );
 }
 
@@ -25288,7 +25288,7 @@ class MessageFileTypePrivate extends a.MessageFileType {
   };
 
   factory MessageFileTypePrivate.fromJson(Map<String, dynamic> json) => MessageFileTypePrivate(
-    name: json['name'],
+    name: json['name'] as String,
   );
 }
 
@@ -25321,7 +25321,7 @@ class MessageFileTypeGroup extends a.MessageFileType {
   };
 
   factory MessageFileTypeGroup.fromJson(Map<String, dynamic> json) => MessageFileTypeGroup(
-    title: json['title'],
+    title: json['title'] as String,
   );
 }
 
@@ -25379,7 +25379,7 @@ class PushMessageContentHidden extends a.PushMessageContent {
   };
 
   factory PushMessageContentHidden.fromJson(Map<String, dynamic> json) => PushMessageContentHidden(
-    isPinned: json['is_pinned'],
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25423,8 +25423,8 @@ class PushMessageContentAnimation extends a.PushMessageContent {
 
   factory PushMessageContentAnimation.fromJson(Map<String, dynamic> json) => PushMessageContentAnimation(
     animation: b.TdBase.fromJson(json['animation']) as Animation?,
-    caption: json['caption'],
-    isPinned: json['is_pinned'],
+    caption: json['caption'] as String,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25463,7 +25463,7 @@ class PushMessageContentAudio extends a.PushMessageContent {
 
   factory PushMessageContentAudio.fromJson(Map<String, dynamic> json) => PushMessageContentAudio(
     audio: b.TdBase.fromJson(json['audio']) as Audio?,
-    isPinned: json['is_pinned'],
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25501,8 +25501,8 @@ class PushMessageContentContact extends a.PushMessageContent {
   };
 
   factory PushMessageContentContact.fromJson(Map<String, dynamic> json) => PushMessageContentContact(
-    name: json['name'],
-    isPinned: json['is_pinned'],
+    name: json['name'] as String,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25566,7 +25566,7 @@ class PushMessageContentDocument extends a.PushMessageContent {
 
   factory PushMessageContentDocument.fromJson(Map<String, dynamic> json) => PushMessageContentDocument(
     document: b.TdBase.fromJson(json['document']) as Document?,
-    isPinned: json['is_pinned'],
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25604,8 +25604,8 @@ class PushMessageContentGame extends a.PushMessageContent {
   };
 
   factory PushMessageContentGame.fromJson(Map<String, dynamic> json) => PushMessageContentGame(
-    title: json['title'],
-    isPinned: json['is_pinned'],
+    title: json['title'] as String,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25648,9 +25648,9 @@ class PushMessageContentGameScore extends a.PushMessageContent {
   };
 
   factory PushMessageContentGameScore.fromJson(Map<String, dynamic> json) => PushMessageContentGameScore(
-    title: json['title'],
-    score: json['score'],
-    isPinned: json['is_pinned'],
+    title: json['title'] as String,
+    score: json['score'] as int,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25688,8 +25688,8 @@ class PushMessageContentInvoice extends a.PushMessageContent {
   };
 
   factory PushMessageContentInvoice.fromJson(Map<String, dynamic> json) => PushMessageContentInvoice(
-    price: json['price'],
-    isPinned: json['is_pinned'],
+    price: json['price'] as String,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25727,8 +25727,8 @@ class PushMessageContentLocation extends a.PushMessageContent {
   };
 
   factory PushMessageContentLocation.fromJson(Map<String, dynamic> json) => PushMessageContentLocation(
-    isLive: json['is_live'],
-    isPinned: json['is_pinned'],
+    isLive: json['is_live'] as bool,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25777,9 +25777,9 @@ class PushMessageContentPhoto extends a.PushMessageContent {
 
   factory PushMessageContentPhoto.fromJson(Map<String, dynamic> json) => PushMessageContentPhoto(
     photo: b.TdBase.fromJson(json['photo']) as Photo?,
-    caption: json['caption'],
-    isSecret: json['is_secret'],
-    isPinned: json['is_pinned'],
+    caption: json['caption'] as String,
+    isSecret: json['is_secret'] as bool,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25822,9 +25822,9 @@ class PushMessageContentPoll extends a.PushMessageContent {
   };
 
   factory PushMessageContentPoll.fromJson(Map<String, dynamic> json) => PushMessageContentPoll(
-    question: json['question'],
-    isRegular: json['is_regular'],
-    isPinned: json['is_pinned'],
+    question: json['question'] as String,
+    isRegular: json['is_regular'] as bool,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25893,8 +25893,8 @@ class PushMessageContentSticker extends a.PushMessageContent {
 
   factory PushMessageContentSticker.fromJson(Map<String, dynamic> json) => PushMessageContentSticker(
     sticker: b.TdBase.fromJson(json['sticker']) as Sticker?,
-    emoji: json['emoji'],
-    isPinned: json['is_pinned'],
+    emoji: json['emoji'] as String,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25932,8 +25932,8 @@ class PushMessageContentText extends a.PushMessageContent {
   };
 
   factory PushMessageContentText.fromJson(Map<String, dynamic> json) => PushMessageContentText(
-    text: json['text'],
-    isPinned: json['is_pinned'],
+    text: json['text'] as String,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -25982,9 +25982,9 @@ class PushMessageContentVideo extends a.PushMessageContent {
 
   factory PushMessageContentVideo.fromJson(Map<String, dynamic> json) => PushMessageContentVideo(
     video: b.TdBase.fromJson(json['video']) as Video?,
-    caption: json['caption'],
-    isSecret: json['is_secret'],
-    isPinned: json['is_pinned'],
+    caption: json['caption'] as String,
+    isSecret: json['is_secret'] as bool,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -26023,7 +26023,7 @@ class PushMessageContentVideoNote extends a.PushMessageContent {
 
   factory PushMessageContentVideoNote.fromJson(Map<String, dynamic> json) => PushMessageContentVideoNote(
     videoNote: b.TdBase.fromJson(json['video_note']) as VideoNote?,
-    isPinned: json['is_pinned'],
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -26062,7 +26062,7 @@ class PushMessageContentVoiceNote extends a.PushMessageContent {
 
   factory PushMessageContentVoiceNote.fromJson(Map<String, dynamic> json) => PushMessageContentVoiceNote(
     voiceNote: b.TdBase.fromJson(json['voice_note']) as VoiceNote?,
-    isPinned: json['is_pinned'],
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -26130,9 +26130,9 @@ class PushMessageContentChatAddMembers extends a.PushMessageContent {
   };
 
   factory PushMessageContentChatAddMembers.fromJson(Map<String, dynamic> json) => PushMessageContentChatAddMembers(
-    memberName: json['member_name'],
-    isCurrentUser: json['is_current_user'],
-    isReturned: json['is_returned'],
+    memberName: json['member_name'] as String,
+    isCurrentUser: json['is_current_user'] as bool,
+    isReturned: json['is_returned'] as bool,
   );
 }
 
@@ -26190,7 +26190,7 @@ class PushMessageContentChatChangeTitle extends a.PushMessageContent {
   };
 
   factory PushMessageContentChatChangeTitle.fromJson(Map<String, dynamic> json) => PushMessageContentChatChangeTitle(
-    title: json['title'],
+    title: json['title'] as String,
   );
 }
 
@@ -26233,9 +26233,9 @@ class PushMessageContentChatDeleteMember extends a.PushMessageContent {
   };
 
   factory PushMessageContentChatDeleteMember.fromJson(Map<String, dynamic> json) => PushMessageContentChatDeleteMember(
-    memberName: json['member_name'],
-    isCurrentUser: json['is_current_user'],
-    isLeft: json['is_left'],
+    memberName: json['member_name'] as String,
+    isCurrentUser: json['is_current_user'] as bool,
+    isLeft: json['is_left'] as bool,
   );
 }
 
@@ -26293,7 +26293,7 @@ class PushMessageContentMessageForwards extends a.PushMessageContent {
   };
 
   factory PushMessageContentMessageForwards.fromJson(Map<String, dynamic> json) => PushMessageContentMessageForwards(
-    totalCount: json['total_count'],
+    totalCount: json['total_count'] as int,
   );
 }
 
@@ -26346,11 +26346,11 @@ class PushMessageContentMediaAlbum extends a.PushMessageContent {
   };
 
   factory PushMessageContentMediaAlbum.fromJson(Map<String, dynamic> json) => PushMessageContentMediaAlbum(
-    totalCount: json['total_count'],
-    hasPhotos: json['has_photos'],
-    hasVideos: json['has_videos'],
-    hasAudios: json['has_audios'],
-    hasDocuments: json['has_documents'],
+    totalCount: json['total_count'] as int,
+    hasPhotos: json['has_photos'] as bool,
+    hasVideos: json['has_videos'] as bool,
+    hasAudios: json['has_audios'] as bool,
+    hasDocuments: json['has_documents'] as bool,
   );
 }
 
@@ -26441,7 +26441,7 @@ class NotificationTypeNewCall extends a.NotificationType {
   };
 
   factory NotificationTypeNewCall.fromJson(Map<String, dynamic> json) => NotificationTypeNewCall(
-    callId: json['call_id'],
+    callId: json['call_id'] as int,
   );
 }
 
@@ -26494,10 +26494,10 @@ class NotificationTypeNewPushMessage extends a.NotificationType {
   };
 
   factory NotificationTypeNewPushMessage.fromJson(Map<String, dynamic> json) => NotificationTypeNewPushMessage(
-    messageId: json['message_id'],
+    messageId: json['message_id'] as int,
     sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
-    senderName: json['sender_name'],
-    isOutgoing: json['is_outgoing'],
+    senderName: json['sender_name'] as String,
+    isOutgoing: json['is_outgoing'] as bool,
     content: b.TdBase.fromJson(json['content']) as a.PushMessageContent?,
   );
 }
@@ -26646,9 +26646,9 @@ class Notification extends a.Notification {
   };
 
   factory Notification.fromJson(Map<String, dynamic> json) => Notification(
-    id: json['id'],
-    date: json['date'],
-    isSilent: json['is_silent'],
+    id: json['id'] as int,
+    date: json['date'] as int,
+    isSilent: json['is_silent'] as bool,
     type: b.TdBase.fromJson(json['type']) as a.NotificationType?,
   );
 }
@@ -26702,11 +26702,11 @@ class NotificationGroup extends a.NotificationGroup {
   };
 
   factory NotificationGroup.fromJson(Map<String, dynamic> json) => NotificationGroup(
-    id: json['id'],
+    id: json['id'] as int,
     type: b.TdBase.fromJson(json['type']) as a.NotificationGroupType?,
-    chatId: json['chat_id'],
-    totalCount: json['total_count'],
-    notifications: (json['notifications'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Notification?).toList(growable: false),
+    chatId: json['chat_id'] as int,
+    totalCount: json['total_count'] as int,
+    notifications: (json['notifications'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Notification?)).toList(growable: false),
   );
 }
 
@@ -26739,7 +26739,7 @@ class OptionValueBoolean extends a.OptionValue {
   };
 
   factory OptionValueBoolean.fromJson(Map<String, dynamic> json) => OptionValueBoolean(
-    value: json['value'],
+    value: json['value'] as bool,
   );
 }
 
@@ -26830,7 +26830,7 @@ class OptionValueString extends a.OptionValue {
   };
 
   factory OptionValueString.fromJson(Map<String, dynamic> json) => OptionValueString(
-    value: json['value'],
+    value: json['value'] as String,
   );
 }
 
@@ -26868,7 +26868,7 @@ class JsonObjectMember extends a.JsonObjectMember {
   };
 
   factory JsonObjectMember.fromJson(Map<String, dynamic> json) => JsonObjectMember(
-    key: json['key'],
+    key: json['key'] as String,
     value: b.TdBase.fromJson(json['value']) as a.JsonValue?,
   );
 }
@@ -26927,7 +26927,7 @@ class JsonValueBoolean extends a.JsonValue {
   };
 
   factory JsonValueBoolean.fromJson(Map<String, dynamic> json) => JsonValueBoolean(
-    value: json['value'],
+    value: json['value'] as bool,
   );
 }
 
@@ -26960,7 +26960,7 @@ class JsonValueNumber extends a.JsonValue {
   };
 
   factory JsonValueNumber.fromJson(Map<String, dynamic> json) => JsonValueNumber(
-    value: json['value'],
+    value: json['value'] as double,
   );
 }
 
@@ -26993,7 +26993,7 @@ class JsonValueString extends a.JsonValue {
   };
 
   factory JsonValueString.fromJson(Map<String, dynamic> json) => JsonValueString(
-    value: json['value'],
+    value: json['value'] as String,
   );
 }
 
@@ -27026,7 +27026,7 @@ class JsonValueArray extends a.JsonValue {
   };
 
   factory JsonValueArray.fromJson(Map<String, dynamic> json) => JsonValueArray(
-    values: (json['values'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.JsonValue?).toList(growable: false),
+    values: (json['values'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.JsonValue?)).toList(growable: false),
   );
 }
 
@@ -27059,7 +27059,7 @@ class JsonValueObject extends a.JsonValue {
   };
 
   factory JsonValueObject.fromJson(Map<String, dynamic> json) => JsonValueObject(
-    members: (json['members'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as JsonObjectMember?).toList(growable: false),
+    members: (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as JsonObjectMember?)).toList(growable: false),
   );
 }
 
@@ -27142,7 +27142,7 @@ class UserPrivacySettingRuleAllowUsers extends a.UserPrivacySettingRule {
   };
 
   factory UserPrivacySettingRuleAllowUsers.fromJson(Map<String, dynamic> json) => UserPrivacySettingRuleAllowUsers(
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    userIds: (json['user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -27175,7 +27175,7 @@ class UserPrivacySettingRuleAllowChatMembers extends a.UserPrivacySettingRule {
   };
 
   factory UserPrivacySettingRuleAllowChatMembers.fromJson(Map<String, dynamic> json) => UserPrivacySettingRuleAllowChatMembers(
-    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -27258,7 +27258,7 @@ class UserPrivacySettingRuleRestrictUsers extends a.UserPrivacySettingRule {
   };
 
   factory UserPrivacySettingRuleRestrictUsers.fromJson(Map<String, dynamic> json) => UserPrivacySettingRuleRestrictUsers(
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    userIds: (json['user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -27291,7 +27291,7 @@ class UserPrivacySettingRuleRestrictChatMembers extends a.UserPrivacySettingRule
   };
 
   factory UserPrivacySettingRuleRestrictChatMembers.fromJson(Map<String, dynamic> json) => UserPrivacySettingRuleRestrictChatMembers(
-    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -27324,7 +27324,7 @@ class UserPrivacySettingRules extends a.UserPrivacySettingRules {
   };
 
   factory UserPrivacySettingRules.fromJson(Map<String, dynamic> json) => UserPrivacySettingRules(
-    rules: (json['rules'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.UserPrivacySettingRule?).toList(growable: false),
+    rules: (json['rules'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.UserPrivacySettingRule?)).toList(growable: false),
   );
 }
 
@@ -27557,7 +27557,7 @@ class AccountTtl extends a.AccountTtl {
   };
 
   factory AccountTtl.fromJson(Map<String, dynamic> json) => AccountTtl(
-    days: json['days'],
+    days: json['days'] as int,
   );
 }
 
@@ -27661,20 +27661,20 @@ class Session extends a.Session {
 
   factory Session.fromJson(Map<String, dynamic> json) => Session(
     id: int.parse(json['id']),
-    isCurrent: json['is_current'],
-    isPasswordPending: json['is_password_pending'],
-    apiId: json['api_id'],
-    applicationName: json['application_name'],
-    applicationVersion: json['application_version'],
-    isOfficialApplication: json['is_official_application'],
-    deviceModel: json['device_model'],
-    platform: json['platform'],
-    systemVersion: json['system_version'],
-    logInDate: json['log_in_date'],
-    lastActiveDate: json['last_active_date'],
-    ip: json['ip'],
-    country: json['country'],
-    region: json['region'],
+    isCurrent: json['is_current'] as bool,
+    isPasswordPending: json['is_password_pending'] as bool,
+    apiId: json['api_id'] as int,
+    applicationName: json['application_name'] as String,
+    applicationVersion: json['application_version'] as String,
+    isOfficialApplication: json['is_official_application'] as bool,
+    deviceModel: json['device_model'] as String,
+    platform: json['platform'] as String,
+    systemVersion: json['system_version'] as String,
+    logInDate: json['log_in_date'] as int,
+    lastActiveDate: json['last_active_date'] as int,
+    ip: json['ip'] as String,
+    country: json['country'] as String,
+    region: json['region'] as String,
   );
 }
 
@@ -27707,7 +27707,7 @@ class Sessions extends a.Sessions {
   };
 
   factory Sessions.fromJson(Map<String, dynamic> json) => Sessions(
-    sessions: (json['sessions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Session?).toList(growable: false),
+    sessions: (json['sessions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Session?)).toList(growable: false),
   );
 }
 
@@ -27781,14 +27781,14 @@ class ConnectedWebsite extends a.ConnectedWebsite {
 
   factory ConnectedWebsite.fromJson(Map<String, dynamic> json) => ConnectedWebsite(
     id: int.parse(json['id']),
-    domainName: json['domain_name'],
-    botUserId: json['bot_user_id'],
-    browser: json['browser'],
-    platform: json['platform'],
-    logInDate: json['log_in_date'],
-    lastActiveDate: json['last_active_date'],
-    ip: json['ip'],
-    location: json['location'],
+    domainName: json['domain_name'] as String,
+    botUserId: json['bot_user_id'] as int,
+    browser: json['browser'] as String,
+    platform: json['platform'] as String,
+    logInDate: json['log_in_date'] as int,
+    lastActiveDate: json['last_active_date'] as int,
+    ip: json['ip'] as String,
+    location: json['location'] as String,
   );
 }
 
@@ -27821,7 +27821,7 @@ class ConnectedWebsites extends a.ConnectedWebsites {
   };
 
   factory ConnectedWebsites.fromJson(Map<String, dynamic> json) => ConnectedWebsites(
-    websites: (json['websites'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ConnectedWebsite?).toList(growable: false),
+    websites: (json['websites'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ConnectedWebsite?)).toList(growable: false),
   );
 }
 
@@ -28059,8 +28059,8 @@ class MessageLink extends a.MessageLink {
   };
 
   factory MessageLink.fromJson(Map<String, dynamic> json) => MessageLink(
-    link: json['link'],
-    isPublic: json['is_public'],
+    link: json['link'] as String,
+    isPublic: json['is_public'] as bool,
   );
 }
 
@@ -28113,11 +28113,11 @@ class MessageLinkInfo extends a.MessageLinkInfo {
   };
 
   factory MessageLinkInfo.fromJson(Map<String, dynamic> json) => MessageLinkInfo(
-    isPublic: json['is_public'],
-    chatId: json['chat_id'],
+    isPublic: json['is_public'] as bool,
+    chatId: json['chat_id'] as int,
     message: b.TdBase.fromJson(json['message']) as Message?,
-    forAlbum: json['for_album'],
-    forComment: json['for_comment'],
+    forAlbum: json['for_album'] as bool,
+    forComment: json['for_comment'] as bool,
   );
 }
 
@@ -28594,8 +28594,8 @@ class StorageStatisticsByFileType extends a.StorageStatisticsByFileType {
 
   factory StorageStatisticsByFileType.fromJson(Map<String, dynamic> json) => StorageStatisticsByFileType(
     fileType: b.TdBase.fromJson(json['file_type']) as a.FileType?,
-    size: json['size'],
-    count: json['count'],
+    size: json['size'] as int,
+    count: json['count'] as int,
   );
 }
 
@@ -28643,10 +28643,10 @@ class StorageStatisticsByChat extends a.StorageStatisticsByChat {
   };
 
   factory StorageStatisticsByChat.fromJson(Map<String, dynamic> json) => StorageStatisticsByChat(
-    chatId: json['chat_id'],
-    size: json['size'],
-    count: json['count'],
-    byFileType: (json['by_file_type'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as StorageStatisticsByFileType?).toList(growable: false),
+    chatId: json['chat_id'] as int,
+    size: json['size'] as int,
+    count: json['count'] as int,
+    byFileType: (json['by_file_type'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as StorageStatisticsByFileType?)).toList(growable: false),
   );
 }
 
@@ -28689,9 +28689,9 @@ class StorageStatistics extends a.StorageStatistics {
   };
 
   factory StorageStatistics.fromJson(Map<String, dynamic> json) => StorageStatistics(
-    size: json['size'],
-    count: json['count'],
-    byChat: (json['by_chat'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as StorageStatisticsByChat?).toList(growable: false),
+    size: json['size'] as int,
+    count: json['count'] as int,
+    byChat: (json['by_chat'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as StorageStatisticsByChat?)).toList(growable: false),
   );
 }
 
@@ -28744,11 +28744,11 @@ class StorageStatisticsFast extends a.StorageStatisticsFast {
   };
 
   factory StorageStatisticsFast.fromJson(Map<String, dynamic> json) => StorageStatisticsFast(
-    filesSize: json['files_size'],
-    fileCount: json['file_count'],
-    databaseSize: json['database_size'],
-    languagePackDatabaseSize: json['language_pack_database_size'],
-    logSize: json['log_size'],
+    filesSize: json['files_size'] as int,
+    fileCount: json['file_count'] as int,
+    databaseSize: json['database_size'] as int,
+    languagePackDatabaseSize: json['language_pack_database_size'] as int,
+    logSize: json['log_size'] as int,
   );
 }
 
@@ -28781,7 +28781,7 @@ class DatabaseStatistics extends a.DatabaseStatistics {
   };
 
   factory DatabaseStatistics.fromJson(Map<String, dynamic> json) => DatabaseStatistics(
-    statistics: json['statistics'],
+    statistics: json['statistics'] as String,
   );
 }
 
@@ -28956,8 +28956,8 @@ class NetworkStatisticsEntryFile extends a.NetworkStatisticsEntry {
   factory NetworkStatisticsEntryFile.fromJson(Map<String, dynamic> json) => NetworkStatisticsEntryFile(
     fileType: b.TdBase.fromJson(json['file_type']) as a.FileType?,
     networkType: b.TdBase.fromJson(json['network_type']) as a.NetworkType?,
-    sentBytes: json['sent_bytes'],
-    receivedBytes: json['received_bytes'],
+    sentBytes: json['sent_bytes'] as int,
+    receivedBytes: json['received_bytes'] as int,
   );
 }
 
@@ -29006,9 +29006,9 @@ class NetworkStatisticsEntryCall extends a.NetworkStatisticsEntry {
 
   factory NetworkStatisticsEntryCall.fromJson(Map<String, dynamic> json) => NetworkStatisticsEntryCall(
     networkType: b.TdBase.fromJson(json['network_type']) as a.NetworkType?,
-    sentBytes: json['sent_bytes'],
-    receivedBytes: json['received_bytes'],
-    duration: json['duration'],
+    sentBytes: json['sent_bytes'] as int,
+    receivedBytes: json['received_bytes'] as int,
+    duration: json['duration'] as double,
   );
 }
 
@@ -29046,8 +29046,8 @@ class NetworkStatistics extends a.NetworkStatistics {
   };
 
   factory NetworkStatistics.fromJson(Map<String, dynamic> json) => NetworkStatistics(
-    sinceDate: json['since_date'],
-    entries: (json['entries'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.NetworkStatisticsEntry?).toList(growable: false),
+    sinceDate: json['since_date'] as int,
+    entries: (json['entries'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.NetworkStatisticsEntry?)).toList(growable: false),
   );
 }
 
@@ -29115,14 +29115,14 @@ class AutoDownloadSettings extends a.AutoDownloadSettings {
   };
 
   factory AutoDownloadSettings.fromJson(Map<String, dynamic> json) => AutoDownloadSettings(
-    isAutoDownloadEnabled: json['is_auto_download_enabled'],
-    maxPhotoFileSize: json['max_photo_file_size'],
-    maxVideoFileSize: json['max_video_file_size'],
-    maxOtherFileSize: json['max_other_file_size'],
-    videoUploadBitrate: json['video_upload_bitrate'],
-    preloadLargeVideos: json['preload_large_videos'],
-    preloadNextAudio: json['preload_next_audio'],
-    useLessDataForCalls: json['use_less_data_for_calls'],
+    isAutoDownloadEnabled: json['is_auto_download_enabled'] as bool,
+    maxPhotoFileSize: json['max_photo_file_size'] as int,
+    maxVideoFileSize: json['max_video_file_size'] as int,
+    maxOtherFileSize: json['max_other_file_size'] as int,
+    videoUploadBitrate: json['video_upload_bitrate'] as int,
+    preloadLargeVideos: json['preload_large_videos'] as bool,
+    preloadNextAudio: json['preload_next_audio'] as bool,
+    useLessDataForCalls: json['use_less_data_for_calls'] as bool,
   );
 }
 
@@ -29500,7 +29500,7 @@ class TMeUrlTypeUser extends a.TMeUrlType {
   };
 
   factory TMeUrlTypeUser.fromJson(Map<String, dynamic> json) => TMeUrlTypeUser(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
   );
 }
 
@@ -29533,7 +29533,7 @@ class TMeUrlTypeSupergroup extends a.TMeUrlType {
   };
 
   factory TMeUrlTypeSupergroup.fromJson(Map<String, dynamic> json) => TMeUrlTypeSupergroup(
-    supergroupId: json['supergroup_id'],
+    supergroupId: json['supergroup_id'] as int,
   );
 }
 
@@ -29637,7 +29637,7 @@ class TMeUrl extends a.TMeUrl {
   };
 
   factory TMeUrl.fromJson(Map<String, dynamic> json) => TMeUrl(
-    url: json['url'],
+    url: json['url'] as String,
     type: b.TdBase.fromJson(json['type']) as a.TMeUrlType?,
   );
 }
@@ -29671,7 +29671,7 @@ class TMeUrls extends a.TMeUrls {
   };
 
   factory TMeUrls.fromJson(Map<String, dynamic> json) => TMeUrls(
-    urls: (json['urls'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TMeUrl?).toList(growable: false),
+    urls: (json['urls'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TMeUrl?)).toList(growable: false),
   );
 }
 
@@ -29779,7 +29779,7 @@ class SuggestedActionConvertToBroadcastGroup extends a.SuggestedAction {
   };
 
   factory SuggestedActionConvertToBroadcastGroup.fromJson(Map<String, dynamic> json) => SuggestedActionConvertToBroadcastGroup(
-    supergroupId: json['supergroup_id'],
+    supergroupId: json['supergroup_id'] as int,
   );
 }
 
@@ -29812,7 +29812,7 @@ class Count extends a.Count {
   };
 
   factory Count.fromJson(Map<String, dynamic> json) => Count(
-    count: json['count'],
+    count: json['count'] as int,
   );
 }
 
@@ -29845,7 +29845,7 @@ class Text extends a.Text {
   };
 
   factory Text.fromJson(Map<String, dynamic> json) => Text(
-    text: json['text'],
+    text: json['text'] as String,
   );
 }
 
@@ -29878,7 +29878,7 @@ class Seconds extends a.Seconds {
   };
 
   factory Seconds.fromJson(Map<String, dynamic> json) => Seconds(
-    seconds: json['seconds'],
+    seconds: json['seconds'] as double,
   );
 }
 
@@ -29917,7 +29917,7 @@ class DeepLinkInfo extends a.DeepLinkInfo {
 
   factory DeepLinkInfo.fromJson(Map<String, dynamic> json) => DeepLinkInfo(
     text: b.TdBase.fromJson(json['text']) as FormattedText?,
-    needUpdateApplication: json['need_update_application'],
+    needUpdateApplication: json['need_update_application'] as bool,
   );
 }
 
@@ -29950,7 +29950,7 @@ class TextParseModeMarkdown extends a.TextParseMode {
   };
 
   factory TextParseModeMarkdown.fromJson(Map<String, dynamic> json) => TextParseModeMarkdown(
-    version: json['version'],
+    version: json['version'] as int,
   );
 }
 
@@ -30013,8 +30013,8 @@ class ProxyTypeSocks5 extends a.ProxyType {
   };
 
   factory ProxyTypeSocks5.fromJson(Map<String, dynamic> json) => ProxyTypeSocks5(
-    username: json['username'],
-    password: json['password'],
+    username: json['username'] as String,
+    password: json['password'] as String,
   );
 }
 
@@ -30057,9 +30057,9 @@ class ProxyTypeHttp extends a.ProxyType {
   };
 
   factory ProxyTypeHttp.fromJson(Map<String, dynamic> json) => ProxyTypeHttp(
-    username: json['username'],
-    password: json['password'],
-    httpOnly: json['http_only'],
+    username: json['username'] as String,
+    password: json['password'] as String,
+    httpOnly: json['http_only'] as bool,
   );
 }
 
@@ -30092,7 +30092,7 @@ class ProxyTypeMtproto extends a.ProxyType {
   };
 
   factory ProxyTypeMtproto.fromJson(Map<String, dynamic> json) => ProxyTypeMtproto(
-    secret: json['secret'],
+    secret: json['secret'] as String,
   );
 }
 
@@ -30150,11 +30150,11 @@ class Proxy extends a.Proxy {
   };
 
   factory Proxy.fromJson(Map<String, dynamic> json) => Proxy(
-    id: json['id'],
-    server: json['server'],
-    port: json['port'],
-    lastUsedDate: json['last_used_date'],
-    isEnabled: json['is_enabled'],
+    id: json['id'] as int,
+    server: json['server'] as String,
+    port: json['port'] as int,
+    lastUsedDate: json['last_used_date'] as int,
+    isEnabled: json['is_enabled'] as bool,
     type: b.TdBase.fromJson(json['type']) as a.ProxyType?,
   );
 }
@@ -30188,7 +30188,7 @@ class Proxies extends a.Proxies {
   };
 
   factory Proxies.fromJson(Map<String, dynamic> json) => Proxies(
-    proxies: (json['proxies'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Proxy?).toList(growable: false),
+    proxies: (json['proxies'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Proxy?)).toList(growable: false),
   );
 }
 
@@ -30232,7 +30232,7 @@ class InputStickerStatic extends a.InputSticker {
 
   factory InputStickerStatic.fromJson(Map<String, dynamic> json) => InputStickerStatic(
     sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
-    emojis: json['emojis'],
+    emojis: json['emojis'] as String,
     maskPosition: b.TdBase.fromJson(json['mask_position']) as MaskPosition?,
   );
 }
@@ -30272,7 +30272,7 @@ class InputStickerAnimated extends a.InputSticker {
 
   factory InputStickerAnimated.fromJson(Map<String, dynamic> json) => InputStickerAnimated(
     sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
-    emojis: json['emojis'],
+    emojis: json['emojis'] as String,
   );
 }
 
@@ -30310,8 +30310,8 @@ class DateRange extends a.DateRange {
   };
 
   factory DateRange.fromJson(Map<String, dynamic> json) => DateRange(
-    startDate: json['start_date'],
-    endDate: json['end_date'],
+    startDate: json['start_date'] as int,
+    endDate: json['end_date'] as int,
   );
 }
 
@@ -30354,9 +30354,9 @@ class StatisticalValue extends a.StatisticalValue {
   };
 
   factory StatisticalValue.fromJson(Map<String, dynamic> json) => StatisticalValue(
-    value: json['value'],
-    previousValue: json['previous_value'],
-    growthRatePercentage: json['growth_rate_percentage'],
+    value: json['value'] as double,
+    previousValue: json['previous_value'] as double,
+    growthRatePercentage: json['growth_rate_percentage'] as double,
   );
 }
 
@@ -30394,8 +30394,8 @@ class StatisticalGraphData extends a.StatisticalGraph {
   };
 
   factory StatisticalGraphData.fromJson(Map<String, dynamic> json) => StatisticalGraphData(
-    jsonData: json['json_data'],
-    zoomToken: json['zoom_token'],
+    jsonData: json['json_data'] as String,
+    zoomToken: json['zoom_token'] as String,
   );
 }
 
@@ -30428,7 +30428,7 @@ class StatisticalGraphAsync extends a.StatisticalGraph {
   };
 
   factory StatisticalGraphAsync.fromJson(Map<String, dynamic> json) => StatisticalGraphAsync(
-    token: json['token'],
+    token: json['token'] as String,
   );
 }
 
@@ -30461,7 +30461,7 @@ class StatisticalGraphError extends a.StatisticalGraph {
   };
 
   factory StatisticalGraphError.fromJson(Map<String, dynamic> json) => StatisticalGraphError(
-    errorMessage: json['error_message'],
+    errorMessage: json['error_message'] as String,
   );
 }
 
@@ -30504,9 +30504,9 @@ class ChatStatisticsMessageInteractionInfo extends a.ChatStatisticsMessageIntera
   };
 
   factory ChatStatisticsMessageInteractionInfo.fromJson(Map<String, dynamic> json) => ChatStatisticsMessageInteractionInfo(
-    messageId: json['message_id'],
-    viewCount: json['view_count'],
-    forwardCount: json['forward_count'],
+    messageId: json['message_id'] as int,
+    viewCount: json['view_count'] as int,
+    forwardCount: json['forward_count'] as int,
   );
 }
 
@@ -30549,9 +30549,9 @@ class ChatStatisticsMessageSenderInfo extends a.ChatStatisticsMessageSenderInfo 
   };
 
   factory ChatStatisticsMessageSenderInfo.fromJson(Map<String, dynamic> json) => ChatStatisticsMessageSenderInfo(
-    userId: json['user_id'],
-    sentMessageCount: json['sent_message_count'],
-    averageCharacterCount: json['average_character_count'],
+    userId: json['user_id'] as int,
+    sentMessageCount: json['sent_message_count'] as int,
+    averageCharacterCount: json['average_character_count'] as int,
   );
 }
 
@@ -30599,10 +30599,10 @@ class ChatStatisticsAdministratorActionsInfo extends a.ChatStatisticsAdministrat
   };
 
   factory ChatStatisticsAdministratorActionsInfo.fromJson(Map<String, dynamic> json) => ChatStatisticsAdministratorActionsInfo(
-    userId: json['user_id'],
-    deletedMessageCount: json['deleted_message_count'],
-    bannedUserCount: json['banned_user_count'],
-    restrictedUserCount: json['restricted_user_count'],
+    userId: json['user_id'] as int,
+    deletedMessageCount: json['deleted_message_count'] as int,
+    bannedUserCount: json['banned_user_count'] as int,
+    restrictedUserCount: json['restricted_user_count'] as int,
   );
 }
 
@@ -30640,8 +30640,8 @@ class ChatStatisticsInviterInfo extends a.ChatStatisticsInviterInfo {
   };
 
   factory ChatStatisticsInviterInfo.fromJson(Map<String, dynamic> json) => ChatStatisticsInviterInfo(
-    userId: json['user_id'],
-    addedMemberCount: json['added_member_count'],
+    userId: json['user_id'] as int,
+    addedMemberCount: json['added_member_count'] as int,
   );
 }
 
@@ -30762,9 +30762,9 @@ class ChatStatisticsSupergroup extends a.ChatStatistics {
     actionGraph: b.TdBase.fromJson(json['action_graph']) as a.StatisticalGraph?,
     dayGraph: b.TdBase.fromJson(json['day_graph']) as a.StatisticalGraph?,
     weekGraph: b.TdBase.fromJson(json['week_graph']) as a.StatisticalGraph?,
-    topSenders: (json['top_senders'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatStatisticsMessageSenderInfo?).toList(growable: false),
-    topAdministrators: (json['top_administrators'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatStatisticsAdministratorActionsInfo?).toList(growable: false),
-    topInviters: (json['top_inviters'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatStatisticsInviterInfo?).toList(growable: false),
+    topSenders: (json['top_senders'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatStatisticsMessageSenderInfo?)).toList(growable: false),
+    topAdministrators: (json['top_administrators'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatStatisticsAdministratorActionsInfo?)).toList(growable: false),
+    topInviters: (json['top_inviters'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatStatisticsInviterInfo?)).toList(growable: false),
   );
 }
 
@@ -30871,7 +30871,7 @@ class ChatStatisticsChannel extends a.ChatStatistics {
     memberCount: b.TdBase.fromJson(json['member_count']) as StatisticalValue?,
     meanViewCount: b.TdBase.fromJson(json['mean_view_count']) as StatisticalValue?,
     meanShareCount: b.TdBase.fromJson(json['mean_share_count']) as StatisticalValue?,
-    enabledNotificationsPercentage: json['enabled_notifications_percentage'],
+    enabledNotificationsPercentage: json['enabled_notifications_percentage'] as double,
     memberCountGraph: b.TdBase.fromJson(json['member_count_graph']) as a.StatisticalGraph?,
     joinGraph: b.TdBase.fromJson(json['join_graph']) as a.StatisticalGraph?,
     muteGraph: b.TdBase.fromJson(json['mute_graph']) as a.StatisticalGraph?,
@@ -30881,7 +30881,7 @@ class ChatStatisticsChannel extends a.ChatStatistics {
     languageGraph: b.TdBase.fromJson(json['language_graph']) as a.StatisticalGraph?,
     messageInteractionGraph: b.TdBase.fromJson(json['message_interaction_graph']) as a.StatisticalGraph?,
     instantViewInteractionGraph: b.TdBase.fromJson(json['instant_view_interaction_graph']) as a.StatisticalGraph?,
-    recentMessageInteractions: (json['recent_message_interactions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatStatisticsMessageInteractionInfo?).toList(growable: false),
+    recentMessageInteractions: (json['recent_message_interactions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatStatisticsMessageInteractionInfo?)).toList(growable: false),
   );
 }
 
@@ -30952,8 +30952,8 @@ class Point extends a.Point {
   };
 
   factory Point.fromJson(Map<String, dynamic> json) => Point(
-    x: json['x'],
-    y: json['y'],
+    x: json['x'] as double,
+    y: json['y'] as double,
   );
 }
 
@@ -31135,8 +31135,8 @@ class UpdateMessageSendAcknowledged extends a.Update {
   };
 
   factory UpdateMessageSendAcknowledged.fromJson(Map<String, dynamic> json) => UpdateMessageSendAcknowledged(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
   );
 }
 
@@ -31175,7 +31175,7 @@ class UpdateMessageSendSucceeded extends a.Update {
 
   factory UpdateMessageSendSucceeded.fromJson(Map<String, dynamic> json) => UpdateMessageSendSucceeded(
     message: b.TdBase.fromJson(json['message']) as Message?,
-    oldMessageId: json['old_message_id'],
+    oldMessageId: json['old_message_id'] as int,
   );
 }
 
@@ -31224,9 +31224,9 @@ class UpdateMessageSendFailed extends a.Update {
 
   factory UpdateMessageSendFailed.fromJson(Map<String, dynamic> json) => UpdateMessageSendFailed(
     message: b.TdBase.fromJson(json['message']) as Message?,
-    oldMessageId: json['old_message_id'],
-    errorCode: json['error_code'],
-    errorMessage: json['error_message'],
+    oldMessageId: json['old_message_id'] as int,
+    errorCode: json['error_code'] as int,
+    errorMessage: json['error_message'] as String,
   );
 }
 
@@ -31269,8 +31269,8 @@ class UpdateMessageContent extends a.Update {
   };
 
   factory UpdateMessageContent.fromJson(Map<String, dynamic> json) => UpdateMessageContent(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     newContent: b.TdBase.fromJson(json['new_content']) as a.MessageContent?,
   );
 }
@@ -31319,9 +31319,9 @@ class UpdateMessageEdited extends a.Update {
   };
 
   factory UpdateMessageEdited.fromJson(Map<String, dynamic> json) => UpdateMessageEdited(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    editDate: json['edit_date'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    editDate: json['edit_date'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
   );
 }
@@ -31365,9 +31365,9 @@ class UpdateMessageIsPinned extends a.Update {
   };
 
   factory UpdateMessageIsPinned.fromJson(Map<String, dynamic> json) => UpdateMessageIsPinned(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    isPinned: json['is_pinned'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -31410,8 +31410,8 @@ class UpdateMessageInteractionInfo extends a.Update {
   };
 
   factory UpdateMessageInteractionInfo.fromJson(Map<String, dynamic> json) => UpdateMessageInteractionInfo(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     interactionInfo: b.TdBase.fromJson(json['interaction_info']) as MessageInteractionInfo?,
   );
 }
@@ -31450,8 +31450,8 @@ class UpdateMessageContentOpened extends a.Update {
   };
 
   factory UpdateMessageContentOpened.fromJson(Map<String, dynamic> json) => UpdateMessageContentOpened(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
   );
 }
 
@@ -31494,9 +31494,9 @@ class UpdateMessageMentionRead extends a.Update {
   };
 
   factory UpdateMessageMentionRead.fromJson(Map<String, dynamic> json) => UpdateMessageMentionRead(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    unreadMentionCount: json['unread_mention_count'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    unreadMentionCount: json['unread_mention_count'] as int,
   );
 }
 
@@ -31534,8 +31534,8 @@ class UpdateMessageLiveLocationViewed extends a.Update {
   };
 
   factory UpdateMessageLiveLocationViewed.fromJson(Map<String, dynamic> json) => UpdateMessageLiveLocationViewed(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
   );
 }
 
@@ -31606,8 +31606,8 @@ class UpdateChatTitle extends a.Update {
   };
 
   factory UpdateChatTitle.fromJson(Map<String, dynamic> json) => UpdateChatTitle(
-    chatId: json['chat_id'],
-    title: json['title'],
+    chatId: json['chat_id'] as int,
+    title: json['title'] as String,
   );
 }
 
@@ -31645,7 +31645,7 @@ class UpdateChatPhoto extends a.Update {
   };
 
   factory UpdateChatPhoto.fromJson(Map<String, dynamic> json) => UpdateChatPhoto(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
   );
 }
@@ -31684,7 +31684,7 @@ class UpdateChatPermissions extends a.Update {
   };
 
   factory UpdateChatPermissions.fromJson(Map<String, dynamic> json) => UpdateChatPermissions(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     permissions: b.TdBase.fromJson(json['permissions']) as ChatPermissions?,
   );
 }
@@ -31728,9 +31728,9 @@ class UpdateChatLastMessage extends a.Update {
   };
 
   factory UpdateChatLastMessage.fromJson(Map<String, dynamic> json) => UpdateChatLastMessage(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     lastMessage: b.TdBase.fromJson(json['last_message']) as Message?,
-    positions: (json['positions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatPosition?).toList(growable: false),
+    positions: (json['positions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPosition?)).toList(growable: false),
   );
 }
 
@@ -31768,7 +31768,7 @@ class UpdateChatPosition extends a.Update {
   };
 
   factory UpdateChatPosition.fromJson(Map<String, dynamic> json) => UpdateChatPosition(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     position: b.TdBase.fromJson(json['position']) as ChatPosition?,
   );
 }
@@ -31807,8 +31807,8 @@ class UpdateChatIsMarkedAsUnread extends a.Update {
   };
 
   factory UpdateChatIsMarkedAsUnread.fromJson(Map<String, dynamic> json) => UpdateChatIsMarkedAsUnread(
-    chatId: json['chat_id'],
-    isMarkedAsUnread: json['is_marked_as_unread'],
+    chatId: json['chat_id'] as int,
+    isMarkedAsUnread: json['is_marked_as_unread'] as bool,
   );
 }
 
@@ -31846,8 +31846,8 @@ class UpdateChatIsBlocked extends a.Update {
   };
 
   factory UpdateChatIsBlocked.fromJson(Map<String, dynamic> json) => UpdateChatIsBlocked(
-    chatId: json['chat_id'],
-    isBlocked: json['is_blocked'],
+    chatId: json['chat_id'] as int,
+    isBlocked: json['is_blocked'] as bool,
   );
 }
 
@@ -31885,8 +31885,8 @@ class UpdateChatHasScheduledMessages extends a.Update {
   };
 
   factory UpdateChatHasScheduledMessages.fromJson(Map<String, dynamic> json) => UpdateChatHasScheduledMessages(
-    chatId: json['chat_id'],
-    hasScheduledMessages: json['has_scheduled_messages'],
+    chatId: json['chat_id'] as int,
+    hasScheduledMessages: json['has_scheduled_messages'] as bool,
   );
 }
 
@@ -31924,7 +31924,7 @@ class UpdateChatVoiceChat extends a.Update {
   };
 
   factory UpdateChatVoiceChat.fromJson(Map<String, dynamic> json) => UpdateChatVoiceChat(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     voiceChat: b.TdBase.fromJson(json['voice_chat']) as VoiceChat?,
   );
 }
@@ -31963,8 +31963,8 @@ class UpdateChatDefaultDisableNotification extends a.Update {
   };
 
   factory UpdateChatDefaultDisableNotification.fromJson(Map<String, dynamic> json) => UpdateChatDefaultDisableNotification(
-    chatId: json['chat_id'],
-    defaultDisableNotification: json['default_disable_notification'],
+    chatId: json['chat_id'] as int,
+    defaultDisableNotification: json['default_disable_notification'] as bool,
   );
 }
 
@@ -32007,9 +32007,9 @@ class UpdateChatReadInbox extends a.Update {
   };
 
   factory UpdateChatReadInbox.fromJson(Map<String, dynamic> json) => UpdateChatReadInbox(
-    chatId: json['chat_id'],
-    lastReadInboxMessageId: json['last_read_inbox_message_id'],
-    unreadCount: json['unread_count'],
+    chatId: json['chat_id'] as int,
+    lastReadInboxMessageId: json['last_read_inbox_message_id'] as int,
+    unreadCount: json['unread_count'] as int,
   );
 }
 
@@ -32047,8 +32047,8 @@ class UpdateChatReadOutbox extends a.Update {
   };
 
   factory UpdateChatReadOutbox.fromJson(Map<String, dynamic> json) => UpdateChatReadOutbox(
-    chatId: json['chat_id'],
-    lastReadOutboxMessageId: json['last_read_outbox_message_id'],
+    chatId: json['chat_id'] as int,
+    lastReadOutboxMessageId: json['last_read_outbox_message_id'] as int,
   );
 }
 
@@ -32086,8 +32086,8 @@ class UpdateChatUnreadMentionCount extends a.Update {
   };
 
   factory UpdateChatUnreadMentionCount.fromJson(Map<String, dynamic> json) => UpdateChatUnreadMentionCount(
-    chatId: json['chat_id'],
-    unreadMentionCount: json['unread_mention_count'],
+    chatId: json['chat_id'] as int,
+    unreadMentionCount: json['unread_mention_count'] as int,
   );
 }
 
@@ -32125,7 +32125,7 @@ class UpdateChatNotificationSettings extends a.Update {
   };
 
   factory UpdateChatNotificationSettings.fromJson(Map<String, dynamic> json) => UpdateChatNotificationSettings(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     notificationSettings: b.TdBase.fromJson(json['notification_settings']) as ChatNotificationSettings?,
   );
 }
@@ -32203,8 +32203,8 @@ class UpdateChatMessageTtlSetting extends a.Update {
   };
 
   factory UpdateChatMessageTtlSetting.fromJson(Map<String, dynamic> json) => UpdateChatMessageTtlSetting(
-    chatId: json['chat_id'],
-    messageTtlSetting: json['message_ttl_setting'],
+    chatId: json['chat_id'] as int,
+    messageTtlSetting: json['message_ttl_setting'] as int,
   );
 }
 
@@ -32242,7 +32242,7 @@ class UpdateChatActionBar extends a.Update {
   };
 
   factory UpdateChatActionBar.fromJson(Map<String, dynamic> json) => UpdateChatActionBar(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     actionBar: b.TdBase.fromJson(json['action_bar']) as a.ChatActionBar?,
   );
 }
@@ -32281,8 +32281,8 @@ class UpdateChatReplyMarkup extends a.Update {
   };
 
   factory UpdateChatReplyMarkup.fromJson(Map<String, dynamic> json) => UpdateChatReplyMarkup(
-    chatId: json['chat_id'],
-    replyMarkupMessageId: json['reply_markup_message_id'],
+    chatId: json['chat_id'] as int,
+    replyMarkupMessageId: json['reply_markup_message_id'] as int,
   );
 }
 
@@ -32325,9 +32325,9 @@ class UpdateChatDraftMessage extends a.Update {
   };
 
   factory UpdateChatDraftMessage.fromJson(Map<String, dynamic> json) => UpdateChatDraftMessage(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage?,
-    positions: (json['positions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatPosition?).toList(growable: false),
+    positions: (json['positions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPosition?)).toList(growable: false),
   );
 }
 
@@ -32360,7 +32360,7 @@ class UpdateChatFilters extends a.Update {
   };
 
   factory UpdateChatFilters.fromJson(Map<String, dynamic> json) => UpdateChatFilters(
-    chatFilters: (json['chat_filters'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatFilterInfo?).toList(growable: false),
+    chatFilters: (json['chat_filters'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatFilterInfo?)).toList(growable: false),
   );
 }
 
@@ -32398,8 +32398,8 @@ class UpdateChatOnlineMemberCount extends a.Update {
   };
 
   factory UpdateChatOnlineMemberCount.fromJson(Map<String, dynamic> json) => UpdateChatOnlineMemberCount(
-    chatId: json['chat_id'],
-    onlineMemberCount: json['online_member_count'],
+    chatId: json['chat_id'] as int,
+    onlineMemberCount: json['online_member_count'] as int,
   );
 }
 
@@ -32437,7 +32437,7 @@ class UpdateNotification extends a.Update {
   };
 
   factory UpdateNotification.fromJson(Map<String, dynamic> json) => UpdateNotification(
-    notificationGroupId: json['notification_group_id'],
+    notificationGroupId: json['notification_group_id'] as int,
     notification: b.TdBase.fromJson(json['notification']) as Notification?,
   );
 }
@@ -32506,14 +32506,14 @@ class UpdateNotificationGroup extends a.Update {
   };
 
   factory UpdateNotificationGroup.fromJson(Map<String, dynamic> json) => UpdateNotificationGroup(
-    notificationGroupId: json['notification_group_id'],
+    notificationGroupId: json['notification_group_id'] as int,
     type: b.TdBase.fromJson(json['type']) as a.NotificationGroupType?,
-    chatId: json['chat_id'],
-    notificationSettingsChatId: json['notification_settings_chat_id'],
-    isSilent: json['is_silent'],
-    totalCount: json['total_count'],
-    addedNotifications: (json['added_notifications'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as Notification?).toList(growable: false),
-    removedNotificationIds: (json['removed_notification_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    chatId: json['chat_id'] as int,
+    notificationSettingsChatId: json['notification_settings_chat_id'] as int,
+    isSilent: json['is_silent'] as bool,
+    totalCount: json['total_count'] as int,
+    addedNotifications: (json['added_notifications'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Notification?)).toList(growable: false),
+    removedNotificationIds: (json['removed_notification_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -32546,7 +32546,7 @@ class UpdateActiveNotifications extends a.Update {
   };
 
   factory UpdateActiveNotifications.fromJson(Map<String, dynamic> json) => UpdateActiveNotifications(
-    groups: (json['groups'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as NotificationGroup?).toList(growable: false),
+    groups: (json['groups'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as NotificationGroup?)).toList(growable: false),
   );
 }
 
@@ -32584,8 +32584,8 @@ class UpdateHavePendingNotifications extends a.Update {
   };
 
   factory UpdateHavePendingNotifications.fromJson(Map<String, dynamic> json) => UpdateHavePendingNotifications(
-    haveDelayedNotifications: json['have_delayed_notifications'],
-    haveUnreceivedNotifications: json['have_unreceived_notifications'],
+    haveDelayedNotifications: json['have_delayed_notifications'] as bool,
+    haveUnreceivedNotifications: json['have_unreceived_notifications'] as bool,
   );
 }
 
@@ -32633,10 +32633,10 @@ class UpdateDeleteMessages extends a.Update {
   };
 
   factory UpdateDeleteMessages.fromJson(Map<String, dynamic> json) => UpdateDeleteMessages(
-    chatId: json['chat_id'],
-    messageIds: (json['message_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    isPermanent: json['is_permanent'],
-    fromCache: json['from_cache'],
+    chatId: json['chat_id'] as int,
+    messageIds: (json['message_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    isPermanent: json['is_permanent'] as bool,
+    fromCache: json['from_cache'] as bool,
   );
 }
 
@@ -32684,9 +32684,9 @@ class UpdateUserChatAction extends a.Update {
   };
 
   factory UpdateUserChatAction.fromJson(Map<String, dynamic> json) => UpdateUserChatAction(
-    chatId: json['chat_id'],
-    messageThreadId: json['message_thread_id'],
-    userId: json['user_id'],
+    chatId: json['chat_id'] as int,
+    messageThreadId: json['message_thread_id'] as int,
+    userId: json['user_id'] as int,
     action: b.TdBase.fromJson(json['action']) as a.ChatAction?,
   );
 }
@@ -32725,7 +32725,7 @@ class UpdateUserStatus extends a.Update {
   };
 
   factory UpdateUserStatus.fromJson(Map<String, dynamic> json) => UpdateUserStatus(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
     status: b.TdBase.fromJson(json['status']) as a.UserStatus?,
   );
 }
@@ -32896,7 +32896,7 @@ class UpdateUserFullInfo extends a.Update {
   };
 
   factory UpdateUserFullInfo.fromJson(Map<String, dynamic> json) => UpdateUserFullInfo(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
     userFullInfo: b.TdBase.fromJson(json['user_full_info']) as UserFullInfo?,
   );
 }
@@ -32935,7 +32935,7 @@ class UpdateBasicGroupFullInfo extends a.Update {
   };
 
   factory UpdateBasicGroupFullInfo.fromJson(Map<String, dynamic> json) => UpdateBasicGroupFullInfo(
-    basicGroupId: json['basic_group_id'],
+    basicGroupId: json['basic_group_id'] as int,
     basicGroupFullInfo: b.TdBase.fromJson(json['basic_group_full_info']) as BasicGroupFullInfo?,
   );
 }
@@ -32974,7 +32974,7 @@ class UpdateSupergroupFullInfo extends a.Update {
   };
 
   factory UpdateSupergroupFullInfo.fromJson(Map<String, dynamic> json) => UpdateSupergroupFullInfo(
-    supergroupId: json['supergroup_id'],
+    supergroupId: json['supergroup_id'] as int,
     supergroupFullInfo: b.TdBase.fromJson(json['supergroup_full_info']) as SupergroupFullInfo?,
   );
 }
@@ -33013,7 +33013,7 @@ class UpdateServiceNotification extends a.Update {
   };
 
   factory UpdateServiceNotification.fromJson(Map<String, dynamic> json) => UpdateServiceNotification(
-    type: json['type'],
+    type: json['type'] as String,
     content: b.TdBase.fromJson(json['content']) as a.MessageContent?,
   );
 }
@@ -33096,9 +33096,9 @@ class UpdateFileGenerationStart extends a.Update {
 
   factory UpdateFileGenerationStart.fromJson(Map<String, dynamic> json) => UpdateFileGenerationStart(
     generationId: int.parse(json['generation_id']),
-    originalPath: json['original_path'],
-    destinationPath: json['destination_path'],
-    conversion: json['conversion'],
+    originalPath: json['original_path'] as String,
+    destinationPath: json['destination_path'] as String,
+    conversion: json['conversion'] as String,
   );
 }
 
@@ -33235,7 +33235,7 @@ class UpdateGroupCallParticipant extends a.Update {
   };
 
   factory UpdateGroupCallParticipant.fromJson(Map<String, dynamic> json) => UpdateGroupCallParticipant(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
     participant: b.TdBase.fromJson(json['participant']) as GroupCallParticipant?,
   );
 }
@@ -33274,7 +33274,7 @@ class UpdateNewCallSignalingData extends a.Update {
   };
 
   factory UpdateNewCallSignalingData.fromJson(Map<String, dynamic> json) => UpdateNewCallSignalingData(
-    callId: json['call_id'],
+    callId: json['call_id'] as int,
     data: base64.decode(json['data']),
   );
 }
@@ -33358,8 +33358,8 @@ class UpdateUnreadMessageCount extends a.Update {
 
   factory UpdateUnreadMessageCount.fromJson(Map<String, dynamic> json) => UpdateUnreadMessageCount(
     chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
-    unreadCount: json['unread_count'],
-    unreadUnmutedCount: json['unread_unmuted_count'],
+    unreadCount: json['unread_count'] as int,
+    unreadUnmutedCount: json['unread_unmuted_count'] as int,
   );
 }
 
@@ -33418,11 +33418,11 @@ class UpdateUnreadChatCount extends a.Update {
 
   factory UpdateUnreadChatCount.fromJson(Map<String, dynamic> json) => UpdateUnreadChatCount(
     chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
-    totalCount: json['total_count'],
-    unreadCount: json['unread_count'],
-    unreadUnmutedCount: json['unread_unmuted_count'],
-    markedAsUnreadCount: json['marked_as_unread_count'],
-    markedAsUnreadUnmutedCount: json['marked_as_unread_unmuted_count'],
+    totalCount: json['total_count'] as int,
+    unreadCount: json['unread_count'] as int,
+    unreadUnmutedCount: json['unread_unmuted_count'] as int,
+    markedAsUnreadCount: json['marked_as_unread_count'] as int,
+    markedAsUnreadUnmutedCount: json['marked_as_unread_unmuted_count'] as int,
   );
 }
 
@@ -33460,7 +33460,7 @@ class UpdateOption extends a.Update {
   };
 
   factory UpdateOption.fromJson(Map<String, dynamic> json) => UpdateOption(
-    name: json['name'],
+    name: json['name'] as String,
     value: b.TdBase.fromJson(json['value']) as a.OptionValue?,
   );
 }
@@ -33532,8 +33532,8 @@ class UpdateInstalledStickerSets extends a.Update {
   };
 
   factory UpdateInstalledStickerSets.fromJson(Map<String, dynamic> json) => UpdateInstalledStickerSets(
-    isMasks: json['is_masks'],
-    stickerSetIds: (json['sticker_set_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    isMasks: json['is_masks'] as bool,
+    stickerSetIds: (json['sticker_set_ids'] as List<dynamic>).map((e) => (int.parse(e))).toList(growable: false),
   );
 }
 
@@ -33604,8 +33604,8 @@ class UpdateRecentStickers extends a.Update {
   };
 
   factory UpdateRecentStickers.fromJson(Map<String, dynamic> json) => UpdateRecentStickers(
-    isAttached: json['is_attached'],
-    stickerIds: (json['sticker_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    isAttached: json['is_attached'] as bool,
+    stickerIds: (json['sticker_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -33638,7 +33638,7 @@ class UpdateFavoriteStickers extends a.Update {
   };
 
   factory UpdateFavoriteStickers.fromJson(Map<String, dynamic> json) => UpdateFavoriteStickers(
-    stickerIds: (json['sticker_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    stickerIds: (json['sticker_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -33671,7 +33671,7 @@ class UpdateSavedAnimations extends a.Update {
   };
 
   factory UpdateSavedAnimations.fromJson(Map<String, dynamic> json) => UpdateSavedAnimations(
-    animationIds: (json['animation_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    animationIds: (json['animation_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -33709,7 +33709,7 @@ class UpdateSelectedBackground extends a.Update {
   };
 
   factory UpdateSelectedBackground.fromJson(Map<String, dynamic> json) => UpdateSelectedBackground(
-    forDarkTheme: json['for_dark_theme'],
+    forDarkTheme: json['for_dark_theme'] as bool,
     background: b.TdBase.fromJson(json['background']) as Background?,
   );
 }
@@ -33753,9 +33753,9 @@ class UpdateLanguagePackStrings extends a.Update {
   };
 
   factory UpdateLanguagePackStrings.fromJson(Map<String, dynamic> json) => UpdateLanguagePackStrings(
-    localizationTarget: json['localization_target'],
-    languagePackId: json['language_pack_id'],
-    strings: (json['strings'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as LanguagePackString?).toList(growable: false),
+    localizationTarget: json['localization_target'] as String,
+    languagePackId: json['language_pack_id'] as String,
+    strings: (json['strings'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LanguagePackString?)).toList(growable: false),
   );
 }
 
@@ -33826,7 +33826,7 @@ class UpdateTermsOfService extends a.Update {
   };
 
   factory UpdateTermsOfService.fromJson(Map<String, dynamic> json) => UpdateTermsOfService(
-    termsOfServiceId: json['terms_of_service_id'],
+    termsOfServiceId: json['terms_of_service_id'] as String,
     termsOfService: b.TdBase.fromJson(json['terms_of_service']) as TermsOfService?,
   );
 }
@@ -33860,7 +33860,7 @@ class UpdateUsersNearby extends a.Update {
   };
 
   factory UpdateUsersNearby.fromJson(Map<String, dynamic> json) => UpdateUsersNearby(
-    usersNearby: (json['users_nearby'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as ChatNearby?).toList(growable: false),
+    usersNearby: (json['users_nearby'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatNearby?)).toList(growable: false),
   );
 }
 
@@ -33893,7 +33893,7 @@ class UpdateDiceEmojis extends a.Update {
   };
 
   factory UpdateDiceEmojis.fromJson(Map<String, dynamic> json) => UpdateDiceEmojis(
-    emojis: (json['emojis'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
+    emojis: (json['emojis'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
   );
 }
 
@@ -33931,8 +33931,8 @@ class UpdateAnimationSearchParameters extends a.Update {
   };
 
   factory UpdateAnimationSearchParameters.fromJson(Map<String, dynamic> json) => UpdateAnimationSearchParameters(
-    provider: json['provider'],
-    emojis: (json['emojis'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
+    provider: json['provider'] as String,
+    emojis: (json['emojis'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
   );
 }
 
@@ -33970,8 +33970,8 @@ class UpdateSuggestedActions extends a.Update {
   };
 
   factory UpdateSuggestedActions.fromJson(Map<String, dynamic> json) => UpdateSuggestedActions(
-    addedActions: (json['added_actions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.SuggestedAction?).toList(growable: false),
-    removedActions: (json['removed_actions'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.SuggestedAction?).toList(growable: false),
+    addedActions: (json['added_actions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.SuggestedAction?)).toList(growable: false),
+    removedActions: (json['removed_actions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.SuggestedAction?)).toList(growable: false),
   );
 }
 
@@ -34030,11 +34030,11 @@ class UpdateNewInlineQuery extends a.Update {
 
   factory UpdateNewInlineQuery.fromJson(Map<String, dynamic> json) => UpdateNewInlineQuery(
     id: int.parse(json['id']),
-    senderUserId: json['sender_user_id'],
+    senderUserId: json['sender_user_id'] as int,
     userLocation: b.TdBase.fromJson(json['user_location']) as Location?,
     chatType: b.TdBase.fromJson(json['chat_type']) as a.ChatType?,
-    query: json['query'],
-    offset: json['offset'],
+    query: json['query'] as String,
+    offset: json['offset'] as String,
   );
 }
 
@@ -34087,11 +34087,11 @@ class UpdateNewChosenInlineResult extends a.Update {
   };
 
   factory UpdateNewChosenInlineResult.fromJson(Map<String, dynamic> json) => UpdateNewChosenInlineResult(
-    senderUserId: json['sender_user_id'],
+    senderUserId: json['sender_user_id'] as int,
     userLocation: b.TdBase.fromJson(json['user_location']) as Location?,
-    query: json['query'],
-    resultId: json['result_id'],
-    inlineMessageId: json['inline_message_id'],
+    query: json['query'] as String,
+    resultId: json['result_id'] as String,
+    inlineMessageId: json['inline_message_id'] as String,
   );
 }
 
@@ -34150,9 +34150,9 @@ class UpdateNewCallbackQuery extends a.Update {
 
   factory UpdateNewCallbackQuery.fromJson(Map<String, dynamic> json) => UpdateNewCallbackQuery(
     id: int.parse(json['id']),
-    senderUserId: json['sender_user_id'],
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    senderUserId: json['sender_user_id'] as int,
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     chatInstance: int.parse(json['chat_instance']),
     payload: b.TdBase.fromJson(json['payload']) as a.CallbackQueryPayload?,
   );
@@ -34208,8 +34208,8 @@ class UpdateNewInlineCallbackQuery extends a.Update {
 
   factory UpdateNewInlineCallbackQuery.fromJson(Map<String, dynamic> json) => UpdateNewInlineCallbackQuery(
     id: int.parse(json['id']),
-    senderUserId: json['sender_user_id'],
-    inlineMessageId: json['inline_message_id'],
+    senderUserId: json['sender_user_id'] as int,
+    inlineMessageId: json['inline_message_id'] as String,
     chatInstance: int.parse(json['chat_instance']),
     payload: b.TdBase.fromJson(json['payload']) as a.CallbackQueryPayload?,
   );
@@ -34260,8 +34260,8 @@ class UpdateNewShippingQuery extends a.Update {
 
   factory UpdateNewShippingQuery.fromJson(Map<String, dynamic> json) => UpdateNewShippingQuery(
     id: int.parse(json['id']),
-    senderUserId: json['sender_user_id'],
-    invoicePayload: json['invoice_payload'],
+    senderUserId: json['sender_user_id'] as int,
+    invoicePayload: json['invoice_payload'] as String,
     shippingAddress: b.TdBase.fromJson(json['shipping_address']) as Address?,
   );
 }
@@ -34326,11 +34326,11 @@ class UpdateNewPreCheckoutQuery extends a.Update {
 
   factory UpdateNewPreCheckoutQuery.fromJson(Map<String, dynamic> json) => UpdateNewPreCheckoutQuery(
     id: int.parse(json['id']),
-    senderUserId: json['sender_user_id'],
-    currency: json['currency'],
-    totalAmount: json['total_amount'],
+    senderUserId: json['sender_user_id'] as int,
+    currency: json['currency'] as String,
+    totalAmount: json['total_amount'] as int,
     invoicePayload: base64.decode(json['invoice_payload']),
-    shippingOptionId: json['shipping_option_id'],
+    shippingOptionId: json['shipping_option_id'] as String,
     orderInfo: b.TdBase.fromJson(json['order_info']) as OrderInfo?,
   );
 }
@@ -34364,7 +34364,7 @@ class UpdateNewCustomEvent extends a.Update {
   };
 
   factory UpdateNewCustomEvent.fromJson(Map<String, dynamic> json) => UpdateNewCustomEvent(
-    event: json['event'],
+    event: json['event'] as String,
   );
 }
 
@@ -34408,8 +34408,8 @@ class UpdateNewCustomQuery extends a.Update {
 
   factory UpdateNewCustomQuery.fromJson(Map<String, dynamic> json) => UpdateNewCustomQuery(
     id: int.parse(json['id']),
-    data: json['data'],
-    timeout: json['timeout'],
+    data: json['data'] as String,
+    timeout: json['timeout'] as int,
   );
 }
 
@@ -34486,8 +34486,8 @@ class UpdatePollAnswer extends a.Update {
 
   factory UpdatePollAnswer.fromJson(Map<String, dynamic> json) => UpdatePollAnswer(
     pollId: int.parse(json['poll_id']),
-    userId: json['user_id'],
-    optionIds: (json['option_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    userId: json['user_id'] as int,
+    optionIds: (json['option_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -34545,9 +34545,9 @@ class UpdateChatMember extends a.Update {
   };
 
   factory UpdateChatMember.fromJson(Map<String, dynamic> json) => UpdateChatMember(
-    chatId: json['chat_id'],
-    actorUserId: json['actor_user_id'],
-    date: json['date'],
+    chatId: json['chat_id'] as int,
+    actorUserId: json['actor_user_id'] as int,
+    date: json['date'] as int,
     inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
     oldChatMember: b.TdBase.fromJson(json['old_chat_member']) as ChatMember?,
     newChatMember: b.TdBase.fromJson(json['new_chat_member']) as ChatMember?,
@@ -34583,7 +34583,7 @@ class Updates extends a.Updates {
   };
 
   factory Updates.fromJson(Map<String, dynamic> json) => Updates(
-    updates: (json['updates'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.Update?).toList(growable: false),
+    updates: (json['updates'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.Update?)).toList(growable: false),
   );
 }
 
@@ -34651,9 +34651,9 @@ class LogStreamFile extends a.LogStream {
   };
 
   factory LogStreamFile.fromJson(Map<String, dynamic> json) => LogStreamFile(
-    path: json['path'],
-    maxFileSize: json['max_file_size'],
-    redirectStderr: json['redirect_stderr'],
+    path: json['path'] as String,
+    maxFileSize: json['max_file_size'] as int,
+    redirectStderr: json['redirect_stderr'] as bool,
   );
 }
 
@@ -34711,7 +34711,7 @@ class LogVerbosityLevel extends a.LogVerbosityLevel {
   };
 
   factory LogVerbosityLevel.fromJson(Map<String, dynamic> json) => LogVerbosityLevel(
-    verbosityLevel: json['verbosity_level'],
+    verbosityLevel: json['verbosity_level'] as int,
   );
 }
 
@@ -34744,7 +34744,7 @@ class LogTags extends a.LogTags {
   };
 
   factory LogTags.fromJson(Map<String, dynamic> json) => LogTags(
-    tags: (json['tags'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
+    tags: (json['tags'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
   );
 }
 
@@ -34777,7 +34777,7 @@ class TestInt extends a.TestInt {
   };
 
   factory TestInt.fromJson(Map<String, dynamic> json) => TestInt(
-    value: json['value'],
+    value: json['value'] as int,
   );
 }
 
@@ -34810,7 +34810,7 @@ class TestString extends a.TestString {
   };
 
   factory TestString.fromJson(Map<String, dynamic> json) => TestString(
-    value: json['value'],
+    value: json['value'] as String,
   );
 }
 
@@ -34876,7 +34876,7 @@ class TestVectorInt extends a.TestVectorInt {
   };
 
   factory TestVectorInt.fromJson(Map<String, dynamic> json) => TestVectorInt(
-    value: (json['value'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    value: (json['value'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -34909,7 +34909,7 @@ class TestVectorIntObject extends a.TestVectorIntObject {
   };
 
   factory TestVectorIntObject.fromJson(Map<String, dynamic> json) => TestVectorIntObject(
-    value: (json['value'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TestInt?).toList(growable: false),
+    value: (json['value'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TestInt?)).toList(growable: false),
   );
 }
 
@@ -34942,7 +34942,7 @@ class TestVectorString extends a.TestVectorString {
   };
 
   factory TestVectorString.fromJson(Map<String, dynamic> json) => TestVectorString(
-    value: (json['value'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
+    value: (json['value'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
   );
 }
 
@@ -34975,7 +34975,7 @@ class TestVectorStringObject extends a.TestVectorStringObject {
   };
 
   factory TestVectorStringObject.fromJson(Map<String, dynamic> json) => TestVectorStringObject(
-    value: (json['value'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as TestString?).toList(growable: false),
+    value: (json['value'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TestString?)).toList(growable: false),
   );
 }
 

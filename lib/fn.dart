@@ -132,7 +132,7 @@ class SetAuthenticationPhoneNumber extends TdFunction {
   };
 
   factory SetAuthenticationPhoneNumber.fromJson(Map<String, dynamic> json) => SetAuthenticationPhoneNumber(
-    phoneNumber: json['phone_number'],
+    phoneNumber: json['phone_number'] as String,
     settings: b.TdBase.fromJson(json['settings']) as o.PhoneNumberAuthenticationSettings?,
   );
 }
@@ -191,7 +191,7 @@ class CheckAuthenticationCode extends TdFunction {
   };
 
   factory CheckAuthenticationCode.fromJson(Map<String, dynamic> json) => CheckAuthenticationCode(
-    code: json['code'],
+    code: json['code'] as String,
   );
 }
 
@@ -224,7 +224,7 @@ class RequestQrCodeAuthentication extends TdFunction {
   };
 
   factory RequestQrCodeAuthentication.fromJson(Map<String, dynamic> json) => RequestQrCodeAuthentication(
-    otherUserIds: (json['other_user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    otherUserIds: (json['other_user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -262,8 +262,8 @@ class RegisterUser extends TdFunction {
   };
 
   factory RegisterUser.fromJson(Map<String, dynamic> json) => RegisterUser(
-    firstName: json['first_name'],
-    lastName: json['last_name'],
+    firstName: json['first_name'] as String,
+    lastName: json['last_name'] as String,
   );
 }
 
@@ -296,7 +296,7 @@ class CheckAuthenticationPassword extends TdFunction {
   };
 
   factory CheckAuthenticationPassword.fromJson(Map<String, dynamic> json) => CheckAuthenticationPassword(
-    password: json['password'],
+    password: json['password'] as String,
   );
 }
 
@@ -354,7 +354,7 @@ class RecoverAuthenticationPassword extends TdFunction {
   };
 
   factory RecoverAuthenticationPassword.fromJson(Map<String, dynamic> json) => RecoverAuthenticationPassword(
-    recoveryCode: json['recovery_code'],
+    recoveryCode: json['recovery_code'] as String,
   );
 }
 
@@ -387,7 +387,7 @@ class CheckAuthenticationBotToken extends TdFunction {
   };
 
   factory CheckAuthenticationBotToken.fromJson(Map<String, dynamic> json) => CheckAuthenticationBotToken(
-    token: json['token'],
+    token: json['token'] as String,
   );
 }
 
@@ -495,7 +495,7 @@ class ConfirmQrCodeAuthentication extends TdFunction {
   };
 
   factory ConfirmQrCodeAuthentication.fromJson(Map<String, dynamic> json) => ConfirmQrCodeAuthentication(
-    link: json['link'],
+    link: json['link'] as String,
   );
 }
 
@@ -631,11 +631,11 @@ class SetPassword extends TdFunction {
   };
 
   factory SetPassword.fromJson(Map<String, dynamic> json) => SetPassword(
-    oldPassword: json['old_password'],
-    newPassword: json['new_password'],
-    newHint: json['new_hint'],
-    setRecoveryEmailAddress: json['set_recovery_email_address'],
-    newRecoveryEmailAddress: json['new_recovery_email_address'],
+    oldPassword: json['old_password'] as String,
+    newPassword: json['new_password'] as String,
+    newHint: json['new_hint'] as String,
+    setRecoveryEmailAddress: json['set_recovery_email_address'] as bool,
+    newRecoveryEmailAddress: json['new_recovery_email_address'] as String,
   );
 }
 
@@ -668,7 +668,7 @@ class GetRecoveryEmailAddress extends TdFunction {
   };
 
   factory GetRecoveryEmailAddress.fromJson(Map<String, dynamic> json) => GetRecoveryEmailAddress(
-    password: json['password'],
+    password: json['password'] as String,
   );
 }
 
@@ -706,8 +706,8 @@ class SetRecoveryEmailAddress extends TdFunction {
   };
 
   factory SetRecoveryEmailAddress.fromJson(Map<String, dynamic> json) => SetRecoveryEmailAddress(
-    password: json['password'],
-    newRecoveryEmailAddress: json['new_recovery_email_address'],
+    password: json['password'] as String,
+    newRecoveryEmailAddress: json['new_recovery_email_address'] as String,
   );
 }
 
@@ -740,7 +740,7 @@ class CheckRecoveryEmailAddressCode extends TdFunction {
   };
 
   factory CheckRecoveryEmailAddressCode.fromJson(Map<String, dynamic> json) => CheckRecoveryEmailAddressCode(
-    code: json['code'],
+    code: json['code'] as String,
   );
 }
 
@@ -823,7 +823,7 @@ class RecoverPassword extends TdFunction {
   };
 
   factory RecoverPassword.fromJson(Map<String, dynamic> json) => RecoverPassword(
-    recoveryCode: json['recovery_code'],
+    recoveryCode: json['recovery_code'] as String,
   );
 }
 
@@ -861,8 +861,8 @@ class CreateTemporaryPassword extends TdFunction {
   };
 
   factory CreateTemporaryPassword.fromJson(Map<String, dynamic> json) => CreateTemporaryPassword(
-    password: json['password'],
-    validFor: json['valid_for'],
+    password: json['password'] as String,
+    validFor: json['valid_for'] as int,
   );
 }
 
@@ -945,7 +945,7 @@ class GetUser extends TdFunction {
   };
 
   factory GetUser.fromJson(Map<String, dynamic> json) => GetUser(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
   );
 }
 
@@ -978,7 +978,7 @@ class GetUserFullInfo extends TdFunction {
   };
 
   factory GetUserFullInfo.fromJson(Map<String, dynamic> json) => GetUserFullInfo(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
   );
 }
 
@@ -1011,7 +1011,7 @@ class GetBasicGroup extends TdFunction {
   };
 
   factory GetBasicGroup.fromJson(Map<String, dynamic> json) => GetBasicGroup(
-    basicGroupId: json['basic_group_id'],
+    basicGroupId: json['basic_group_id'] as int,
   );
 }
 
@@ -1044,7 +1044,7 @@ class GetBasicGroupFullInfo extends TdFunction {
   };
 
   factory GetBasicGroupFullInfo.fromJson(Map<String, dynamic> json) => GetBasicGroupFullInfo(
-    basicGroupId: json['basic_group_id'],
+    basicGroupId: json['basic_group_id'] as int,
   );
 }
 
@@ -1077,7 +1077,7 @@ class GetSupergroup extends TdFunction {
   };
 
   factory GetSupergroup.fromJson(Map<String, dynamic> json) => GetSupergroup(
-    supergroupId: json['supergroup_id'],
+    supergroupId: json['supergroup_id'] as int,
   );
 }
 
@@ -1110,7 +1110,7 @@ class GetSupergroupFullInfo extends TdFunction {
   };
 
   factory GetSupergroupFullInfo.fromJson(Map<String, dynamic> json) => GetSupergroupFullInfo(
-    supergroupId: json['supergroup_id'],
+    supergroupId: json['supergroup_id'] as int,
   );
 }
 
@@ -1143,7 +1143,7 @@ class GetSecretChat extends TdFunction {
   };
 
   factory GetSecretChat.fromJson(Map<String, dynamic> json) => GetSecretChat(
-    secretChatId: json['secret_chat_id'],
+    secretChatId: json['secret_chat_id'] as int,
   );
 }
 
@@ -1176,7 +1176,7 @@ class GetChat extends TdFunction {
   };
 
   factory GetChat.fromJson(Map<String, dynamic> json) => GetChat(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -1214,8 +1214,8 @@ class GetMessage extends TdFunction {
   };
 
   factory GetMessage.fromJson(Map<String, dynamic> json) => GetMessage(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
   );
 }
 
@@ -1253,8 +1253,8 @@ class GetMessageLocally extends TdFunction {
   };
 
   factory GetMessageLocally.fromJson(Map<String, dynamic> json) => GetMessageLocally(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
   );
 }
 
@@ -1292,8 +1292,8 @@ class GetRepliedMessage extends TdFunction {
   };
 
   factory GetRepliedMessage.fromJson(Map<String, dynamic> json) => GetRepliedMessage(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
   );
 }
 
@@ -1326,7 +1326,7 @@ class GetChatPinnedMessage extends TdFunction {
   };
 
   factory GetChatPinnedMessage.fromJson(Map<String, dynamic> json) => GetChatPinnedMessage(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -1369,8 +1369,8 @@ class GetCallbackQueryMessage extends TdFunction {
   };
 
   factory GetCallbackQueryMessage.fromJson(Map<String, dynamic> json) => GetCallbackQueryMessage(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     callbackQueryId: int.parse(json['callback_query_id']),
   );
 }
@@ -1409,8 +1409,8 @@ class GetMessages extends TdFunction {
   };
 
   factory GetMessages.fromJson(Map<String, dynamic> json) => GetMessages(
-    chatId: json['chat_id'],
-    messageIds: (json['message_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    chatId: json['chat_id'] as int,
+    messageIds: (json['message_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -1448,8 +1448,8 @@ class GetMessageThread extends TdFunction {
   };
 
   factory GetMessageThread.fromJson(Map<String, dynamic> json) => GetMessageThread(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
   );
 }
 
@@ -1482,7 +1482,7 @@ class GetFile extends TdFunction {
   };
 
   factory GetFile.fromJson(Map<String, dynamic> json) => GetFile(
-    fileId: json['file_id'],
+    fileId: json['file_id'] as int,
   );
 }
 
@@ -1520,7 +1520,7 @@ class GetRemoteFile extends TdFunction {
   };
 
   factory GetRemoteFile.fromJson(Map<String, dynamic> json) => GetRemoteFile(
-    remoteFileId: json['remote_file_id'],
+    remoteFileId: json['remote_file_id'] as String,
     fileType: b.TdBase.fromJson(json['file_type']) as a.FileType?,
   );
 }
@@ -1571,8 +1571,8 @@ class GetChats extends TdFunction {
   factory GetChats.fromJson(Map<String, dynamic> json) => GetChats(
     chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
     offsetOrder: int.parse(json['offset_order']),
-    offsetChatId: json['offset_chat_id'],
-    limit: json['limit'],
+    offsetChatId: json['offset_chat_id'] as int,
+    limit: json['limit'] as int,
   );
 }
 
@@ -1605,7 +1605,7 @@ class SearchPublicChat extends TdFunction {
   };
 
   factory SearchPublicChat.fromJson(Map<String, dynamic> json) => SearchPublicChat(
-    username: json['username'],
+    username: json['username'] as String,
   );
 }
 
@@ -1638,7 +1638,7 @@ class SearchPublicChats extends TdFunction {
   };
 
   factory SearchPublicChats.fromJson(Map<String, dynamic> json) => SearchPublicChats(
-    query: json['query'],
+    query: json['query'] as String,
   );
 }
 
@@ -1676,8 +1676,8 @@ class SearchChats extends TdFunction {
   };
 
   factory SearchChats.fromJson(Map<String, dynamic> json) => SearchChats(
-    query: json['query'],
-    limit: json['limit'],
+    query: json['query'] as String,
+    limit: json['limit'] as int,
   );
 }
 
@@ -1715,8 +1715,8 @@ class SearchChatsOnServer extends TdFunction {
   };
 
   factory SearchChatsOnServer.fromJson(Map<String, dynamic> json) => SearchChatsOnServer(
-    query: json['query'],
-    limit: json['limit'],
+    query: json['query'] as String,
+    limit: json['limit'] as int,
   );
 }
 
@@ -1788,7 +1788,7 @@ class GetTopChats extends TdFunction {
 
   factory GetTopChats.fromJson(Map<String, dynamic> json) => GetTopChats(
     category: b.TdBase.fromJson(json['category']) as a.TopChatCategory?,
-    limit: json['limit'],
+    limit: json['limit'] as int,
   );
 }
 
@@ -1827,7 +1827,7 @@ class RemoveTopChat extends TdFunction {
 
   factory RemoveTopChat.fromJson(Map<String, dynamic> json) => RemoveTopChat(
     category: b.TdBase.fromJson(json['category']) as a.TopChatCategory?,
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -1860,7 +1860,7 @@ class AddRecentlyFoundChat extends TdFunction {
   };
 
   factory AddRecentlyFoundChat.fromJson(Map<String, dynamic> json) => AddRecentlyFoundChat(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -1893,7 +1893,7 @@ class RemoveRecentlyFoundChat extends TdFunction {
   };
 
   factory RemoveRecentlyFoundChat.fromJson(Map<String, dynamic> json) => RemoveRecentlyFoundChat(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -1956,8 +1956,8 @@ class CheckChatUsername extends TdFunction {
   };
 
   factory CheckChatUsername.fromJson(Map<String, dynamic> json) => CheckChatUsername(
-    chatId: json['chat_id'],
-    username: json['username'],
+    chatId: json['chat_id'] as int,
+    username: json['username'] as String,
   );
 }
 
@@ -2116,9 +2116,9 @@ class GetGroupsInCommon extends TdFunction {
   };
 
   factory GetGroupsInCommon.fromJson(Map<String, dynamic> json) => GetGroupsInCommon(
-    userId: json['user_id'],
-    offsetChatId: json['offset_chat_id'],
-    limit: json['limit'],
+    userId: json['user_id'] as int,
+    offsetChatId: json['offset_chat_id'] as int,
+    limit: json['limit'] as int,
   );
 }
 
@@ -2171,11 +2171,11 @@ class GetChatHistory extends TdFunction {
   };
 
   factory GetChatHistory.fromJson(Map<String, dynamic> json) => GetChatHistory(
-    chatId: json['chat_id'],
-    fromMessageId: json['from_message_id'],
-    offset: json['offset'],
-    limit: json['limit'],
-    onlyLocal: json['only_local'],
+    chatId: json['chat_id'] as int,
+    fromMessageId: json['from_message_id'] as int,
+    offset: json['offset'] as int,
+    limit: json['limit'] as int,
+    onlyLocal: json['only_local'] as bool,
   );
 }
 
@@ -2228,11 +2228,11 @@ class GetMessageThreadHistory extends TdFunction {
   };
 
   factory GetMessageThreadHistory.fromJson(Map<String, dynamic> json) => GetMessageThreadHistory(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    fromMessageId: json['from_message_id'],
-    offset: json['offset'],
-    limit: json['limit'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    fromMessageId: json['from_message_id'] as int,
+    offset: json['offset'] as int,
+    limit: json['limit'] as int,
   );
 }
 
@@ -2275,9 +2275,9 @@ class DeleteChatHistory extends TdFunction {
   };
 
   factory DeleteChatHistory.fromJson(Map<String, dynamic> json) => DeleteChatHistory(
-    chatId: json['chat_id'],
-    removeFromChatList: json['remove_from_chat_list'],
-    revoke: json['revoke'],
+    chatId: json['chat_id'] as int,
+    removeFromChatList: json['remove_from_chat_list'] as bool,
+    revoke: json['revoke'] as bool,
   );
 }
 
@@ -2310,7 +2310,7 @@ class DeleteChat extends TdFunction {
   };
 
   factory DeleteChat.fromJson(Map<String, dynamic> json) => DeleteChat(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -2378,14 +2378,14 @@ class SearchChatMessages extends TdFunction {
   };
 
   factory SearchChatMessages.fromJson(Map<String, dynamic> json) => SearchChatMessages(
-    chatId: json['chat_id'],
-    query: json['query'],
+    chatId: json['chat_id'] as int,
+    query: json['query'] as String,
     sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
-    fromMessageId: json['from_message_id'],
-    offset: json['offset'],
-    limit: json['limit'],
+    fromMessageId: json['from_message_id'] as int,
+    offset: json['offset'] as int,
+    limit: json['limit'] as int,
     filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter?,
-    messageThreadId: json['message_thread_id'],
+    messageThreadId: json['message_thread_id'] as int,
   );
 }
 
@@ -2459,14 +2459,14 @@ class SearchMessages extends TdFunction {
 
   factory SearchMessages.fromJson(Map<String, dynamic> json) => SearchMessages(
     chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
-    query: json['query'],
-    offsetDate: json['offset_date'],
-    offsetChatId: json['offset_chat_id'],
-    offsetMessageId: json['offset_message_id'],
-    limit: json['limit'],
+    query: json['query'] as String,
+    offsetDate: json['offset_date'] as int,
+    offsetChatId: json['offset_chat_id'] as int,
+    offsetMessageId: json['offset_message_id'] as int,
+    limit: json['limit'] as int,
     filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter?,
-    minDate: json['min_date'],
-    maxDate: json['max_date'],
+    minDate: json['min_date'] as int,
+    maxDate: json['max_date'] as int,
   );
 }
 
@@ -2519,10 +2519,10 @@ class SearchSecretMessages extends TdFunction {
   };
 
   factory SearchSecretMessages.fromJson(Map<String, dynamic> json) => SearchSecretMessages(
-    chatId: json['chat_id'],
-    query: json['query'],
-    offset: json['offset'],
-    limit: json['limit'],
+    chatId: json['chat_id'] as int,
+    query: json['query'] as String,
+    offset: json['offset'] as String,
+    limit: json['limit'] as int,
     filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter?,
   );
 }
@@ -2566,9 +2566,9 @@ class SearchCallMessages extends TdFunction {
   };
 
   factory SearchCallMessages.fromJson(Map<String, dynamic> json) => SearchCallMessages(
-    fromMessageId: json['from_message_id'],
-    limit: json['limit'],
-    onlyMissed: json['only_missed'],
+    fromMessageId: json['from_message_id'] as int,
+    limit: json['limit'] as int,
+    onlyMissed: json['only_missed'] as bool,
   );
 }
 
@@ -2601,7 +2601,7 @@ class DeleteAllCallMessages extends TdFunction {
   };
 
   factory DeleteAllCallMessages.fromJson(Map<String, dynamic> json) => DeleteAllCallMessages(
-    revoke: json['revoke'],
+    revoke: json['revoke'] as bool,
   );
 }
 
@@ -2639,8 +2639,8 @@ class SearchChatRecentLocationMessages extends TdFunction {
   };
 
   factory SearchChatRecentLocationMessages.fromJson(Map<String, dynamic> json) => SearchChatRecentLocationMessages(
-    chatId: json['chat_id'],
-    limit: json['limit'],
+    chatId: json['chat_id'] as int,
+    limit: json['limit'] as int,
   );
 }
 
@@ -2703,8 +2703,8 @@ class GetChatMessageByDate extends TdFunction {
   };
 
   factory GetChatMessageByDate.fromJson(Map<String, dynamic> json) => GetChatMessageByDate(
-    chatId: json['chat_id'],
-    date: json['date'],
+    chatId: json['chat_id'] as int,
+    date: json['date'] as int,
   );
 }
 
@@ -2747,9 +2747,9 @@ class GetChatMessageCount extends TdFunction {
   };
 
   factory GetChatMessageCount.fromJson(Map<String, dynamic> json) => GetChatMessageCount(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter?,
-    returnLocal: json['return_local'],
+    returnLocal: json['return_local'] as bool,
   );
 }
 
@@ -2782,7 +2782,7 @@ class GetChatScheduledMessages extends TdFunction {
   };
 
   factory GetChatScheduledMessages.fromJson(Map<String, dynamic> json) => GetChatScheduledMessages(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -2830,10 +2830,10 @@ class GetMessagePublicForwards extends TdFunction {
   };
 
   factory GetMessagePublicForwards.fromJson(Map<String, dynamic> json) => GetMessagePublicForwards(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    offset: json['offset'],
-    limit: json['limit'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    offset: json['offset'] as String,
+    limit: json['limit'] as int,
   );
 }
 
@@ -2871,8 +2871,8 @@ class RemoveNotification extends TdFunction {
   };
 
   factory RemoveNotification.fromJson(Map<String, dynamic> json) => RemoveNotification(
-    notificationGroupId: json['notification_group_id'],
-    notificationId: json['notification_id'],
+    notificationGroupId: json['notification_group_id'] as int,
+    notificationId: json['notification_id'] as int,
   );
 }
 
@@ -2910,8 +2910,8 @@ class RemoveNotificationGroup extends TdFunction {
   };
 
   factory RemoveNotificationGroup.fromJson(Map<String, dynamic> json) => RemoveNotificationGroup(
-    notificationGroupId: json['notification_group_id'],
-    maxNotificationId: json['max_notification_id'],
+    notificationGroupId: json['notification_group_id'] as int,
+    maxNotificationId: json['max_notification_id'] as int,
   );
 }
 
@@ -2959,10 +2959,10 @@ class GetMessageLink extends TdFunction {
   };
 
   factory GetMessageLink.fromJson(Map<String, dynamic> json) => GetMessageLink(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    forAlbum: json['for_album'],
-    forComment: json['for_comment'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    forAlbum: json['for_album'] as bool,
+    forComment: json['for_comment'] as bool,
   );
 }
 
@@ -3005,9 +3005,9 @@ class GetMessageEmbeddingCode extends TdFunction {
   };
 
   factory GetMessageEmbeddingCode.fromJson(Map<String, dynamic> json) => GetMessageEmbeddingCode(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    forAlbum: json['for_album'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    forAlbum: json['for_album'] as bool,
   );
 }
 
@@ -3040,7 +3040,7 @@ class GetMessageLinkInfo extends TdFunction {
   };
 
   factory GetMessageLinkInfo.fromJson(Map<String, dynamic> json) => GetMessageLinkInfo(
-    url: json['url'],
+    url: json['url'] as String,
   );
 }
 
@@ -3098,9 +3098,9 @@ class SendMessage extends TdFunction {
   };
 
   factory SendMessage.fromJson(Map<String, dynamic> json) => SendMessage(
-    chatId: json['chat_id'],
-    messageThreadId: json['message_thread_id'],
-    replyToMessageId: json['reply_to_message_id'],
+    chatId: json['chat_id'] as int,
+    messageThreadId: json['message_thread_id'] as int,
+    replyToMessageId: json['reply_to_message_id'] as int,
     options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions?,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
@@ -3156,11 +3156,11 @@ class SendMessageAlbum extends TdFunction {
   };
 
   factory SendMessageAlbum.fromJson(Map<String, dynamic> json) => SendMessageAlbum(
-    chatId: json['chat_id'],
-    messageThreadId: json['message_thread_id'],
-    replyToMessageId: json['reply_to_message_id'],
+    chatId: json['chat_id'] as int,
+    messageThreadId: json['message_thread_id'] as int,
+    replyToMessageId: json['reply_to_message_id'] as int,
     options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions?,
-    inputMessageContents: (json['input_message_contents'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputMessageContent?).toList(growable: false),
+    inputMessageContents: (json['input_message_contents'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputMessageContent?)).toList(growable: false),
   );
 }
 
@@ -3203,9 +3203,9 @@ class SendBotStartMessage extends TdFunction {
   };
 
   factory SendBotStartMessage.fromJson(Map<String, dynamic> json) => SendBotStartMessage(
-    botUserId: json['bot_user_id'],
-    chatId: json['chat_id'],
-    parameter: json['parameter'],
+    botUserId: json['bot_user_id'] as int,
+    chatId: json['chat_id'] as int,
+    parameter: json['parameter'] as String,
   );
 }
 
@@ -3268,13 +3268,13 @@ class SendInlineQueryResultMessage extends TdFunction {
   };
 
   factory SendInlineQueryResultMessage.fromJson(Map<String, dynamic> json) => SendInlineQueryResultMessage(
-    chatId: json['chat_id'],
-    messageThreadId: json['message_thread_id'],
-    replyToMessageId: json['reply_to_message_id'],
+    chatId: json['chat_id'] as int,
+    messageThreadId: json['message_thread_id'] as int,
+    replyToMessageId: json['reply_to_message_id'] as int,
     options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions?,
     queryId: int.parse(json['query_id']),
-    resultId: json['result_id'],
-    hideViaBot: json['hide_via_bot'],
+    resultId: json['result_id'] as String,
+    hideViaBot: json['hide_via_bot'] as bool,
   );
 }
 
@@ -3332,12 +3332,12 @@ class ForwardMessages extends TdFunction {
   };
 
   factory ForwardMessages.fromJson(Map<String, dynamic> json) => ForwardMessages(
-    chatId: json['chat_id'],
-    fromChatId: json['from_chat_id'],
-    messageIds: (json['message_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    chatId: json['chat_id'] as int,
+    fromChatId: json['from_chat_id'] as int,
+    messageIds: (json['message_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
     options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions?,
-    sendCopy: json['send_copy'],
-    removeCaption: json['remove_caption'],
+    sendCopy: json['send_copy'] as bool,
+    removeCaption: json['remove_caption'] as bool,
   );
 }
 
@@ -3375,8 +3375,8 @@ class ResendMessages extends TdFunction {
   };
 
   factory ResendMessages.fromJson(Map<String, dynamic> json) => ResendMessages(
-    chatId: json['chat_id'],
-    messageIds: (json['message_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    chatId: json['chat_id'] as int,
+    messageIds: (json['message_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -3409,7 +3409,7 @@ class SendChatScreenshotTakenNotification extends TdFunction {
   };
 
   factory SendChatScreenshotTakenNotification.fromJson(Map<String, dynamic> json) => SendChatScreenshotTakenNotification(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -3462,10 +3462,10 @@ class AddLocalMessage extends TdFunction {
   };
 
   factory AddLocalMessage.fromJson(Map<String, dynamic> json) => AddLocalMessage(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
-    replyToMessageId: json['reply_to_message_id'],
-    disableNotification: json['disable_notification'],
+    replyToMessageId: json['reply_to_message_id'] as int,
+    disableNotification: json['disable_notification'] as bool,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
 }
@@ -3509,9 +3509,9 @@ class DeleteMessages extends TdFunction {
   };
 
   factory DeleteMessages.fromJson(Map<String, dynamic> json) => DeleteMessages(
-    chatId: json['chat_id'],
-    messageIds: (json['message_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    revoke: json['revoke'],
+    chatId: json['chat_id'] as int,
+    messageIds: (json['message_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    revoke: json['revoke'] as bool,
   );
 }
 
@@ -3549,8 +3549,8 @@ class DeleteChatMessagesFromUser extends TdFunction {
   };
 
   factory DeleteChatMessagesFromUser.fromJson(Map<String, dynamic> json) => DeleteChatMessagesFromUser(
-    chatId: json['chat_id'],
-    userId: json['user_id'],
+    chatId: json['chat_id'] as int,
+    userId: json['user_id'] as int,
   );
 }
 
@@ -3598,8 +3598,8 @@ class EditMessageText extends TdFunction {
   };
 
   factory EditMessageText.fromJson(Map<String, dynamic> json) => EditMessageText(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -3659,12 +3659,12 @@ class EditMessageLiveLocation extends TdFunction {
   };
 
   factory EditMessageLiveLocation.fromJson(Map<String, dynamic> json) => EditMessageLiveLocation(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     location: b.TdBase.fromJson(json['location']) as o.Location?,
-    heading: json['heading'],
-    proximityAlertRadius: json['proximity_alert_radius'],
+    heading: json['heading'] as int,
+    proximityAlertRadius: json['proximity_alert_radius'] as int,
   );
 }
 
@@ -3712,8 +3712,8 @@ class EditMessageMedia extends TdFunction {
   };
 
   factory EditMessageMedia.fromJson(Map<String, dynamic> json) => EditMessageMedia(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -3763,8 +3763,8 @@ class EditMessageCaption extends TdFunction {
   };
 
   factory EditMessageCaption.fromJson(Map<String, dynamic> json) => EditMessageCaption(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     caption: b.TdBase.fromJson(json['caption']) as o.FormattedText?,
   );
@@ -3809,8 +3809,8 @@ class EditMessageReplyMarkup extends TdFunction {
   };
 
   factory EditMessageReplyMarkup.fromJson(Map<String, dynamic> json) => EditMessageReplyMarkup(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
   );
 }
@@ -3854,7 +3854,7 @@ class EditInlineMessageText extends TdFunction {
   };
 
   factory EditInlineMessageText.fromJson(Map<String, dynamic> json) => EditInlineMessageText(
-    inlineMessageId: json['inline_message_id'],
+    inlineMessageId: json['inline_message_id'] as String,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -3909,11 +3909,11 @@ class EditInlineMessageLiveLocation extends TdFunction {
   };
 
   factory EditInlineMessageLiveLocation.fromJson(Map<String, dynamic> json) => EditInlineMessageLiveLocation(
-    inlineMessageId: json['inline_message_id'],
+    inlineMessageId: json['inline_message_id'] as String,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     location: b.TdBase.fromJson(json['location']) as o.Location?,
-    heading: json['heading'],
-    proximityAlertRadius: json['proximity_alert_radius'],
+    heading: json['heading'] as int,
+    proximityAlertRadius: json['proximity_alert_radius'] as int,
   );
 }
 
@@ -3956,7 +3956,7 @@ class EditInlineMessageMedia extends TdFunction {
   };
 
   factory EditInlineMessageMedia.fromJson(Map<String, dynamic> json) => EditInlineMessageMedia(
-    inlineMessageId: json['inline_message_id'],
+    inlineMessageId: json['inline_message_id'] as String,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
   );
@@ -4001,7 +4001,7 @@ class EditInlineMessageCaption extends TdFunction {
   };
 
   factory EditInlineMessageCaption.fromJson(Map<String, dynamic> json) => EditInlineMessageCaption(
-    inlineMessageId: json['inline_message_id'],
+    inlineMessageId: json['inline_message_id'] as String,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
     caption: b.TdBase.fromJson(json['caption']) as o.FormattedText?,
   );
@@ -4041,7 +4041,7 @@ class EditInlineMessageReplyMarkup extends TdFunction {
   };
 
   factory EditInlineMessageReplyMarkup.fromJson(Map<String, dynamic> json) => EditInlineMessageReplyMarkup(
-    inlineMessageId: json['inline_message_id'],
+    inlineMessageId: json['inline_message_id'] as String,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
   );
 }
@@ -4085,8 +4085,8 @@ class EditMessageSchedulingState extends TdFunction {
   };
 
   factory EditMessageSchedulingState.fromJson(Map<String, dynamic> json) => EditMessageSchedulingState(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     schedulingState: b.TdBase.fromJson(json['scheduling_state']) as a.MessageSchedulingState?,
   );
 }
@@ -4120,7 +4120,7 @@ class GetTextEntities extends TdFunction {
   };
 
   factory GetTextEntities.fromJson(Map<String, dynamic> json) => GetTextEntities(
-    text: json['text'],
+    text: json['text'] as String,
   );
 }
 
@@ -4158,7 +4158,7 @@ class ParseTextEntities extends TdFunction {
   };
 
   factory ParseTextEntities.fromJson(Map<String, dynamic> json) => ParseTextEntities(
-    text: json['text'],
+    text: json['text'] as String,
     parseMode: b.TdBase.fromJson(json['parse_mode']) as a.TextParseMode?,
   );
 }
@@ -4258,7 +4258,7 @@ class GetFileMimeType extends TdFunction {
   };
 
   factory GetFileMimeType.fromJson(Map<String, dynamic> json) => GetFileMimeType(
-    fileName: json['file_name'],
+    fileName: json['file_name'] as String,
   );
 }
 
@@ -4291,7 +4291,7 @@ class GetFileExtension extends TdFunction {
   };
 
   factory GetFileExtension.fromJson(Map<String, dynamic> json) => GetFileExtension(
-    mimeType: json['mime_type'],
+    mimeType: json['mime_type'] as String,
   );
 }
 
@@ -4324,7 +4324,7 @@ class CleanFileName extends TdFunction {
   };
 
   factory CleanFileName.fromJson(Map<String, dynamic> json) => CleanFileName(
-    fileName: json['file_name'],
+    fileName: json['file_name'] as String,
   );
 }
 
@@ -4372,10 +4372,10 @@ class GetLanguagePackString extends TdFunction {
   };
 
   factory GetLanguagePackString.fromJson(Map<String, dynamic> json) => GetLanguagePackString(
-    languagePackDatabasePath: json['language_pack_database_path'],
-    localizationTarget: json['localization_target'],
-    languagePackId: json['language_pack_id'],
-    key: json['key'],
+    languagePackDatabasePath: json['language_pack_database_path'] as String,
+    localizationTarget: json['localization_target'] as String,
+    languagePackId: json['language_pack_id'] as String,
+    key: json['key'] as String,
   );
 }
 
@@ -4408,7 +4408,7 @@ class GetJsonValue extends TdFunction {
   };
 
   factory GetJsonValue.fromJson(Map<String, dynamic> json) => GetJsonValue(
-    json: json['json'],
+    json: json['json'] as String,
   );
 }
 
@@ -4484,9 +4484,9 @@ class SetPollAnswer extends TdFunction {
   };
 
   factory SetPollAnswer.fromJson(Map<String, dynamic> json) => SetPollAnswer(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    optionIds: (json['option_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    optionIds: (json['option_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -4539,11 +4539,11 @@ class GetPollVoters extends TdFunction {
   };
 
   factory GetPollVoters.fromJson(Map<String, dynamic> json) => GetPollVoters(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    optionId: json['option_id'],
-    offset: json['offset'],
-    limit: json['limit'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    optionId: json['option_id'] as int,
+    offset: json['offset'] as int,
+    limit: json['limit'] as int,
   );
 }
 
@@ -4586,8 +4586,8 @@ class StopPoll extends TdFunction {
   };
 
   factory StopPoll.fromJson(Map<String, dynamic> json) => StopPoll(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     replyMarkup: b.TdBase.fromJson(json['reply_markup']) as a.ReplyMarkup?,
   );
 }
@@ -4664,9 +4664,9 @@ class GetLoginUrlInfo extends TdFunction {
   };
 
   factory GetLoginUrlInfo.fromJson(Map<String, dynamic> json) => GetLoginUrlInfo(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    buttonId: json['button_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    buttonId: json['button_id'] as int,
   );
 }
 
@@ -4714,10 +4714,10 @@ class GetLoginUrl extends TdFunction {
   };
 
   factory GetLoginUrl.fromJson(Map<String, dynamic> json) => GetLoginUrl(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    buttonId: json['button_id'],
-    allowWriteAccess: json['allow_write_access'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    buttonId: json['button_id'] as int,
+    allowWriteAccess: json['allow_write_access'] as bool,
   );
 }
 
@@ -4770,11 +4770,11 @@ class GetInlineQueryResults extends TdFunction {
   };
 
   factory GetInlineQueryResults.fromJson(Map<String, dynamic> json) => GetInlineQueryResults(
-    botUserId: json['bot_user_id'],
-    chatId: json['chat_id'],
+    botUserId: json['bot_user_id'] as int,
+    chatId: json['chat_id'] as int,
     userLocation: b.TdBase.fromJson(json['user_location']) as o.Location?,
-    query: json['query'],
-    offset: json['offset'],
+    query: json['query'] as String,
+    offset: json['offset'] as String,
   );
 }
 
@@ -4838,12 +4838,12 @@ class AnswerInlineQuery extends TdFunction {
 
   factory AnswerInlineQuery.fromJson(Map<String, dynamic> json) => AnswerInlineQuery(
     inlineQueryId: int.parse(json['inline_query_id']),
-    isPersonal: json['is_personal'],
-    results: (json['results'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputInlineQueryResult?).toList(growable: false),
-    cacheTime: json['cache_time'],
-    nextOffset: json['next_offset'],
-    switchPmText: json['switch_pm_text'],
-    switchPmParameter: json['switch_pm_parameter'],
+    isPersonal: json['is_personal'] as bool,
+    results: (json['results'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputInlineQueryResult?)).toList(growable: false),
+    cacheTime: json['cache_time'] as int,
+    nextOffset: json['next_offset'] as String,
+    switchPmText: json['switch_pm_text'] as String,
+    switchPmParameter: json['switch_pm_parameter'] as String,
   );
 }
 
@@ -4886,8 +4886,8 @@ class GetCallbackQueryAnswer extends TdFunction {
   };
 
   factory GetCallbackQueryAnswer.fromJson(Map<String, dynamic> json) => GetCallbackQueryAnswer(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     payload: b.TdBase.fromJson(json['payload']) as a.CallbackQueryPayload?,
   );
 }
@@ -4942,10 +4942,10 @@ class AnswerCallbackQuery extends TdFunction {
 
   factory AnswerCallbackQuery.fromJson(Map<String, dynamic> json) => AnswerCallbackQuery(
     callbackQueryId: int.parse(json['callback_query_id']),
-    text: json['text'],
-    showAlert: json['show_alert'],
-    url: json['url'],
-    cacheTime: json['cache_time'],
+    text: json['text'] as String,
+    showAlert: json['show_alert'] as bool,
+    url: json['url'] as String,
+    cacheTime: json['cache_time'] as int,
   );
 }
 
@@ -4989,8 +4989,8 @@ class AnswerShippingQuery extends TdFunction {
 
   factory AnswerShippingQuery.fromJson(Map<String, dynamic> json) => AnswerShippingQuery(
     shippingQueryId: int.parse(json['shipping_query_id']),
-    shippingOptions: (json['shipping_options'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.ShippingOption?).toList(growable: false),
-    errorMessage: json['error_message'],
+    shippingOptions: (json['shipping_options'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as o.ShippingOption?)).toList(growable: false),
+    errorMessage: json['error_message'] as String,
   );
 }
 
@@ -5029,7 +5029,7 @@ class AnswerPreCheckoutQuery extends TdFunction {
 
   factory AnswerPreCheckoutQuery.fromJson(Map<String, dynamic> json) => AnswerPreCheckoutQuery(
     preCheckoutQueryId: int.parse(json['pre_checkout_query_id']),
-    errorMessage: json['error_message'],
+    errorMessage: json['error_message'] as String,
   );
 }
 
@@ -5087,12 +5087,12 @@ class SetGameScore extends TdFunction {
   };
 
   factory SetGameScore.fromJson(Map<String, dynamic> json) => SetGameScore(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    editMessage: json['edit_message'],
-    userId: json['user_id'],
-    score: json['score'],
-    force: json['force'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    editMessage: json['edit_message'] as bool,
+    userId: json['user_id'] as int,
+    score: json['score'] as int,
+    force: json['force'] as bool,
   );
 }
 
@@ -5145,11 +5145,11 @@ class SetInlineGameScore extends TdFunction {
   };
 
   factory SetInlineGameScore.fromJson(Map<String, dynamic> json) => SetInlineGameScore(
-    inlineMessageId: json['inline_message_id'],
-    editMessage: json['edit_message'],
-    userId: json['user_id'],
-    score: json['score'],
-    force: json['force'],
+    inlineMessageId: json['inline_message_id'] as String,
+    editMessage: json['edit_message'] as bool,
+    userId: json['user_id'] as int,
+    score: json['score'] as int,
+    force: json['force'] as bool,
   );
 }
 
@@ -5192,9 +5192,9 @@ class GetGameHighScores extends TdFunction {
   };
 
   factory GetGameHighScores.fromJson(Map<String, dynamic> json) => GetGameHighScores(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    userId: json['user_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    userId: json['user_id'] as int,
   );
 }
 
@@ -5232,8 +5232,8 @@ class GetInlineGameHighScores extends TdFunction {
   };
 
   factory GetInlineGameHighScores.fromJson(Map<String, dynamic> json) => GetInlineGameHighScores(
-    inlineMessageId: json['inline_message_id'],
-    userId: json['user_id'],
+    inlineMessageId: json['inline_message_id'] as String,
+    userId: json['user_id'] as int,
   );
 }
 
@@ -5271,8 +5271,8 @@ class DeleteChatReplyMarkup extends TdFunction {
   };
 
   factory DeleteChatReplyMarkup.fromJson(Map<String, dynamic> json) => DeleteChatReplyMarkup(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
   );
 }
 
@@ -5315,8 +5315,8 @@ class SendChatAction extends TdFunction {
   };
 
   factory SendChatAction.fromJson(Map<String, dynamic> json) => SendChatAction(
-    chatId: json['chat_id'],
-    messageThreadId: json['message_thread_id'],
+    chatId: json['chat_id'] as int,
+    messageThreadId: json['message_thread_id'] as int,
     action: b.TdBase.fromJson(json['action']) as a.ChatAction?,
   );
 }
@@ -5350,7 +5350,7 @@ class OpenChat extends TdFunction {
   };
 
   factory OpenChat.fromJson(Map<String, dynamic> json) => OpenChat(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -5383,7 +5383,7 @@ class CloseChat extends TdFunction {
   };
 
   factory CloseChat.fromJson(Map<String, dynamic> json) => CloseChat(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -5431,10 +5431,10 @@ class ViewMessages extends TdFunction {
   };
 
   factory ViewMessages.fromJson(Map<String, dynamic> json) => ViewMessages(
-    chatId: json['chat_id'],
-    messageThreadId: json['message_thread_id'],
-    messageIds: (json['message_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    forceRead: json['force_read'],
+    chatId: json['chat_id'] as int,
+    messageThreadId: json['message_thread_id'] as int,
+    messageIds: (json['message_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    forceRead: json['force_read'] as bool,
   );
 }
 
@@ -5472,8 +5472,8 @@ class OpenMessageContent extends TdFunction {
   };
 
   factory OpenMessageContent.fromJson(Map<String, dynamic> json) => OpenMessageContent(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
   );
 }
 
@@ -5506,7 +5506,7 @@ class GetExternalLinkInfo extends TdFunction {
   };
 
   factory GetExternalLinkInfo.fromJson(Map<String, dynamic> json) => GetExternalLinkInfo(
-    link: json['link'],
+    link: json['link'] as String,
   );
 }
 
@@ -5544,8 +5544,8 @@ class GetExternalLink extends TdFunction {
   };
 
   factory GetExternalLink.fromJson(Map<String, dynamic> json) => GetExternalLink(
-    link: json['link'],
-    allowWriteAccess: json['allow_write_access'],
+    link: json['link'] as String,
+    allowWriteAccess: json['allow_write_access'] as bool,
   );
 }
 
@@ -5578,7 +5578,7 @@ class ReadAllChatMentions extends TdFunction {
   };
 
   factory ReadAllChatMentions.fromJson(Map<String, dynamic> json) => ReadAllChatMentions(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -5616,8 +5616,8 @@ class CreatePrivateChat extends TdFunction {
   };
 
   factory CreatePrivateChat.fromJson(Map<String, dynamic> json) => CreatePrivateChat(
-    userId: json['user_id'],
-    force: json['force'],
+    userId: json['user_id'] as int,
+    force: json['force'] as bool,
   );
 }
 
@@ -5655,8 +5655,8 @@ class CreateBasicGroupChat extends TdFunction {
   };
 
   factory CreateBasicGroupChat.fromJson(Map<String, dynamic> json) => CreateBasicGroupChat(
-    basicGroupId: json['basic_group_id'],
-    force: json['force'],
+    basicGroupId: json['basic_group_id'] as int,
+    force: json['force'] as bool,
   );
 }
 
@@ -5694,8 +5694,8 @@ class CreateSupergroupChat extends TdFunction {
   };
 
   factory CreateSupergroupChat.fromJson(Map<String, dynamic> json) => CreateSupergroupChat(
-    supergroupId: json['supergroup_id'],
-    force: json['force'],
+    supergroupId: json['supergroup_id'] as int,
+    force: json['force'] as bool,
   );
 }
 
@@ -5728,7 +5728,7 @@ class CreateSecretChat extends TdFunction {
   };
 
   factory CreateSecretChat.fromJson(Map<String, dynamic> json) => CreateSecretChat(
-    secretChatId: json['secret_chat_id'],
+    secretChatId: json['secret_chat_id'] as int,
   );
 }
 
@@ -5766,8 +5766,8 @@ class CreateNewBasicGroupChat extends TdFunction {
   };
 
   factory CreateNewBasicGroupChat.fromJson(Map<String, dynamic> json) => CreateNewBasicGroupChat(
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    title: json['title'],
+    userIds: (json['user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    title: json['title'] as String,
   );
 }
 
@@ -5820,11 +5820,11 @@ class CreateNewSupergroupChat extends TdFunction {
   };
 
   factory CreateNewSupergroupChat.fromJson(Map<String, dynamic> json) => CreateNewSupergroupChat(
-    title: json['title'],
-    isChannel: json['is_channel'],
-    description: json['description'],
+    title: json['title'] as String,
+    isChannel: json['is_channel'] as bool,
+    description: json['description'] as String,
     location: b.TdBase.fromJson(json['location']) as o.ChatLocation?,
-    forImport: json['for_import'],
+    forImport: json['for_import'] as bool,
   );
 }
 
@@ -5857,7 +5857,7 @@ class CreateNewSecretChat extends TdFunction {
   };
 
   factory CreateNewSecretChat.fromJson(Map<String, dynamic> json) => CreateNewSecretChat(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
   );
 }
 
@@ -5890,7 +5890,7 @@ class UpgradeBasicGroupChatToSupergroupChat extends TdFunction {
   };
 
   factory UpgradeBasicGroupChatToSupergroupChat.fromJson(Map<String, dynamic> json) => UpgradeBasicGroupChatToSupergroupChat(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -5923,7 +5923,7 @@ class GetChatListsToAddChat extends TdFunction {
   };
 
   factory GetChatListsToAddChat.fromJson(Map<String, dynamic> json) => GetChatListsToAddChat(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -5961,7 +5961,7 @@ class AddChatToList extends TdFunction {
   };
 
   factory AddChatToList.fromJson(Map<String, dynamic> json) => AddChatToList(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
   );
 }
@@ -5995,7 +5995,7 @@ class GetChatFilter extends TdFunction {
   };
 
   factory GetChatFilter.fromJson(Map<String, dynamic> json) => GetChatFilter(
-    chatFilterId: json['chat_filter_id'],
+    chatFilterId: json['chat_filter_id'] as int,
   );
 }
 
@@ -6066,7 +6066,7 @@ class EditChatFilter extends TdFunction {
   };
 
   factory EditChatFilter.fromJson(Map<String, dynamic> json) => EditChatFilter(
-    chatFilterId: json['chat_filter_id'],
+    chatFilterId: json['chat_filter_id'] as int,
     filter: b.TdBase.fromJson(json['filter']) as o.ChatFilter?,
   );
 }
@@ -6100,7 +6100,7 @@ class DeleteChatFilter extends TdFunction {
   };
 
   factory DeleteChatFilter.fromJson(Map<String, dynamic> json) => DeleteChatFilter(
-    chatFilterId: json['chat_filter_id'],
+    chatFilterId: json['chat_filter_id'] as int,
   );
 }
 
@@ -6133,7 +6133,7 @@ class ReorderChatFilters extends TdFunction {
   };
 
   factory ReorderChatFilters.fromJson(Map<String, dynamic> json) => ReorderChatFilters(
-    chatFilterIds: (json['chat_filter_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    chatFilterIds: (json['chat_filter_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -6229,8 +6229,8 @@ class SetChatTitle extends TdFunction {
   };
 
   factory SetChatTitle.fromJson(Map<String, dynamic> json) => SetChatTitle(
-    chatId: json['chat_id'],
-    title: json['title'],
+    chatId: json['chat_id'] as int,
+    title: json['title'] as String,
   );
 }
 
@@ -6268,7 +6268,7 @@ class SetChatPhoto extends TdFunction {
   };
 
   factory SetChatPhoto.fromJson(Map<String, dynamic> json) => SetChatPhoto(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     photo: b.TdBase.fromJson(json['photo']) as a.InputChatPhoto?,
   );
 }
@@ -6307,8 +6307,8 @@ class SetChatMessageTtlSetting extends TdFunction {
   };
 
   factory SetChatMessageTtlSetting.fromJson(Map<String, dynamic> json) => SetChatMessageTtlSetting(
-    chatId: json['chat_id'],
-    ttl: json['ttl'],
+    chatId: json['chat_id'] as int,
+    ttl: json['ttl'] as int,
   );
 }
 
@@ -6346,7 +6346,7 @@ class SetChatPermissions extends TdFunction {
   };
 
   factory SetChatPermissions.fromJson(Map<String, dynamic> json) => SetChatPermissions(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     permissions: b.TdBase.fromJson(json['permissions']) as o.ChatPermissions?,
   );
 }
@@ -6390,8 +6390,8 @@ class SetChatDraftMessage extends TdFunction {
   };
 
   factory SetChatDraftMessage.fromJson(Map<String, dynamic> json) => SetChatDraftMessage(
-    chatId: json['chat_id'],
-    messageThreadId: json['message_thread_id'],
+    chatId: json['chat_id'] as int,
+    messageThreadId: json['message_thread_id'] as int,
     draftMessage: b.TdBase.fromJson(json['draft_message']) as o.DraftMessage?,
   );
 }
@@ -6430,7 +6430,7 @@ class SetChatNotificationSettings extends TdFunction {
   };
 
   factory SetChatNotificationSettings.fromJson(Map<String, dynamic> json) => SetChatNotificationSettings(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     notificationSettings: b.TdBase.fromJson(json['notification_settings']) as o.ChatNotificationSettings?,
   );
 }
@@ -6469,8 +6469,8 @@ class ToggleChatIsMarkedAsUnread extends TdFunction {
   };
 
   factory ToggleChatIsMarkedAsUnread.fromJson(Map<String, dynamic> json) => ToggleChatIsMarkedAsUnread(
-    chatId: json['chat_id'],
-    isMarkedAsUnread: json['is_marked_as_unread'],
+    chatId: json['chat_id'] as int,
+    isMarkedAsUnread: json['is_marked_as_unread'] as bool,
   );
 }
 
@@ -6508,8 +6508,8 @@ class ToggleChatDefaultDisableNotification extends TdFunction {
   };
 
   factory ToggleChatDefaultDisableNotification.fromJson(Map<String, dynamic> json) => ToggleChatDefaultDisableNotification(
-    chatId: json['chat_id'],
-    defaultDisableNotification: json['default_disable_notification'],
+    chatId: json['chat_id'] as int,
+    defaultDisableNotification: json['default_disable_notification'] as bool,
   );
 }
 
@@ -6547,8 +6547,8 @@ class SetChatClientData extends TdFunction {
   };
 
   factory SetChatClientData.fromJson(Map<String, dynamic> json) => SetChatClientData(
-    chatId: json['chat_id'],
-    clientData: json['client_data'],
+    chatId: json['chat_id'] as int,
+    clientData: json['client_data'] as String,
   );
 }
 
@@ -6586,8 +6586,8 @@ class SetChatDescription extends TdFunction {
   };
 
   factory SetChatDescription.fromJson(Map<String, dynamic> json) => SetChatDescription(
-    chatId: json['chat_id'],
-    description: json['description'],
+    chatId: json['chat_id'] as int,
+    description: json['description'] as String,
   );
 }
 
@@ -6625,8 +6625,8 @@ class SetChatDiscussionGroup extends TdFunction {
   };
 
   factory SetChatDiscussionGroup.fromJson(Map<String, dynamic> json) => SetChatDiscussionGroup(
-    chatId: json['chat_id'],
-    discussionChatId: json['discussion_chat_id'],
+    chatId: json['chat_id'] as int,
+    discussionChatId: json['discussion_chat_id'] as int,
   );
 }
 
@@ -6664,7 +6664,7 @@ class SetChatLocation extends TdFunction {
   };
 
   factory SetChatLocation.fromJson(Map<String, dynamic> json) => SetChatLocation(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     location: b.TdBase.fromJson(json['location']) as o.ChatLocation?,
   );
 }
@@ -6703,8 +6703,8 @@ class SetChatSlowModeDelay extends TdFunction {
   };
 
   factory SetChatSlowModeDelay.fromJson(Map<String, dynamic> json) => SetChatSlowModeDelay(
-    chatId: json['chat_id'],
-    slowModeDelay: json['slow_mode_delay'],
+    chatId: json['chat_id'] as int,
+    slowModeDelay: json['slow_mode_delay'] as int,
   );
 }
 
@@ -6752,10 +6752,10 @@ class PinChatMessage extends TdFunction {
   };
 
   factory PinChatMessage.fromJson(Map<String, dynamic> json) => PinChatMessage(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    disableNotification: json['disable_notification'],
-    onlyForSelf: json['only_for_self'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    disableNotification: json['disable_notification'] as bool,
+    onlyForSelf: json['only_for_self'] as bool,
   );
 }
 
@@ -6793,8 +6793,8 @@ class UnpinChatMessage extends TdFunction {
   };
 
   factory UnpinChatMessage.fromJson(Map<String, dynamic> json) => UnpinChatMessage(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
   );
 }
 
@@ -6827,7 +6827,7 @@ class UnpinAllChatMessages extends TdFunction {
   };
 
   factory UnpinAllChatMessages.fromJson(Map<String, dynamic> json) => UnpinAllChatMessages(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -6860,7 +6860,7 @@ class JoinChat extends TdFunction {
   };
 
   factory JoinChat.fromJson(Map<String, dynamic> json) => JoinChat(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -6893,7 +6893,7 @@ class LeaveChat extends TdFunction {
   };
 
   factory LeaveChat.fromJson(Map<String, dynamic> json) => LeaveChat(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -6936,9 +6936,9 @@ class AddChatMember extends TdFunction {
   };
 
   factory AddChatMember.fromJson(Map<String, dynamic> json) => AddChatMember(
-    chatId: json['chat_id'],
-    userId: json['user_id'],
-    forwardLimit: json['forward_limit'],
+    chatId: json['chat_id'] as int,
+    userId: json['user_id'] as int,
+    forwardLimit: json['forward_limit'] as int,
   );
 }
 
@@ -6976,8 +6976,8 @@ class AddChatMembers extends TdFunction {
   };
 
   factory AddChatMembers.fromJson(Map<String, dynamic> json) => AddChatMembers(
-    chatId: json['chat_id'],
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    chatId: json['chat_id'] as int,
+    userIds: (json['user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -7020,7 +7020,7 @@ class SetChatMemberStatus extends TdFunction {
   };
 
   factory SetChatMemberStatus.fromJson(Map<String, dynamic> json) => SetChatMemberStatus(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
     status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
   );
@@ -7070,10 +7070,10 @@ class BanChatMember extends TdFunction {
   };
 
   factory BanChatMember.fromJson(Map<String, dynamic> json) => BanChatMember(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
-    bannedUntilDate: json['banned_until_date'],
-    revokeMessages: json['revoke_messages'],
+    bannedUntilDate: json['banned_until_date'] as int,
+    revokeMessages: json['revoke_messages'] as bool,
   );
 }
 
@@ -7141,9 +7141,9 @@ class TransferChatOwnership extends TdFunction {
   };
 
   factory TransferChatOwnership.fromJson(Map<String, dynamic> json) => TransferChatOwnership(
-    chatId: json['chat_id'],
-    userId: json['user_id'],
-    password: json['password'],
+    chatId: json['chat_id'] as int,
+    userId: json['user_id'] as int,
+    password: json['password'] as String,
   );
 }
 
@@ -7181,7 +7181,7 @@ class GetChatMember extends TdFunction {
   };
 
   factory GetChatMember.fromJson(Map<String, dynamic> json) => GetChatMember(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
   );
 }
@@ -7230,9 +7230,9 @@ class SearchChatMembers extends TdFunction {
   };
 
   factory SearchChatMembers.fromJson(Map<String, dynamic> json) => SearchChatMembers(
-    chatId: json['chat_id'],
-    query: json['query'],
-    limit: json['limit'],
+    chatId: json['chat_id'] as int,
+    query: json['query'] as String,
+    limit: json['limit'] as int,
     filter: b.TdBase.fromJson(json['filter']) as a.ChatMembersFilter?,
   );
 }
@@ -7266,7 +7266,7 @@ class GetChatAdministrators extends TdFunction {
   };
 
   factory GetChatAdministrators.fromJson(Map<String, dynamic> json) => GetChatAdministrators(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -7299,7 +7299,7 @@ class ClearAllDraftMessages extends TdFunction {
   };
 
   factory ClearAllDraftMessages.fromJson(Map<String, dynamic> json) => ClearAllDraftMessages(
-    excludeSecretChats: json['exclude_secret_chats'],
+    excludeSecretChats: json['exclude_secret_chats'] as bool,
   );
 }
 
@@ -7338,7 +7338,7 @@ class GetChatNotificationSettingsExceptions extends TdFunction {
 
   factory GetChatNotificationSettingsExceptions.fromJson(Map<String, dynamic> json) => GetChatNotificationSettingsExceptions(
     scope: b.TdBase.fromJson(json['scope']) as a.NotificationSettingsScope?,
-    compareSound: json['compare_sound'],
+    compareSound: json['compare_sound'] as bool,
   );
 }
 
@@ -7479,8 +7479,8 @@ class ToggleChatIsPinned extends TdFunction {
 
   factory ToggleChatIsPinned.fromJson(Map<String, dynamic> json) => ToggleChatIsPinned(
     chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
-    chatId: json['chat_id'],
-    isPinned: json['is_pinned'],
+    chatId: json['chat_id'] as int,
+    isPinned: json['is_pinned'] as bool,
   );
 }
 
@@ -7519,7 +7519,7 @@ class SetPinnedChats extends TdFunction {
 
   factory SetPinnedChats.fromJson(Map<String, dynamic> json) => SetPinnedChats(
     chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
-    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -7572,11 +7572,11 @@ class DownloadFile extends TdFunction {
   };
 
   factory DownloadFile.fromJson(Map<String, dynamic> json) => DownloadFile(
-    fileId: json['file_id'],
-    priority: json['priority'],
-    offset: json['offset'],
-    limit: json['limit'],
-    synchronous: json['synchronous'],
+    fileId: json['file_id'] as int,
+    priority: json['priority'] as int,
+    offset: json['offset'] as int,
+    limit: json['limit'] as int,
+    synchronous: json['synchronous'] as bool,
   );
 }
 
@@ -7614,8 +7614,8 @@ class GetFileDownloadedPrefixSize extends TdFunction {
   };
 
   factory GetFileDownloadedPrefixSize.fromJson(Map<String, dynamic> json) => GetFileDownloadedPrefixSize(
-    fileId: json['file_id'],
-    offset: json['offset'],
+    fileId: json['file_id'] as int,
+    offset: json['offset'] as int,
   );
 }
 
@@ -7653,8 +7653,8 @@ class CancelDownloadFile extends TdFunction {
   };
 
   factory CancelDownloadFile.fromJson(Map<String, dynamic> json) => CancelDownloadFile(
-    fileId: json['file_id'],
-    onlyIfPending: json['only_if_pending'],
+    fileId: json['file_id'] as int,
+    onlyIfPending: json['only_if_pending'] as bool,
   );
 }
 
@@ -7699,7 +7699,7 @@ class UploadFile extends TdFunction {
   factory UploadFile.fromJson(Map<String, dynamic> json) => UploadFile(
     file: b.TdBase.fromJson(json['file']) as a.InputFile?,
     fileType: b.TdBase.fromJson(json['file_type']) as a.FileType?,
-    priority: json['priority'],
+    priority: json['priority'] as int,
   );
 }
 
@@ -7732,7 +7732,7 @@ class CancelUploadFile extends TdFunction {
   };
 
   factory CancelUploadFile.fromJson(Map<String, dynamic> json) => CancelUploadFile(
-    fileId: json['file_id'],
+    fileId: json['file_id'] as int,
   );
 }
 
@@ -7776,7 +7776,7 @@ class WriteGeneratedFilePart extends TdFunction {
 
   factory WriteGeneratedFilePart.fromJson(Map<String, dynamic> json) => WriteGeneratedFilePart(
     generationId: int.parse(json['generation_id']),
-    offset: json['offset'],
+    offset: json['offset'] as int,
     data: base64.decode(json['data']),
   );
 }
@@ -7821,8 +7821,8 @@ class SetFileGenerationProgress extends TdFunction {
 
   factory SetFileGenerationProgress.fromJson(Map<String, dynamic> json) => SetFileGenerationProgress(
     generationId: int.parse(json['generation_id']),
-    expectedSize: json['expected_size'],
-    localPrefixSize: json['local_prefix_size'],
+    expectedSize: json['expected_size'] as int,
+    localPrefixSize: json['local_prefix_size'] as int,
   );
 }
 
@@ -7904,9 +7904,9 @@ class ReadFilePart extends TdFunction {
   };
 
   factory ReadFilePart.fromJson(Map<String, dynamic> json) => ReadFilePart(
-    fileId: json['file_id'],
-    offset: json['offset'],
-    count: json['count'],
+    fileId: json['file_id'] as int,
+    offset: json['offset'] as int,
+    count: json['count'] as int,
   );
 }
 
@@ -7939,7 +7939,7 @@ class DeleteFile extends TdFunction {
   };
 
   factory DeleteFile.fromJson(Map<String, dynamic> json) => DeleteFile(
-    fileId: json['file_id'],
+    fileId: json['file_id'] as int,
   );
 }
 
@@ -7972,7 +7972,7 @@ class GetMessageFileType extends TdFunction {
   };
 
   factory GetMessageFileType.fromJson(Map<String, dynamic> json) => GetMessageFileType(
-    messageFileHead: json['message_file_head'],
+    messageFileHead: json['message_file_head'] as String,
   );
 }
 
@@ -8005,7 +8005,7 @@ class GetMessageImportConfirmationText extends TdFunction {
   };
 
   factory GetMessageImportConfirmationText.fromJson(Map<String, dynamic> json) => GetMessageImportConfirmationText(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -8048,9 +8048,9 @@ class ImportMessages extends TdFunction {
   };
 
   factory ImportMessages.fromJson(Map<String, dynamic> json) => ImportMessages(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     messageFile: b.TdBase.fromJson(json['message_file']) as a.InputFile?,
-    attachedFiles: (json['attached_files'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputFile?).toList(growable: false),
+    attachedFiles: (json['attached_files'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputFile?)).toList(growable: false),
   );
 }
 
@@ -8083,7 +8083,7 @@ class ReplacePrimaryChatInviteLink extends TdFunction {
   };
 
   factory ReplacePrimaryChatInviteLink.fromJson(Map<String, dynamic> json) => ReplacePrimaryChatInviteLink(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -8126,9 +8126,9 @@ class CreateChatInviteLink extends TdFunction {
   };
 
   factory CreateChatInviteLink.fromJson(Map<String, dynamic> json) => CreateChatInviteLink(
-    chatId: json['chat_id'],
-    expireDate: json['expire_date'],
-    memberLimit: json['member_limit'],
+    chatId: json['chat_id'] as int,
+    expireDate: json['expire_date'] as int,
+    memberLimit: json['member_limit'] as int,
   );
 }
 
@@ -8176,10 +8176,10 @@ class EditChatInviteLink extends TdFunction {
   };
 
   factory EditChatInviteLink.fromJson(Map<String, dynamic> json) => EditChatInviteLink(
-    chatId: json['chat_id'],
-    inviteLink: json['invite_link'],
-    expireDate: json['expire_date'],
-    memberLimit: json['member_limit'],
+    chatId: json['chat_id'] as int,
+    inviteLink: json['invite_link'] as String,
+    expireDate: json['expire_date'] as int,
+    memberLimit: json['member_limit'] as int,
   );
 }
 
@@ -8217,8 +8217,8 @@ class GetChatInviteLink extends TdFunction {
   };
 
   factory GetChatInviteLink.fromJson(Map<String, dynamic> json) => GetChatInviteLink(
-    chatId: json['chat_id'],
-    inviteLink: json['invite_link'],
+    chatId: json['chat_id'] as int,
+    inviteLink: json['invite_link'] as String,
   );
 }
 
@@ -8251,7 +8251,7 @@ class GetChatInviteLinkCounts extends TdFunction {
   };
 
   factory GetChatInviteLinkCounts.fromJson(Map<String, dynamic> json) => GetChatInviteLinkCounts(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -8309,12 +8309,12 @@ class GetChatInviteLinks extends TdFunction {
   };
 
   factory GetChatInviteLinks.fromJson(Map<String, dynamic> json) => GetChatInviteLinks(
-    chatId: json['chat_id'],
-    creatorUserId: json['creator_user_id'],
-    isRevoked: json['is_revoked'],
-    offsetDate: json['offset_date'],
-    offsetInviteLink: json['offset_invite_link'],
-    limit: json['limit'],
+    chatId: json['chat_id'] as int,
+    creatorUserId: json['creator_user_id'] as int,
+    isRevoked: json['is_revoked'] as bool,
+    offsetDate: json['offset_date'] as int,
+    offsetInviteLink: json['offset_invite_link'] as String,
+    limit: json['limit'] as int,
   );
 }
 
@@ -8362,10 +8362,10 @@ class GetChatInviteLinkMembers extends TdFunction {
   };
 
   factory GetChatInviteLinkMembers.fromJson(Map<String, dynamic> json) => GetChatInviteLinkMembers(
-    chatId: json['chat_id'],
-    inviteLink: json['invite_link'],
+    chatId: json['chat_id'] as int,
+    inviteLink: json['invite_link'] as String,
     offsetMember: b.TdBase.fromJson(json['offset_member']) as o.ChatInviteLinkMember?,
-    limit: json['limit'],
+    limit: json['limit'] as int,
   );
 }
 
@@ -8403,8 +8403,8 @@ class RevokeChatInviteLink extends TdFunction {
   };
 
   factory RevokeChatInviteLink.fromJson(Map<String, dynamic> json) => RevokeChatInviteLink(
-    chatId: json['chat_id'],
-    inviteLink: json['invite_link'],
+    chatId: json['chat_id'] as int,
+    inviteLink: json['invite_link'] as String,
   );
 }
 
@@ -8442,8 +8442,8 @@ class DeleteRevokedChatInviteLink extends TdFunction {
   };
 
   factory DeleteRevokedChatInviteLink.fromJson(Map<String, dynamic> json) => DeleteRevokedChatInviteLink(
-    chatId: json['chat_id'],
-    inviteLink: json['invite_link'],
+    chatId: json['chat_id'] as int,
+    inviteLink: json['invite_link'] as String,
   );
 }
 
@@ -8481,8 +8481,8 @@ class DeleteAllRevokedChatInviteLinks extends TdFunction {
   };
 
   factory DeleteAllRevokedChatInviteLinks.fromJson(Map<String, dynamic> json) => DeleteAllRevokedChatInviteLinks(
-    chatId: json['chat_id'],
-    creatorUserId: json['creator_user_id'],
+    chatId: json['chat_id'] as int,
+    creatorUserId: json['creator_user_id'] as int,
   );
 }
 
@@ -8515,7 +8515,7 @@ class CheckChatInviteLink extends TdFunction {
   };
 
   factory CheckChatInviteLink.fromJson(Map<String, dynamic> json) => CheckChatInviteLink(
-    inviteLink: json['invite_link'],
+    inviteLink: json['invite_link'] as String,
   );
 }
 
@@ -8548,7 +8548,7 @@ class JoinChatByInviteLink extends TdFunction {
   };
 
   factory JoinChatByInviteLink.fromJson(Map<String, dynamic> json) => JoinChatByInviteLink(
-    inviteLink: json['invite_link'],
+    inviteLink: json['invite_link'] as String,
   );
 }
 
@@ -8591,9 +8591,9 @@ class CreateCall extends TdFunction {
   };
 
   factory CreateCall.fromJson(Map<String, dynamic> json) => CreateCall(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
     protocol: b.TdBase.fromJson(json['protocol']) as o.CallProtocol?,
-    isVideo: json['is_video'],
+    isVideo: json['is_video'] as bool,
   );
 }
 
@@ -8631,7 +8631,7 @@ class AcceptCall extends TdFunction {
   };
 
   factory AcceptCall.fromJson(Map<String, dynamic> json) => AcceptCall(
-    callId: json['call_id'],
+    callId: json['call_id'] as int,
     protocol: b.TdBase.fromJson(json['protocol']) as o.CallProtocol?,
   );
 }
@@ -8670,7 +8670,7 @@ class SendCallSignalingData extends TdFunction {
   };
 
   factory SendCallSignalingData.fromJson(Map<String, dynamic> json) => SendCallSignalingData(
-    callId: json['call_id'],
+    callId: json['call_id'] as int,
     data: base64.decode(json['data']),
   );
 }
@@ -8724,10 +8724,10 @@ class DiscardCall extends TdFunction {
   };
 
   factory DiscardCall.fromJson(Map<String, dynamic> json) => DiscardCall(
-    callId: json['call_id'],
-    isDisconnected: json['is_disconnected'],
-    duration: json['duration'],
-    isVideo: json['is_video'],
+    callId: json['call_id'] as int,
+    isDisconnected: json['is_disconnected'] as bool,
+    duration: json['duration'] as int,
+    isVideo: json['is_video'] as bool,
     connectionId: int.parse(json['connection_id']),
   );
 }
@@ -8776,10 +8776,10 @@ class SendCallRating extends TdFunction {
   };
 
   factory SendCallRating.fromJson(Map<String, dynamic> json) => SendCallRating(
-    callId: json['call_id'],
-    rating: json['rating'],
-    comment: json['comment'],
-    problems: (json['problems'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.CallProblem?).toList(growable: false),
+    callId: json['call_id'] as int,
+    rating: json['rating'] as int,
+    comment: json['comment'] as String,
+    problems: (json['problems'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.CallProblem?)).toList(growable: false),
   );
 }
 
@@ -8817,8 +8817,8 @@ class SendCallDebugInformation extends TdFunction {
   };
 
   factory SendCallDebugInformation.fromJson(Map<String, dynamic> json) => SendCallDebugInformation(
-    callId: json['call_id'],
-    debugInformation: json['debug_information'],
+    callId: json['call_id'] as int,
+    debugInformation: json['debug_information'] as String,
   );
 }
 
@@ -8851,7 +8851,7 @@ class GetVoiceChatAvailableParticipants extends TdFunction {
   };
 
   factory GetVoiceChatAvailableParticipants.fromJson(Map<String, dynamic> json) => GetVoiceChatAvailableParticipants(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -8889,7 +8889,7 @@ class SetVoiceChatDefaultParticipant extends TdFunction {
   };
 
   factory SetVoiceChatDefaultParticipant.fromJson(Map<String, dynamic> json) => SetVoiceChatDefaultParticipant(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
     defaultParticipantId: b.TdBase.fromJson(json['default_participant_id']) as a.MessageSender?,
   );
 }
@@ -8933,9 +8933,9 @@ class CreateVoiceChat extends TdFunction {
   };
 
   factory CreateVoiceChat.fromJson(Map<String, dynamic> json) => CreateVoiceChat(
-    chatId: json['chat_id'],
-    title: json['title'],
-    startDate: json['start_date'],
+    chatId: json['chat_id'] as int,
+    title: json['title'] as String,
+    startDate: json['start_date'] as int,
   );
 }
 
@@ -8968,7 +8968,7 @@ class GetGroupCall extends TdFunction {
   };
 
   factory GetGroupCall.fromJson(Map<String, dynamic> json) => GetGroupCall(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
   );
 }
 
@@ -9001,7 +9001,7 @@ class StartScheduledGroupCall extends TdFunction {
   };
 
   factory StartScheduledGroupCall.fromJson(Map<String, dynamic> json) => StartScheduledGroupCall(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
   );
 }
 
@@ -9039,8 +9039,8 @@ class ToggleGroupCallEnabledStartNotification extends TdFunction {
   };
 
   factory ToggleGroupCallEnabledStartNotification.fromJson(Map<String, dynamic> json) => ToggleGroupCallEnabledStartNotification(
-    groupCallId: json['group_call_id'],
-    enabledStartNotification: json['enabled_start_notification'],
+    groupCallId: json['group_call_id'] as int,
+    enabledStartNotification: json['enabled_start_notification'] as bool,
   );
 }
 
@@ -9098,12 +9098,12 @@ class JoinGroupCall extends TdFunction {
   };
 
   factory JoinGroupCall.fromJson(Map<String, dynamic> json) => JoinGroupCall(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
     participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
     payload: b.TdBase.fromJson(json['payload']) as o.GroupCallPayload?,
-    source: json['source'],
-    isMuted: json['is_muted'],
-    inviteHash: json['invite_hash'],
+    source: json['source'] as int,
+    isMuted: json['is_muted'] as bool,
+    inviteHash: json['invite_hash'] as String,
   );
 }
 
@@ -9141,8 +9141,8 @@ class SetGroupCallTitle extends TdFunction {
   };
 
   factory SetGroupCallTitle.fromJson(Map<String, dynamic> json) => SetGroupCallTitle(
-    groupCallId: json['group_call_id'],
-    title: json['title'],
+    groupCallId: json['group_call_id'] as int,
+    title: json['title'] as String,
   );
 }
 
@@ -9180,8 +9180,8 @@ class ToggleGroupCallMuteNewParticipants extends TdFunction {
   };
 
   factory ToggleGroupCallMuteNewParticipants.fromJson(Map<String, dynamic> json) => ToggleGroupCallMuteNewParticipants(
-    groupCallId: json['group_call_id'],
-    muteNewParticipants: json['mute_new_participants'],
+    groupCallId: json['group_call_id'] as int,
+    muteNewParticipants: json['mute_new_participants'] as bool,
   );
 }
 
@@ -9214,7 +9214,7 @@ class RevokeGroupCallInviteLink extends TdFunction {
   };
 
   factory RevokeGroupCallInviteLink.fromJson(Map<String, dynamic> json) => RevokeGroupCallInviteLink(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
   );
 }
 
@@ -9252,8 +9252,8 @@ class InviteGroupCallParticipants extends TdFunction {
   };
 
   factory InviteGroupCallParticipants.fromJson(Map<String, dynamic> json) => InviteGroupCallParticipants(
-    groupCallId: json['group_call_id'],
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    groupCallId: json['group_call_id'] as int,
+    userIds: (json['user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -9291,8 +9291,8 @@ class GetGroupCallInviteLink extends TdFunction {
   };
 
   factory GetGroupCallInviteLink.fromJson(Map<String, dynamic> json) => GetGroupCallInviteLink(
-    groupCallId: json['group_call_id'],
-    canSelfUnmute: json['can_self_unmute'],
+    groupCallId: json['group_call_id'] as int,
+    canSelfUnmute: json['can_self_unmute'] as bool,
   );
 }
 
@@ -9330,8 +9330,8 @@ class StartGroupCallRecording extends TdFunction {
   };
 
   factory StartGroupCallRecording.fromJson(Map<String, dynamic> json) => StartGroupCallRecording(
-    groupCallId: json['group_call_id'],
-    title: json['title'],
+    groupCallId: json['group_call_id'] as int,
+    title: json['title'] as String,
   );
 }
 
@@ -9364,7 +9364,7 @@ class EndGroupCallRecording extends TdFunction {
   };
 
   factory EndGroupCallRecording.fromJson(Map<String, dynamic> json) => EndGroupCallRecording(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
   );
 }
 
@@ -9407,9 +9407,9 @@ class SetGroupCallParticipantIsSpeaking extends TdFunction {
   };
 
   factory SetGroupCallParticipantIsSpeaking.fromJson(Map<String, dynamic> json) => SetGroupCallParticipantIsSpeaking(
-    groupCallId: json['group_call_id'],
-    source: json['source'],
-    isSpeaking: json['is_speaking'],
+    groupCallId: json['group_call_id'] as int,
+    source: json['source'] as int,
+    isSpeaking: json['is_speaking'] as bool,
   );
 }
 
@@ -9452,9 +9452,9 @@ class ToggleGroupCallParticipantIsMuted extends TdFunction {
   };
 
   factory ToggleGroupCallParticipantIsMuted.fromJson(Map<String, dynamic> json) => ToggleGroupCallParticipantIsMuted(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
     participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    isMuted: json['is_muted'],
+    isMuted: json['is_muted'] as bool,
   );
 }
 
@@ -9497,9 +9497,9 @@ class SetGroupCallParticipantVolumeLevel extends TdFunction {
   };
 
   factory SetGroupCallParticipantVolumeLevel.fromJson(Map<String, dynamic> json) => SetGroupCallParticipantVolumeLevel(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
     participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    volumeLevel: json['volume_level'],
+    volumeLevel: json['volume_level'] as int,
   );
 }
 
@@ -9542,9 +9542,9 @@ class ToggleGroupCallParticipantIsHandRaised extends TdFunction {
   };
 
   factory ToggleGroupCallParticipantIsHandRaised.fromJson(Map<String, dynamic> json) => ToggleGroupCallParticipantIsHandRaised(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
     participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    isHandRaised: json['is_hand_raised'],
+    isHandRaised: json['is_hand_raised'] as bool,
   );
 }
 
@@ -9582,8 +9582,8 @@ class LoadGroupCallParticipants extends TdFunction {
   };
 
   factory LoadGroupCallParticipants.fromJson(Map<String, dynamic> json) => LoadGroupCallParticipants(
-    groupCallId: json['group_call_id'],
-    limit: json['limit'],
+    groupCallId: json['group_call_id'] as int,
+    limit: json['limit'] as int,
   );
 }
 
@@ -9616,7 +9616,7 @@ class LeaveGroupCall extends TdFunction {
   };
 
   factory LeaveGroupCall.fromJson(Map<String, dynamic> json) => LeaveGroupCall(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
   );
 }
 
@@ -9649,7 +9649,7 @@ class DiscardGroupCall extends TdFunction {
   };
 
   factory DiscardGroupCall.fromJson(Map<String, dynamic> json) => DiscardGroupCall(
-    groupCallId: json['group_call_id'],
+    groupCallId: json['group_call_id'] as int,
   );
 }
 
@@ -9692,9 +9692,9 @@ class GetGroupCallStreamSegment extends TdFunction {
   };
 
   factory GetGroupCallStreamSegment.fromJson(Map<String, dynamic> json) => GetGroupCallStreamSegment(
-    groupCallId: json['group_call_id'],
-    timeOffset: json['time_offset'],
-    scale: json['scale'],
+    groupCallId: json['group_call_id'] as int,
+    timeOffset: json['time_offset'] as int,
+    scale: json['scale'] as int,
   );
 }
 
@@ -9733,7 +9733,7 @@ class ToggleMessageSenderIsBlocked extends TdFunction {
 
   factory ToggleMessageSenderIsBlocked.fromJson(Map<String, dynamic> json) => ToggleMessageSenderIsBlocked(
     sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
-    isBlocked: json['is_blocked'],
+    isBlocked: json['is_blocked'] as bool,
   );
 }
 
@@ -9781,10 +9781,10 @@ class BlockMessageSenderFromReplies extends TdFunction {
   };
 
   factory BlockMessageSenderFromReplies.fromJson(Map<String, dynamic> json) => BlockMessageSenderFromReplies(
-    messageId: json['message_id'],
-    deleteMessage: json['delete_message'],
-    deleteAllMessages: json['delete_all_messages'],
-    reportSpam: json['report_spam'],
+    messageId: json['message_id'] as int,
+    deleteMessage: json['delete_message'] as bool,
+    deleteAllMessages: json['delete_all_messages'] as bool,
+    reportSpam: json['report_spam'] as bool,
   );
 }
 
@@ -9822,8 +9822,8 @@ class GetBlockedMessageSenders extends TdFunction {
   };
 
   factory GetBlockedMessageSenders.fromJson(Map<String, dynamic> json) => GetBlockedMessageSenders(
-    offset: json['offset'],
-    limit: json['limit'],
+    offset: json['offset'] as int,
+    limit: json['limit'] as int,
   );
 }
 
@@ -9862,7 +9862,7 @@ class AddContact extends TdFunction {
 
   factory AddContact.fromJson(Map<String, dynamic> json) => AddContact(
     contact: b.TdBase.fromJson(json['contact']) as o.Contact?,
-    sharePhoneNumber: json['share_phone_number'],
+    sharePhoneNumber: json['share_phone_number'] as bool,
   );
 }
 
@@ -9895,7 +9895,7 @@ class ImportContacts extends TdFunction {
   };
 
   factory ImportContacts.fromJson(Map<String, dynamic> json) => ImportContacts(
-    contacts: (json['contacts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.Contact?).toList(growable: false),
+    contacts: (json['contacts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as o.Contact?)).toList(growable: false),
   );
 }
 
@@ -9958,8 +9958,8 @@ class SearchContacts extends TdFunction {
   };
 
   factory SearchContacts.fromJson(Map<String, dynamic> json) => SearchContacts(
-    query: json['query'],
-    limit: json['limit'],
+    query: json['query'] as String,
+    limit: json['limit'] as int,
   );
 }
 
@@ -9992,7 +9992,7 @@ class RemoveContacts extends TdFunction {
   };
 
   factory RemoveContacts.fromJson(Map<String, dynamic> json) => RemoveContacts(
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    userIds: (json['user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -10050,7 +10050,7 @@ class ChangeImportedContacts extends TdFunction {
   };
 
   factory ChangeImportedContacts.fromJson(Map<String, dynamic> json) => ChangeImportedContacts(
-    contacts: (json['contacts'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.Contact?).toList(growable: false),
+    contacts: (json['contacts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as o.Contact?)).toList(growable: false),
   );
 }
 
@@ -10108,7 +10108,7 @@ class SharePhoneNumber extends TdFunction {
   };
 
   factory SharePhoneNumber.fromJson(Map<String, dynamic> json) => SharePhoneNumber(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
   );
 }
 
@@ -10151,9 +10151,9 @@ class GetUserProfilePhotos extends TdFunction {
   };
 
   factory GetUserProfilePhotos.fromJson(Map<String, dynamic> json) => GetUserProfilePhotos(
-    userId: json['user_id'],
-    offset: json['offset'],
-    limit: json['limit'],
+    userId: json['user_id'] as int,
+    offset: json['offset'] as int,
+    limit: json['limit'] as int,
   );
 }
 
@@ -10191,8 +10191,8 @@ class GetStickers extends TdFunction {
   };
 
   factory GetStickers.fromJson(Map<String, dynamic> json) => GetStickers(
-    emoji: json['emoji'],
-    limit: json['limit'],
+    emoji: json['emoji'] as String,
+    limit: json['limit'] as int,
   );
 }
 
@@ -10230,8 +10230,8 @@ class SearchStickers extends TdFunction {
   };
 
   factory SearchStickers.fromJson(Map<String, dynamic> json) => SearchStickers(
-    emoji: json['emoji'],
-    limit: json['limit'],
+    emoji: json['emoji'] as String,
+    limit: json['limit'] as int,
   );
 }
 
@@ -10264,7 +10264,7 @@ class GetInstalledStickerSets extends TdFunction {
   };
 
   factory GetInstalledStickerSets.fromJson(Map<String, dynamic> json) => GetInstalledStickerSets(
-    isMasks: json['is_masks'],
+    isMasks: json['is_masks'] as bool,
   );
 }
 
@@ -10307,9 +10307,9 @@ class GetArchivedStickerSets extends TdFunction {
   };
 
   factory GetArchivedStickerSets.fromJson(Map<String, dynamic> json) => GetArchivedStickerSets(
-    isMasks: json['is_masks'],
+    isMasks: json['is_masks'] as bool,
     offsetStickerSetId: int.parse(json['offset_sticker_set_id']),
-    limit: json['limit'],
+    limit: json['limit'] as int,
   );
 }
 
@@ -10347,8 +10347,8 @@ class GetTrendingStickerSets extends TdFunction {
   };
 
   factory GetTrendingStickerSets.fromJson(Map<String, dynamic> json) => GetTrendingStickerSets(
-    offset: json['offset'],
-    limit: json['limit'],
+    offset: json['offset'] as int,
+    limit: json['limit'] as int,
   );
 }
 
@@ -10381,7 +10381,7 @@ class GetAttachedStickerSets extends TdFunction {
   };
 
   factory GetAttachedStickerSets.fromJson(Map<String, dynamic> json) => GetAttachedStickerSets(
-    fileId: json['file_id'],
+    fileId: json['file_id'] as int,
   );
 }
 
@@ -10447,7 +10447,7 @@ class SearchStickerSet extends TdFunction {
   };
 
   factory SearchStickerSet.fromJson(Map<String, dynamic> json) => SearchStickerSet(
-    name: json['name'],
+    name: json['name'] as String,
   );
 }
 
@@ -10490,9 +10490,9 @@ class SearchInstalledStickerSets extends TdFunction {
   };
 
   factory SearchInstalledStickerSets.fromJson(Map<String, dynamic> json) => SearchInstalledStickerSets(
-    isMasks: json['is_masks'],
-    query: json['query'],
-    limit: json['limit'],
+    isMasks: json['is_masks'] as bool,
+    query: json['query'] as String,
+    limit: json['limit'] as int,
   );
 }
 
@@ -10525,7 +10525,7 @@ class SearchStickerSets extends TdFunction {
   };
 
   factory SearchStickerSets.fromJson(Map<String, dynamic> json) => SearchStickerSets(
-    query: json['query'],
+    query: json['query'] as String,
   );
 }
 
@@ -10569,8 +10569,8 @@ class ChangeStickerSet extends TdFunction {
 
   factory ChangeStickerSet.fromJson(Map<String, dynamic> json) => ChangeStickerSet(
     setId: int.parse(json['set_id']),
-    isInstalled: json['is_installed'],
-    isArchived: json['is_archived'],
+    isInstalled: json['is_installed'] as bool,
+    isArchived: json['is_archived'] as bool,
   );
 }
 
@@ -10603,7 +10603,7 @@ class ViewTrendingStickerSets extends TdFunction {
   };
 
   factory ViewTrendingStickerSets.fromJson(Map<String, dynamic> json) => ViewTrendingStickerSets(
-    stickerSetIds: (json['sticker_set_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    stickerSetIds: (json['sticker_set_ids'] as List<dynamic>).map((e) => (int.parse(e))).toList(growable: false),
   );
 }
 
@@ -10641,8 +10641,8 @@ class ReorderInstalledStickerSets extends TdFunction {
   };
 
   factory ReorderInstalledStickerSets.fromJson(Map<String, dynamic> json) => ReorderInstalledStickerSets(
-    isMasks: json['is_masks'],
-    stickerSetIds: (json['sticker_set_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    isMasks: json['is_masks'] as bool,
+    stickerSetIds: (json['sticker_set_ids'] as List<dynamic>).map((e) => (int.parse(e))).toList(growable: false),
   );
 }
 
@@ -10675,7 +10675,7 @@ class GetRecentStickers extends TdFunction {
   };
 
   factory GetRecentStickers.fromJson(Map<String, dynamic> json) => GetRecentStickers(
-    isAttached: json['is_attached'],
+    isAttached: json['is_attached'] as bool,
   );
 }
 
@@ -10713,7 +10713,7 @@ class AddRecentSticker extends TdFunction {
   };
 
   factory AddRecentSticker.fromJson(Map<String, dynamic> json) => AddRecentSticker(
-    isAttached: json['is_attached'],
+    isAttached: json['is_attached'] as bool,
     sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
   );
 }
@@ -10752,7 +10752,7 @@ class RemoveRecentSticker extends TdFunction {
   };
 
   factory RemoveRecentSticker.fromJson(Map<String, dynamic> json) => RemoveRecentSticker(
-    isAttached: json['is_attached'],
+    isAttached: json['is_attached'] as bool,
     sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
   );
 }
@@ -10786,7 +10786,7 @@ class ClearRecentStickers extends TdFunction {
   };
 
   factory ClearRecentStickers.fromJson(Map<String, dynamic> json) => ClearRecentStickers(
-    isAttached: json['is_attached'],
+    isAttached: json['is_attached'] as bool,
   );
 }
 
@@ -10953,9 +10953,9 @@ class SearchEmojis extends TdFunction {
   };
 
   factory SearchEmojis.fromJson(Map<String, dynamic> json) => SearchEmojis(
-    text: json['text'],
-    exactMatch: json['exact_match'],
-    inputLanguageCodes: (json['input_language_codes'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
+    text: json['text'] as String,
+    exactMatch: json['exact_match'] as bool,
+    inputLanguageCodes: (json['input_language_codes'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
   );
 }
 
@@ -10988,7 +10988,7 @@ class GetEmojiSuggestionsUrl extends TdFunction {
   };
 
   factory GetEmojiSuggestionsUrl.fromJson(Map<String, dynamic> json) => GetEmojiSuggestionsUrl(
-    languageCode: json['language_code'],
+    languageCode: json['language_code'] as String,
   );
 }
 
@@ -11142,8 +11142,8 @@ class SearchHashtags extends TdFunction {
   };
 
   factory SearchHashtags.fromJson(Map<String, dynamic> json) => SearchHashtags(
-    prefix: json['prefix'],
-    limit: json['limit'],
+    prefix: json['prefix'] as String,
+    limit: json['limit'] as int,
   );
 }
 
@@ -11176,7 +11176,7 @@ class RemoveRecentHashtag extends TdFunction {
   };
 
   factory RemoveRecentHashtag.fromJson(Map<String, dynamic> json) => RemoveRecentHashtag(
-    hashtag: json['hashtag'],
+    hashtag: json['hashtag'] as String,
   );
 }
 
@@ -11247,8 +11247,8 @@ class GetWebPageInstantView extends TdFunction {
   };
 
   factory GetWebPageInstantView.fromJson(Map<String, dynamic> json) => GetWebPageInstantView(
-    url: json['url'],
-    forceFull: json['force_full'],
+    url: json['url'] as String,
+    forceFull: json['force_full'] as bool,
   );
 }
 
@@ -11352,8 +11352,8 @@ class SetName extends TdFunction {
   };
 
   factory SetName.fromJson(Map<String, dynamic> json) => SetName(
-    firstName: json['first_name'],
-    lastName: json['last_name'],
+    firstName: json['first_name'] as String,
+    lastName: json['last_name'] as String,
   );
 }
 
@@ -11386,7 +11386,7 @@ class SetBio extends TdFunction {
   };
 
   factory SetBio.fromJson(Map<String, dynamic> json) => SetBio(
-    bio: json['bio'],
+    bio: json['bio'] as String,
   );
 }
 
@@ -11419,7 +11419,7 @@ class SetUsername extends TdFunction {
   };
 
   factory SetUsername.fromJson(Map<String, dynamic> json) => SetUsername(
-    username: json['username'],
+    username: json['username'] as String,
   );
 }
 
@@ -11490,7 +11490,7 @@ class ChangePhoneNumber extends TdFunction {
   };
 
   factory ChangePhoneNumber.fromJson(Map<String, dynamic> json) => ChangePhoneNumber(
-    phoneNumber: json['phone_number'],
+    phoneNumber: json['phone_number'] as String,
     settings: b.TdBase.fromJson(json['settings']) as o.PhoneNumberAuthenticationSettings?,
   );
 }
@@ -11549,7 +11549,7 @@ class CheckChangePhoneNumberCode extends TdFunction {
   };
 
   factory CheckChangePhoneNumberCode.fromJson(Map<String, dynamic> json) => CheckChangePhoneNumberCode(
-    code: json['code'],
+    code: json['code'] as String,
   );
 }
 
@@ -11582,7 +11582,7 @@ class SetCommands extends TdFunction {
   };
 
   factory SetCommands.fromJson(Map<String, dynamic> json) => SetCommands(
-    commands: (json['commands'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.BotCommand?).toList(growable: false),
+    commands: (json['commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as o.BotCommand?)).toList(growable: false),
   );
 }
 
@@ -11786,8 +11786,8 @@ class SetSupergroupUsername extends TdFunction {
   };
 
   factory SetSupergroupUsername.fromJson(Map<String, dynamic> json) => SetSupergroupUsername(
-    supergroupId: json['supergroup_id'],
-    username: json['username'],
+    supergroupId: json['supergroup_id'] as int,
+    username: json['username'] as String,
   );
 }
 
@@ -11825,7 +11825,7 @@ class SetSupergroupStickerSet extends TdFunction {
   };
 
   factory SetSupergroupStickerSet.fromJson(Map<String, dynamic> json) => SetSupergroupStickerSet(
-    supergroupId: json['supergroup_id'],
+    supergroupId: json['supergroup_id'] as int,
     stickerSetId: int.parse(json['sticker_set_id']),
   );
 }
@@ -11864,8 +11864,8 @@ class ToggleSupergroupSignMessages extends TdFunction {
   };
 
   factory ToggleSupergroupSignMessages.fromJson(Map<String, dynamic> json) => ToggleSupergroupSignMessages(
-    supergroupId: json['supergroup_id'],
-    signMessages: json['sign_messages'],
+    supergroupId: json['supergroup_id'] as int,
+    signMessages: json['sign_messages'] as bool,
   );
 }
 
@@ -11903,8 +11903,8 @@ class ToggleSupergroupIsAllHistoryAvailable extends TdFunction {
   };
 
   factory ToggleSupergroupIsAllHistoryAvailable.fromJson(Map<String, dynamic> json) => ToggleSupergroupIsAllHistoryAvailable(
-    supergroupId: json['supergroup_id'],
-    isAllHistoryAvailable: json['is_all_history_available'],
+    supergroupId: json['supergroup_id'] as int,
+    isAllHistoryAvailable: json['is_all_history_available'] as bool,
   );
 }
 
@@ -11937,7 +11937,7 @@ class ToggleSupergroupIsBroadcastGroup extends TdFunction {
   };
 
   factory ToggleSupergroupIsBroadcastGroup.fromJson(Map<String, dynamic> json) => ToggleSupergroupIsBroadcastGroup(
-    supergroupId: json['supergroup_id'],
+    supergroupId: json['supergroup_id'] as int,
   );
 }
 
@@ -11980,9 +11980,9 @@ class ReportSupergroupSpam extends TdFunction {
   };
 
   factory ReportSupergroupSpam.fromJson(Map<String, dynamic> json) => ReportSupergroupSpam(
-    supergroupId: json['supergroup_id'],
-    userId: json['user_id'],
-    messageIds: (json['message_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    supergroupId: json['supergroup_id'] as int,
+    userId: json['user_id'] as int,
+    messageIds: (json['message_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -12030,10 +12030,10 @@ class GetSupergroupMembers extends TdFunction {
   };
 
   factory GetSupergroupMembers.fromJson(Map<String, dynamic> json) => GetSupergroupMembers(
-    supergroupId: json['supergroup_id'],
+    supergroupId: json['supergroup_id'] as int,
     filter: b.TdBase.fromJson(json['filter']) as a.SupergroupMembersFilter?,
-    offset: json['offset'],
-    limit: json['limit'],
+    offset: json['offset'] as int,
+    limit: json['limit'] as int,
   );
 }
 
@@ -12066,7 +12066,7 @@ class CloseSecretChat extends TdFunction {
   };
 
   factory CloseSecretChat.fromJson(Map<String, dynamic> json) => CloseSecretChat(
-    secretChatId: json['secret_chat_id'],
+    secretChatId: json['secret_chat_id'] as int,
   );
 }
 
@@ -12124,12 +12124,12 @@ class GetChatEventLog extends TdFunction {
   };
 
   factory GetChatEventLog.fromJson(Map<String, dynamic> json) => GetChatEventLog(
-    chatId: json['chat_id'],
-    query: json['query'],
+    chatId: json['chat_id'] as int,
+    query: json['query'] as String,
     fromEventId: int.parse(json['from_event_id']),
-    limit: json['limit'],
+    limit: json['limit'] as int,
     filters: b.TdBase.fromJson(json['filters']) as o.ChatEventLogFilters?,
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    userIds: (json['user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -12172,8 +12172,8 @@ class GetPaymentForm extends TdFunction {
   };
 
   factory GetPaymentForm.fromJson(Map<String, dynamic> json) => GetPaymentForm(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     theme: b.TdBase.fromJson(json['theme']) as o.PaymentFormTheme?,
   );
 }
@@ -12222,10 +12222,10 @@ class ValidateOrderInfo extends TdFunction {
   };
 
   factory ValidateOrderInfo.fromJson(Map<String, dynamic> json) => ValidateOrderInfo(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     orderInfo: b.TdBase.fromJson(json['order_info']) as o.OrderInfo?,
-    allowSave: json['allow_save'],
+    allowSave: json['allow_save'] as bool,
   );
 }
 
@@ -12288,13 +12288,13 @@ class SendPaymentForm extends TdFunction {
   };
 
   factory SendPaymentForm.fromJson(Map<String, dynamic> json) => SendPaymentForm(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
     paymentFormId: int.parse(json['payment_form_id']),
-    orderInfoId: json['order_info_id'],
-    shippingOptionId: json['shipping_option_id'],
+    orderInfoId: json['order_info_id'] as String,
+    shippingOptionId: json['shipping_option_id'] as String,
     credentials: b.TdBase.fromJson(json['credentials']) as a.InputCredentials?,
-    tipAmount: json['tip_amount'],
+    tipAmount: json['tip_amount'] as int,
   );
 }
 
@@ -12332,8 +12332,8 @@ class GetPaymentReceipt extends TdFunction {
   };
 
   factory GetPaymentReceipt.fromJson(Map<String, dynamic> json) => GetPaymentReceipt(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
   );
 }
 
@@ -12466,7 +12466,7 @@ class GetBackgrounds extends TdFunction {
   };
 
   factory GetBackgrounds.fromJson(Map<String, dynamic> json) => GetBackgrounds(
-    forDarkTheme: json['for_dark_theme'],
+    forDarkTheme: json['for_dark_theme'] as bool,
   );
 }
 
@@ -12504,7 +12504,7 @@ class GetBackgroundUrl extends TdFunction {
   };
 
   factory GetBackgroundUrl.fromJson(Map<String, dynamic> json) => GetBackgroundUrl(
-    name: json['name'],
+    name: json['name'] as String,
     type: b.TdBase.fromJson(json['type']) as a.BackgroundType?,
   );
 }
@@ -12538,7 +12538,7 @@ class SearchBackground extends TdFunction {
   };
 
   factory SearchBackground.fromJson(Map<String, dynamic> json) => SearchBackground(
-    name: json['name'],
+    name: json['name'] as String,
   );
 }
 
@@ -12583,7 +12583,7 @@ class SetBackground extends TdFunction {
   factory SetBackground.fromJson(Map<String, dynamic> json) => SetBackground(
     background: b.TdBase.fromJson(json['background']) as a.InputBackground?,
     type: b.TdBase.fromJson(json['type']) as a.BackgroundType?,
-    forDarkTheme: json['for_dark_theme'],
+    forDarkTheme: json['for_dark_theme'] as bool,
   );
 }
 
@@ -12674,7 +12674,7 @@ class GetLocalizationTargetInfo extends TdFunction {
   };
 
   factory GetLocalizationTargetInfo.fromJson(Map<String, dynamic> json) => GetLocalizationTargetInfo(
-    onlyLocal: json['only_local'],
+    onlyLocal: json['only_local'] as bool,
   );
 }
 
@@ -12707,7 +12707,7 @@ class GetLanguagePackInfo extends TdFunction {
   };
 
   factory GetLanguagePackInfo.fromJson(Map<String, dynamic> json) => GetLanguagePackInfo(
-    languagePackId: json['language_pack_id'],
+    languagePackId: json['language_pack_id'] as String,
   );
 }
 
@@ -12745,8 +12745,8 @@ class GetLanguagePackStrings extends TdFunction {
   };
 
   factory GetLanguagePackStrings.fromJson(Map<String, dynamic> json) => GetLanguagePackStrings(
-    languagePackId: json['language_pack_id'],
-    keys: (json['keys'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
+    languagePackId: json['language_pack_id'] as String,
+    keys: (json['keys'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
   );
 }
 
@@ -12779,7 +12779,7 @@ class SynchronizeLanguagePack extends TdFunction {
   };
 
   factory SynchronizeLanguagePack.fromJson(Map<String, dynamic> json) => SynchronizeLanguagePack(
-    languagePackId: json['language_pack_id'],
+    languagePackId: json['language_pack_id'] as String,
   );
 }
 
@@ -12812,7 +12812,7 @@ class AddCustomServerLanguagePack extends TdFunction {
   };
 
   factory AddCustomServerLanguagePack.fromJson(Map<String, dynamic> json) => AddCustomServerLanguagePack(
-    languagePackId: json['language_pack_id'],
+    languagePackId: json['language_pack_id'] as String,
   );
 }
 
@@ -12851,7 +12851,7 @@ class SetCustomLanguagePack extends TdFunction {
 
   factory SetCustomLanguagePack.fromJson(Map<String, dynamic> json) => SetCustomLanguagePack(
     info: b.TdBase.fromJson(json['info']) as o.LanguagePackInfo?,
-    strings: (json['strings'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.LanguagePackString?).toList(growable: false),
+    strings: (json['strings'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as o.LanguagePackString?)).toList(growable: false),
   );
 }
 
@@ -12922,7 +12922,7 @@ class SetCustomLanguagePackString extends TdFunction {
   };
 
   factory SetCustomLanguagePackString.fromJson(Map<String, dynamic> json) => SetCustomLanguagePackString(
-    languagePackId: json['language_pack_id'],
+    languagePackId: json['language_pack_id'] as String,
     newString: b.TdBase.fromJson(json['new_string']) as o.LanguagePackString?,
   );
 }
@@ -12956,7 +12956,7 @@ class DeleteLanguagePack extends TdFunction {
   };
 
   factory DeleteLanguagePack.fromJson(Map<String, dynamic> json) => DeleteLanguagePack(
-    languagePackId: json['language_pack_id'],
+    languagePackId: json['language_pack_id'] as String,
   );
 }
 
@@ -12995,7 +12995,7 @@ class RegisterDevice extends TdFunction {
 
   factory RegisterDevice.fromJson(Map<String, dynamic> json) => RegisterDevice(
     deviceToken: b.TdBase.fromJson(json['device_token']) as a.DeviceToken?,
-    otherUserIds: (json['other_user_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    otherUserIds: (json['other_user_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -13028,7 +13028,7 @@ class ProcessPushNotification extends TdFunction {
   };
 
   factory ProcessPushNotification.fromJson(Map<String, dynamic> json) => ProcessPushNotification(
-    payload: json['payload'],
+    payload: json['payload'] as String,
   );
 }
 
@@ -13061,7 +13061,7 @@ class GetPushReceiverId extends TdFunction {
   };
 
   factory GetPushReceiverId.fromJson(Map<String, dynamic> json) => GetPushReceiverId(
-    payload: json['payload'],
+    payload: json['payload'] as String,
   );
 }
 
@@ -13094,7 +13094,7 @@ class GetRecentlyVisitedTMeUrls extends TdFunction {
   };
 
   factory GetRecentlyVisitedTMeUrls.fromJson(Map<String, dynamic> json) => GetRecentlyVisitedTMeUrls(
-    referrer: json['referrer'],
+    referrer: json['referrer'] as String,
   );
 }
 
@@ -13199,7 +13199,7 @@ class GetOption extends TdFunction {
   };
 
   factory GetOption.fromJson(Map<String, dynamic> json) => GetOption(
-    name: json['name'],
+    name: json['name'] as String,
   );
 }
 
@@ -13237,7 +13237,7 @@ class SetOption extends TdFunction {
   };
 
   factory SetOption.fromJson(Map<String, dynamic> json) => SetOption(
-    name: json['name'],
+    name: json['name'] as String,
     value: b.TdBase.fromJson(json['value']) as a.OptionValue?,
   );
 }
@@ -13329,7 +13329,7 @@ class DeleteAccount extends TdFunction {
   };
 
   factory DeleteAccount.fromJson(Map<String, dynamic> json) => DeleteAccount(
-    reason: json['reason'],
+    reason: json['reason'] as String,
   );
 }
 
@@ -13362,7 +13362,7 @@ class RemoveChatActionBar extends TdFunction {
   };
 
   factory RemoveChatActionBar.fromJson(Map<String, dynamic> json) => RemoveChatActionBar(
-    chatId: json['chat_id'],
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -13410,10 +13410,10 @@ class ReportChat extends TdFunction {
   };
 
   factory ReportChat.fromJson(Map<String, dynamic> json) => ReportChat(
-    chatId: json['chat_id'],
-    messageIds: (json['message_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    chatId: json['chat_id'] as int,
+    messageIds: (json['message_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
     reason: b.TdBase.fromJson(json['reason']) as a.ChatReportReason?,
-    text: json['text'],
+    text: json['text'] as String,
   );
 }
 
@@ -13461,10 +13461,10 @@ class ReportChatPhoto extends TdFunction {
   };
 
   factory ReportChatPhoto.fromJson(Map<String, dynamic> json) => ReportChatPhoto(
-    chatId: json['chat_id'],
-    fileId: json['file_id'],
+    chatId: json['chat_id'] as int,
+    fileId: json['file_id'] as int,
     reason: b.TdBase.fromJson(json['reason']) as a.ChatReportReason?,
-    text: json['text'],
+    text: json['text'] as String,
   );
 }
 
@@ -13507,9 +13507,9 @@ class GetChatStatisticsUrl extends TdFunction {
   };
 
   factory GetChatStatisticsUrl.fromJson(Map<String, dynamic> json) => GetChatStatisticsUrl(
-    chatId: json['chat_id'],
-    parameters: json['parameters'],
-    isDark: json['is_dark'],
+    chatId: json['chat_id'] as int,
+    parameters: json['parameters'] as String,
+    isDark: json['is_dark'] as bool,
   );
 }
 
@@ -13547,8 +13547,8 @@ class GetChatStatistics extends TdFunction {
   };
 
   factory GetChatStatistics.fromJson(Map<String, dynamic> json) => GetChatStatistics(
-    chatId: json['chat_id'],
-    isDark: json['is_dark'],
+    chatId: json['chat_id'] as int,
+    isDark: json['is_dark'] as bool,
   );
 }
 
@@ -13591,9 +13591,9 @@ class GetMessageStatistics extends TdFunction {
   };
 
   factory GetMessageStatistics.fromJson(Map<String, dynamic> json) => GetMessageStatistics(
-    chatId: json['chat_id'],
-    messageId: json['message_id'],
-    isDark: json['is_dark'],
+    chatId: json['chat_id'] as int,
+    messageId: json['message_id'] as int,
+    isDark: json['is_dark'] as bool,
   );
 }
 
@@ -13636,9 +13636,9 @@ class GetStatisticalGraph extends TdFunction {
   };
 
   factory GetStatisticalGraph.fromJson(Map<String, dynamic> json) => GetStatisticalGraph(
-    chatId: json['chat_id'],
-    token: json['token'],
-    x: json['x'],
+    chatId: json['chat_id'] as int,
+    token: json['token'] as String,
+    x: json['x'] as int,
   );
 }
 
@@ -13671,7 +13671,7 @@ class GetStorageStatistics extends TdFunction {
   };
 
   factory GetStorageStatistics.fromJson(Map<String, dynamic> json) => GetStorageStatistics(
-    chatLimit: json['chat_limit'],
+    chatLimit: json['chat_limit'] as int,
   );
 }
 
@@ -13794,15 +13794,15 @@ class OptimizeStorage extends TdFunction {
   };
 
   factory OptimizeStorage.fromJson(Map<String, dynamic> json) => OptimizeStorage(
-    size: json['size'],
-    ttl: json['ttl'],
-    count: json['count'],
-    immunityDelay: json['immunity_delay'],
-    fileTypes: (json['file_types'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.FileType?).toList(growable: false),
-    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    excludeChatIds: (json['exclude_chat_ids'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
-    returnDeletedFileStatistics: json['return_deleted_file_statistics'],
-    chatLimit: json['chat_limit'],
+    size: json['size'] as int,
+    ttl: json['ttl'] as int,
+    count: json['count'] as int,
+    immunityDelay: json['immunity_delay'] as int,
+    fileTypes: (json['file_types'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.FileType?)).toList(growable: false),
+    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    excludeChatIds: (json['exclude_chat_ids'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
+    returnDeletedFileStatistics: json['return_deleted_file_statistics'] as bool,
+    chatLimit: json['chat_limit'] as int,
   );
 }
 
@@ -13868,7 +13868,7 @@ class GetNetworkStatistics extends TdFunction {
   };
 
   factory GetNetworkStatistics.fromJson(Map<String, dynamic> json) => GetNetworkStatistics(
-    onlyCurrent: json['only_current'],
+    onlyCurrent: json['only_current'] as bool,
   );
 }
 
@@ -14023,7 +14023,7 @@ class GetBankCardInfo extends TdFunction {
   };
 
   factory GetBankCardInfo.fromJson(Map<String, dynamic> json) => GetBankCardInfo(
-    bankCardNumber: json['bank_card_number'],
+    bankCardNumber: json['bank_card_number'] as String,
   );
 }
 
@@ -14062,7 +14062,7 @@ class GetPassportElement extends TdFunction {
 
   factory GetPassportElement.fromJson(Map<String, dynamic> json) => GetPassportElement(
     type: b.TdBase.fromJson(json['type']) as a.PassportElementType?,
-    password: json['password'],
+    password: json['password'] as String,
   );
 }
 
@@ -14095,7 +14095,7 @@ class GetAllPassportElements extends TdFunction {
   };
 
   factory GetAllPassportElements.fromJson(Map<String, dynamic> json) => GetAllPassportElements(
-    password: json['password'],
+    password: json['password'] as String,
   );
 }
 
@@ -14134,7 +14134,7 @@ class SetPassportElement extends TdFunction {
 
   factory SetPassportElement.fromJson(Map<String, dynamic> json) => SetPassportElement(
     element: b.TdBase.fromJson(json['element']) as a.InputPassportElement?,
-    password: json['password'],
+    password: json['password'] as String,
   );
 }
 
@@ -14205,8 +14205,8 @@ class SetPassportElementErrors extends TdFunction {
   };
 
   factory SetPassportElementErrors.fromJson(Map<String, dynamic> json) => SetPassportElementErrors(
-    userId: json['user_id'],
-    errors: (json['errors'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.InputPassportElementError?).toList(growable: false),
+    userId: json['user_id'] as int,
+    errors: (json['errors'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as o.InputPassportElementError?)).toList(growable: false),
   );
 }
 
@@ -14239,7 +14239,7 @@ class GetPreferredCountryLanguage extends TdFunction {
   };
 
   factory GetPreferredCountryLanguage.fromJson(Map<String, dynamic> json) => GetPreferredCountryLanguage(
-    countryCode: json['country_code'],
+    countryCode: json['country_code'] as String,
   );
 }
 
@@ -14277,7 +14277,7 @@ class SendPhoneNumberVerificationCode extends TdFunction {
   };
 
   factory SendPhoneNumberVerificationCode.fromJson(Map<String, dynamic> json) => SendPhoneNumberVerificationCode(
-    phoneNumber: json['phone_number'],
+    phoneNumber: json['phone_number'] as String,
     settings: b.TdBase.fromJson(json['settings']) as o.PhoneNumberAuthenticationSettings?,
   );
 }
@@ -14336,7 +14336,7 @@ class CheckPhoneNumberVerificationCode extends TdFunction {
   };
 
   factory CheckPhoneNumberVerificationCode.fromJson(Map<String, dynamic> json) => CheckPhoneNumberVerificationCode(
-    code: json['code'],
+    code: json['code'] as String,
   );
 }
 
@@ -14369,7 +14369,7 @@ class SendEmailAddressVerificationCode extends TdFunction {
   };
 
   factory SendEmailAddressVerificationCode.fromJson(Map<String, dynamic> json) => SendEmailAddressVerificationCode(
-    emailAddress: json['email_address'],
+    emailAddress: json['email_address'] as String,
   );
 }
 
@@ -14427,7 +14427,7 @@ class CheckEmailAddressVerificationCode extends TdFunction {
   };
 
   factory CheckEmailAddressVerificationCode.fromJson(Map<String, dynamic> json) => CheckEmailAddressVerificationCode(
-    code: json['code'],
+    code: json['code'] as String,
   );
 }
 
@@ -14475,10 +14475,10 @@ class GetPassportAuthorizationForm extends TdFunction {
   };
 
   factory GetPassportAuthorizationForm.fromJson(Map<String, dynamic> json) => GetPassportAuthorizationForm(
-    botUserId: json['bot_user_id'],
-    scope: json['scope'],
-    publicKey: json['public_key'],
-    nonce: json['nonce'],
+    botUserId: json['bot_user_id'] as int,
+    scope: json['scope'] as String,
+    publicKey: json['public_key'] as String,
+    nonce: json['nonce'] as String,
   );
 }
 
@@ -14516,8 +14516,8 @@ class GetPassportAuthorizationFormAvailableElements extends TdFunction {
   };
 
   factory GetPassportAuthorizationFormAvailableElements.fromJson(Map<String, dynamic> json) => GetPassportAuthorizationFormAvailableElements(
-    autorizationFormId: json['autorization_form_id'],
-    password: json['password'],
+    autorizationFormId: json['autorization_form_id'] as int,
+    password: json['password'] as String,
   );
 }
 
@@ -14555,8 +14555,8 @@ class SendPassportAuthorizationForm extends TdFunction {
   };
 
   factory SendPassportAuthorizationForm.fromJson(Map<String, dynamic> json) => SendPassportAuthorizationForm(
-    autorizationFormId: json['autorization_form_id'],
-    types: (json['types'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.PassportElementType?).toList(growable: false),
+    autorizationFormId: json['autorization_form_id'] as int,
+    types: (json['types'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PassportElementType?)).toList(growable: false),
   );
 }
 
@@ -14599,8 +14599,8 @@ class SendPhoneNumberConfirmationCode extends TdFunction {
   };
 
   factory SendPhoneNumberConfirmationCode.fromJson(Map<String, dynamic> json) => SendPhoneNumberConfirmationCode(
-    hash: json['hash'],
-    phoneNumber: json['phone_number'],
+    hash: json['hash'] as String,
+    phoneNumber: json['phone_number'] as String,
     settings: b.TdBase.fromJson(json['settings']) as o.PhoneNumberAuthenticationSettings?,
   );
 }
@@ -14659,7 +14659,7 @@ class CheckPhoneNumberConfirmationCode extends TdFunction {
   };
 
   factory CheckPhoneNumberConfirmationCode.fromJson(Map<String, dynamic> json) => CheckPhoneNumberConfirmationCode(
-    code: json['code'],
+    code: json['code'] as String,
   );
 }
 
@@ -14697,8 +14697,8 @@ class SetBotUpdatesStatus extends TdFunction {
   };
 
   factory SetBotUpdatesStatus.fromJson(Map<String, dynamic> json) => SetBotUpdatesStatus(
-    pendingUpdateCount: json['pending_update_count'],
-    errorMessage: json['error_message'],
+    pendingUpdateCount: json['pending_update_count'] as int,
+    errorMessage: json['error_message'] as String,
   );
 }
 
@@ -14736,7 +14736,7 @@ class UploadStickerFile extends TdFunction {
   };
 
   factory UploadStickerFile.fromJson(Map<String, dynamic> json) => UploadStickerFile(
-    userId: json['user_id'],
+    userId: json['user_id'] as int,
     pngSticker: b.TdBase.fromJson(json['png_sticker']) as a.InputFile?,
   );
 }
@@ -14790,11 +14790,11 @@ class CreateNewStickerSet extends TdFunction {
   };
 
   factory CreateNewStickerSet.fromJson(Map<String, dynamic> json) => CreateNewStickerSet(
-    userId: json['user_id'],
-    title: json['title'],
-    name: json['name'],
-    isMasks: json['is_masks'],
-    stickers: (json['stickers'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as a.InputSticker?).toList(growable: false),
+    userId: json['user_id'] as int,
+    title: json['title'] as String,
+    name: json['name'] as String,
+    isMasks: json['is_masks'] as bool,
+    stickers: (json['stickers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputSticker?)).toList(growable: false),
   );
 }
 
@@ -14837,8 +14837,8 @@ class AddStickerToSet extends TdFunction {
   };
 
   factory AddStickerToSet.fromJson(Map<String, dynamic> json) => AddStickerToSet(
-    userId: json['user_id'],
-    name: json['name'],
+    userId: json['user_id'] as int,
+    name: json['name'] as String,
     sticker: b.TdBase.fromJson(json['sticker']) as a.InputSticker?,
   );
 }
@@ -14882,8 +14882,8 @@ class SetStickerSetThumbnail extends TdFunction {
   };
 
   factory SetStickerSetThumbnail.fromJson(Map<String, dynamic> json) => SetStickerSetThumbnail(
-    userId: json['user_id'],
-    name: json['name'],
+    userId: json['user_id'] as int,
+    name: json['name'] as String,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as a.InputFile?,
   );
 }
@@ -14923,7 +14923,7 @@ class SetStickerPositionInSet extends TdFunction {
 
   factory SetStickerPositionInSet.fromJson(Map<String, dynamic> json) => SetStickerPositionInSet(
     sticker: b.TdBase.fromJson(json['sticker']) as a.InputFile?,
-    position: json['position'],
+    position: json['position'] as int,
   );
 }
 
@@ -15015,11 +15015,11 @@ class GetMapThumbnailFile extends TdFunction {
 
   factory GetMapThumbnailFile.fromJson(Map<String, dynamic> json) => GetMapThumbnailFile(
     location: b.TdBase.fromJson(json['location']) as o.Location?,
-    zoom: json['zoom'],
-    width: json['width'],
-    height: json['height'],
-    scale: json['scale'],
-    chatId: json['chat_id'],
+    zoom: json['zoom'] as int,
+    width: json['width'] as int,
+    height: json['height'] as int,
+    scale: json['scale'] as int,
+    chatId: json['chat_id'] as int,
   );
 }
 
@@ -15052,7 +15052,7 @@ class AcceptTermsOfService extends TdFunction {
   };
 
   factory AcceptTermsOfService.fromJson(Map<String, dynamic> json) => AcceptTermsOfService(
-    termsOfServiceId: json['terms_of_service_id'],
+    termsOfServiceId: json['terms_of_service_id'] as String,
   );
 }
 
@@ -15090,8 +15090,8 @@ class SendCustomRequest extends TdFunction {
   };
 
   factory SendCustomRequest.fromJson(Map<String, dynamic> json) => SendCustomRequest(
-    method: json['method'],
-    parameters: json['parameters'],
+    method: json['method'] as String,
+    parameters: json['parameters'] as String,
   );
 }
 
@@ -15130,7 +15130,7 @@ class AnswerCustomQuery extends TdFunction {
 
   factory AnswerCustomQuery.fromJson(Map<String, dynamic> json) => AnswerCustomQuery(
     customQueryId: int.parse(json['custom_query_id']),
-    data: json['data'],
+    data: json['data'] as String,
   );
 }
 
@@ -15163,7 +15163,7 @@ class SetAlarm extends TdFunction {
   };
 
   factory SetAlarm.fromJson(Map<String, dynamic> json) => SetAlarm(
-    seconds: json['seconds'],
+    seconds: json['seconds'] as double,
   );
 }
 
@@ -15246,7 +15246,7 @@ class GetPhoneNumberInfo extends TdFunction {
   };
 
   factory GetPhoneNumberInfo.fromJson(Map<String, dynamic> json) => GetPhoneNumberInfo(
-    phoneNumberPrefix: json['phone_number_prefix'],
+    phoneNumberPrefix: json['phone_number_prefix'] as String,
   );
 }
 
@@ -15304,7 +15304,7 @@ class GetDeepLinkInfo extends TdFunction {
   };
 
   factory GetDeepLinkInfo.fromJson(Map<String, dynamic> json) => GetDeepLinkInfo(
-    link: json['link'],
+    link: json['link'] as String,
   );
 }
 
@@ -15372,8 +15372,8 @@ class SaveApplicationLogEvent extends TdFunction {
   };
 
   factory SaveApplicationLogEvent.fromJson(Map<String, dynamic> json) => SaveApplicationLogEvent(
-    type: json['type'],
-    chatId: json['chat_id'],
+    type: json['type'] as String,
+    chatId: json['chat_id'] as int,
     data: b.TdBase.fromJson(json['data']) as a.JsonValue?,
   );
 }
@@ -15422,9 +15422,9 @@ class AddProxy extends TdFunction {
   };
 
   factory AddProxy.fromJson(Map<String, dynamic> json) => AddProxy(
-    server: json['server'],
-    port: json['port'],
-    enable: json['enable'],
+    server: json['server'] as String,
+    port: json['port'] as int,
+    enable: json['enable'] as bool,
     type: b.TdBase.fromJson(json['type']) as a.ProxyType?,
   );
 }
@@ -15478,10 +15478,10 @@ class EditProxy extends TdFunction {
   };
 
   factory EditProxy.fromJson(Map<String, dynamic> json) => EditProxy(
-    proxyId: json['proxy_id'],
-    server: json['server'],
-    port: json['port'],
-    enable: json['enable'],
+    proxyId: json['proxy_id'] as int,
+    server: json['server'] as String,
+    port: json['port'] as int,
+    enable: json['enable'] as bool,
     type: b.TdBase.fromJson(json['type']) as a.ProxyType?,
   );
 }
@@ -15515,7 +15515,7 @@ class EnableProxy extends TdFunction {
   };
 
   factory EnableProxy.fromJson(Map<String, dynamic> json) => EnableProxy(
-    proxyId: json['proxy_id'],
+    proxyId: json['proxy_id'] as int,
   );
 }
 
@@ -15573,7 +15573,7 @@ class RemoveProxy extends TdFunction {
   };
 
   factory RemoveProxy.fromJson(Map<String, dynamic> json) => RemoveProxy(
-    proxyId: json['proxy_id'],
+    proxyId: json['proxy_id'] as int,
   );
 }
 
@@ -15631,7 +15631,7 @@ class GetProxyLink extends TdFunction {
   };
 
   factory GetProxyLink.fromJson(Map<String, dynamic> json) => GetProxyLink(
-    proxyId: json['proxy_id'],
+    proxyId: json['proxy_id'] as int,
   );
 }
 
@@ -15664,7 +15664,7 @@ class PingProxy extends TdFunction {
   };
 
   factory PingProxy.fromJson(Map<String, dynamic> json) => PingProxy(
-    proxyId: json['proxy_id'],
+    proxyId: json['proxy_id'] as int,
   );
 }
 
@@ -15755,7 +15755,7 @@ class SetLogVerbosityLevel extends TdFunction {
   };
 
   factory SetLogVerbosityLevel.fromJson(Map<String, dynamic> json) => SetLogVerbosityLevel(
-    newVerbosityLevel: json['new_verbosity_level'],
+    newVerbosityLevel: json['new_verbosity_level'] as int,
   );
 }
 
@@ -15843,8 +15843,8 @@ class SetLogTagVerbosityLevel extends TdFunction {
   };
 
   factory SetLogTagVerbosityLevel.fromJson(Map<String, dynamic> json) => SetLogTagVerbosityLevel(
-    tag: json['tag'],
-    newVerbosityLevel: json['new_verbosity_level'],
+    tag: json['tag'] as String,
+    newVerbosityLevel: json['new_verbosity_level'] as int,
   );
 }
 
@@ -15877,7 +15877,7 @@ class GetLogTagVerbosityLevel extends TdFunction {
   };
 
   factory GetLogTagVerbosityLevel.fromJson(Map<String, dynamic> json) => GetLogTagVerbosityLevel(
-    tag: json['tag'],
+    tag: json['tag'] as String,
   );
 }
 
@@ -15915,8 +15915,8 @@ class AddLogMessage extends TdFunction {
   };
 
   factory AddLogMessage.fromJson(Map<String, dynamic> json) => AddLogMessage(
-    verbosityLevel: json['verbosity_level'],
-    text: json['text'],
+    verbosityLevel: json['verbosity_level'] as int,
+    text: json['text'] as String,
   );
 }
 
@@ -15974,7 +15974,7 @@ class TestCallString extends TdFunction {
   };
 
   factory TestCallString.fromJson(Map<String, dynamic> json) => TestCallString(
-    x: json['x'],
+    x: json['x'] as String,
   );
 }
 
@@ -16040,7 +16040,7 @@ class TestCallVectorInt extends TdFunction {
   };
 
   factory TestCallVectorInt.fromJson(Map<String, dynamic> json) => TestCallVectorInt(
-    x: (json['x'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as int).toList(growable: false),
+    x: (json['x'] as List<dynamic>).map((e) => (e as int)).toList(growable: false),
   );
 }
 
@@ -16073,7 +16073,7 @@ class TestCallVectorIntObject extends TdFunction {
   };
 
   factory TestCallVectorIntObject.fromJson(Map<String, dynamic> json) => TestCallVectorIntObject(
-    x: (json['x'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.TestInt?).toList(growable: false),
+    x: (json['x'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as o.TestInt?)).toList(growable: false),
   );
 }
 
@@ -16106,7 +16106,7 @@ class TestCallVectorString extends TdFunction {
   };
 
   factory TestCallVectorString.fromJson(Map<String, dynamic> json) => TestCallVectorString(
-    x: (json['x'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as String).toList(growable: false),
+    x: (json['x'] as List<dynamic>).map((e) => (e as String)).toList(growable: false),
   );
 }
 
@@ -16139,7 +16139,7 @@ class TestCallVectorStringObject extends TdFunction {
   };
 
   factory TestCallVectorStringObject.fromJson(Map<String, dynamic> json) => TestCallVectorStringObject(
-    x: (json['x'] as List<dynamic>).map((e) => b.TdBase.fromJson(e) as o.TestString?).toList(growable: false),
+    x: (json['x'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as o.TestString?)).toList(growable: false),
   );
 }
 
@@ -16172,7 +16172,7 @@ class TestSquareInt extends TdFunction {
   };
 
   factory TestSquareInt.fromJson(Map<String, dynamic> json) => TestSquareInt(
-    x: json['x'],
+    x: json['x'] as int,
   );
 }
 
@@ -16250,11 +16250,11 @@ class TestProxy extends TdFunction {
   };
 
   factory TestProxy.fromJson(Map<String, dynamic> json) => TestProxy(
-    server: json['server'],
-    port: json['port'],
+    server: json['server'] as String,
+    port: json['port'] as int,
     type: b.TdBase.fromJson(json['type']) as a.ProxyType?,
-    dcId: json['dc_id'],
-    timeout: json['timeout'],
+    dcId: json['dc_id'] as int,
+    timeout: json['timeout'] as double,
   );
 }
 

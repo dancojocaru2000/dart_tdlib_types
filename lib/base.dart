@@ -3,6 +3,11 @@ import 'obj.dart' as o;
 abstract class TdBase {
   Map<String, dynamic> toJson();
 
+  @override
+  String toString() {
+    return 'td::TdBase()';
+  }
+
   static TdBase fromJson(Map<String, dynamic> json) {
     final type = json['@type'] as String;
     final constructors = {

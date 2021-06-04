@@ -12,6 +12,18 @@ class GetAuthorizationState extends TdFunction {
   GetAuthorizationState();
 
   @override
+  String toString() {
+    var s = 'td::GetAuthorizationState(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getAuthorizationState',
   };
@@ -29,6 +41,19 @@ class SetTdlibParameters extends TdFunction {
     required this.parameters,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetTdlibParameters(';
+
+    // Params
+    final params = <String>[];
+    params.add(parameters.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setTdlibParameters',
@@ -49,6 +74,19 @@ class CheckDatabaseEncryptionKey extends TdFunction {
     required this.encryptionKey,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CheckDatabaseEncryptionKey(';
+
+    // Params
+    final params = <String>[];
+    params.add(encryptionKey.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkDatabaseEncryptionKey',
@@ -73,6 +111,20 @@ class SetAuthenticationPhoneNumber extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetAuthenticationPhoneNumber(';
+
+    // Params
+    final params = <String>[];
+    params.add(phoneNumber.toString());
+    params.add(settings.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setAuthenticationPhoneNumber',
     'phone_number': phoneNumber,
@@ -89,6 +141,18 @@ class SetAuthenticationPhoneNumber extends TdFunction {
 class ResendAuthenticationCode extends TdFunction {
   ResendAuthenticationCode();
 
+  @override
+  String toString() {
+    var s = 'td::ResendAuthenticationCode(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'resendAuthenticationCode',
@@ -107,6 +171,19 @@ class CheckAuthenticationCode extends TdFunction {
     required this.code,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CheckAuthenticationCode(';
+
+    // Params
+    final params = <String>[];
+    params.add(code.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkAuthenticationCode',
@@ -127,6 +204,19 @@ class RequestQrCodeAuthentication extends TdFunction {
     required this.otherUserIds,
   });
 
+  @override
+  String toString() {
+    var s = 'td::RequestQrCodeAuthentication(';
+
+    // Params
+    final params = <String>[];
+    params.add(otherUserIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'requestQrCodeAuthentication',
@@ -151,6 +241,20 @@ class RegisterUser extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RegisterUser(';
+
+    // Params
+    final params = <String>[];
+    params.add(firstName.toString());
+    params.add(lastName.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'registerUser',
     'first_name': firstName,
@@ -173,6 +277,19 @@ class CheckAuthenticationPassword extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::CheckAuthenticationPassword(';
+
+    // Params
+    final params = <String>[];
+    params.add(password.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkAuthenticationPassword',
     'password': password,
@@ -187,6 +304,18 @@ class CheckAuthenticationPassword extends TdFunction {
 class RequestAuthenticationPasswordRecovery extends TdFunction {
   RequestAuthenticationPasswordRecovery();
 
+  @override
+  String toString() {
+    var s = 'td::RequestAuthenticationPasswordRecovery(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'requestAuthenticationPasswordRecovery',
@@ -205,6 +334,19 @@ class RecoverAuthenticationPassword extends TdFunction {
     required this.recoveryCode,
   });
 
+  @override
+  String toString() {
+    var s = 'td::RecoverAuthenticationPassword(';
+
+    // Params
+    final params = <String>[];
+    params.add(recoveryCode.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'recoverAuthenticationPassword',
@@ -226,6 +368,19 @@ class CheckAuthenticationBotToken extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::CheckAuthenticationBotToken(';
+
+    // Params
+    final params = <String>[];
+    params.add(token.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkAuthenticationBotToken',
     'token': token,
@@ -241,6 +396,18 @@ class LogOut extends TdFunction {
   LogOut();
 
   @override
+  String toString() {
+    var s = 'td::LogOut(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'logOut',
   };
@@ -254,6 +421,18 @@ class Close extends TdFunction {
   Close();
 
   @override
+  String toString() {
+    var s = 'td::Close(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'close',
   };
@@ -266,6 +445,18 @@ class Close extends TdFunction {
 class Destroy extends TdFunction {
   Destroy();
 
+  @override
+  String toString() {
+    var s = 'td::Destroy(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'destroy',
@@ -285,6 +476,19 @@ class ConfirmQrCodeAuthentication extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ConfirmQrCodeAuthentication(';
+
+    // Params
+    final params = <String>[];
+    params.add(link.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'confirmQrCodeAuthentication',
     'link': link,
@@ -299,6 +503,18 @@ class ConfirmQrCodeAuthentication extends TdFunction {
 class GetCurrentState extends TdFunction {
   GetCurrentState();
 
+  @override
+  String toString() {
+    var s = 'td::GetCurrentState(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getCurrentState',
@@ -318,6 +534,19 @@ class SetDatabaseEncryptionKey extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetDatabaseEncryptionKey(';
+
+    // Params
+    final params = <String>[];
+    params.add(newEncryptionKey.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setDatabaseEncryptionKey',
     'new_encryption_key': base64.encode(newEncryptionKey),
@@ -332,6 +561,18 @@ class SetDatabaseEncryptionKey extends TdFunction {
 class GetPasswordState extends TdFunction {
   GetPasswordState();
 
+  @override
+  String toString() {
+    var s = 'td::GetPasswordState(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getPasswordState',
@@ -363,6 +604,23 @@ class SetPassword extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetPassword(';
+
+    // Params
+    final params = <String>[];
+    params.add(oldPassword.toString());
+    params.add(newPassword.toString());
+    params.add(newHint.toString());
+    params.add(setRecoveryEmailAddress.toString());
+    params.add(newRecoveryEmailAddress.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setPassword',
     'old_password': oldPassword,
@@ -391,6 +649,19 @@ class GetRecoveryEmailAddress extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetRecoveryEmailAddress(';
+
+    // Params
+    final params = <String>[];
+    params.add(password.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getRecoveryEmailAddress',
     'password': password,
@@ -414,6 +685,20 @@ class SetRecoveryEmailAddress extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetRecoveryEmailAddress(';
+
+    // Params
+    final params = <String>[];
+    params.add(password.toString());
+    params.add(newRecoveryEmailAddress.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setRecoveryEmailAddress',
     'password': password,
@@ -436,6 +721,19 @@ class CheckRecoveryEmailAddressCode extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::CheckRecoveryEmailAddressCode(';
+
+    // Params
+    final params = <String>[];
+    params.add(code.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkRecoveryEmailAddressCode',
     'code': code,
@@ -451,6 +749,18 @@ class ResendRecoveryEmailAddressCode extends TdFunction {
   ResendRecoveryEmailAddressCode();
 
   @override
+  String toString() {
+    var s = 'td::ResendRecoveryEmailAddressCode(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'resendRecoveryEmailAddressCode',
   };
@@ -463,6 +773,18 @@ class ResendRecoveryEmailAddressCode extends TdFunction {
 class RequestPasswordRecovery extends TdFunction {
   RequestPasswordRecovery();
 
+  @override
+  String toString() {
+    var s = 'td::RequestPasswordRecovery(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'requestPasswordRecovery',
@@ -481,6 +803,19 @@ class RecoverPassword extends TdFunction {
     required this.recoveryCode,
   });
 
+  @override
+  String toString() {
+    var s = 'td::RecoverPassword(';
+
+    // Params
+    final params = <String>[];
+    params.add(recoveryCode.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'recoverPassword',
@@ -505,6 +840,20 @@ class CreateTemporaryPassword extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::CreateTemporaryPassword(';
+
+    // Params
+    final params = <String>[];
+    params.add(password.toString());
+    params.add(validFor.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'createTemporaryPassword',
     'password': password,
@@ -522,6 +871,18 @@ class GetTemporaryPasswordState extends TdFunction {
   GetTemporaryPasswordState();
 
   @override
+  String toString() {
+    var s = 'td::GetTemporaryPasswordState(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getTemporaryPasswordState',
   };
@@ -534,6 +895,18 @@ class GetTemporaryPasswordState extends TdFunction {
 class GetMe extends TdFunction {
   GetMe();
 
+  @override
+  String toString() {
+    var s = 'td::GetMe(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMe',
@@ -552,6 +925,19 @@ class GetUser extends TdFunction {
     required this.userId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetUser(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getUser',
@@ -573,6 +959,19 @@ class GetUserFullInfo extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetUserFullInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getUserFullInfo',
     'user_id': userId,
@@ -592,6 +991,19 @@ class GetBasicGroup extends TdFunction {
     required this.basicGroupId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetBasicGroup(';
+
+    // Params
+    final params = <String>[];
+    params.add(basicGroupId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getBasicGroup',
@@ -613,6 +1025,19 @@ class GetBasicGroupFullInfo extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetBasicGroupFullInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(basicGroupId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getBasicGroupFullInfo',
     'basic_group_id': basicGroupId,
@@ -632,6 +1057,19 @@ class GetSupergroup extends TdFunction {
     required this.supergroupId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetSupergroup(';
+
+    // Params
+    final params = <String>[];
+    params.add(supergroupId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getSupergroup',
@@ -653,6 +1091,19 @@ class GetSupergroupFullInfo extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetSupergroupFullInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(supergroupId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getSupergroupFullInfo',
     'supergroup_id': supergroupId,
@@ -673,6 +1124,19 @@ class GetSecretChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetSecretChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(secretChatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getSecretChat',
     'secret_chat_id': secretChatId,
@@ -692,6 +1156,19 @@ class GetChat extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChat',
@@ -715,6 +1192,20 @@ class GetMessage extends TdFunction {
     required this.messageId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMessage',
@@ -741,6 +1232,20 @@ class GetMessageLocally extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetMessageLocally(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMessageLocally',
     'chat_id': chatId,
@@ -766,6 +1271,20 @@ class GetRepliedMessage extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetRepliedMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getRepliedMessage',
     'chat_id': chatId,
@@ -787,6 +1306,19 @@ class GetChatPinnedMessage extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetChatPinnedMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatPinnedMessage',
@@ -813,6 +1345,21 @@ class GetCallbackQueryMessage extends TdFunction {
     required this.callbackQueryId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetCallbackQueryMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(callbackQueryId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getCallbackQueryMessage',
@@ -841,6 +1388,20 @@ class GetMessages extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMessages',
     'chat_id': chatId,
@@ -866,6 +1427,20 @@ class GetMessageThread extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetMessageThread(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMessageThread',
     'chat_id': chatId,
@@ -887,6 +1462,19 @@ class GetFile extends TdFunction {
     required this.fileId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetFile(';
+
+    // Params
+    final params = <String>[];
+    params.add(fileId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getFile',
@@ -910,6 +1498,20 @@ class GetRemoteFile extends TdFunction {
     required this.fileType,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetRemoteFile(';
+
+    // Params
+    final params = <String>[];
+    params.add(remoteFileId.toString());
+    params.add(fileType.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getRemoteFile',
@@ -942,6 +1544,22 @@ class GetChats extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetChats(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatList.toString());
+    params.add(offsetOrder.toString());
+    params.add(offsetChatId.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChats',
     'chat_list': chatList.toJson(),
@@ -968,6 +1586,19 @@ class SearchPublicChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SearchPublicChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(username.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchPublicChat',
     'username': username,
@@ -987,6 +1618,19 @@ class SearchPublicChats extends TdFunction {
     required this.query,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SearchPublicChats(';
+
+    // Params
+    final params = <String>[];
+    params.add(query.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchPublicChats',
@@ -1010,6 +1654,20 @@ class SearchChats extends TdFunction {
     required this.limit,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SearchChats(';
+
+    // Params
+    final params = <String>[];
+    params.add(query.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchChats',
@@ -1036,6 +1694,20 @@ class SearchChatsOnServer extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SearchChatsOnServer(';
+
+    // Params
+    final params = <String>[];
+    params.add(query.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchChatsOnServer',
     'query': query,
@@ -1057,6 +1729,19 @@ class SearchChatsNearby extends TdFunction {
     required this.location,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SearchChatsNearby(';
+
+    // Params
+    final params = <String>[];
+    params.add(location.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchChatsNearby',
@@ -1080,6 +1765,20 @@ class GetTopChats extends TdFunction {
     required this.limit,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetTopChats(';
+
+    // Params
+    final params = <String>[];
+    params.add(category.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getTopChats',
@@ -1106,6 +1805,20 @@ class RemoveTopChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RemoveTopChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(category.toString());
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeTopChat',
     'category': category.toJson(),
@@ -1128,6 +1841,19 @@ class AddRecentlyFoundChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AddRecentlyFoundChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'addRecentlyFoundChat',
     'chat_id': chatId,
@@ -1148,6 +1874,19 @@ class RemoveRecentlyFoundChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RemoveRecentlyFoundChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeRecentlyFoundChat',
     'chat_id': chatId,
@@ -1162,6 +1901,18 @@ class RemoveRecentlyFoundChat extends TdFunction {
 class ClearRecentlyFoundChats extends TdFunction {
   ClearRecentlyFoundChats();
 
+  @override
+  String toString() {
+    var s = 'td::ClearRecentlyFoundChats(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'clearRecentlyFoundChats',
@@ -1183,6 +1934,20 @@ class CheckChatUsername extends TdFunction {
     required this.username,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CheckChatUsername(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(username.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkChatUsername',
@@ -1206,6 +1971,19 @@ class GetCreatedPublicChats extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetCreatedPublicChats(';
+
+    // Params
+    final params = <String>[];
+    params.add(type.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getCreatedPublicChats',
     'type': type.toJson(),
@@ -1226,6 +2004,19 @@ class CheckCreatedPublicChatsLimit extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::CheckCreatedPublicChatsLimit(';
+
+    // Params
+    final params = <String>[];
+    params.add(type.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkCreatedPublicChatsLimit',
     'type': type.toJson(),
@@ -1241,6 +2032,18 @@ class GetSuitableDiscussionChats extends TdFunction {
   GetSuitableDiscussionChats();
 
   @override
+  String toString() {
+    var s = 'td::GetSuitableDiscussionChats(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getSuitableDiscussionChats',
   };
@@ -1253,6 +2056,18 @@ class GetSuitableDiscussionChats extends TdFunction {
 class GetInactiveSupergroupChats extends TdFunction {
   GetInactiveSupergroupChats();
 
+  @override
+  String toString() {
+    var s = 'td::GetInactiveSupergroupChats(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getInactiveSupergroupChats',
@@ -1277,6 +2092,21 @@ class GetGroupsInCommon extends TdFunction {
     required this.limit,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetGroupsInCommon(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    params.add(offsetChatId.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getGroupsInCommon',
@@ -1313,6 +2143,23 @@ class GetChatHistory extends TdFunction {
     required this.onlyLocal,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetChatHistory(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(fromMessageId.toString());
+    params.add(offset.toString());
+    params.add(limit.toString());
+    params.add(onlyLocal.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatHistory',
@@ -1354,6 +2201,23 @@ class GetMessageThreadHistory extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetMessageThreadHistory(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(fromMessageId.toString());
+    params.add(offset.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMessageThreadHistory',
     'chat_id': chatId,
@@ -1388,6 +2252,21 @@ class DeleteChatHistory extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::DeleteChatHistory(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(removeFromChatList.toString());
+    params.add(revoke.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteChatHistory',
     'chat_id': chatId,
@@ -1411,6 +2290,19 @@ class DeleteChat extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::DeleteChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteChat',
@@ -1452,6 +2344,26 @@ class SearchChatMessages extends TdFunction {
     required this.messageThreadId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SearchChatMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(query.toString());
+    params.add(sender.toString());
+    params.add(fromMessageId.toString());
+    params.add(offset.toString());
+    params.add(limit.toString());
+    params.add(filter.toString());
+    params.add(messageThreadId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchChatMessages',
@@ -1511,6 +2423,27 @@ class SearchMessages extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SearchMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatList.toString());
+    params.add(query.toString());
+    params.add(offsetDate.toString());
+    params.add(offsetChatId.toString());
+    params.add(offsetMessageId.toString());
+    params.add(limit.toString());
+    params.add(filter.toString());
+    params.add(minDate.toString());
+    params.add(maxDate.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchMessages',
     'chat_list': chatList.toJson(),
@@ -1559,6 +2492,23 @@ class SearchSecretMessages extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SearchSecretMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(query.toString());
+    params.add(offset.toString());
+    params.add(limit.toString());
+    params.add(filter.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchSecretMessages',
     'chat_id': chatId,
@@ -1593,6 +2543,21 @@ class SearchCallMessages extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SearchCallMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(fromMessageId.toString());
+    params.add(limit.toString());
+    params.add(onlyMissed.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchCallMessages',
     'from_message_id': fromMessageId,
@@ -1617,6 +2582,19 @@ class DeleteAllCallMessages extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::DeleteAllCallMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(revoke.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteAllCallMessages',
     'revoke': revoke,
@@ -1640,6 +2618,20 @@ class SearchChatRecentLocationMessages extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SearchChatRecentLocationMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchChatRecentLocationMessages',
     'chat_id': chatId,
@@ -1656,6 +2648,18 @@ class SearchChatRecentLocationMessages extends TdFunction {
 class GetActiveLiveLocationMessages extends TdFunction {
   GetActiveLiveLocationMessages();
 
+  @override
+  String toString() {
+    var s = 'td::GetActiveLiveLocationMessages(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getActiveLiveLocationMessages',
@@ -1677,6 +2681,20 @@ class GetChatMessageByDate extends TdFunction {
     required this.date,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetChatMessageByDate(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(date.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatMessageByDate',
@@ -1706,6 +2724,21 @@ class GetChatMessageCount extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetChatMessageCount(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(filter.toString());
+    params.add(returnLocal.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatMessageCount',
     'chat_id': chatId,
@@ -1729,6 +2762,19 @@ class GetChatScheduledMessages extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetChatScheduledMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatScheduledMessages',
@@ -1759,6 +2805,22 @@ class GetMessagePublicForwards extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetMessagePublicForwards(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(offset.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMessagePublicForwards',
     'chat_id': chatId,
@@ -1788,6 +2850,20 @@ class RemoveNotification extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RemoveNotification(';
+
+    // Params
+    final params = <String>[];
+    params.add(notificationGroupId.toString());
+    params.add(notificationId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeNotification',
     'notification_group_id': notificationGroupId,
@@ -1812,6 +2888,20 @@ class RemoveNotificationGroup extends TdFunction {
     required this.maxNotificationId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::RemoveNotificationGroup(';
+
+    // Params
+    final params = <String>[];
+    params.add(notificationGroupId.toString());
+    params.add(maxNotificationId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeNotificationGroup',
@@ -1843,6 +2933,22 @@ class GetMessageLink extends TdFunction {
     required this.forComment,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetMessageLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(forAlbum.toString());
+    params.add(forComment.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMessageLink',
@@ -1876,6 +2982,21 @@ class GetMessageEmbeddingCode extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetMessageEmbeddingCode(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(forAlbum.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMessageEmbeddingCode',
     'chat_id': chatId,
@@ -1899,6 +3020,19 @@ class GetMessageLinkInfo extends TdFunction {
     required this.url,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetMessageLinkInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(url.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMessageLinkInfo',
@@ -1934,6 +3068,24 @@ class SendMessage extends TdFunction {
     required this.inputMessageContent,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SendMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageThreadId.toString());
+    params.add(replyToMessageId.toString());
+    params.add(options.toString());
+    params.add(replyMarkup.toString());
+    params.add(inputMessageContent.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendMessage',
@@ -1977,6 +3129,23 @@ class SendMessageAlbum extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SendMessageAlbum(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageThreadId.toString());
+    params.add(replyToMessageId.toString());
+    params.add(options.toString());
+    params.add(inputMessageContents.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendMessageAlbum',
     'chat_id': chatId,
@@ -2010,6 +3179,21 @@ class SendBotStartMessage extends TdFunction {
     required this.parameter,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SendBotStartMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(botUserId.toString());
+    params.add(chatId.toString());
+    params.add(parameter.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendBotStartMessage',
@@ -2052,6 +3236,25 @@ class SendInlineQueryResultMessage extends TdFunction {
     required this.hideViaBot,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SendInlineQueryResultMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageThreadId.toString());
+    params.add(replyToMessageId.toString());
+    params.add(options.toString());
+    params.add(queryId.toString());
+    params.add(resultId.toString());
+    params.add(hideViaBot.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendInlineQueryResultMessage',
@@ -2100,6 +3303,24 @@ class ForwardMessages extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ForwardMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(fromChatId.toString());
+    params.add(messageIds.toString());
+    params.add(options.toString());
+    params.add(sendCopy.toString());
+    params.add(removeCaption.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'forwardMessages',
     'chat_id': chatId,
@@ -2133,6 +3354,20 @@ class ResendMessages extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ResendMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'resendMessages',
     'chat_id': chatId,
@@ -2154,6 +3389,19 @@ class SendChatScreenshotTakenNotification extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SendChatScreenshotTakenNotification(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendChatScreenshotTakenNotification',
@@ -2186,6 +3434,23 @@ class AddLocalMessage extends TdFunction {
     required this.inputMessageContent,
   });
 
+  @override
+  String toString() {
+    var s = 'td::AddLocalMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(sender.toString());
+    params.add(replyToMessageId.toString());
+    params.add(disableNotification.toString());
+    params.add(inputMessageContent.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'addLocalMessage',
@@ -2221,6 +3486,21 @@ class DeleteMessages extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::DeleteMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageIds.toString());
+    params.add(revoke.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteMessages',
     'chat_id': chatId,
@@ -2247,6 +3527,20 @@ class DeleteChatMessagesFromUser extends TdFunction {
     required this.userId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::DeleteChatMessagesFromUser(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(userId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteChatMessagesFromUser',
@@ -2278,6 +3572,22 @@ class EditMessageText extends TdFunction {
     required this.inputMessageContent,
   });
 
+  @override
+  String toString() {
+    var s = 'td::EditMessageText(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(replyMarkup.toString());
+    params.add(inputMessageContent.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'editMessageText',
@@ -2320,6 +3630,24 @@ class EditMessageLiveLocation extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::EditMessageLiveLocation(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(replyMarkup.toString());
+    params.add(location.toString());
+    params.add(heading.toString());
+    params.add(proximityAlertRadius.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'editMessageLiveLocation',
     'chat_id': chatId,
@@ -2359,6 +3687,22 @@ class EditMessageMedia extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::EditMessageMedia(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(replyMarkup.toString());
+    params.add(inputMessageContent.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'editMessageMedia',
     'chat_id': chatId,
@@ -2394,6 +3738,22 @@ class EditMessageCaption extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::EditMessageCaption(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(replyMarkup.toString());
+    params.add(caption.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'editMessageCaption',
     'chat_id': chatId,
@@ -2426,6 +3786,21 @@ class EditMessageReplyMarkup extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::EditMessageReplyMarkup(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(replyMarkup.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'editMessageReplyMarkup',
     'chat_id': chatId,
@@ -2455,6 +3830,21 @@ class EditInlineMessageText extends TdFunction {
     required this.inputMessageContent,
   });
 
+  @override
+  String toString() {
+    var s = 'td::EditInlineMessageText(';
+
+    // Params
+    final params = <String>[];
+    params.add(inlineMessageId.toString());
+    params.add(replyMarkup.toString());
+    params.add(inputMessageContent.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'editInlineMessageText',
@@ -2492,6 +3882,23 @@ class EditInlineMessageLiveLocation extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::EditInlineMessageLiveLocation(';
+
+    // Params
+    final params = <String>[];
+    params.add(inlineMessageId.toString());
+    params.add(replyMarkup.toString());
+    params.add(location.toString());
+    params.add(heading.toString());
+    params.add(proximityAlertRadius.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'editInlineMessageLiveLocation',
     'inline_message_id': inlineMessageId,
@@ -2526,6 +3933,21 @@ class EditInlineMessageMedia extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::EditInlineMessageMedia(';
+
+    // Params
+    final params = <String>[];
+    params.add(inlineMessageId.toString());
+    params.add(replyMarkup.toString());
+    params.add(inputMessageContent.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'editInlineMessageMedia',
     'inline_message_id': inlineMessageId,
@@ -2556,6 +3978,21 @@ class EditInlineMessageCaption extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::EditInlineMessageCaption(';
+
+    // Params
+    final params = <String>[];
+    params.add(inlineMessageId.toString());
+    params.add(replyMarkup.toString());
+    params.add(caption.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'editInlineMessageCaption',
     'inline_message_id': inlineMessageId,
@@ -2582,6 +4019,20 @@ class EditInlineMessageReplyMarkup extends TdFunction {
     required this.replyMarkup,
   });
 
+  @override
+  String toString() {
+    var s = 'td::EditInlineMessageReplyMarkup(';
+
+    // Params
+    final params = <String>[];
+    params.add(inlineMessageId.toString());
+    params.add(replyMarkup.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'editInlineMessageReplyMarkup',
@@ -2611,6 +4062,21 @@ class EditMessageSchedulingState extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::EditMessageSchedulingState(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(schedulingState.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'editMessageSchedulingState',
     'chat_id': chatId,
@@ -2635,6 +4101,19 @@ class GetTextEntities extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetTextEntities(';
+
+    // Params
+    final params = <String>[];
+    params.add(text.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getTextEntities',
     'text': text,
@@ -2658,6 +4137,20 @@ class ParseTextEntities extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ParseTextEntities(';
+
+    // Params
+    final params = <String>[];
+    params.add(text.toString());
+    params.add(parseMode.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'parseTextEntities',
     'text': text,
@@ -2680,6 +4173,19 @@ class ParseMarkdown extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ParseMarkdown(';
+
+    // Params
+    final params = <String>[];
+    params.add(text.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'parseMarkdown',
     'text': text.toJson(),
@@ -2699,6 +4205,19 @@ class GetMarkdownText extends TdFunction {
     required this.text,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetMarkdownText(';
+
+    // Params
+    final params = <String>[];
+    params.add(text.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMarkdownText',
@@ -2720,6 +4239,19 @@ class GetFileMimeType extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetFileMimeType(';
+
+    // Params
+    final params = <String>[];
+    params.add(fileName.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getFileMimeType',
     'file_name': fileName,
@@ -2740,6 +4272,19 @@ class GetFileExtension extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetFileExtension(';
+
+    // Params
+    final params = <String>[];
+    params.add(mimeType.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getFileExtension',
     'mime_type': mimeType,
@@ -2759,6 +4304,19 @@ class CleanFileName extends TdFunction {
     required this.fileName,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CleanFileName(';
+
+    // Params
+    final params = <String>[];
+    params.add(fileName.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'cleanFileName',
@@ -2789,6 +4347,22 @@ class GetLanguagePackString extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetLanguagePackString(';
+
+    // Params
+    final params = <String>[];
+    params.add(languagePackDatabasePath.toString());
+    params.add(localizationTarget.toString());
+    params.add(languagePackId.toString());
+    params.add(key.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getLanguagePackString',
     'language_pack_database_path': languagePackDatabasePath,
@@ -2815,6 +4389,19 @@ class GetJsonValue extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetJsonValue(';
+
+    // Params
+    final params = <String>[];
+    params.add(json.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getJsonValue',
     'json': json,
@@ -2834,6 +4421,19 @@ class GetJsonString extends TdFunction {
     required this.jsonValue,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetJsonString(';
+
+    // Params
+    final params = <String>[];
+    params.add(jsonValue.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getJsonString',
@@ -2860,6 +4460,21 @@ class SetPollAnswer extends TdFunction {
     required this.optionIds,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetPollAnswer(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(optionIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setPollAnswer',
@@ -2897,6 +4512,23 @@ class GetPollVoters extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetPollVoters(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(optionId.toString());
+    params.add(offset.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getPollVoters',
     'chat_id': chatId,
@@ -2931,6 +4563,21 @@ class StopPoll extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::StopPoll(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(replyMarkup.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'stopPoll',
     'chat_id': chatId,
@@ -2954,6 +4601,19 @@ class HideSuggestedAction extends TdFunction {
     required this.action,
   });
 
+  @override
+  String toString() {
+    var s = 'td::HideSuggestedAction(';
+
+    // Params
+    final params = <String>[];
+    params.add(action.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'hideSuggestedAction',
@@ -2980,6 +4640,21 @@ class GetLoginUrlInfo extends TdFunction {
     required this.buttonId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetLoginUrlInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(buttonId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getLoginUrlInfo',
@@ -3013,6 +4688,22 @@ class GetLoginUrl extends TdFunction {
     required this.allowWriteAccess,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetLoginUrl(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(buttonId.toString());
+    params.add(allowWriteAccess.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getLoginUrl',
@@ -3051,6 +4742,23 @@ class GetInlineQueryResults extends TdFunction {
     required this.offset,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetInlineQueryResults(';
+
+    // Params
+    final params = <String>[];
+    params.add(botUserId.toString());
+    params.add(chatId.toString());
+    params.add(userLocation.toString());
+    params.add(query.toString());
+    params.add(offset.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getInlineQueryResults',
@@ -3098,6 +4806,25 @@ class AnswerInlineQuery extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AnswerInlineQuery(';
+
+    // Params
+    final params = <String>[];
+    params.add(inlineQueryId.toString());
+    params.add(isPersonal.toString());
+    params.add(results.toString());
+    params.add(cacheTime.toString());
+    params.add(nextOffset.toString());
+    params.add(switchPmText.toString());
+    params.add(switchPmParameter.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'answerInlineQuery',
     'inline_query_id': inlineQueryId.toString(),
@@ -3136,6 +4863,21 @@ class GetCallbackQueryAnswer extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetCallbackQueryAnswer(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(payload.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getCallbackQueryAnswer',
     'chat_id': chatId,
@@ -3172,6 +4914,23 @@ class AnswerCallbackQuery extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AnswerCallbackQuery(';
+
+    // Params
+    final params = <String>[];
+    params.add(callbackQueryId.toString());
+    params.add(text.toString());
+    params.add(showAlert.toString());
+    params.add(url.toString());
+    params.add(cacheTime.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'answerCallbackQuery',
     'callback_query_id': callbackQueryId.toString(),
@@ -3206,6 +4965,21 @@ class AnswerShippingQuery extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AnswerShippingQuery(';
+
+    // Params
+    final params = <String>[];
+    params.add(shippingQueryId.toString());
+    params.add(shippingOptions.toString());
+    params.add(errorMessage.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'answerShippingQuery',
     'shipping_query_id': shippingQueryId.toString(),
@@ -3232,6 +5006,20 @@ class AnswerPreCheckoutQuery extends TdFunction {
     required this.errorMessage,
   });
 
+  @override
+  String toString() {
+    var s = 'td::AnswerPreCheckoutQuery(';
+
+    // Params
+    final params = <String>[];
+    params.add(preCheckoutQueryId.toString());
+    params.add(errorMessage.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'answerPreCheckoutQuery',
@@ -3269,6 +5057,24 @@ class SetGameScore extends TdFunction {
     required this.force,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetGameScore(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(editMessage.toString());
+    params.add(userId.toString());
+    params.add(score.toString());
+    params.add(force.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setGameScore',
@@ -3312,6 +5118,23 @@ class SetInlineGameScore extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetInlineGameScore(';
+
+    // Params
+    final params = <String>[];
+    params.add(inlineMessageId.toString());
+    params.add(editMessage.toString());
+    params.add(userId.toString());
+    params.add(score.toString());
+    params.add(force.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setInlineGameScore',
     'inline_message_id': inlineMessageId,
@@ -3346,6 +5169,21 @@ class GetGameHighScores extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetGameHighScores(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(userId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getGameHighScores',
     'chat_id': chatId,
@@ -3373,6 +5211,20 @@ class GetInlineGameHighScores extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetInlineGameHighScores(';
+
+    // Params
+    final params = <String>[];
+    params.add(inlineMessageId.toString());
+    params.add(userId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getInlineGameHighScores',
     'inline_message_id': inlineMessageId,
@@ -3397,6 +5249,20 @@ class DeleteChatReplyMarkup extends TdFunction {
     required this.messageId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::DeleteChatReplyMarkup(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteChatReplyMarkup',
@@ -3426,6 +5292,21 @@ class SendChatAction extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SendChatAction(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageThreadId.toString());
+    params.add(action.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendChatAction',
     'chat_id': chatId,
@@ -3450,6 +5331,19 @@ class OpenChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::OpenChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'openChat',
     'chat_id': chatId,
@@ -3469,6 +5363,19 @@ class CloseChat extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CloseChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'closeChat',
@@ -3499,6 +5406,22 @@ class ViewMessages extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ViewMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageThreadId.toString());
+    params.add(messageIds.toString());
+    params.add(forceRead.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'viewMessages',
     'chat_id': chatId,
@@ -3528,6 +5451,20 @@ class OpenMessageContent extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::OpenMessageContent(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'openMessageContent',
     'chat_id': chatId,
@@ -3549,6 +5486,19 @@ class GetExternalLinkInfo extends TdFunction {
     required this.link,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetExternalLinkInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(link.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getExternalLinkInfo',
@@ -3573,6 +5523,20 @@ class GetExternalLink extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetExternalLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(link.toString());
+    params.add(allowWriteAccess.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getExternalLink',
     'link': link,
@@ -3594,6 +5558,19 @@ class ReadAllChatMentions extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::ReadAllChatMentions(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'readAllChatMentions',
@@ -3617,6 +5594,20 @@ class CreatePrivateChat extends TdFunction {
     required this.force,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CreatePrivateChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    params.add(force.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'createPrivateChat',
@@ -3643,6 +5634,20 @@ class CreateBasicGroupChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::CreateBasicGroupChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(basicGroupId.toString());
+    params.add(force.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'createBasicGroupChat',
     'basic_group_id': basicGroupId,
@@ -3668,6 +5673,20 @@ class CreateSupergroupChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::CreateSupergroupChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(supergroupId.toString());
+    params.add(force.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'createSupergroupChat',
     'supergroup_id': supergroupId,
@@ -3689,6 +5708,19 @@ class CreateSecretChat extends TdFunction {
     required this.secretChatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CreateSecretChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(secretChatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'createSecretChat',
@@ -3712,6 +5744,20 @@ class CreateNewBasicGroupChat extends TdFunction {
     required this.title,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CreateNewBasicGroupChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(userIds.toString());
+    params.add(title.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'createNewBasicGroupChat',
@@ -3747,6 +5793,23 @@ class CreateNewSupergroupChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::CreateNewSupergroupChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(title.toString());
+    params.add(isChannel.toString());
+    params.add(description.toString());
+    params.add(location.toString());
+    params.add(forImport.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'createNewSupergroupChat',
     'title': title,
@@ -3775,6 +5838,19 @@ class CreateNewSecretChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::CreateNewSecretChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'createNewSecretChat',
     'user_id': userId,
@@ -3795,6 +5871,19 @@ class UpgradeBasicGroupChatToSupergroupChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::UpgradeBasicGroupChatToSupergroupChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'upgradeBasicGroupChatToSupergroupChat',
     'chat_id': chatId,
@@ -3814,6 +5903,19 @@ class GetChatListsToAddChat extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetChatListsToAddChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatListsToAddChat',
@@ -3838,6 +5940,20 @@ class AddChatToList extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AddChatToList(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(chatList.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'addChatToList',
     'chat_id': chatId,
@@ -3860,6 +5976,19 @@ class GetChatFilter extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetChatFilter(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatFilterId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatFilter',
     'chat_filter_id': chatFilterId,
@@ -3879,6 +6008,19 @@ class CreateChatFilter extends TdFunction {
     required this.filter,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CreateChatFilter(';
+
+    // Params
+    final params = <String>[];
+    params.add(filter.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'createChatFilter',
@@ -3903,6 +6045,20 @@ class EditChatFilter extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::EditChatFilter(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatFilterId.toString());
+    params.add(filter.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'editChatFilter',
     'chat_filter_id': chatFilterId,
@@ -3925,6 +6081,19 @@ class DeleteChatFilter extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::DeleteChatFilter(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatFilterId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteChatFilter',
     'chat_filter_id': chatFilterId,
@@ -3945,6 +6114,19 @@ class ReorderChatFilters extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ReorderChatFilters(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatFilterIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'reorderChatFilters',
     'chat_filter_ids': chatFilterIds.map((_e1) => _e1).toList(growable: false),
@@ -3959,6 +6141,18 @@ class ReorderChatFilters extends TdFunction {
 class GetRecommendedChatFilters extends TdFunction {
   GetRecommendedChatFilters();
 
+  @override
+  String toString() {
+    var s = 'td::GetRecommendedChatFilters(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getRecommendedChatFilters',
@@ -3977,6 +6171,19 @@ class GetChatFilterDefaultIconName extends TdFunction {
     required this.filter,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetChatFilterDefaultIconName(';
+
+    // Params
+    final params = <String>[];
+    params.add(filter.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatFilterDefaultIconName',
@@ -4000,6 +6207,20 @@ class SetChatTitle extends TdFunction {
     required this.title,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetChatTitle(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(title.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setChatTitle',
@@ -4026,6 +6247,20 @@ class SetChatPhoto extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetChatPhoto(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(photo.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setChatPhoto',
     'chat_id': chatId,
@@ -4051,6 +6286,20 @@ class SetChatMessageTtlSetting extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetChatMessageTtlSetting(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(ttl.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setChatMessageTtlSetting',
     'chat_id': chatId,
@@ -4075,6 +6324,20 @@ class SetChatPermissions extends TdFunction {
     required this.permissions,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetChatPermissions(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(permissions.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setChatPermissions',
@@ -4104,6 +6367,21 @@ class SetChatDraftMessage extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetChatDraftMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageThreadId.toString());
+    params.add(draftMessage.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setChatDraftMessage',
     'chat_id': chatId,
@@ -4131,6 +6409,20 @@ class SetChatNotificationSettings extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetChatNotificationSettings(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(notificationSettings.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setChatNotificationSettings',
     'chat_id': chatId,
@@ -4155,6 +6447,20 @@ class ToggleChatIsMarkedAsUnread extends TdFunction {
     required this.isMarkedAsUnread,
   });
 
+  @override
+  String toString() {
+    var s = 'td::ToggleChatIsMarkedAsUnread(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(isMarkedAsUnread.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleChatIsMarkedAsUnread',
@@ -4181,6 +6487,20 @@ class ToggleChatDefaultDisableNotification extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ToggleChatDefaultDisableNotification(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(defaultDisableNotification.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleChatDefaultDisableNotification',
     'chat_id': chatId,
@@ -4205,6 +6525,20 @@ class SetChatClientData extends TdFunction {
     required this.clientData,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetChatClientData(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(clientData.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setChatClientData',
@@ -4231,6 +6565,20 @@ class SetChatDescription extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetChatDescription(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(description.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setChatDescription',
     'chat_id': chatId,
@@ -4255,6 +6603,20 @@ class SetChatDiscussionGroup extends TdFunction {
     required this.discussionChatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetChatDiscussionGroup(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(discussionChatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setChatDiscussionGroup',
@@ -4281,6 +6643,20 @@ class SetChatLocation extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetChatLocation(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(location.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setChatLocation',
     'chat_id': chatId,
@@ -4305,6 +6681,20 @@ class SetChatSlowModeDelay extends TdFunction {
     required this.slowModeDelay,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetChatSlowModeDelay(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(slowModeDelay.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setChatSlowModeDelay',
@@ -4337,6 +6727,22 @@ class PinChatMessage extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::PinChatMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(disableNotification.toString());
+    params.add(onlyForSelf.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'pinChatMessage',
     'chat_id': chatId,
@@ -4366,6 +6772,20 @@ class UnpinChatMessage extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::UnpinChatMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'unpinChatMessage',
     'chat_id': chatId,
@@ -4388,6 +6808,19 @@ class UnpinAllChatMessages extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::UnpinAllChatMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'unpinAllChatMessages',
     'chat_id': chatId,
@@ -4408,6 +6841,19 @@ class JoinChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::JoinChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'joinChat',
     'chat_id': chatId,
@@ -4427,6 +6873,19 @@ class LeaveChat extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::LeaveChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'leaveChat',
@@ -4453,6 +6912,21 @@ class AddChatMember extends TdFunction {
     required this.forwardLimit,
   });
 
+  @override
+  String toString() {
+    var s = 'td::AddChatMember(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(userId.toString());
+    params.add(forwardLimit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'addChatMember',
@@ -4481,6 +6955,20 @@ class AddChatMembers extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AddChatMembers(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(userIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'addChatMembers',
     'chat_id': chatId,
@@ -4508,6 +6996,21 @@ class SetChatMemberStatus extends TdFunction {
     required this.status,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetChatMemberStatus(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(memberId.toString());
+    params.add(status.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setChatMemberStatus',
@@ -4542,6 +7045,22 @@ class BanChatMember extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::BanChatMember(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(memberId.toString());
+    params.add(bannedUntilDate.toString());
+    params.add(revokeMessages.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'banChatMember',
     'chat_id': chatId,
@@ -4562,6 +7081,18 @@ class BanChatMember extends TdFunction {
 class CanTransferOwnership extends TdFunction {
   CanTransferOwnership();
 
+  @override
+  String toString() {
+    var s = 'td::CanTransferOwnership(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'canTransferOwnership',
@@ -4586,6 +7117,21 @@ class TransferChatOwnership extends TdFunction {
     required this.password,
   });
 
+  @override
+  String toString() {
+    var s = 'td::TransferChatOwnership(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(userId.toString());
+    params.add(password.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'transferChatOwnership',
@@ -4613,6 +7159,20 @@ class GetChatMember extends TdFunction {
     required this.memberId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetChatMember(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(memberId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatMember',
@@ -4645,6 +7205,22 @@ class SearchChatMembers extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SearchChatMembers(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(query.toString());
+    params.add(limit.toString());
+    params.add(filter.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchChatMembers',
     'chat_id': chatId,
@@ -4671,6 +7247,19 @@ class GetChatAdministrators extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetChatAdministrators(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatAdministrators',
     'chat_id': chatId,
@@ -4690,6 +7279,19 @@ class ClearAllDraftMessages extends TdFunction {
     required this.excludeSecretChats,
   });
 
+  @override
+  String toString() {
+    var s = 'td::ClearAllDraftMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(excludeSecretChats.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'clearAllDraftMessages',
@@ -4714,6 +7316,20 @@ class GetChatNotificationSettingsExceptions extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetChatNotificationSettingsExceptions(';
+
+    // Params
+    final params = <String>[];
+    params.add(scope.toString());
+    params.add(compareSound.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatNotificationSettingsExceptions',
     'scope': scope.toJson(),
@@ -4735,6 +7351,19 @@ class GetScopeNotificationSettings extends TdFunction {
     required this.scope,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetScopeNotificationSettings(';
+
+    // Params
+    final params = <String>[];
+    params.add(scope.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getScopeNotificationSettings',
@@ -4759,6 +7388,20 @@ class SetScopeNotificationSettings extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetScopeNotificationSettings(';
+
+    // Params
+    final params = <String>[];
+    params.add(scope.toString());
+    params.add(notificationSettings.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setScopeNotificationSettings',
     'scope': scope.toJson(),
@@ -4775,6 +7418,18 @@ class SetScopeNotificationSettings extends TdFunction {
 class ResetAllNotificationSettings extends TdFunction {
   ResetAllNotificationSettings();
 
+  @override
+  String toString() {
+    var s = 'td::ResetAllNotificationSettings(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'resetAllNotificationSettings',
@@ -4799,6 +7454,21 @@ class ToggleChatIsPinned extends TdFunction {
     required this.isPinned,
   });
 
+  @override
+  String toString() {
+    var s = 'td::ToggleChatIsPinned(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatList.toString());
+    params.add(chatId.toString());
+    params.add(isPinned.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleChatIsPinned',
@@ -4826,6 +7496,20 @@ class SetPinnedChats extends TdFunction {
     required this.chatIds,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetPinnedChats(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatList.toString());
+    params.add(chatIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setPinnedChats',
@@ -4861,6 +7545,23 @@ class DownloadFile extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::DownloadFile(';
+
+    // Params
+    final params = <String>[];
+    params.add(fileId.toString());
+    params.add(priority.toString());
+    params.add(offset.toString());
+    params.add(limit.toString());
+    params.add(synchronous.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'downloadFile',
     'file_id': fileId,
@@ -4892,6 +7593,20 @@ class GetFileDownloadedPrefixSize extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetFileDownloadedPrefixSize(';
+
+    // Params
+    final params = <String>[];
+    params.add(fileId.toString());
+    params.add(offset.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getFileDownloadedPrefixSize',
     'file_id': fileId,
@@ -4916,6 +7631,20 @@ class CancelDownloadFile extends TdFunction {
     required this.onlyIfPending,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CancelDownloadFile(';
+
+    // Params
+    final params = <String>[];
+    params.add(fileId.toString());
+    params.add(onlyIfPending.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'cancelDownloadFile',
@@ -4945,6 +7674,21 @@ class UploadFile extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::UploadFile(';
+
+    // Params
+    final params = <String>[];
+    params.add(file.toString());
+    params.add(fileType.toString());
+    params.add(priority.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'uploadFile',
     'file': file.toJson(),
@@ -4968,6 +7712,19 @@ class CancelUploadFile extends TdFunction {
     required this.fileId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CancelUploadFile(';
+
+    // Params
+    final params = <String>[];
+    params.add(fileId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'cancelUploadFile',
@@ -4994,6 +7751,21 @@ class WriteGeneratedFilePart extends TdFunction {
     required this.data,
   });
 
+  @override
+  String toString() {
+    var s = 'td::WriteGeneratedFilePart(';
+
+    // Params
+    final params = <String>[];
+    params.add(generationId.toString());
+    params.add(offset.toString());
+    params.add(data.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'writeGeneratedFilePart',
@@ -5025,6 +7797,21 @@ class SetFileGenerationProgress extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetFileGenerationProgress(';
+
+    // Params
+    final params = <String>[];
+    params.add(generationId.toString());
+    params.add(expectedSize.toString());
+    params.add(localPrefixSize.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setFileGenerationProgress',
     'generation_id': generationId.toString(),
@@ -5051,6 +7838,20 @@ class FinishFileGeneration extends TdFunction {
     required this.error,
   });
 
+  @override
+  String toString() {
+    var s = 'td::FinishFileGeneration(';
+
+    // Params
+    final params = <String>[];
+    params.add(generationId.toString());
+    params.add(error.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'finishFileGeneration',
@@ -5080,6 +7881,21 @@ class ReadFilePart extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ReadFilePart(';
+
+    // Params
+    final params = <String>[];
+    params.add(fileId.toString());
+    params.add(offset.toString());
+    params.add(count.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'readFilePart',
     'file_id': fileId,
@@ -5104,6 +7920,19 @@ class DeleteFile extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::DeleteFile(';
+
+    // Params
+    final params = <String>[];
+    params.add(fileId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteFile',
     'file_id': fileId,
@@ -5124,6 +7953,19 @@ class GetMessageFileType extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetMessageFileType(';
+
+    // Params
+    final params = <String>[];
+    params.add(messageFileHead.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMessageFileType',
     'message_file_head': messageFileHead,
@@ -5143,6 +7985,19 @@ class GetMessageImportConfirmationText extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetMessageImportConfirmationText(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMessageImportConfirmationText',
@@ -5170,6 +8025,21 @@ class ImportMessages extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ImportMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageFile.toString());
+    params.add(attachedFiles.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'importMessages',
     'chat_id': chatId,
@@ -5193,6 +8063,19 @@ class ReplacePrimaryChatInviteLink extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::ReplacePrimaryChatInviteLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'replacePrimaryChatInviteLink',
@@ -5219,6 +8102,21 @@ class CreateChatInviteLink extends TdFunction {
     required this.memberLimit,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CreateChatInviteLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(expireDate.toString());
+    params.add(memberLimit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'createChatInviteLink',
@@ -5253,6 +8151,22 @@ class EditChatInviteLink extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::EditChatInviteLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(inviteLink.toString());
+    params.add(expireDate.toString());
+    params.add(memberLimit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'editChatInviteLink',
     'chat_id': chatId,
@@ -5282,6 +8196,20 @@ class GetChatInviteLink extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetChatInviteLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(inviteLink.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatInviteLink',
     'chat_id': chatId,
@@ -5303,6 +8231,19 @@ class GetChatInviteLinkCounts extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetChatInviteLinkCounts(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatInviteLinkCounts',
@@ -5338,6 +8279,24 @@ class GetChatInviteLinks extends TdFunction {
     required this.limit,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetChatInviteLinks(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(creatorUserId.toString());
+    params.add(isRevoked.toString());
+    params.add(offsetDate.toString());
+    params.add(offsetInviteLink.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatInviteLinks',
@@ -5378,6 +8337,22 @@ class GetChatInviteLinkMembers extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetChatInviteLinkMembers(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(inviteLink.toString());
+    params.add(offsetMember.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatInviteLinkMembers',
     'chat_id': chatId,
@@ -5407,6 +8382,20 @@ class RevokeChatInviteLink extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RevokeChatInviteLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(inviteLink.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'revokeChatInviteLink',
     'chat_id': chatId,
@@ -5431,6 +8420,20 @@ class DeleteRevokedChatInviteLink extends TdFunction {
     required this.inviteLink,
   });
 
+  @override
+  String toString() {
+    var s = 'td::DeleteRevokedChatInviteLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(inviteLink.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteRevokedChatInviteLink',
@@ -5457,6 +8460,20 @@ class DeleteAllRevokedChatInviteLinks extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::DeleteAllRevokedChatInviteLinks(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(creatorUserId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteAllRevokedChatInviteLinks',
     'chat_id': chatId,
@@ -5479,6 +8496,19 @@ class CheckChatInviteLink extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::CheckChatInviteLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(inviteLink.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkChatInviteLink',
     'invite_link': inviteLink,
@@ -5498,6 +8528,19 @@ class JoinChatByInviteLink extends TdFunction {
     required this.inviteLink,
   });
 
+  @override
+  String toString() {
+    var s = 'td::JoinChatByInviteLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(inviteLink.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'joinChatByInviteLink',
@@ -5524,6 +8567,21 @@ class CreateCall extends TdFunction {
     required this.isVideo,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CreateCall(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    params.add(protocol.toString());
+    params.add(isVideo.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'createCall',
@@ -5552,6 +8610,20 @@ class AcceptCall extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AcceptCall(';
+
+    // Params
+    final params = <String>[];
+    params.add(callId.toString());
+    params.add(protocol.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'acceptCall',
     'call_id': callId,
@@ -5576,6 +8648,20 @@ class SendCallSignalingData extends TdFunction {
     required this.data,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SendCallSignalingData(';
+
+    // Params
+    final params = <String>[];
+    params.add(callId.toString());
+    params.add(data.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendCallSignalingData',
@@ -5610,6 +8696,23 @@ class DiscardCall extends TdFunction {
     required this.connectionId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::DiscardCall(';
+
+    // Params
+    final params = <String>[];
+    params.add(callId.toString());
+    params.add(isDisconnected.toString());
+    params.add(duration.toString());
+    params.add(isVideo.toString());
+    params.add(connectionId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'discardCall',
@@ -5648,6 +8751,22 @@ class SendCallRating extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SendCallRating(';
+
+    // Params
+    final params = <String>[];
+    params.add(callId.toString());
+    params.add(rating.toString());
+    params.add(comment.toString());
+    params.add(problems.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendCallRating',
     'call_id': callId,
@@ -5677,6 +8796,20 @@ class SendCallDebugInformation extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SendCallDebugInformation(';
+
+    // Params
+    final params = <String>[];
+    params.add(callId.toString());
+    params.add(debugInformation.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendCallDebugInformation',
     'call_id': callId,
@@ -5698,6 +8831,19 @@ class GetVoiceChatAvailableParticipants extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetVoiceChatAvailableParticipants(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getVoiceChatAvailableParticipants',
@@ -5721,6 +8867,20 @@ class SetVoiceChatDefaultParticipant extends TdFunction {
     required this.defaultParticipantId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetVoiceChatDefaultParticipant(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(defaultParticipantId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setVoiceChatDefaultParticipant',
@@ -5750,6 +8910,21 @@ class CreateVoiceChat extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::CreateVoiceChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(title.toString());
+    params.add(startDate.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'createVoiceChat',
     'chat_id': chatId,
@@ -5774,6 +8949,19 @@ class GetGroupCall extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetGroupCall(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getGroupCall',
     'group_call_id': groupCallId,
@@ -5793,6 +8981,19 @@ class StartScheduledGroupCall extends TdFunction {
     required this.groupCallId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::StartScheduledGroupCall(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'startScheduledGroupCall',
@@ -5816,6 +9017,20 @@ class ToggleGroupCallEnabledStartNotification extends TdFunction {
     required this.enabledStartNotification,
   });
 
+  @override
+  String toString() {
+    var s = 'td::ToggleGroupCallEnabledStartNotification(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(enabledStartNotification.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleGroupCallEnabledStartNotification',
@@ -5854,6 +9069,24 @@ class JoinGroupCall extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::JoinGroupCall(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(participantId.toString());
+    params.add(payload.toString());
+    params.add(source.toString());
+    params.add(isMuted.toString());
+    params.add(inviteHash.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'joinGroupCall',
     'group_call_id': groupCallId,
@@ -5887,6 +9120,20 @@ class SetGroupCallTitle extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetGroupCallTitle(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(title.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setGroupCallTitle',
     'group_call_id': groupCallId,
@@ -5912,6 +9159,20 @@ class ToggleGroupCallMuteNewParticipants extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ToggleGroupCallMuteNewParticipants(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(muteNewParticipants.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleGroupCallMuteNewParticipants',
     'group_call_id': groupCallId,
@@ -5933,6 +9194,19 @@ class RevokeGroupCallInviteLink extends TdFunction {
     required this.groupCallId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::RevokeGroupCallInviteLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'revokeGroupCallInviteLink',
@@ -5956,6 +9230,20 @@ class InviteGroupCallParticipants extends TdFunction {
     required this.userIds,
   });
 
+  @override
+  String toString() {
+    var s = 'td::InviteGroupCallParticipants(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(userIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'inviteGroupCallParticipants',
@@ -5982,6 +9270,20 @@ class GetGroupCallInviteLink extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetGroupCallInviteLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(canSelfUnmute.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getGroupCallInviteLink',
     'group_call_id': groupCallId,
@@ -6007,6 +9309,20 @@ class StartGroupCallRecording extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::StartGroupCallRecording(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(title.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'startGroupCallRecording',
     'group_call_id': groupCallId,
@@ -6028,6 +9344,19 @@ class EndGroupCallRecording extends TdFunction {
     required this.groupCallId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::EndGroupCallRecording(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'endGroupCallRecording',
@@ -6054,6 +9383,21 @@ class SetGroupCallParticipantIsSpeaking extends TdFunction {
     required this.isSpeaking,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetGroupCallParticipantIsSpeaking(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(source.toString());
+    params.add(isSpeaking.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setGroupCallParticipantIsSpeaking',
@@ -6085,6 +9429,21 @@ class ToggleGroupCallParticipantIsMuted extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ToggleGroupCallParticipantIsMuted(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(participantId.toString());
+    params.add(isMuted.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleGroupCallParticipantIsMuted',
     'group_call_id': groupCallId,
@@ -6114,6 +9473,21 @@ class SetGroupCallParticipantVolumeLevel extends TdFunction {
     required this.volumeLevel,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetGroupCallParticipantVolumeLevel(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(participantId.toString());
+    params.add(volumeLevel.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setGroupCallParticipantVolumeLevel',
@@ -6145,6 +9519,21 @@ class ToggleGroupCallParticipantIsHandRaised extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ToggleGroupCallParticipantIsHandRaised(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(participantId.toString());
+    params.add(isHandRaised.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleGroupCallParticipantIsHandRaised',
     'group_call_id': groupCallId,
@@ -6172,6 +9561,20 @@ class LoadGroupCallParticipants extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::LoadGroupCallParticipants(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'loadGroupCallParticipants',
     'group_call_id': groupCallId,
@@ -6194,6 +9597,19 @@ class LeaveGroupCall extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::LeaveGroupCall(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'leaveGroupCall',
     'group_call_id': groupCallId,
@@ -6213,6 +9629,19 @@ class DiscardGroupCall extends TdFunction {
     required this.groupCallId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::DiscardGroupCall(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'discardGroupCall',
@@ -6240,6 +9669,21 @@ class GetGroupCallStreamSegment extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetGroupCallStreamSegment(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(timeOffset.toString());
+    params.add(scale.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getGroupCallStreamSegment',
     'group_call_id': groupCallId,
@@ -6266,6 +9710,20 @@ class ToggleMessageSenderIsBlocked extends TdFunction {
     required this.isBlocked,
   });
 
+  @override
+  String toString() {
+    var s = 'td::ToggleMessageSenderIsBlocked(';
+
+    // Params
+    final params = <String>[];
+    params.add(sender.toString());
+    params.add(isBlocked.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleMessageSenderIsBlocked',
@@ -6298,6 +9756,22 @@ class BlockMessageSenderFromReplies extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::BlockMessageSenderFromReplies(';
+
+    // Params
+    final params = <String>[];
+    params.add(messageId.toString());
+    params.add(deleteMessage.toString());
+    params.add(deleteAllMessages.toString());
+    params.add(reportSpam.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'blockMessageSenderFromReplies',
     'message_id': messageId,
@@ -6327,6 +9801,20 @@ class GetBlockedMessageSenders extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetBlockedMessageSenders(';
+
+    // Params
+    final params = <String>[];
+    params.add(offset.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getBlockedMessageSenders',
     'offset': offset,
@@ -6352,6 +9840,20 @@ class AddContact extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AddContact(';
+
+    // Params
+    final params = <String>[];
+    params.add(contact.toString());
+    params.add(sharePhoneNumber.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'addContact',
     'contact': contact.toJson(),
@@ -6374,6 +9876,19 @@ class ImportContacts extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ImportContacts(';
+
+    // Params
+    final params = <String>[];
+    params.add(contacts.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'importContacts',
     'contacts': contacts.map((_e1) => _e1.toJson()).toList(growable: false),
@@ -6388,6 +9903,18 @@ class ImportContacts extends TdFunction {
 class GetContacts extends TdFunction {
   GetContacts();
 
+  @override
+  String toString() {
+    var s = 'td::GetContacts(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getContacts',
@@ -6409,6 +9936,20 @@ class SearchContacts extends TdFunction {
     required this.limit,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SearchContacts(';
+
+    // Params
+    final params = <String>[];
+    params.add(query.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchContacts',
@@ -6432,6 +9973,19 @@ class RemoveContacts extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RemoveContacts(';
+
+    // Params
+    final params = <String>[];
+    params.add(userIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeContacts',
     'user_ids': userIds.map((_e1) => _e1).toList(growable: false),
@@ -6446,6 +10000,18 @@ class RemoveContacts extends TdFunction {
 class GetImportedContactCount extends TdFunction {
   GetImportedContactCount();
 
+  @override
+  String toString() {
+    var s = 'td::GetImportedContactCount(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getImportedContactCount',
@@ -6465,6 +10031,19 @@ class ChangeImportedContacts extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ChangeImportedContacts(';
+
+    // Params
+    final params = <String>[];
+    params.add(contacts.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'changeImportedContacts',
     'contacts': contacts.map((_e1) => _e1.toJson()).toList(growable: false),
@@ -6479,6 +10058,18 @@ class ChangeImportedContacts extends TdFunction {
 class ClearImportedContacts extends TdFunction {
   ClearImportedContacts();
 
+  @override
+  String toString() {
+    var s = 'td::ClearImportedContacts(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'clearImportedContacts',
@@ -6497,6 +10088,19 @@ class SharePhoneNumber extends TdFunction {
     required this.userId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SharePhoneNumber(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'sharePhoneNumber',
@@ -6523,6 +10127,21 @@ class GetUserProfilePhotos extends TdFunction {
     required this.limit,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetUserProfilePhotos(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    params.add(offset.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getUserProfilePhotos',
@@ -6551,6 +10170,20 @@ class GetStickers extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetStickers(';
+
+    // Params
+    final params = <String>[];
+    params.add(emoji.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getStickers',
     'emoji': emoji,
@@ -6576,6 +10209,20 @@ class SearchStickers extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SearchStickers(';
+
+    // Params
+    final params = <String>[];
+    params.add(emoji.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchStickers',
     'emoji': emoji,
@@ -6597,6 +10244,19 @@ class GetInstalledStickerSets extends TdFunction {
     required this.isMasks,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetInstalledStickerSets(';
+
+    // Params
+    final params = <String>[];
+    params.add(isMasks.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getInstalledStickerSets',
@@ -6623,6 +10283,21 @@ class GetArchivedStickerSets extends TdFunction {
     required this.limit,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetArchivedStickerSets(';
+
+    // Params
+    final params = <String>[];
+    params.add(isMasks.toString());
+    params.add(offsetStickerSetId.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getArchivedStickerSets',
@@ -6651,6 +10326,20 @@ class GetTrendingStickerSets extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetTrendingStickerSets(';
+
+    // Params
+    final params = <String>[];
+    params.add(offset.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getTrendingStickerSets',
     'offset': offset,
@@ -6673,6 +10362,19 @@ class GetAttachedStickerSets extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetAttachedStickerSets(';
+
+    // Params
+    final params = <String>[];
+    params.add(fileId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getAttachedStickerSets',
     'file_id': fileId,
@@ -6693,6 +10395,19 @@ class GetStickerSet extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetStickerSet(';
+
+    // Params
+    final params = <String>[];
+    params.add(setId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getStickerSet',
     'set_id': setId.toString(),
@@ -6712,6 +10427,19 @@ class SearchStickerSet extends TdFunction {
     required this.name,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SearchStickerSet(';
+
+    // Params
+    final params = <String>[];
+    params.add(name.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchStickerSet',
@@ -6739,6 +10467,21 @@ class SearchInstalledStickerSets extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SearchInstalledStickerSets(';
+
+    // Params
+    final params = <String>[];
+    params.add(isMasks.toString());
+    params.add(query.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchInstalledStickerSets',
     'is_masks': isMasks,
@@ -6762,6 +10505,19 @@ class SearchStickerSets extends TdFunction {
     required this.query,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SearchStickerSets(';
+
+    // Params
+    final params = <String>[];
+    params.add(query.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchStickerSets',
@@ -6789,6 +10545,21 @@ class ChangeStickerSet extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ChangeStickerSet(';
+
+    // Params
+    final params = <String>[];
+    params.add(setId.toString());
+    params.add(isInstalled.toString());
+    params.add(isArchived.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'changeStickerSet',
     'set_id': setId.toString(),
@@ -6813,6 +10584,19 @@ class ViewTrendingStickerSets extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ViewTrendingStickerSets(';
+
+    // Params
+    final params = <String>[];
+    params.add(stickerSetIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'viewTrendingStickerSets',
     'sticker_set_ids': stickerSetIds.map((_e1) => _e1.toString()).toList(growable: false),
@@ -6836,6 +10620,20 @@ class ReorderInstalledStickerSets extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ReorderInstalledStickerSets(';
+
+    // Params
+    final params = <String>[];
+    params.add(isMasks.toString());
+    params.add(stickerSetIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'reorderInstalledStickerSets',
     'is_masks': isMasks,
@@ -6857,6 +10655,19 @@ class GetRecentStickers extends TdFunction {
     required this.isAttached,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetRecentStickers(';
+
+    // Params
+    final params = <String>[];
+    params.add(isAttached.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getRecentStickers',
@@ -6880,6 +10691,20 @@ class AddRecentSticker extends TdFunction {
     required this.sticker,
   });
 
+  @override
+  String toString() {
+    var s = 'td::AddRecentSticker(';
+
+    // Params
+    final params = <String>[];
+    params.add(isAttached.toString());
+    params.add(sticker.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'addRecentSticker',
@@ -6906,6 +10731,20 @@ class RemoveRecentSticker extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RemoveRecentSticker(';
+
+    // Params
+    final params = <String>[];
+    params.add(isAttached.toString());
+    params.add(sticker.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeRecentSticker',
     'is_attached': isAttached,
@@ -6928,6 +10767,19 @@ class ClearRecentStickers extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ClearRecentStickers(';
+
+    // Params
+    final params = <String>[];
+    params.add(isAttached.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'clearRecentStickers',
     'is_attached': isAttached,
@@ -6942,6 +10794,18 @@ class ClearRecentStickers extends TdFunction {
 class GetFavoriteStickers extends TdFunction {
   GetFavoriteStickers();
 
+  @override
+  String toString() {
+    var s = 'td::GetFavoriteStickers(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getFavoriteStickers',
@@ -6960,6 +10824,19 @@ class AddFavoriteSticker extends TdFunction {
     required this.sticker,
   });
 
+  @override
+  String toString() {
+    var s = 'td::AddFavoriteSticker(';
+
+    // Params
+    final params = <String>[];
+    params.add(sticker.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'addFavoriteSticker',
@@ -6981,6 +10858,19 @@ class RemoveFavoriteSticker extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RemoveFavoriteSticker(';
+
+    // Params
+    final params = <String>[];
+    params.add(sticker.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeFavoriteSticker',
     'sticker': sticker.toJson(),
@@ -7000,6 +10890,19 @@ class GetStickerEmojis extends TdFunction {
     required this.sticker,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetStickerEmojis(';
+
+    // Params
+    final params = <String>[];
+    params.add(sticker.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getStickerEmojis',
@@ -7027,6 +10930,21 @@ class SearchEmojis extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SearchEmojis(';
+
+    // Params
+    final params = <String>[];
+    params.add(text.toString());
+    params.add(exactMatch.toString());
+    params.add(inputLanguageCodes.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchEmojis',
     'text': text,
@@ -7051,6 +10969,19 @@ class GetEmojiSuggestionsUrl extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetEmojiSuggestionsUrl(';
+
+    // Params
+    final params = <String>[];
+    params.add(languageCode.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getEmojiSuggestionsUrl',
     'language_code': languageCode,
@@ -7065,6 +10996,18 @@ class GetEmojiSuggestionsUrl extends TdFunction {
 class GetSavedAnimations extends TdFunction {
   GetSavedAnimations();
 
+  @override
+  String toString() {
+    var s = 'td::GetSavedAnimations(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getSavedAnimations',
@@ -7083,6 +11026,19 @@ class AddSavedAnimation extends TdFunction {
     required this.animation,
   });
 
+  @override
+  String toString() {
+    var s = 'td::AddSavedAnimation(';
+
+    // Params
+    final params = <String>[];
+    params.add(animation.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'addSavedAnimation',
@@ -7104,6 +11060,19 @@ class RemoveSavedAnimation extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RemoveSavedAnimation(';
+
+    // Params
+    final params = <String>[];
+    params.add(animation.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeSavedAnimation',
     'animation': animation.toJson(),
@@ -7118,6 +11087,18 @@ class RemoveSavedAnimation extends TdFunction {
 class GetRecentInlineBots extends TdFunction {
   GetRecentInlineBots();
 
+  @override
+  String toString() {
+    var s = 'td::GetRecentInlineBots(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getRecentInlineBots',
@@ -7139,6 +11120,20 @@ class SearchHashtags extends TdFunction {
     required this.limit,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SearchHashtags(';
+
+    // Params
+    final params = <String>[];
+    params.add(prefix.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchHashtags',
@@ -7162,6 +11157,19 @@ class RemoveRecentHashtag extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RemoveRecentHashtag(';
+
+    // Params
+    final params = <String>[];
+    params.add(hashtag.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeRecentHashtag',
     'hashtag': hashtag,
@@ -7181,6 +11189,19 @@ class GetWebPagePreview extends TdFunction {
     required this.text,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetWebPagePreview(';
+
+    // Params
+    final params = <String>[];
+    params.add(text.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getWebPagePreview',
@@ -7205,6 +11226,20 @@ class GetWebPageInstantView extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetWebPageInstantView(';
+
+    // Params
+    final params = <String>[];
+    params.add(url.toString());
+    params.add(forceFull.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getWebPageInstantView',
     'url': url,
@@ -7227,6 +11262,19 @@ class SetProfilePhoto extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetProfilePhoto(';
+
+    // Params
+    final params = <String>[];
+    params.add(photo.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setProfilePhoto',
     'photo': photo.toJson(),
@@ -7246,6 +11294,19 @@ class DeleteProfilePhoto extends TdFunction {
     required this.profilePhotoId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::DeleteProfilePhoto(';
+
+    // Params
+    final params = <String>[];
+    params.add(profilePhotoId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteProfilePhoto',
@@ -7270,6 +11331,20 @@ class SetName extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetName(';
+
+    // Params
+    final params = <String>[];
+    params.add(firstName.toString());
+    params.add(lastName.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setName',
     'first_name': firstName,
@@ -7292,6 +11367,19 @@ class SetBio extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetBio(';
+
+    // Params
+    final params = <String>[];
+    params.add(bio.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setBio',
     'bio': bio,
@@ -7312,6 +11400,19 @@ class SetUsername extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetUsername(';
+
+    // Params
+    final params = <String>[];
+    params.add(username.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setUsername',
     'username': username,
@@ -7331,6 +11432,19 @@ class SetLocation extends TdFunction {
     required this.location,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetLocation(';
+
+    // Params
+    final params = <String>[];
+    params.add(location.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setLocation',
@@ -7355,6 +11469,20 @@ class ChangePhoneNumber extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ChangePhoneNumber(';
+
+    // Params
+    final params = <String>[];
+    params.add(phoneNumber.toString());
+    params.add(settings.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'changePhoneNumber',
     'phone_number': phoneNumber,
@@ -7371,6 +11499,18 @@ class ChangePhoneNumber extends TdFunction {
 class ResendChangePhoneNumberCode extends TdFunction {
   ResendChangePhoneNumberCode();
 
+  @override
+  String toString() {
+    var s = 'td::ResendChangePhoneNumberCode(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'resendChangePhoneNumberCode',
@@ -7389,6 +11529,19 @@ class CheckChangePhoneNumberCode extends TdFunction {
     required this.code,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CheckChangePhoneNumberCode(';
+
+    // Params
+    final params = <String>[];
+    params.add(code.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkChangePhoneNumberCode',
@@ -7410,6 +11563,19 @@ class SetCommands extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetCommands(';
+
+    // Params
+    final params = <String>[];
+    params.add(commands.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setCommands',
     'commands': commands.map((_e1) => _e1.toJson()).toList(growable: false),
@@ -7424,6 +11590,18 @@ class SetCommands extends TdFunction {
 class GetActiveSessions extends TdFunction {
   GetActiveSessions();
 
+  @override
+  String toString() {
+    var s = 'td::GetActiveSessions(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getActiveSessions',
@@ -7443,6 +11621,19 @@ class TerminateSession extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::TerminateSession(';
+
+    // Params
+    final params = <String>[];
+    params.add(sessionId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'terminateSession',
     'session_id': sessionId.toString(),
@@ -7458,6 +11649,18 @@ class TerminateAllOtherSessions extends TdFunction {
   TerminateAllOtherSessions();
 
   @override
+  String toString() {
+    var s = 'td::TerminateAllOtherSessions(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'terminateAllOtherSessions',
   };
@@ -7470,6 +11673,18 @@ class TerminateAllOtherSessions extends TdFunction {
 class GetConnectedWebsites extends TdFunction {
   GetConnectedWebsites();
 
+  @override
+  String toString() {
+    var s = 'td::GetConnectedWebsites(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getConnectedWebsites',
@@ -7489,6 +11704,19 @@ class DisconnectWebsite extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::DisconnectWebsite(';
+
+    // Params
+    final params = <String>[];
+    params.add(websiteId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'disconnectWebsite',
     'website_id': websiteId.toString(),
@@ -7503,6 +11731,18 @@ class DisconnectWebsite extends TdFunction {
 class DisconnectAllWebsites extends TdFunction {
   DisconnectAllWebsites();
 
+  @override
+  String toString() {
+    var s = 'td::DisconnectAllWebsites(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'disconnectAllWebsites',
@@ -7524,6 +11764,20 @@ class SetSupergroupUsername extends TdFunction {
     required this.username,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetSupergroupUsername(';
+
+    // Params
+    final params = <String>[];
+    params.add(supergroupId.toString());
+    params.add(username.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setSupergroupUsername',
@@ -7550,6 +11804,20 @@ class SetSupergroupStickerSet extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetSupergroupStickerSet(';
+
+    // Params
+    final params = <String>[];
+    params.add(supergroupId.toString());
+    params.add(stickerSetId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setSupergroupStickerSet',
     'supergroup_id': supergroupId,
@@ -7574,6 +11842,20 @@ class ToggleSupergroupSignMessages extends TdFunction {
     required this.signMessages,
   });
 
+  @override
+  String toString() {
+    var s = 'td::ToggleSupergroupSignMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(supergroupId.toString());
+    params.add(signMessages.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleSupergroupSignMessages',
@@ -7600,6 +11882,20 @@ class ToggleSupergroupIsAllHistoryAvailable extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ToggleSupergroupIsAllHistoryAvailable(';
+
+    // Params
+    final params = <String>[];
+    params.add(supergroupId.toString());
+    params.add(isAllHistoryAvailable.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleSupergroupIsAllHistoryAvailable',
     'supergroup_id': supergroupId,
@@ -7621,6 +11917,19 @@ class ToggleSupergroupIsBroadcastGroup extends TdFunction {
     required this.supergroupId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::ToggleSupergroupIsBroadcastGroup(';
+
+    // Params
+    final params = <String>[];
+    params.add(supergroupId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleSupergroupIsBroadcastGroup',
@@ -7647,6 +11956,21 @@ class ReportSupergroupSpam extends TdFunction {
     required this.messageIds,
   });
 
+  @override
+  String toString() {
+    var s = 'td::ReportSupergroupSpam(';
+
+    // Params
+    final params = <String>[];
+    params.add(supergroupId.toString());
+    params.add(userId.toString());
+    params.add(messageIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'reportSupergroupSpam',
@@ -7681,6 +12005,22 @@ class GetSupergroupMembers extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetSupergroupMembers(';
+
+    // Params
+    final params = <String>[];
+    params.add(supergroupId.toString());
+    params.add(filter.toString());
+    params.add(offset.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getSupergroupMembers',
     'supergroup_id': supergroupId,
@@ -7706,6 +12046,19 @@ class CloseSecretChat extends TdFunction {
     required this.secretChatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CloseSecretChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(secretChatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'closeSecretChat',
@@ -7741,6 +12094,24 @@ class GetChatEventLog extends TdFunction {
     required this.userIds,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetChatEventLog(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(query.toString());
+    params.add(fromEventId.toString());
+    params.add(limit.toString());
+    params.add(filters.toString());
+    params.add(userIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatEventLog',
@@ -7778,6 +12149,21 @@ class GetPaymentForm extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetPaymentForm(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(theme.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getPaymentForm',
     'chat_id': chatId,
@@ -7810,6 +12196,22 @@ class ValidateOrderInfo extends TdFunction {
     required this.allowSave,
   });
 
+  @override
+  String toString() {
+    var s = 'td::ValidateOrderInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(orderInfo.toString());
+    params.add(allowSave.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'validateOrderInfo',
@@ -7855,6 +12257,25 @@ class SendPaymentForm extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SendPaymentForm(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(paymentFormId.toString());
+    params.add(orderInfoId.toString());
+    params.add(shippingOptionId.toString());
+    params.add(credentials.toString());
+    params.add(tipAmount.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendPaymentForm',
     'chat_id': chatId,
@@ -7890,6 +12311,20 @@ class GetPaymentReceipt extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetPaymentReceipt(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getPaymentReceipt',
     'chat_id': chatId,
@@ -7907,6 +12342,18 @@ class GetSavedOrderInfo extends TdFunction {
   GetSavedOrderInfo();
 
   @override
+  String toString() {
+    var s = 'td::GetSavedOrderInfo(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getSavedOrderInfo',
   };
@@ -7919,6 +12366,18 @@ class GetSavedOrderInfo extends TdFunction {
 class DeleteSavedOrderInfo extends TdFunction {
   DeleteSavedOrderInfo();
 
+  @override
+  String toString() {
+    var s = 'td::DeleteSavedOrderInfo(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteSavedOrderInfo',
@@ -7933,6 +12392,18 @@ class DeleteSavedCredentials extends TdFunction {
   DeleteSavedCredentials();
 
   @override
+  String toString() {
+    var s = 'td::DeleteSavedCredentials(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteSavedCredentials',
   };
@@ -7945,6 +12416,18 @@ class DeleteSavedCredentials extends TdFunction {
 class GetSupportUser extends TdFunction {
   GetSupportUser();
 
+  @override
+  String toString() {
+    var s = 'td::GetSupportUser(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getSupportUser',
@@ -7963,6 +12446,19 @@ class GetBackgrounds extends TdFunction {
     required this.forDarkTheme,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetBackgrounds(';
+
+    // Params
+    final params = <String>[];
+    params.add(forDarkTheme.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getBackgrounds',
@@ -7987,6 +12483,20 @@ class GetBackgroundUrl extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetBackgroundUrl(';
+
+    // Params
+    final params = <String>[];
+    params.add(name.toString());
+    params.add(type.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getBackgroundUrl',
     'name': name,
@@ -8008,6 +12518,19 @@ class SearchBackground extends TdFunction {
     required this.name,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SearchBackground(';
+
+    // Params
+    final params = <String>[];
+    params.add(name.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'searchBackground',
@@ -8035,6 +12558,21 @@ class SetBackground extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetBackground(';
+
+    // Params
+    final params = <String>[];
+    params.add(background.toString());
+    params.add(type.toString());
+    params.add(forDarkTheme.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setBackground',
     'background': background.toJson(),
@@ -8059,6 +12597,19 @@ class RemoveBackground extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RemoveBackground(';
+
+    // Params
+    final params = <String>[];
+    params.add(backgroundId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeBackground',
     'background_id': backgroundId.toString(),
@@ -8073,6 +12624,18 @@ class RemoveBackground extends TdFunction {
 class ResetBackgrounds extends TdFunction {
   ResetBackgrounds();
 
+  @override
+  String toString() {
+    var s = 'td::ResetBackgrounds(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'resetBackgrounds',
@@ -8091,6 +12654,19 @@ class GetLocalizationTargetInfo extends TdFunction {
     required this.onlyLocal,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetLocalizationTargetInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(onlyLocal.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getLocalizationTargetInfo',
@@ -8111,6 +12687,19 @@ class GetLanguagePackInfo extends TdFunction {
     required this.languagePackId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetLanguagePackInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(languagePackId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getLanguagePackInfo',
@@ -8135,6 +12724,20 @@ class GetLanguagePackStrings extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetLanguagePackStrings(';
+
+    // Params
+    final params = <String>[];
+    params.add(languagePackId.toString());
+    params.add(keys.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getLanguagePackStrings',
     'language_pack_id': languagePackId,
@@ -8157,6 +12760,19 @@ class SynchronizeLanguagePack extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SynchronizeLanguagePack(';
+
+    // Params
+    final params = <String>[];
+    params.add(languagePackId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'synchronizeLanguagePack',
     'language_pack_id': languagePackId,
@@ -8176,6 +12792,19 @@ class AddCustomServerLanguagePack extends TdFunction {
     required this.languagePackId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::AddCustomServerLanguagePack(';
+
+    // Params
+    final params = <String>[];
+    params.add(languagePackId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'addCustomServerLanguagePack',
@@ -8200,6 +12829,20 @@ class SetCustomLanguagePack extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetCustomLanguagePack(';
+
+    // Params
+    final params = <String>[];
+    params.add(info.toString());
+    params.add(strings.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setCustomLanguagePack',
     'info': info.toJson(),
@@ -8221,6 +12864,19 @@ class EditCustomLanguagePackInfo extends TdFunction {
     required this.info,
   });
 
+  @override
+  String toString() {
+    var s = 'td::EditCustomLanguagePackInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(info.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'editCustomLanguagePackInfo',
@@ -8245,6 +12901,20 @@ class SetCustomLanguagePackString extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetCustomLanguagePackString(';
+
+    // Params
+    final params = <String>[];
+    params.add(languagePackId.toString());
+    params.add(newString.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setCustomLanguagePackString',
     'language_pack_id': languagePackId,
@@ -8266,6 +12936,19 @@ class DeleteLanguagePack extends TdFunction {
     required this.languagePackId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::DeleteLanguagePack(';
+
+    // Params
+    final params = <String>[];
+    params.add(languagePackId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteLanguagePack',
@@ -8290,6 +12973,20 @@ class RegisterDevice extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RegisterDevice(';
+
+    // Params
+    final params = <String>[];
+    params.add(deviceToken.toString());
+    params.add(otherUserIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'registerDevice',
     'device_token': deviceToken.toJson(),
@@ -8312,6 +13009,19 @@ class ProcessPushNotification extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ProcessPushNotification(';
+
+    // Params
+    final params = <String>[];
+    params.add(payload.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'processPushNotification',
     'payload': payload,
@@ -8332,6 +13042,19 @@ class GetPushReceiverId extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetPushReceiverId(';
+
+    // Params
+    final params = <String>[];
+    params.add(payload.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getPushReceiverId',
     'payload': payload,
@@ -8351,6 +13074,19 @@ class GetRecentlyVisitedTMeUrls extends TdFunction {
     required this.referrer,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetRecentlyVisitedTMeUrls(';
+
+    // Params
+    final params = <String>[];
+    params.add(referrer.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getRecentlyVisitedTMeUrls',
@@ -8375,6 +13111,20 @@ class SetUserPrivacySettingRules extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetUserPrivacySettingRules(';
+
+    // Params
+    final params = <String>[];
+    params.add(setting.toString());
+    params.add(rules.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setUserPrivacySettingRules',
     'setting': setting.toJson(),
@@ -8397,6 +13147,19 @@ class GetUserPrivacySettingRules extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetUserPrivacySettingRules(';
+
+    // Params
+    final params = <String>[];
+    params.add(setting.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getUserPrivacySettingRules',
     'setting': setting.toJson(),
@@ -8416,6 +13179,19 @@ class GetOption extends TdFunction {
     required this.name,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetOption(';
+
+    // Params
+    final params = <String>[];
+    params.add(name.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getOption',
@@ -8440,6 +13216,20 @@ class SetOption extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetOption(';
+
+    // Params
+    final params = <String>[];
+    params.add(name.toString());
+    params.add(value.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setOption',
     'name': name,
@@ -8462,6 +13252,19 @@ class SetAccountTtl extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetAccountTtl(';
+
+    // Params
+    final params = <String>[];
+    params.add(ttl.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setAccountTtl',
     'ttl': ttl.toJson(),
@@ -8476,6 +13279,18 @@ class SetAccountTtl extends TdFunction {
 class GetAccountTtl extends TdFunction {
   GetAccountTtl();
 
+  @override
+  String toString() {
+    var s = 'td::GetAccountTtl(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getAccountTtl',
@@ -8494,6 +13309,19 @@ class DeleteAccount extends TdFunction {
     required this.reason,
   });
 
+  @override
+  String toString() {
+    var s = 'td::DeleteAccount(';
+
+    // Params
+    final params = <String>[];
+    params.add(reason.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'deleteAccount',
@@ -8514,6 +13342,19 @@ class RemoveChatActionBar extends TdFunction {
     required this.chatId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::RemoveChatActionBar(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeChatActionBar',
@@ -8543,6 +13384,22 @@ class ReportChat extends TdFunction {
     required this.text,
   });
 
+  @override
+  String toString() {
+    var s = 'td::ReportChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageIds.toString());
+    params.add(reason.toString());
+    params.add(text.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'reportChat',
@@ -8579,6 +13436,22 @@ class ReportChatPhoto extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::ReportChatPhoto(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(fileId.toString());
+    params.add(reason.toString());
+    params.add(text.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'reportChatPhoto',
     'chat_id': chatId,
@@ -8611,6 +13484,21 @@ class GetChatStatisticsUrl extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetChatStatisticsUrl(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(parameters.toString());
+    params.add(isDark.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatStatisticsUrl',
     'chat_id': chatId,
@@ -8637,6 +13525,20 @@ class GetChatStatistics extends TdFunction {
     required this.isDark,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetChatStatistics(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(isDark.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getChatStatistics',
@@ -8665,6 +13567,21 @@ class GetMessageStatistics extends TdFunction {
     required this.isDark,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetMessageStatistics(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(isDark.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMessageStatistics',
@@ -8696,6 +13613,21 @@ class GetStatisticalGraph extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetStatisticalGraph(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(token.toString());
+    params.add(x.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getStatisticalGraph',
     'chat_id': chatId,
@@ -8720,6 +13652,19 @@ class GetStorageStatistics extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetStorageStatistics(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatLimit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getStorageStatistics',
     'chat_limit': chatLimit,
@@ -8735,6 +13680,18 @@ class GetStorageStatisticsFast extends TdFunction {
   GetStorageStatisticsFast();
 
   @override
+  String toString() {
+    var s = 'td::GetStorageStatisticsFast(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getStorageStatisticsFast',
   };
@@ -8747,6 +13704,18 @@ class GetStorageStatisticsFast extends TdFunction {
 class GetDatabaseStatistics extends TdFunction {
   GetDatabaseStatistics();
 
+  @override
+  String toString() {
+    var s = 'td::GetDatabaseStatistics(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getDatabaseStatistics',
@@ -8790,6 +13759,27 @@ class OptimizeStorage extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::OptimizeStorage(';
+
+    // Params
+    final params = <String>[];
+    params.add(size.toString());
+    params.add(ttl.toString());
+    params.add(count.toString());
+    params.add(immunityDelay.toString());
+    params.add(fileTypes.toString());
+    params.add(chatIds.toString());
+    params.add(excludeChatIds.toString());
+    params.add(returnDeletedFileStatistics.toString());
+    params.add(chatLimit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'optimizeStorage',
     'size': size,
@@ -8826,6 +13816,19 @@ class SetNetworkType extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetNetworkType(';
+
+    // Params
+    final params = <String>[];
+    params.add(type.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setNetworkType',
     'type': type.toJson(),
@@ -8845,6 +13848,19 @@ class GetNetworkStatistics extends TdFunction {
     required this.onlyCurrent,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetNetworkStatistics(';
+
+    // Params
+    final params = <String>[];
+    params.add(onlyCurrent.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getNetworkStatistics',
@@ -8866,6 +13882,19 @@ class AddNetworkStatistics extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AddNetworkStatistics(';
+
+    // Params
+    final params = <String>[];
+    params.add(entry.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'addNetworkStatistics',
     'entry': entry.toJson(),
@@ -8881,6 +13910,18 @@ class ResetNetworkStatistics extends TdFunction {
   ResetNetworkStatistics();
 
   @override
+  String toString() {
+    var s = 'td::ResetNetworkStatistics(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'resetNetworkStatistics',
   };
@@ -8893,6 +13934,18 @@ class ResetNetworkStatistics extends TdFunction {
 class GetAutoDownloadSettingsPresets extends TdFunction {
   GetAutoDownloadSettingsPresets();
 
+  @override
+  String toString() {
+    var s = 'td::GetAutoDownloadSettingsPresets(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getAutoDownloadSettingsPresets',
@@ -8915,6 +13968,20 @@ class SetAutoDownloadSettings extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetAutoDownloadSettings(';
+
+    // Params
+    final params = <String>[];
+    params.add(settings.toString());
+    params.add(type.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setAutoDownloadSettings',
     'settings': settings.toJson(),
@@ -8936,6 +14003,19 @@ class GetBankCardInfo extends TdFunction {
     required this.bankCardNumber,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetBankCardInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(bankCardNumber.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getBankCardInfo',
@@ -8960,6 +14040,20 @@ class GetPassportElement extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetPassportElement(';
+
+    // Params
+    final params = <String>[];
+    params.add(type.toString());
+    params.add(password.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getPassportElement',
     'type': type.toJson(),
@@ -8981,6 +14075,19 @@ class GetAllPassportElements extends TdFunction {
     required this.password,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetAllPassportElements(';
+
+    // Params
+    final params = <String>[];
+    params.add(password.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getAllPassportElements',
@@ -9005,6 +14112,20 @@ class SetPassportElement extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetPassportElement(';
+
+    // Params
+    final params = <String>[];
+    params.add(element.toString());
+    params.add(password.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setPassportElement',
     'element': element.toJson(),
@@ -9026,6 +14147,19 @@ class DeletePassportElement extends TdFunction {
     required this.type,
   });
 
+  @override
+  String toString() {
+    var s = 'td::DeletePassportElement(';
+
+    // Params
+    final params = <String>[];
+    params.add(type.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'deletePassportElement',
@@ -9050,6 +14184,20 @@ class SetPassportElementErrors extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetPassportElementErrors(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    params.add(errors.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setPassportElementErrors',
     'user_id': userId,
@@ -9071,6 +14219,19 @@ class GetPreferredCountryLanguage extends TdFunction {
     required this.countryCode,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetPreferredCountryLanguage(';
+
+    // Params
+    final params = <String>[];
+    params.add(countryCode.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getPreferredCountryLanguage',
@@ -9095,6 +14256,20 @@ class SendPhoneNumberVerificationCode extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SendPhoneNumberVerificationCode(';
+
+    // Params
+    final params = <String>[];
+    params.add(phoneNumber.toString());
+    params.add(settings.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendPhoneNumberVerificationCode',
     'phone_number': phoneNumber,
@@ -9111,6 +14286,18 @@ class SendPhoneNumberVerificationCode extends TdFunction {
 class ResendPhoneNumberVerificationCode extends TdFunction {
   ResendPhoneNumberVerificationCode();
 
+  @override
+  String toString() {
+    var s = 'td::ResendPhoneNumberVerificationCode(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'resendPhoneNumberVerificationCode',
@@ -9129,6 +14316,19 @@ class CheckPhoneNumberVerificationCode extends TdFunction {
     required this.code,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CheckPhoneNumberVerificationCode(';
+
+    // Params
+    final params = <String>[];
+    params.add(code.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkPhoneNumberVerificationCode',
@@ -9150,6 +14350,19 @@ class SendEmailAddressVerificationCode extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SendEmailAddressVerificationCode(';
+
+    // Params
+    final params = <String>[];
+    params.add(emailAddress.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendEmailAddressVerificationCode',
     'email_address': emailAddress,
@@ -9164,6 +14377,18 @@ class SendEmailAddressVerificationCode extends TdFunction {
 class ResendEmailAddressVerificationCode extends TdFunction {
   ResendEmailAddressVerificationCode();
 
+  @override
+  String toString() {
+    var s = 'td::ResendEmailAddressVerificationCode(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'resendEmailAddressVerificationCode',
@@ -9182,6 +14407,19 @@ class CheckEmailAddressVerificationCode extends TdFunction {
     required this.code,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CheckEmailAddressVerificationCode(';
+
+    // Params
+    final params = <String>[];
+    params.add(code.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkEmailAddressVerificationCode',
@@ -9212,6 +14450,22 @@ class GetPassportAuthorizationForm extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetPassportAuthorizationForm(';
+
+    // Params
+    final params = <String>[];
+    params.add(botUserId.toString());
+    params.add(scope.toString());
+    params.add(publicKey.toString());
+    params.add(nonce.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getPassportAuthorizationForm',
     'bot_user_id': botUserId,
@@ -9241,6 +14495,20 @@ class GetPassportAuthorizationFormAvailableElements extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetPassportAuthorizationFormAvailableElements(';
+
+    // Params
+    final params = <String>[];
+    params.add(autorizationFormId.toString());
+    params.add(password.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getPassportAuthorizationFormAvailableElements',
     'autorization_form_id': autorizationFormId,
@@ -9265,6 +14533,20 @@ class SendPassportAuthorizationForm extends TdFunction {
     required this.types,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SendPassportAuthorizationForm(';
+
+    // Params
+    final params = <String>[];
+    params.add(autorizationFormId.toString());
+    params.add(types.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendPassportAuthorizationForm',
@@ -9294,6 +14576,21 @@ class SendPhoneNumberConfirmationCode extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SendPhoneNumberConfirmationCode(';
+
+    // Params
+    final params = <String>[];
+    params.add(hash.toString());
+    params.add(phoneNumber.toString());
+    params.add(settings.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendPhoneNumberConfirmationCode',
     'hash': hash,
@@ -9313,6 +14610,18 @@ class ResendPhoneNumberConfirmationCode extends TdFunction {
   ResendPhoneNumberConfirmationCode();
 
   @override
+  String toString() {
+    var s = 'td::ResendPhoneNumberConfirmationCode(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'resendPhoneNumberConfirmationCode',
   };
@@ -9330,6 +14639,19 @@ class CheckPhoneNumberConfirmationCode extends TdFunction {
     required this.code,
   });
 
+  @override
+  String toString() {
+    var s = 'td::CheckPhoneNumberConfirmationCode(';
+
+    // Params
+    final params = <String>[];
+    params.add(code.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'checkPhoneNumberConfirmationCode',
@@ -9353,6 +14675,20 @@ class SetBotUpdatesStatus extends TdFunction {
     required this.errorMessage,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SetBotUpdatesStatus(';
+
+    // Params
+    final params = <String>[];
+    params.add(pendingUpdateCount.toString());
+    params.add(errorMessage.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setBotUpdatesStatus',
@@ -9378,6 +14714,20 @@ class UploadStickerFile extends TdFunction {
     required this.pngSticker,
   });
 
+  @override
+  String toString() {
+    var s = 'td::UploadStickerFile(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    params.add(pngSticker.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'uploadStickerFile',
@@ -9413,6 +14763,23 @@ class CreateNewStickerSet extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::CreateNewStickerSet(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    params.add(title.toString());
+    params.add(name.toString());
+    params.add(isMasks.toString());
+    params.add(stickers.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'createNewStickerSet',
     'user_id': userId,
@@ -9447,6 +14814,21 @@ class AddStickerToSet extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AddStickerToSet(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    params.add(name.toString());
+    params.add(sticker.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'addStickerToSet',
     'user_id': userId,
@@ -9477,6 +14859,21 @@ class SetStickerSetThumbnail extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetStickerSetThumbnail(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    params.add(name.toString());
+    params.add(thumbnail.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setStickerSetThumbnail',
     'user_id': userId,
@@ -9504,6 +14901,20 @@ class SetStickerPositionInSet extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetStickerPositionInSet(';
+
+    // Params
+    final params = <String>[];
+    params.add(sticker.toString());
+    params.add(position.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setStickerPositionInSet',
     'sticker': sticker.toJson(),
@@ -9525,6 +14936,19 @@ class RemoveStickerFromSet extends TdFunction {
     required this.sticker,
   });
 
+  @override
+  String toString() {
+    var s = 'td::RemoveStickerFromSet(';
+
+    // Params
+    final params = <String>[];
+    params.add(sticker.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeStickerFromSet',
@@ -9561,6 +14985,24 @@ class GetMapThumbnailFile extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetMapThumbnailFile(';
+
+    // Params
+    final params = <String>[];
+    params.add(location.toString());
+    params.add(zoom.toString());
+    params.add(width.toString());
+    params.add(height.toString());
+    params.add(scale.toString());
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getMapThumbnailFile',
     'location': location.toJson(),
@@ -9591,6 +15033,19 @@ class AcceptTermsOfService extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AcceptTermsOfService(';
+
+    // Params
+    final params = <String>[];
+    params.add(termsOfServiceId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'acceptTermsOfService',
     'terms_of_service_id': termsOfServiceId,
@@ -9613,6 +15068,20 @@ class SendCustomRequest extends TdFunction {
     required this.parameters,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SendCustomRequest(';
+
+    // Params
+    final params = <String>[];
+    params.add(method.toString());
+    params.add(parameters.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'sendCustomRequest',
@@ -9639,6 +15108,20 @@ class AnswerCustomQuery extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AnswerCustomQuery(';
+
+    // Params
+    final params = <String>[];
+    params.add(customQueryId.toString());
+    params.add(data.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'answerCustomQuery',
     'custom_query_id': customQueryId.toString(),
@@ -9661,6 +15144,19 @@ class SetAlarm extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetAlarm(';
+
+    // Params
+    final params = <String>[];
+    params.add(seconds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setAlarm',
     'seconds': seconds,
@@ -9676,6 +15172,18 @@ class GetCountries extends TdFunction {
   GetCountries();
 
   @override
+  String toString() {
+    var s = 'td::GetCountries(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getCountries',
   };
@@ -9688,6 +15196,18 @@ class GetCountries extends TdFunction {
 class GetCountryCode extends TdFunction {
   GetCountryCode();
 
+  @override
+  String toString() {
+    var s = 'td::GetCountryCode(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getCountryCode',
@@ -9707,6 +15227,19 @@ class GetPhoneNumberInfo extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetPhoneNumberInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(phoneNumberPrefix.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getPhoneNumberInfo',
     'phone_number_prefix': phoneNumberPrefix,
@@ -9721,6 +15254,18 @@ class GetPhoneNumberInfo extends TdFunction {
 class GetInviteText extends TdFunction {
   GetInviteText();
 
+  @override
+  String toString() {
+    var s = 'td::GetInviteText(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getInviteText',
@@ -9740,6 +15285,19 @@ class GetDeepLinkInfo extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::GetDeepLinkInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(link.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getDeepLinkInfo',
     'link': link,
@@ -9754,6 +15312,18 @@ class GetDeepLinkInfo extends TdFunction {
 class GetApplicationConfig extends TdFunction {
   GetApplicationConfig();
 
+  @override
+  String toString() {
+    var s = 'td::GetApplicationConfig(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getApplicationConfig',
@@ -9778,6 +15348,21 @@ class SaveApplicationLogEvent extends TdFunction {
     required this.data,
   });
 
+  @override
+  String toString() {
+    var s = 'td::SaveApplicationLogEvent(';
+
+    // Params
+    final params = <String>[];
+    params.add(type.toString());
+    params.add(chatId.toString());
+    params.add(data.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'saveApplicationLogEvent',
@@ -9811,6 +15396,22 @@ class AddProxy extends TdFunction {
     required this.type,
   });
 
+  @override
+  String toString() {
+    var s = 'td::AddProxy(';
+
+    // Params
+    final params = <String>[];
+    params.add(server.toString());
+    params.add(port.toString());
+    params.add(enable.toString());
+    params.add(type.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'addProxy',
@@ -9850,6 +15451,23 @@ class EditProxy extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::EditProxy(';
+
+    // Params
+    final params = <String>[];
+    params.add(proxyId.toString());
+    params.add(server.toString());
+    params.add(port.toString());
+    params.add(enable.toString());
+    params.add(type.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'editProxy',
     'proxy_id': proxyId,
@@ -9878,6 +15496,19 @@ class EnableProxy extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::EnableProxy(';
+
+    // Params
+    final params = <String>[];
+    params.add(proxyId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'enableProxy',
     'proxy_id': proxyId,
@@ -9892,6 +15523,18 @@ class EnableProxy extends TdFunction {
 class DisableProxy extends TdFunction {
   DisableProxy();
 
+  @override
+  String toString() {
+    var s = 'td::DisableProxy(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'disableProxy',
@@ -9911,6 +15554,19 @@ class RemoveProxy extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::RemoveProxy(';
+
+    // Params
+    final params = <String>[];
+    params.add(proxyId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'removeProxy',
     'proxy_id': proxyId,
@@ -9925,6 +15581,18 @@ class RemoveProxy extends TdFunction {
 class GetProxies extends TdFunction {
   GetProxies();
 
+  @override
+  String toString() {
+    var s = 'td::GetProxies(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getProxies',
@@ -9943,6 +15611,19 @@ class GetProxyLink extends TdFunction {
     required this.proxyId,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetProxyLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(proxyId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getProxyLink',
@@ -9964,6 +15645,19 @@ class PingProxy extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::PingProxy(';
+
+    // Params
+    final params = <String>[];
+    params.add(proxyId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'pingProxy',
     'proxy_id': proxyId,
@@ -9984,6 +15678,19 @@ class SetLogStream extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetLogStream(';
+
+    // Params
+    final params = <String>[];
+    params.add(logStream.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setLogStream',
     'log_stream': logStream.toJson(),
@@ -9998,6 +15705,18 @@ class SetLogStream extends TdFunction {
 class GetLogStream extends TdFunction {
   GetLogStream();
 
+  @override
+  String toString() {
+    var s = 'td::GetLogStream(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getLogStream',
@@ -10017,6 +15736,19 @@ class SetLogVerbosityLevel extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetLogVerbosityLevel(';
+
+    // Params
+    final params = <String>[];
+    params.add(newVerbosityLevel.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setLogVerbosityLevel',
     'new_verbosity_level': newVerbosityLevel,
@@ -10032,6 +15764,18 @@ class GetLogVerbosityLevel extends TdFunction {
   GetLogVerbosityLevel();
 
   @override
+  String toString() {
+    var s = 'td::GetLogVerbosityLevel(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'getLogVerbosityLevel',
   };
@@ -10044,6 +15788,18 @@ class GetLogVerbosityLevel extends TdFunction {
 class GetLogTags extends TdFunction {
   GetLogTags();
 
+  @override
+  String toString() {
+    var s = 'td::GetLogTags(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getLogTags',
@@ -10066,6 +15822,20 @@ class SetLogTagVerbosityLevel extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::SetLogTagVerbosityLevel(';
+
+    // Params
+    final params = <String>[];
+    params.add(tag.toString());
+    params.add(newVerbosityLevel.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'setLogTagVerbosityLevel',
     'tag': tag,
@@ -10087,6 +15857,19 @@ class GetLogTagVerbosityLevel extends TdFunction {
     required this.tag,
   });
 
+  @override
+  String toString() {
+    var s = 'td::GetLogTagVerbosityLevel(';
+
+    // Params
+    final params = <String>[];
+    params.add(tag.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'getLogTagVerbosityLevel',
@@ -10111,6 +15894,20 @@ class AddLogMessage extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::AddLogMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(verbosityLevel.toString());
+    params.add(text.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'addLogMessage',
     'verbosity_level': verbosityLevel,
@@ -10127,6 +15924,18 @@ class AddLogMessage extends TdFunction {
 class TestCallEmpty extends TdFunction {
   TestCallEmpty();
 
+  @override
+  String toString() {
+    var s = 'td::TestCallEmpty(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testCallEmpty',
@@ -10145,6 +15954,19 @@ class TestCallString extends TdFunction {
     required this.x,
   });
 
+  @override
+  String toString() {
+    var s = 'td::TestCallString(';
+
+    // Params
+    final params = <String>[];
+    params.add(x.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testCallString',
@@ -10166,6 +15988,19 @@ class TestCallBytes extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::TestCallBytes(';
+
+    // Params
+    final params = <String>[];
+    params.add(x.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'testCallBytes',
     'x': base64.encode(x),
@@ -10185,6 +16020,19 @@ class TestCallVectorInt extends TdFunction {
     required this.x,
   });
 
+  @override
+  String toString() {
+    var s = 'td::TestCallVectorInt(';
+
+    // Params
+    final params = <String>[];
+    params.add(x.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testCallVectorInt',
@@ -10206,6 +16054,19 @@ class TestCallVectorIntObject extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::TestCallVectorIntObject(';
+
+    // Params
+    final params = <String>[];
+    params.add(x.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'testCallVectorIntObject',
     'x': x.map((_e1) => _e1.toJson()).toList(growable: false),
@@ -10225,6 +16086,19 @@ class TestCallVectorString extends TdFunction {
     required this.x,
   });
 
+  @override
+  String toString() {
+    var s = 'td::TestCallVectorString(';
+
+    // Params
+    final params = <String>[];
+    params.add(x.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testCallVectorString',
@@ -10246,6 +16120,19 @@ class TestCallVectorStringObject extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::TestCallVectorStringObject(';
+
+    // Params
+    final params = <String>[];
+    params.add(x.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'testCallVectorStringObject',
     'x': x.map((_e1) => _e1.toJson()).toList(growable: false),
@@ -10266,6 +16153,19 @@ class TestSquareInt extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::TestSquareInt(';
+
+    // Params
+    final params = <String>[];
+    params.add(x.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'testSquareInt',
     'x': x,
@@ -10280,6 +16180,18 @@ class TestSquareInt extends TdFunction {
 class TestNetwork extends TdFunction {
   TestNetwork();
 
+  @override
+  String toString() {
+    var s = 'td::TestNetwork(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testNetwork',
@@ -10311,6 +16223,23 @@ class TestProxy extends TdFunction {
   });
 
   @override
+  String toString() {
+    var s = 'td::TestProxy(';
+
+    // Params
+    final params = <String>[];
+    params.add(server.toString());
+    params.add(port.toString());
+    params.add(type.toString());
+    params.add(dcId.toString());
+    params.add(timeout.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'testProxy',
     'server': server,
@@ -10334,6 +16263,18 @@ class TestGetDifference extends TdFunction {
   TestGetDifference();
 
   @override
+  String toString() {
+    var s = 'td::TestGetDifference(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
   Map<String, dynamic> toJson() => {
     '@type': 'testGetDifference',
   };
@@ -10346,6 +16287,18 @@ class TestGetDifference extends TdFunction {
 class TestUseUpdate extends TdFunction {
   TestUseUpdate();
 
+  @override
+  String toString() {
+    var s = 'td::TestUseUpdate(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testUseUpdate',
@@ -10364,6 +16317,19 @@ class TestReturnError extends TdFunction {
     required this.error,
   });
 
+  @override
+  String toString() {
+    var s = 'td::TestReturnError(';
+
+    // Params
+    final params = <String>[];
+    params.add(error.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'testReturnError',

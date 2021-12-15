@@ -481,7 +481,7 @@ class TextEntities extends a.TextEntities {
   };
 
   factory TextEntities.fromJson(Map<String, dynamic> json) => TextEntities(
-    entities: (json['entities'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TextEntity?)).toList(growable: false),
+    entities: json['entities'] == null ? <TextEntity?>[] : (json['entities'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TextEntity?)).toList(growable: false),
   );
 }
 
@@ -520,7 +520,7 @@ class FormattedText extends a.FormattedText {
 
   factory FormattedText.fromJson(Map<String, dynamic> json) => FormattedText(
     text: (json['text'] as String?) ?? '',
-    entities: (json['entities'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TextEntity?)).toList(growable: false),
+    entities: json['entities'] == null ? <TextEntity?>[] : (json['entities'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TextEntity?)).toList(growable: false),
   );
 }
 
@@ -1411,7 +1411,7 @@ class PhotoSize extends a.PhotoSize {
     photo: b.TdBase.fromJson(json['photo']) as File?,
     width: (json['width'] as int?) ?? 0,
     height: (json['height'] as int?) ?? 0,
-    progressiveSizes: (json['progressive_sizes'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    progressiveSizes: json['progressive_sizes'] == null ? <int>[] : (json['progressive_sizes'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -1456,7 +1456,7 @@ class Minithumbnail extends a.Minithumbnail {
   factory Minithumbnail.fromJson(Map<String, dynamic> json) => Minithumbnail(
     width: (json['width'] as int?) ?? 0,
     height: (json['height'] as int?) ?? 0,
-    data: base64.decode(json['data']),
+    data: json['data'] == null ? Uint8List(0) : base64.decode(json['data']),
   );
 }
 
@@ -1841,7 +1841,7 @@ class ClosedVectorPath extends a.ClosedVectorPath {
   };
 
   factory ClosedVectorPath.fromJson(Map<String, dynamic> json) => ClosedVectorPath(
-    commands: (json['commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.VectorPathCommand?)).toList(growable: false),
+    commands: json['commands'] == null ? <a.VectorPathCommand?>[] : (json['commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.VectorPathCommand?)).toList(growable: false),
   );
 }
 
@@ -2228,7 +2228,7 @@ class Photo extends a.Photo {
   factory Photo.fromJson(Map<String, dynamic> json) => Photo(
     hasStickers: (json['has_stickers'] as bool?) ?? false,
     minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
-    sizes: (json['sizes'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PhotoSize?)).toList(growable: false),
+    sizes: json['sizes'] == null ? <PhotoSize?>[] : (json['sizes'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PhotoSize?)).toList(growable: false),
   );
 }
 
@@ -2313,7 +2313,7 @@ class Sticker extends a.Sticker {
     isAnimated: (json['is_animated'] as bool?) ?? false,
     isMask: (json['is_mask'] as bool?) ?? false,
     maskPosition: b.TdBase.fromJson(json['mask_position']) as MaskPosition?,
-    outline: (json['outline'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ClosedVectorPath?)).toList(growable: false),
+    outline: json['outline'] == null ? <ClosedVectorPath?>[] : (json['outline'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ClosedVectorPath?)).toList(growable: false),
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
     sticker: b.TdBase.fromJson(json['sticker']) as File?,
   );
@@ -2508,7 +2508,7 @@ class VoiceNote extends a.VoiceNote {
 
   factory VoiceNote.fromJson(Map<String, dynamic> json) => VoiceNote(
     duration: (json['duration'] as int?) ?? 0,
-    waveform: base64.decode(json['waveform']),
+    waveform: json['waveform'] == null ? Uint8List(0) : base64.decode(json['waveform']),
     mimeType: (json['mime_type'] as String?) ?? '',
     voice: b.TdBase.fromJson(json['voice']) as File?,
   );
@@ -2824,9 +2824,9 @@ class Poll extends a.Poll {
   factory Poll.fromJson(Map<String, dynamic> json) => Poll(
     id: int.parse(json['id'] ?? '0'),
     question: (json['question'] as String?) ?? '',
-    options: (json['options'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PollOption?)).toList(growable: false),
+    options: json['options'] == null ? <PollOption?>[] : (json['options'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PollOption?)).toList(growable: false),
     totalVoterCount: (json['total_voter_count'] as int?) ?? 0,
-    recentVoterUserIds: (json['recent_voter_user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    recentVoterUserIds: json['recent_voter_user_ids'] == null ? <int>[] : (json['recent_voter_user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
     isAnonymous: (json['is_anonymous'] as bool?) ?? false,
     type: b.TdBase.fromJson(json['type']) as a.PollType?,
     openPeriod: (json['open_period'] as int?) ?? 0,
@@ -3149,7 +3149,7 @@ class BotInfo extends a.BotInfo {
 
   factory BotInfo.fromJson(Map<String, dynamic> json) => BotInfo(
     description: (json['description'] as String?) ?? '',
-    commands: (json['commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as BotCommand?)).toList(growable: false),
+    commands: json['commands'] == null ? <BotCommand?>[] : (json['commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as BotCommand?)).toList(growable: false),
   );
 }
 
@@ -3289,7 +3289,7 @@ class ChatPhoto extends a.ChatPhoto {
     id: int.parse(json['id'] ?? '0'),
     addedDate: (json['added_date'] as int?) ?? 0,
     minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
-    sizes: (json['sizes'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PhotoSize?)).toList(growable: false),
+    sizes: json['sizes'] == null ? <PhotoSize?>[] : (json['sizes'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PhotoSize?)).toList(growable: false),
     animation: b.TdBase.fromJson(json['animation']) as AnimatedChatPhoto?,
   );
 }
@@ -3329,7 +3329,7 @@ class ChatPhotos extends a.ChatPhotos {
 
   factory ChatPhotos.fromJson(Map<String, dynamic> json) => ChatPhotos(
     totalCount: (json['total_count'] as int?) ?? 0,
-    photos: (json['photos'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPhoto?)).toList(growable: false),
+    photos: json['photos'] == null ? <ChatPhoto?>[] : (json['photos'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPhoto?)).toList(growable: false),
   );
 }
 
@@ -3689,7 +3689,7 @@ class Users extends a.Users {
 
   factory Users.fromJson(Map<String, dynamic> json) => Users(
     totalCount: (json['total_count'] as int?) ?? 0,
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    userIds: json['user_ids'] == null ? <int>[] : (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -3767,7 +3767,7 @@ class ChatAdministrators extends a.ChatAdministrators {
   };
 
   factory ChatAdministrators.fromJson(Map<String, dynamic> json) => ChatAdministrators(
-    administrators: (json['administrators'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatAdministrator?)).toList(growable: false),
+    administrators: json['administrators'] == null ? <ChatAdministrator?>[] : (json['administrators'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatAdministrator?)).toList(growable: false),
   );
 }
 
@@ -4216,7 +4216,7 @@ class ChatMembers extends a.ChatMembers {
 
   factory ChatMembers.fromJson(Map<String, dynamic> json) => ChatMembers(
     totalCount: (json['total_count'] as int?) ?? 0,
-    members: (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatMember?)).toList(growable: false),
+    members: json['members'] == null ? <ChatMember?>[] : (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatMember?)).toList(growable: false),
   );
 }
 
@@ -4765,7 +4765,7 @@ class ChatInviteLinks extends a.ChatInviteLinks {
 
   factory ChatInviteLinks.fromJson(Map<String, dynamic> json) => ChatInviteLinks(
     totalCount: (json['total_count'] as int?) ?? 0,
-    inviteLinks: (json['invite_links'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatInviteLink?)).toList(growable: false),
+    inviteLinks: json['invite_links'] == null ? <ChatInviteLink?>[] : (json['invite_links'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatInviteLink?)).toList(growable: false),
   );
 }
 
@@ -4843,7 +4843,7 @@ class ChatInviteLinkCounts extends a.ChatInviteLinkCounts {
   };
 
   factory ChatInviteLinkCounts.fromJson(Map<String, dynamic> json) => ChatInviteLinkCounts(
-    inviteLinkCounts: (json['invite_link_counts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatInviteLinkCount?)).toList(growable: false),
+    inviteLinkCounts: json['invite_link_counts'] == null ? <ChatInviteLinkCount?>[] : (json['invite_link_counts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatInviteLinkCount?)).toList(growable: false),
   );
 }
 
@@ -4921,7 +4921,7 @@ class ChatInviteLinkMembers extends a.ChatInviteLinkMembers {
 
   factory ChatInviteLinkMembers.fromJson(Map<String, dynamic> json) => ChatInviteLinkMembers(
     totalCount: (json['total_count'] as int?) ?? 0,
-    members: (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatInviteLinkMember?)).toList(growable: false),
+    members: json['members'] == null ? <ChatInviteLinkMember?>[] : (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatInviteLinkMember?)).toList(growable: false),
   );
 }
 
@@ -4995,7 +4995,7 @@ class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
     title: (json['title'] as String?) ?? '',
     photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
     memberCount: (json['member_count'] as int?) ?? 0,
-    memberUserIds: (json['member_user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    memberUserIds: json['member_user_ids'] == null ? <int>[] : (json['member_user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
     isPublic: (json['is_public'] as bool?) ?? false,
   );
 }
@@ -5109,7 +5109,7 @@ class BasicGroupFullInfo extends a.BasicGroupFullInfo {
     photo: b.TdBase.fromJson(json['photo']) as ChatPhoto?,
     description: (json['description'] as String?) ?? '',
     creatorUserId: (json['creator_user_id'] as int?) ?? 0,
-    members: (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatMember?)).toList(growable: false),
+    members: json['members'] == null ? <ChatMember?>[] : (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatMember?)).toList(growable: false),
     inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
   );
 }
@@ -5511,7 +5511,7 @@ class SecretChat extends a.SecretChat {
     userId: (json['user_id'] as int?) ?? 0,
     state: b.TdBase.fromJson(json['state']) as a.SecretChatState?,
     isOutbound: (json['is_outbound'] as bool?) ?? false,
-    keyHash: base64.decode(json['key_hash']),
+    keyHash: json['key_hash'] == null ? Uint8List(0) : base64.decode(json['key_hash']),
     layer: (json['layer'] as int?) ?? 0,
   );
 }
@@ -5617,7 +5617,7 @@ class MessageSenders extends a.MessageSenders {
 
   factory MessageSenders.fromJson(Map<String, dynamic> json) => MessageSenders(
     totalCount: (json['total_count'] as int?) ?? 0,
-    senders: (json['senders'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.MessageSender?)).toList(growable: false),
+    senders: json['senders'] == null ? <a.MessageSender?>[] : (json['senders'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.MessageSender?)).toList(growable: false),
   );
 }
 
@@ -5911,7 +5911,7 @@ class MessageReplyInfo extends a.MessageReplyInfo {
 
   factory MessageReplyInfo.fromJson(Map<String, dynamic> json) => MessageReplyInfo(
     replyCount: (json['reply_count'] as int?) ?? 0,
-    recentRepliers: (json['recent_repliers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.MessageSender?)).toList(growable: false),
+    recentRepliers: json['recent_repliers'] == null ? <a.MessageSender?>[] : (json['recent_repliers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.MessageSender?)).toList(growable: false),
     lastReadInboxMessageId: (json['last_read_inbox_message_id'] as int?) ?? 0,
     lastReadOutboxMessageId: (json['last_read_outbox_message_id'] as int?) ?? 0,
     lastMessageId: (json['last_message_id'] as int?) ?? 0,
@@ -6281,7 +6281,7 @@ class Messages extends a.Messages {
 
   factory Messages.fromJson(Map<String, dynamic> json) => Messages(
     totalCount: (json['total_count'] as int?) ?? 0,
-    messages: (json['messages'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Message?)).toList(growable: false),
+    messages: json['messages'] == null ? <Message?>[] : (json['messages'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Message?)).toList(growable: false),
   );
 }
 
@@ -6325,7 +6325,7 @@ class FoundMessages extends a.FoundMessages {
 
   factory FoundMessages.fromJson(Map<String, dynamic> json) => FoundMessages(
     totalCount: (json['total_count'] as int?) ?? 0,
-    messages: (json['messages'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Message?)).toList(growable: false),
+    messages: json['messages'] == null ? <Message?>[] : (json['messages'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Message?)).toList(growable: false),
     nextOffset: (json['next_offset'] as String?) ?? '',
   );
 }
@@ -6829,9 +6829,9 @@ class ChatFilter extends a.ChatFilter {
   factory ChatFilter.fromJson(Map<String, dynamic> json) => ChatFilter(
     title: (json['title'] as String?) ?? '',
     iconName: (json['icon_name'] as String?) ?? '',
-    pinnedChatIds: (json['pinned_chat_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
-    includedChatIds: (json['included_chat_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
-    excludedChatIds: (json['excluded_chat_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    pinnedChatIds: json['pinned_chat_ids'] == null ? <int>[] : (json['pinned_chat_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    includedChatIds: json['included_chat_ids'] == null ? <int>[] : (json['included_chat_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    excludedChatIds: json['excluded_chat_ids'] == null ? <int>[] : (json['excluded_chat_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
     excludeMuted: (json['exclude_muted'] as bool?) ?? false,
     excludeRead: (json['exclude_read'] as bool?) ?? false,
     excludeArchived: (json['exclude_archived'] as bool?) ?? false,
@@ -6956,7 +6956,7 @@ class RecommendedChatFilters extends a.RecommendedChatFilters {
   };
 
   factory RecommendedChatFilters.fromJson(Map<String, dynamic> json) => RecommendedChatFilters(
-    chatFilters: (json['chat_filters'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as RecommendedChatFilter?)).toList(growable: false),
+    chatFilters: json['chat_filters'] == null ? <RecommendedChatFilter?>[] : (json['chat_filters'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as RecommendedChatFilter?)).toList(growable: false),
   );
 }
 
@@ -7072,7 +7072,7 @@ class ChatLists extends a.ChatLists {
   };
 
   factory ChatLists.fromJson(Map<String, dynamic> json) => ChatLists(
-    chatLists: (json['chat_lists'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.ChatList?)).toList(growable: false),
+    chatLists: json['chat_lists'] == null ? <a.ChatList?>[] : (json['chat_lists'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.ChatList?)).toList(growable: false),
   );
 }
 
@@ -7391,7 +7391,7 @@ class Chat extends a.Chat {
     photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
     permissions: b.TdBase.fromJson(json['permissions']) as ChatPermissions?,
     lastMessage: b.TdBase.fromJson(json['last_message']) as Message?,
-    positions: (json['positions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPosition?)).toList(growable: false),
+    positions: json['positions'] == null ? <ChatPosition?>[] : (json['positions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPosition?)).toList(growable: false),
     isMarkedAsUnread: (json['is_marked_as_unread'] as bool?) ?? false,
     isBlocked: (json['is_blocked'] as bool?) ?? false,
     hasScheduledMessages: (json['has_scheduled_messages'] as bool?) ?? false,
@@ -7448,7 +7448,7 @@ class Chats extends a.Chats {
 
   factory Chats.fromJson(Map<String, dynamic> json) => Chats(
     totalCount: (json['total_count'] as int?) ?? 0,
-    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    chatIds: json['chat_ids'] == null ? <int>[] : (json['chat_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -7525,8 +7525,8 @@ class ChatsNearby extends a.ChatsNearby {
   };
 
   factory ChatsNearby.fromJson(Map<String, dynamic> json) => ChatsNearby(
-    usersNearby: (json['users_nearby'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatNearby?)).toList(growable: false),
-    supergroupsNearby: (json['supergroups_nearby'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatNearby?)).toList(growable: false),
+    usersNearby: json['users_nearby'] == null ? <ChatNearby?>[] : (json['users_nearby'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatNearby?)).toList(growable: false),
+    supergroupsNearby: json['supergroups_nearby'] == null ? <ChatNearby?>[] : (json['supergroups_nearby'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatNearby?)).toList(growable: false),
   );
 }
 
@@ -8012,7 +8012,7 @@ class InlineKeyboardButtonTypeCallback extends a.InlineKeyboardButtonType {
   };
 
   factory InlineKeyboardButtonTypeCallback.fromJson(Map<String, dynamic> json) => InlineKeyboardButtonTypeCallback(
-    data: base64.decode(json['data']),
+    data: json['data'] == null ? Uint8List(0) : base64.decode(json['data']),
   );
 }
 
@@ -8045,7 +8045,7 @@ class InlineKeyboardButtonTypeCallbackWithPassword extends a.InlineKeyboardButto
   };
 
   factory InlineKeyboardButtonTypeCallbackWithPassword.fromJson(Map<String, dynamic> json) => InlineKeyboardButtonTypeCallbackWithPassword(
-    data: base64.decode(json['data']),
+    data: json['data'] == null ? Uint8List(0) : base64.decode(json['data']),
   );
 }
 
@@ -8287,7 +8287,7 @@ class ReplyMarkupShowKeyboard extends a.ReplyMarkup {
   };
 
   factory ReplyMarkupShowKeyboard.fromJson(Map<String, dynamic> json) => ReplyMarkupShowKeyboard(
-    rows: (json['rows'] as List<dynamic>).map((e) => ((e as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as KeyboardButton?)).toList(growable: false))).toList(growable: false),
+    rows: json['rows'] == null ? <List<KeyboardButton?>>[] : (json['rows'] as List<dynamic>).map((e) => (e == null ? <KeyboardButton?>[] : (e as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as KeyboardButton?)).toList(growable: false))).toList(growable: false),
     resizeKeyboard: (json['resize_keyboard'] as bool?) ?? false,
     oneTime: (json['one_time'] as bool?) ?? false,
     isPersonal: (json['is_personal'] as bool?) ?? false,
@@ -8323,7 +8323,7 @@ class ReplyMarkupInlineKeyboard extends a.ReplyMarkup {
   };
 
   factory ReplyMarkupInlineKeyboard.fromJson(Map<String, dynamic> json) => ReplyMarkupInlineKeyboard(
-    rows: (json['rows'] as List<dynamic>).map((e) => ((e as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as InlineKeyboardButton?)).toList(growable: false))).toList(growable: false),
+    rows: json['rows'] == null ? <List<InlineKeyboardButton?>>[] : (json['rows'] as List<dynamic>).map((e) => (e == null ? <InlineKeyboardButton?>[] : (e as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as InlineKeyboardButton?)).toList(growable: false))).toList(growable: false),
   );
 }
 
@@ -8469,7 +8469,7 @@ class MessageThreadInfo extends a.MessageThreadInfo {
     chatId: (json['chat_id'] as int?) ?? 0,
     messageThreadId: (json['message_thread_id'] as int?) ?? 0,
     replyInfo: b.TdBase.fromJson(json['reply_info']) as MessageReplyInfo?,
-    messages: (json['messages'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Message?)).toList(growable: false),
+    messages: json['messages'] == null ? <Message?>[] : (json['messages'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Message?)).toList(growable: false),
     draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage?,
   );
 }
@@ -9091,7 +9091,7 @@ class RichTexts extends a.RichText {
   };
 
   factory RichTexts.fromJson(Map<String, dynamic> json) => RichTexts(
-    texts: (json['texts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.RichText?)).toList(growable: false),
+    texts: json['texts'] == null ? <a.RichText?>[] : (json['texts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.RichText?)).toList(growable: false),
   );
 }
 
@@ -9169,7 +9169,7 @@ class PageBlockListItem extends a.PageBlockListItem {
 
   factory PageBlockListItem.fromJson(Map<String, dynamic> json) => PageBlockListItem(
     label: (json['label'] as String?) ?? '',
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
+    pageBlocks: json['page_blocks'] == null ? <a.PageBlock?>[] : (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
   );
 }
 
@@ -9845,7 +9845,7 @@ class PageBlockList extends a.PageBlock {
   };
 
   factory PageBlockList.fromJson(Map<String, dynamic> json) => PageBlockList(
-    items: (json['items'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PageBlockListItem?)).toList(growable: false),
+    items: json['items'] == null ? <PageBlockListItem?>[] : (json['items'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PageBlockListItem?)).toList(growable: false),
   );
 }
 
@@ -10312,7 +10312,7 @@ class PageBlockEmbeddedPost extends a.PageBlock {
     author: (json['author'] as String?) ?? '',
     authorPhoto: b.TdBase.fromJson(json['author_photo']) as Photo?,
     date: (json['date'] as int?) ?? 0,
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
+    pageBlocks: json['page_blocks'] == null ? <a.PageBlock?>[] : (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
     caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
@@ -10351,7 +10351,7 @@ class PageBlockCollage extends a.PageBlock {
   };
 
   factory PageBlockCollage.fromJson(Map<String, dynamic> json) => PageBlockCollage(
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
+    pageBlocks: json['page_blocks'] == null ? <a.PageBlock?>[] : (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
     caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
@@ -10390,7 +10390,7 @@ class PageBlockSlideshow extends a.PageBlock {
   };
 
   factory PageBlockSlideshow.fromJson(Map<String, dynamic> json) => PageBlockSlideshow(
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
+    pageBlocks: json['page_blocks'] == null ? <a.PageBlock?>[] : (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
     caption: b.TdBase.fromJson(json['caption']) as PageBlockCaption?,
   );
 }
@@ -10485,7 +10485,7 @@ class PageBlockTable extends a.PageBlock {
 
   factory PageBlockTable.fromJson(Map<String, dynamic> json) => PageBlockTable(
     caption: b.TdBase.fromJson(json['caption']) as a.RichText?,
-    cells: (json['cells'] as List<dynamic>).map((e) => ((e as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PageBlockTableCell?)).toList(growable: false))).toList(growable: false),
+    cells: json['cells'] == null ? <List<PageBlockTableCell?>>[] : (json['cells'] as List<dynamic>).map((e) => (e == null ? <PageBlockTableCell?>[] : (e as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PageBlockTableCell?)).toList(growable: false))).toList(growable: false),
     isBordered: (json['is_bordered'] as bool?) ?? false,
     isStriped: (json['is_striped'] as bool?) ?? false,
   );
@@ -10531,7 +10531,7 @@ class PageBlockDetails extends a.PageBlock {
 
   factory PageBlockDetails.fromJson(Map<String, dynamic> json) => PageBlockDetails(
     header: b.TdBase.fromJson(json['header']) as a.RichText?,
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
+    pageBlocks: json['page_blocks'] == null ? <a.PageBlock?>[] : (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
     isOpen: (json['is_open'] as bool?) ?? false,
   );
 }
@@ -10571,7 +10571,7 @@ class PageBlockRelatedArticles extends a.PageBlock {
 
   factory PageBlockRelatedArticles.fromJson(Map<String, dynamic> json) => PageBlockRelatedArticles(
     header: b.TdBase.fromJson(json['header']) as a.RichText?,
-    articles: (json['articles'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PageBlockRelatedArticle?)).toList(growable: false),
+    articles: json['articles'] == null ? <PageBlockRelatedArticle?>[] : (json['articles'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PageBlockRelatedArticle?)).toList(growable: false),
   );
 }
 
@@ -10681,7 +10681,7 @@ class WebPageInstantView extends a.WebPageInstantView {
   };
 
   factory WebPageInstantView.fromJson(Map<String, dynamic> json) => WebPageInstantView(
-    pageBlocks: (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
+    pageBlocks: json['page_blocks'] == null ? <a.PageBlock?>[] : (json['page_blocks'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PageBlock?)).toList(growable: false),
     viewCount: (json['view_count'] as int?) ?? 0,
     version: (json['version'] as int?) ?? 0,
     isRtl: (json['is_rtl'] as bool?) ?? false,
@@ -10895,7 +10895,7 @@ class CountryInfo extends a.CountryInfo {
     name: (json['name'] as String?) ?? '',
     englishName: (json['english_name'] as String?) ?? '',
     isHidden: (json['is_hidden'] as bool?) ?? false,
-    callingCodes: (json['calling_codes'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
+    callingCodes: json['calling_codes'] == null ? <String>[] : (json['calling_codes'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
   );
 }
 
@@ -10928,7 +10928,7 @@ class Countries extends a.Countries {
   };
 
   factory Countries.fromJson(Map<String, dynamic> json) => Countries(
-    countries: (json['countries'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as CountryInfo?)).toList(growable: false),
+    countries: json['countries'] == null ? <CountryInfo?>[] : (json['countries'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as CountryInfo?)).toList(growable: false),
   );
 }
 
@@ -11051,7 +11051,7 @@ class BankCardInfo extends a.BankCardInfo {
 
   factory BankCardInfo.fromJson(Map<String, dynamic> json) => BankCardInfo(
     title: (json['title'] as String?) ?? '',
-    actions: (json['actions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as BankCardActionOpenUrl?)).toList(growable: false),
+    actions: json['actions'] == null ? <BankCardActionOpenUrl?>[] : (json['actions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as BankCardActionOpenUrl?)).toList(growable: false),
   );
 }
 
@@ -11242,9 +11242,9 @@ class Invoice extends a.Invoice {
 
   factory Invoice.fromJson(Map<String, dynamic> json) => Invoice(
     currency: (json['currency'] as String?) ?? '',
-    priceParts: (json['price_parts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LabeledPricePart?)).toList(growable: false),
+    priceParts: json['price_parts'] == null ? <LabeledPricePart?>[] : (json['price_parts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LabeledPricePart?)).toList(growable: false),
     maxTipAmount: (json['max_tip_amount'] as int?) ?? 0,
-    suggestedTipAmounts: (json['suggested_tip_amounts'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    suggestedTipAmounts: json['suggested_tip_amounts'] == null ? <int>[] : (json['suggested_tip_amounts'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
     isTest: (json['is_test'] as bool?) ?? false,
     needName: (json['need_name'] as bool?) ?? false,
     needPhoneNumber: (json['need_phone_number'] as bool?) ?? false,
@@ -11348,7 +11348,7 @@ class ShippingOption extends a.ShippingOption {
   factory ShippingOption.fromJson(Map<String, dynamic> json) => ShippingOption(
     id: (json['id'] as String?) ?? '',
     title: (json['title'] as String?) ?? '',
-    priceParts: (json['price_parts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LabeledPricePart?)).toList(growable: false),
+    priceParts: json['price_parts'] == null ? <LabeledPricePart?>[] : (json['price_parts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LabeledPricePart?)).toList(growable: false),
   );
 }
 
@@ -11765,7 +11765,7 @@ class ValidatedOrderInfo extends a.ValidatedOrderInfo {
 
   factory ValidatedOrderInfo.fromJson(Map<String, dynamic> json) => ValidatedOrderInfo(
     orderInfoId: (json['order_info_id'] as String?) ?? '',
-    shippingOptions: (json['shipping_options'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ShippingOption?)).toList(growable: false),
+    shippingOptions: json['shipping_options'] == null ? <ShippingOption?>[] : (json['shipping_options'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ShippingOption?)).toList(growable: false),
   );
 }
 
@@ -12456,7 +12456,7 @@ class IdentityDocument extends a.IdentityDocument {
     frontSide: b.TdBase.fromJson(json['front_side']) as DatedFile?,
     reverseSide: b.TdBase.fromJson(json['reverse_side']) as DatedFile?,
     selfie: b.TdBase.fromJson(json['selfie']) as DatedFile?,
-    translation: (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
+    translation: json['translation'] == null ? <DatedFile?>[] : (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
   );
 }
 
@@ -12519,7 +12519,7 @@ class InputIdentityDocument extends a.InputIdentityDocument {
     frontSide: b.TdBase.fromJson(json['front_side']) as a.InputFile?,
     reverseSide: b.TdBase.fromJson(json['reverse_side']) as a.InputFile?,
     selfie: b.TdBase.fromJson(json['selfie']) as a.InputFile?,
-    translation: (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputFile?)).toList(growable: false),
+    translation: json['translation'] == null ? <a.InputFile?>[] : (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputFile?)).toList(growable: false),
   );
 }
 
@@ -12557,8 +12557,8 @@ class PersonalDocument extends a.PersonalDocument {
   };
 
   factory PersonalDocument.fromJson(Map<String, dynamic> json) => PersonalDocument(
-    files: (json['files'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
-    translation: (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
+    files: json['files'] == null ? <DatedFile?>[] : (json['files'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
+    translation: json['translation'] == null ? <DatedFile?>[] : (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
   );
 }
 
@@ -12596,8 +12596,8 @@ class InputPersonalDocument extends a.InputPersonalDocument {
   };
 
   factory InputPersonalDocument.fromJson(Map<String, dynamic> json) => InputPersonalDocument(
-    files: (json['files'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputFile?)).toList(growable: false),
-    translation: (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputFile?)).toList(growable: false),
+    files: json['files'] == null ? <a.InputFile?>[] : (json['files'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputFile?)).toList(growable: false),
+    translation: json['translation'] == null ? <a.InputFile?>[] : (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputFile?)).toList(growable: false),
   );
 }
 
@@ -13488,7 +13488,7 @@ class PassportElements extends a.PassportElements {
   };
 
   factory PassportElements.fromJson(Map<String, dynamic> json) => PassportElements(
-    elements: (json['elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PassportElement?)).toList(growable: false),
+    elements: json['elements'] == null ? <a.PassportElement?>[] : (json['elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PassportElement?)).toList(growable: false),
   );
 }
 
@@ -13866,7 +13866,7 @@ class PassportRequiredElement extends a.PassportRequiredElement {
   };
 
   factory PassportRequiredElement.fromJson(Map<String, dynamic> json) => PassportRequiredElement(
-    suitableElements: (json['suitable_elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PassportSuitableElement?)).toList(growable: false),
+    suitableElements: json['suitable_elements'] == null ? <PassportSuitableElement?>[] : (json['suitable_elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PassportSuitableElement?)).toList(growable: false),
   );
 }
 
@@ -13910,7 +13910,7 @@ class PassportAuthorizationForm extends a.PassportAuthorizationForm {
 
   factory PassportAuthorizationForm.fromJson(Map<String, dynamic> json) => PassportAuthorizationForm(
     id: (json['id'] as int?) ?? 0,
-    requiredElements: (json['required_elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PassportRequiredElement?)).toList(growable: false),
+    requiredElements: json['required_elements'] == null ? <PassportRequiredElement?>[] : (json['required_elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PassportRequiredElement?)).toList(growable: false),
     privacyPolicyUrl: (json['privacy_policy_url'] as String?) ?? '',
   );
 }
@@ -13949,8 +13949,8 @@ class PassportElementsWithErrors extends a.PassportElementsWithErrors {
   };
 
   factory PassportElementsWithErrors.fromJson(Map<String, dynamic> json) => PassportElementsWithErrors(
-    elements: (json['elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PassportElement?)).toList(growable: false),
-    errors: (json['errors'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PassportElementError?)).toList(growable: false),
+    elements: json['elements'] == null ? <a.PassportElement?>[] : (json['elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PassportElement?)).toList(growable: false),
+    errors: json['errors'] == null ? <PassportElementError?>[] : (json['errors'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PassportElementError?)).toList(growable: false),
   );
 }
 
@@ -13993,9 +13993,9 @@ class EncryptedCredentials extends a.EncryptedCredentials {
   };
 
   factory EncryptedCredentials.fromJson(Map<String, dynamic> json) => EncryptedCredentials(
-    data: base64.decode(json['data']),
-    hash: base64.decode(json['hash']),
-    secret: base64.decode(json['secret']),
+    data: json['data'] == null ? Uint8List(0) : base64.decode(json['data']),
+    hash: json['hash'] == null ? Uint8List(0) : base64.decode(json['hash']),
+    secret: json['secret'] == null ? Uint8List(0) : base64.decode(json['secret']),
   );
 }
 
@@ -14069,12 +14069,12 @@ class EncryptedPassportElement extends a.EncryptedPassportElement {
 
   factory EncryptedPassportElement.fromJson(Map<String, dynamic> json) => EncryptedPassportElement(
     type: b.TdBase.fromJson(json['type']) as a.PassportElementType?,
-    data: base64.decode(json['data']),
+    data: json['data'] == null ? Uint8List(0) : base64.decode(json['data']),
     frontSide: b.TdBase.fromJson(json['front_side']) as DatedFile?,
     reverseSide: b.TdBase.fromJson(json['reverse_side']) as DatedFile?,
     selfie: b.TdBase.fromJson(json['selfie']) as DatedFile?,
-    translation: (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
-    files: (json['files'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
+    translation: json['translation'] == null ? <DatedFile?>[] : (json['translation'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
+    files: json['files'] == null ? <DatedFile?>[] : (json['files'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as DatedFile?)).toList(growable: false),
     value: (json['value'] as String?) ?? '',
     hash: (json['hash'] as String?) ?? '',
   );
@@ -14109,7 +14109,7 @@ class InputPassportElementErrorSourceUnspecified extends a.InputPassportElementE
   };
 
   factory InputPassportElementErrorSourceUnspecified.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceUnspecified(
-    elementHash: base64.decode(json['element_hash']),
+    elementHash: json['element_hash'] == null ? Uint8List(0) : base64.decode(json['element_hash']),
   );
 }
 
@@ -14148,7 +14148,7 @@ class InputPassportElementErrorSourceDataField extends a.InputPassportElementErr
 
   factory InputPassportElementErrorSourceDataField.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceDataField(
     fieldName: (json['field_name'] as String?) ?? '',
-    dataHash: base64.decode(json['data_hash']),
+    dataHash: json['data_hash'] == null ? Uint8List(0) : base64.decode(json['data_hash']),
   );
 }
 
@@ -14181,7 +14181,7 @@ class InputPassportElementErrorSourceFrontSide extends a.InputPassportElementErr
   };
 
   factory InputPassportElementErrorSourceFrontSide.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceFrontSide(
-    fileHash: base64.decode(json['file_hash']),
+    fileHash: json['file_hash'] == null ? Uint8List(0) : base64.decode(json['file_hash']),
   );
 }
 
@@ -14214,7 +14214,7 @@ class InputPassportElementErrorSourceReverseSide extends a.InputPassportElementE
   };
 
   factory InputPassportElementErrorSourceReverseSide.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceReverseSide(
-    fileHash: base64.decode(json['file_hash']),
+    fileHash: json['file_hash'] == null ? Uint8List(0) : base64.decode(json['file_hash']),
   );
 }
 
@@ -14247,7 +14247,7 @@ class InputPassportElementErrorSourceSelfie extends a.InputPassportElementErrorS
   };
 
   factory InputPassportElementErrorSourceSelfie.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceSelfie(
-    fileHash: base64.decode(json['file_hash']),
+    fileHash: json['file_hash'] == null ? Uint8List(0) : base64.decode(json['file_hash']),
   );
 }
 
@@ -14280,7 +14280,7 @@ class InputPassportElementErrorSourceTranslationFile extends a.InputPassportElem
   };
 
   factory InputPassportElementErrorSourceTranslationFile.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceTranslationFile(
-    fileHash: base64.decode(json['file_hash']),
+    fileHash: json['file_hash'] == null ? Uint8List(0) : base64.decode(json['file_hash']),
   );
 }
 
@@ -14313,7 +14313,7 @@ class InputPassportElementErrorSourceTranslationFiles extends a.InputPassportEle
   };
 
   factory InputPassportElementErrorSourceTranslationFiles.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceTranslationFiles(
-    fileHashes: (json['file_hashes'] as List<dynamic>).map((e) => (base64.decode(e))).toList(growable: false),
+    fileHashes: json['file_hashes'] == null ? <Uint8List>[] : (json['file_hashes'] as List<dynamic>).map((e) => (e == null ? Uint8List(0) : base64.decode(e))).toList(growable: false),
   );
 }
 
@@ -14346,7 +14346,7 @@ class InputPassportElementErrorSourceFile extends a.InputPassportElementErrorSou
   };
 
   factory InputPassportElementErrorSourceFile.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceFile(
-    fileHash: base64.decode(json['file_hash']),
+    fileHash: json['file_hash'] == null ? Uint8List(0) : base64.decode(json['file_hash']),
   );
 }
 
@@ -14379,7 +14379,7 @@ class InputPassportElementErrorSourceFiles extends a.InputPassportElementErrorSo
   };
 
   factory InputPassportElementErrorSourceFiles.fromJson(Map<String, dynamic> json) => InputPassportElementErrorSourceFiles(
-    fileHashes: (json['file_hashes'] as List<dynamic>).map((e) => (base64.decode(e))).toList(growable: false),
+    fileHashes: json['file_hashes'] == null ? <Uint8List>[] : (json['file_hashes'] as List<dynamic>).map((e) => (e == null ? Uint8List(0) : base64.decode(e))).toList(growable: false),
   );
 }
 
@@ -15365,7 +15365,7 @@ class MessageInviteVoiceChatParticipants extends a.MessageContent {
 
   factory MessageInviteVoiceChatParticipants.fromJson(Map<String, dynamic> json) => MessageInviteVoiceChatParticipants(
     groupCallId: (json['group_call_id'] as int?) ?? 0,
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    userIds: json['user_ids'] == null ? <int>[] : (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -15404,7 +15404,7 @@ class MessageBasicGroupChatCreate extends a.MessageContent {
 
   factory MessageBasicGroupChatCreate.fromJson(Map<String, dynamic> json) => MessageBasicGroupChatCreate(
     title: (json['title'] as String?) ?? '',
-    memberUserIds: (json['member_user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    memberUserIds: json['member_user_ids'] == null ? <int>[] : (json['member_user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -15561,7 +15561,7 @@ class MessageChatAddMembers extends a.MessageContent {
   };
 
   factory MessageChatAddMembers.fromJson(Map<String, dynamic> json) => MessageChatAddMembers(
-    memberUserIds: (json['member_user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    memberUserIds: json['member_user_ids'] == null ? <int>[] : (json['member_user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -15976,7 +15976,7 @@ class MessagePaymentSuccessfulBot extends a.MessageContent {
   factory MessagePaymentSuccessfulBot.fromJson(Map<String, dynamic> json) => MessagePaymentSuccessfulBot(
     currency: (json['currency'] as String?) ?? '',
     totalAmount: (json['total_amount'] as int?) ?? 0,
-    invoicePayload: base64.decode(json['invoice_payload']),
+    invoicePayload: json['invoice_payload'] == null ? Uint8List(0) : base64.decode(json['invoice_payload']),
     shippingOptionId: (json['shipping_option_id'] as String?) ?? '',
     orderInfo: b.TdBase.fromJson(json['order_info']) as OrderInfo?,
     telegramPaymentChargeId: (json['telegram_payment_charge_id'] as String?) ?? '',
@@ -16071,7 +16071,7 @@ class MessagePassportDataSent extends a.MessageContent {
   };
 
   factory MessagePassportDataSent.fromJson(Map<String, dynamic> json) => MessagePassportDataSent(
-    types: (json['types'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PassportElementType?)).toList(growable: false),
+    types: json['types'] == null ? <a.PassportElementType?>[] : (json['types'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.PassportElementType?)).toList(growable: false),
   );
 }
 
@@ -16109,7 +16109,7 @@ class MessagePassportDataReceived extends a.MessageContent {
   };
 
   factory MessagePassportDataReceived.fromJson(Map<String, dynamic> json) => MessagePassportDataReceived(
-    elements: (json['elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as EncryptedPassportElement?)).toList(growable: false),
+    elements: json['elements'] == null ? <EncryptedPassportElement?>[] : (json['elements'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as EncryptedPassportElement?)).toList(growable: false),
     credentials: b.TdBase.fromJson(json['credentials']) as EncryptedCredentials?,
   );
 }
@@ -16932,7 +16932,7 @@ class InputMessageAnimation extends a.InputMessageContent {
   factory InputMessageAnimation.fromJson(Map<String, dynamic> json) => InputMessageAnimation(
     animation: b.TdBase.fromJson(json['animation']) as a.InputFile?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
-    addedStickerFileIds: (json['added_sticker_file_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    addedStickerFileIds: json['added_sticker_file_ids'] == null ? <int>[] : (json['added_sticker_file_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
     duration: (json['duration'] as int?) ?? 0,
     width: (json['width'] as int?) ?? 0,
     height: (json['height'] as int?) ?? 0,
@@ -17115,7 +17115,7 @@ class InputMessagePhoto extends a.InputMessageContent {
   factory InputMessagePhoto.fromJson(Map<String, dynamic> json) => InputMessagePhoto(
     photo: b.TdBase.fromJson(json['photo']) as a.InputFile?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
-    addedStickerFileIds: (json['added_sticker_file_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    addedStickerFileIds: json['added_sticker_file_ids'] == null ? <int>[] : (json['added_sticker_file_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
     width: (json['width'] as int?) ?? 0,
     height: (json['height'] as int?) ?? 0,
     caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
@@ -17251,7 +17251,7 @@ class InputMessageVideo extends a.InputMessageContent {
   factory InputMessageVideo.fromJson(Map<String, dynamic> json) => InputMessageVideo(
     video: b.TdBase.fromJson(json['video']) as a.InputFile?,
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
-    addedStickerFileIds: (json['added_sticker_file_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    addedStickerFileIds: json['added_sticker_file_ids'] == null ? <int>[] : (json['added_sticker_file_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
     duration: (json['duration'] as int?) ?? 0,
     width: (json['width'] as int?) ?? 0,
     height: (json['height'] as int?) ?? 0,
@@ -17358,7 +17358,7 @@ class InputMessageVoiceNote extends a.InputMessageContent {
   factory InputMessageVoiceNote.fromJson(Map<String, dynamic> json) => InputMessageVoiceNote(
     voiceNote: b.TdBase.fromJson(json['voice_note']) as a.InputFile?,
     duration: (json['duration'] as int?) ?? 0,
-    waveform: base64.decode(json['waveform']),
+    waveform: json['waveform'] == null ? Uint8List(0) : base64.decode(json['waveform']),
     caption: b.TdBase.fromJson(json['caption']) as FormattedText?,
   );
 }
@@ -17644,7 +17644,7 @@ class InputMessageInvoice extends a.InputMessageContent {
     photoSize: (json['photo_size'] as int?) ?? 0,
     photoWidth: (json['photo_width'] as int?) ?? 0,
     photoHeight: (json['photo_height'] as int?) ?? 0,
-    payload: base64.decode(json['payload']),
+    payload: json['payload'] == null ? Uint8List(0) : base64.decode(json['payload']),
     providerToken: (json['provider_token'] as String?) ?? '',
     providerData: (json['provider_data'] as String?) ?? '',
     startParameter: (json['start_parameter'] as String?) ?? '',
@@ -17711,7 +17711,7 @@ class InputMessagePoll extends a.InputMessageContent {
 
   factory InputMessagePoll.fromJson(Map<String, dynamic> json) => InputMessagePoll(
     question: (json['question'] as String?) ?? '',
-    options: (json['options'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
+    options: json['options'] == null ? <String>[] : (json['options'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
     isAnonymous: (json['is_anonymous'] as bool?) ?? false,
     type: b.TdBase.fromJson(json['type']) as a.PollType?,
     openPeriod: (json['open_period'] as int?) ?? 0,
@@ -18781,7 +18781,7 @@ class Stickers extends a.Stickers {
   };
 
   factory Stickers.fromJson(Map<String, dynamic> json) => Stickers(
-    stickers: (json['stickers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Sticker?)).toList(growable: false),
+    stickers: json['stickers'] == null ? <Sticker?>[] : (json['stickers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Sticker?)).toList(growable: false),
   );
 }
 
@@ -18814,7 +18814,7 @@ class Emojis extends a.Emojis {
   };
 
   factory Emojis.fromJson(Map<String, dynamic> json) => Emojis(
-    emojis: (json['emojis'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
+    emojis: json['emojis'] == null ? <String>[] : (json['emojis'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
   );
 }
 
@@ -18911,15 +18911,15 @@ class StickerSet extends a.StickerSet {
     title: (json['title'] as String?) ?? '',
     name: (json['name'] as String?) ?? '',
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
-    thumbnailOutline: (json['thumbnail_outline'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ClosedVectorPath?)).toList(growable: false),
+    thumbnailOutline: json['thumbnail_outline'] == null ? <ClosedVectorPath?>[] : (json['thumbnail_outline'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ClosedVectorPath?)).toList(growable: false),
     isInstalled: (json['is_installed'] as bool?) ?? false,
     isArchived: (json['is_archived'] as bool?) ?? false,
     isOfficial: (json['is_official'] as bool?) ?? false,
     isAnimated: (json['is_animated'] as bool?) ?? false,
     isMasks: (json['is_masks'] as bool?) ?? false,
     isViewed: (json['is_viewed'] as bool?) ?? false,
-    stickers: (json['stickers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Sticker?)).toList(growable: false),
-    emojis: (json['emojis'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Emojis?)).toList(growable: false),
+    stickers: json['stickers'] == null ? <Sticker?>[] : (json['stickers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Sticker?)).toList(growable: false),
+    emojis: json['emojis'] == null ? <Emojis?>[] : (json['emojis'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Emojis?)).toList(growable: false),
   );
 }
 
@@ -19016,7 +19016,7 @@ class StickerSetInfo extends a.StickerSetInfo {
     title: (json['title'] as String?) ?? '',
     name: (json['name'] as String?) ?? '',
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
-    thumbnailOutline: (json['thumbnail_outline'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ClosedVectorPath?)).toList(growable: false),
+    thumbnailOutline: json['thumbnail_outline'] == null ? <ClosedVectorPath?>[] : (json['thumbnail_outline'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ClosedVectorPath?)).toList(growable: false),
     isInstalled: (json['is_installed'] as bool?) ?? false,
     isArchived: (json['is_archived'] as bool?) ?? false,
     isOfficial: (json['is_official'] as bool?) ?? false,
@@ -19024,7 +19024,7 @@ class StickerSetInfo extends a.StickerSetInfo {
     isMasks: (json['is_masks'] as bool?) ?? false,
     isViewed: (json['is_viewed'] as bool?) ?? false,
     size: (json['size'] as int?) ?? 0,
-    covers: (json['covers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Sticker?)).toList(growable: false),
+    covers: json['covers'] == null ? <Sticker?>[] : (json['covers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Sticker?)).toList(growable: false),
   );
 }
 
@@ -19063,7 +19063,7 @@ class StickerSets extends a.StickerSets {
 
   factory StickerSets.fromJson(Map<String, dynamic> json) => StickerSets(
     totalCount: (json['total_count'] as int?) ?? 0,
-    sets: (json['sets'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as StickerSetInfo?)).toList(growable: false),
+    sets: json['sets'] == null ? <StickerSetInfo?>[] : (json['sets'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as StickerSetInfo?)).toList(growable: false),
   );
 }
 
@@ -19245,7 +19245,7 @@ class CallProtocol extends a.CallProtocol {
     udpReflector: (json['udp_reflector'] as bool?) ?? false,
     minLayer: (json['min_layer'] as int?) ?? 0,
     maxLayer: (json['max_layer'] as int?) ?? 0,
-    libraryVersions: (json['library_versions'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
+    libraryVersions: json['library_versions'] == null ? <String>[] : (json['library_versions'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
   );
 }
 
@@ -19278,7 +19278,7 @@ class CallServerTypeTelegramReflector extends a.CallServerType {
   };
 
   factory CallServerTypeTelegramReflector.fromJson(Map<String, dynamic> json) => CallServerTypeTelegramReflector(
-    peerTag: base64.decode(json['peer_tag']),
+    peerTag: json['peer_tag'] == null ? Uint8List(0) : base64.decode(json['peer_tag']),
   );
 }
 
@@ -19575,10 +19575,10 @@ class CallStateReady extends a.CallState {
 
   factory CallStateReady.fromJson(Map<String, dynamic> json) => CallStateReady(
     protocol: b.TdBase.fromJson(json['protocol']) as CallProtocol?,
-    servers: (json['servers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as CallServer?)).toList(growable: false),
+    servers: json['servers'] == null ? <CallServer?>[] : (json['servers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as CallServer?)).toList(growable: false),
     config: (json['config'] as String?) ?? '',
-    encryptionKey: base64.decode(json['encryption_key']),
-    emojis: (json['emojis'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
+    encryptionKey: json['encryption_key'] == null ? Uint8List(0) : base64.decode(json['encryption_key']),
+    emojis: json['emojis'] == null ? <String>[] : (json['emojis'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
     allowP2p: (json['allow_p2p'] as bool?) ?? false,
   );
 }
@@ -19834,7 +19834,7 @@ class GroupCall extends a.GroupCall {
     canBeManaged: (json['can_be_managed'] as bool?) ?? false,
     participantCount: (json['participant_count'] as int?) ?? 0,
     loadedAllParticipants: (json['loaded_all_participants'] as bool?) ?? false,
-    recentSpeakers: (json['recent_speakers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallRecentSpeaker?)).toList(growable: false),
+    recentSpeakers: json['recent_speakers'] == null ? <GroupCallRecentSpeaker?>[] : (json['recent_speakers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallRecentSpeaker?)).toList(growable: false),
     muteNewParticipants: (json['mute_new_participants'] as bool?) ?? false,
     canChangeMuteNewParticipants: (json['can_change_mute_new_participants'] as bool?) ?? false,
     recordDuration: (json['record_duration'] as int?) ?? 0,
@@ -19928,7 +19928,7 @@ class GroupCallPayload extends a.GroupCallPayload {
   factory GroupCallPayload.fromJson(Map<String, dynamic> json) => GroupCallPayload(
     ufrag: (json['ufrag'] as String?) ?? '',
     pwd: (json['pwd'] as String?) ?? '',
-    fingerprints: (json['fingerprints'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallPayloadFingerprint?)).toList(growable: false),
+    fingerprints: json['fingerprints'] == null ? <GroupCallPayloadFingerprint?>[] : (json['fingerprints'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallPayloadFingerprint?)).toList(growable: false),
   );
 }
 
@@ -20072,7 +20072,7 @@ class GroupCallJoinResponseWebrtc extends a.GroupCallJoinResponse {
 
   factory GroupCallJoinResponseWebrtc.fromJson(Map<String, dynamic> json) => GroupCallJoinResponseWebrtc(
     payload: b.TdBase.fromJson(json['payload']) as GroupCallPayload?,
-    candidates: (json['candidates'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallJoinResponseCandidate?)).toList(growable: false),
+    candidates: json['candidates'] == null ? <GroupCallJoinResponseCandidate?>[] : (json['candidates'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallJoinResponseCandidate?)).toList(growable: false),
   );
 }
 
@@ -20574,7 +20574,7 @@ class Animations extends a.Animations {
   };
 
   factory Animations.fromJson(Map<String, dynamic> json) => Animations(
-    animations: (json['animations'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Animation?)).toList(growable: false),
+    animations: json['animations'] == null ? <Animation?>[] : (json['animations'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Animation?)).toList(growable: false),
   );
 }
 
@@ -20702,8 +20702,8 @@ class ImportedContacts extends a.ImportedContacts {
   };
 
   factory ImportedContacts.fromJson(Map<String, dynamic> json) => ImportedContacts(
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
-    importerCount: (json['importer_count'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    userIds: json['user_ids'] == null ? <int>[] : (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    importerCount: json['importer_count'] == null ? <int>[] : (json['importer_count'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -22261,7 +22261,7 @@ class InlineQueryResults extends a.InlineQueryResults {
   factory InlineQueryResults.fromJson(Map<String, dynamic> json) => InlineQueryResults(
     inlineQueryId: int.parse(json['inline_query_id'] ?? '0'),
     nextOffset: (json['next_offset'] as String?) ?? '',
-    results: (json['results'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InlineQueryResult?)).toList(growable: false),
+    results: json['results'] == null ? <a.InlineQueryResult?>[] : (json['results'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InlineQueryResult?)).toList(growable: false),
     switchPmText: (json['switch_pm_text'] as String?) ?? '',
     switchPmParameter: (json['switch_pm_parameter'] as String?) ?? '',
   );
@@ -22296,7 +22296,7 @@ class CallbackQueryPayloadData extends a.CallbackQueryPayload {
   };
 
   factory CallbackQueryPayloadData.fromJson(Map<String, dynamic> json) => CallbackQueryPayloadData(
-    data: base64.decode(json['data']),
+    data: json['data'] == null ? Uint8List(0) : base64.decode(json['data']),
   );
 }
 
@@ -22335,7 +22335,7 @@ class CallbackQueryPayloadDataWithPassword extends a.CallbackQueryPayload {
 
   factory CallbackQueryPayloadDataWithPassword.fromJson(Map<String, dynamic> json) => CallbackQueryPayloadDataWithPassword(
     password: (json['password'] as String?) ?? '',
-    data: base64.decode(json['data']),
+    data: json['data'] == null ? Uint8List(0) : base64.decode(json['data']),
   );
 }
 
@@ -22524,7 +22524,7 @@ class GameHighScores extends a.GameHighScores {
   };
 
   factory GameHighScores.fromJson(Map<String, dynamic> json) => GameHighScores(
-    scores: (json['scores'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GameHighScore?)).toList(growable: false),
+    scores: json['scores'] == null ? <GameHighScore?>[] : (json['scores'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GameHighScore?)).toList(growable: false),
   );
 }
 
@@ -23762,7 +23762,7 @@ class ChatEvents extends a.ChatEvents {
   };
 
   factory ChatEvents.fromJson(Map<String, dynamic> json) => ChatEvents(
-    events: (json['events'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatEvent?)).toList(growable: false),
+    events: json['events'] == null ? <ChatEvent?>[] : (json['events'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatEvent?)).toList(growable: false),
   );
 }
 
@@ -24054,7 +24054,7 @@ class LanguagePackStrings extends a.LanguagePackStrings {
   };
 
   factory LanguagePackStrings.fromJson(Map<String, dynamic> json) => LanguagePackStrings(
-    strings: (json['strings'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LanguagePackString?)).toList(growable: false),
+    strings: json['strings'] == null ? <LanguagePackString?>[] : (json['strings'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LanguagePackString?)).toList(growable: false),
   );
 }
 
@@ -24192,7 +24192,7 @@ class LocalizationTargetInfo extends a.LocalizationTargetInfo {
   };
 
   factory LocalizationTargetInfo.fromJson(Map<String, dynamic> json) => LocalizationTargetInfo(
-    languagePacks: (json['language_packs'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LanguagePackInfo?)).toList(growable: false),
+    languagePacks: json['language_packs'] == null ? <LanguagePackInfo?>[] : (json['language_packs'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LanguagePackInfo?)).toList(growable: false),
   );
 }
 
@@ -24915,7 +24915,7 @@ class Backgrounds extends a.Backgrounds {
   };
 
   factory Backgrounds.fromJson(Map<String, dynamic> json) => Backgrounds(
-    backgrounds: (json['backgrounds'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Background?)).toList(growable: false),
+    backgrounds: json['backgrounds'] == null ? <Background?>[] : (json['backgrounds'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Background?)).toList(growable: false),
   );
 }
 
@@ -25014,7 +25014,7 @@ class Hashtags extends a.Hashtags {
   };
 
   factory Hashtags.fromJson(Map<String, dynamic> json) => Hashtags(
-    hashtags: (json['hashtags'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
+    hashtags: json['hashtags'] == null ? <String>[] : (json['hashtags'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
   );
 }
 
@@ -26706,7 +26706,7 @@ class NotificationGroup extends a.NotificationGroup {
     type: b.TdBase.fromJson(json['type']) as a.NotificationGroupType?,
     chatId: (json['chat_id'] as int?) ?? 0,
     totalCount: (json['total_count'] as int?) ?? 0,
-    notifications: (json['notifications'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Notification?)).toList(growable: false),
+    notifications: json['notifications'] == null ? <Notification?>[] : (json['notifications'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Notification?)).toList(growable: false),
   );
 }
 
@@ -27026,7 +27026,7 @@ class JsonValueArray extends a.JsonValue {
   };
 
   factory JsonValueArray.fromJson(Map<String, dynamic> json) => JsonValueArray(
-    values: (json['values'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.JsonValue?)).toList(growable: false),
+    values: json['values'] == null ? <a.JsonValue?>[] : (json['values'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.JsonValue?)).toList(growable: false),
   );
 }
 
@@ -27059,7 +27059,7 @@ class JsonValueObject extends a.JsonValue {
   };
 
   factory JsonValueObject.fromJson(Map<String, dynamic> json) => JsonValueObject(
-    members: (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as JsonObjectMember?)).toList(growable: false),
+    members: json['members'] == null ? <JsonObjectMember?>[] : (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as JsonObjectMember?)).toList(growable: false),
   );
 }
 
@@ -27142,7 +27142,7 @@ class UserPrivacySettingRuleAllowUsers extends a.UserPrivacySettingRule {
   };
 
   factory UserPrivacySettingRuleAllowUsers.fromJson(Map<String, dynamic> json) => UserPrivacySettingRuleAllowUsers(
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    userIds: json['user_ids'] == null ? <int>[] : (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -27175,7 +27175,7 @@ class UserPrivacySettingRuleAllowChatMembers extends a.UserPrivacySettingRule {
   };
 
   factory UserPrivacySettingRuleAllowChatMembers.fromJson(Map<String, dynamic> json) => UserPrivacySettingRuleAllowChatMembers(
-    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    chatIds: json['chat_ids'] == null ? <int>[] : (json['chat_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -27258,7 +27258,7 @@ class UserPrivacySettingRuleRestrictUsers extends a.UserPrivacySettingRule {
   };
 
   factory UserPrivacySettingRuleRestrictUsers.fromJson(Map<String, dynamic> json) => UserPrivacySettingRuleRestrictUsers(
-    userIds: (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    userIds: json['user_ids'] == null ? <int>[] : (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -27291,7 +27291,7 @@ class UserPrivacySettingRuleRestrictChatMembers extends a.UserPrivacySettingRule
   };
 
   factory UserPrivacySettingRuleRestrictChatMembers.fromJson(Map<String, dynamic> json) => UserPrivacySettingRuleRestrictChatMembers(
-    chatIds: (json['chat_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    chatIds: json['chat_ids'] == null ? <int>[] : (json['chat_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -27324,7 +27324,7 @@ class UserPrivacySettingRules extends a.UserPrivacySettingRules {
   };
 
   factory UserPrivacySettingRules.fromJson(Map<String, dynamic> json) => UserPrivacySettingRules(
-    rules: (json['rules'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.UserPrivacySettingRule?)).toList(growable: false),
+    rules: json['rules'] == null ? <a.UserPrivacySettingRule?>[] : (json['rules'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.UserPrivacySettingRule?)).toList(growable: false),
   );
 }
 
@@ -27707,7 +27707,7 @@ class Sessions extends a.Sessions {
   };
 
   factory Sessions.fromJson(Map<String, dynamic> json) => Sessions(
-    sessions: (json['sessions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Session?)).toList(growable: false),
+    sessions: json['sessions'] == null ? <Session?>[] : (json['sessions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Session?)).toList(growable: false),
   );
 }
 
@@ -27821,7 +27821,7 @@ class ConnectedWebsites extends a.ConnectedWebsites {
   };
 
   factory ConnectedWebsites.fromJson(Map<String, dynamic> json) => ConnectedWebsites(
-    websites: (json['websites'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ConnectedWebsite?)).toList(growable: false),
+    websites: json['websites'] == null ? <ConnectedWebsite?>[] : (json['websites'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ConnectedWebsite?)).toList(growable: false),
   );
 }
 
@@ -28150,7 +28150,7 @@ class FilePart extends a.FilePart {
   };
 
   factory FilePart.fromJson(Map<String, dynamic> json) => FilePart(
-    data: base64.decode(json['data']),
+    data: json['data'] == null ? Uint8List(0) : base64.decode(json['data']),
   );
 }
 
@@ -28646,7 +28646,7 @@ class StorageStatisticsByChat extends a.StorageStatisticsByChat {
     chatId: (json['chat_id'] as int?) ?? 0,
     size: (json['size'] as int?) ?? 0,
     count: (json['count'] as int?) ?? 0,
-    byFileType: (json['by_file_type'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as StorageStatisticsByFileType?)).toList(growable: false),
+    byFileType: json['by_file_type'] == null ? <StorageStatisticsByFileType?>[] : (json['by_file_type'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as StorageStatisticsByFileType?)).toList(growable: false),
   );
 }
 
@@ -28691,7 +28691,7 @@ class StorageStatistics extends a.StorageStatistics {
   factory StorageStatistics.fromJson(Map<String, dynamic> json) => StorageStatistics(
     size: (json['size'] as int?) ?? 0,
     count: (json['count'] as int?) ?? 0,
-    byChat: (json['by_chat'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as StorageStatisticsByChat?)).toList(growable: false),
+    byChat: json['by_chat'] == null ? <StorageStatisticsByChat?>[] : (json['by_chat'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as StorageStatisticsByChat?)).toList(growable: false),
   );
 }
 
@@ -29047,7 +29047,7 @@ class NetworkStatistics extends a.NetworkStatistics {
 
   factory NetworkStatistics.fromJson(Map<String, dynamic> json) => NetworkStatistics(
     sinceDate: (json['since_date'] as int?) ?? 0,
-    entries: (json['entries'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.NetworkStatisticsEntry?)).toList(growable: false),
+    entries: json['entries'] == null ? <a.NetworkStatisticsEntry?>[] : (json['entries'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.NetworkStatisticsEntry?)).toList(growable: false),
   );
 }
 
@@ -29671,7 +29671,7 @@ class TMeUrls extends a.TMeUrls {
   };
 
   factory TMeUrls.fromJson(Map<String, dynamic> json) => TMeUrls(
-    urls: (json['urls'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TMeUrl?)).toList(growable: false),
+    urls: json['urls'] == null ? <TMeUrl?>[] : (json['urls'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TMeUrl?)).toList(growable: false),
   );
 }
 
@@ -30188,7 +30188,7 @@ class Proxies extends a.Proxies {
   };
 
   factory Proxies.fromJson(Map<String, dynamic> json) => Proxies(
-    proxies: (json['proxies'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Proxy?)).toList(growable: false),
+    proxies: json['proxies'] == null ? <Proxy?>[] : (json['proxies'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Proxy?)).toList(growable: false),
   );
 }
 
@@ -30762,9 +30762,9 @@ class ChatStatisticsSupergroup extends a.ChatStatistics {
     actionGraph: b.TdBase.fromJson(json['action_graph']) as a.StatisticalGraph?,
     dayGraph: b.TdBase.fromJson(json['day_graph']) as a.StatisticalGraph?,
     weekGraph: b.TdBase.fromJson(json['week_graph']) as a.StatisticalGraph?,
-    topSenders: (json['top_senders'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatStatisticsMessageSenderInfo?)).toList(growable: false),
-    topAdministrators: (json['top_administrators'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatStatisticsAdministratorActionsInfo?)).toList(growable: false),
-    topInviters: (json['top_inviters'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatStatisticsInviterInfo?)).toList(growable: false),
+    topSenders: json['top_senders'] == null ? <ChatStatisticsMessageSenderInfo?>[] : (json['top_senders'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatStatisticsMessageSenderInfo?)).toList(growable: false),
+    topAdministrators: json['top_administrators'] == null ? <ChatStatisticsAdministratorActionsInfo?>[] : (json['top_administrators'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatStatisticsAdministratorActionsInfo?)).toList(growable: false),
+    topInviters: json['top_inviters'] == null ? <ChatStatisticsInviterInfo?>[] : (json['top_inviters'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatStatisticsInviterInfo?)).toList(growable: false),
   );
 }
 
@@ -30881,7 +30881,7 @@ class ChatStatisticsChannel extends a.ChatStatistics {
     languageGraph: b.TdBase.fromJson(json['language_graph']) as a.StatisticalGraph?,
     messageInteractionGraph: b.TdBase.fromJson(json['message_interaction_graph']) as a.StatisticalGraph?,
     instantViewInteractionGraph: b.TdBase.fromJson(json['instant_view_interaction_graph']) as a.StatisticalGraph?,
-    recentMessageInteractions: (json['recent_message_interactions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatStatisticsMessageInteractionInfo?)).toList(growable: false),
+    recentMessageInteractions: json['recent_message_interactions'] == null ? <ChatStatisticsMessageInteractionInfo?>[] : (json['recent_message_interactions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatStatisticsMessageInteractionInfo?)).toList(growable: false),
   );
 }
 
@@ -31730,7 +31730,7 @@ class UpdateChatLastMessage extends a.Update {
   factory UpdateChatLastMessage.fromJson(Map<String, dynamic> json) => UpdateChatLastMessage(
     chatId: (json['chat_id'] as int?) ?? 0,
     lastMessage: b.TdBase.fromJson(json['last_message']) as Message?,
-    positions: (json['positions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPosition?)).toList(growable: false),
+    positions: json['positions'] == null ? <ChatPosition?>[] : (json['positions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPosition?)).toList(growable: false),
   );
 }
 
@@ -32327,7 +32327,7 @@ class UpdateChatDraftMessage extends a.Update {
   factory UpdateChatDraftMessage.fromJson(Map<String, dynamic> json) => UpdateChatDraftMessage(
     chatId: (json['chat_id'] as int?) ?? 0,
     draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage?,
-    positions: (json['positions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPosition?)).toList(growable: false),
+    positions: json['positions'] == null ? <ChatPosition?>[] : (json['positions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPosition?)).toList(growable: false),
   );
 }
 
@@ -32360,7 +32360,7 @@ class UpdateChatFilters extends a.Update {
   };
 
   factory UpdateChatFilters.fromJson(Map<String, dynamic> json) => UpdateChatFilters(
-    chatFilters: (json['chat_filters'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatFilterInfo?)).toList(growable: false),
+    chatFilters: json['chat_filters'] == null ? <ChatFilterInfo?>[] : (json['chat_filters'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatFilterInfo?)).toList(growable: false),
   );
 }
 
@@ -32512,8 +32512,8 @@ class UpdateNotificationGroup extends a.Update {
     notificationSettingsChatId: (json['notification_settings_chat_id'] as int?) ?? 0,
     isSilent: (json['is_silent'] as bool?) ?? false,
     totalCount: (json['total_count'] as int?) ?? 0,
-    addedNotifications: (json['added_notifications'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Notification?)).toList(growable: false),
-    removedNotificationIds: (json['removed_notification_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    addedNotifications: json['added_notifications'] == null ? <Notification?>[] : (json['added_notifications'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Notification?)).toList(growable: false),
+    removedNotificationIds: json['removed_notification_ids'] == null ? <int>[] : (json['removed_notification_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -32546,7 +32546,7 @@ class UpdateActiveNotifications extends a.Update {
   };
 
   factory UpdateActiveNotifications.fromJson(Map<String, dynamic> json) => UpdateActiveNotifications(
-    groups: (json['groups'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as NotificationGroup?)).toList(growable: false),
+    groups: json['groups'] == null ? <NotificationGroup?>[] : (json['groups'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as NotificationGroup?)).toList(growable: false),
   );
 }
 
@@ -32634,7 +32634,7 @@ class UpdateDeleteMessages extends a.Update {
 
   factory UpdateDeleteMessages.fromJson(Map<String, dynamic> json) => UpdateDeleteMessages(
     chatId: (json['chat_id'] as int?) ?? 0,
-    messageIds: (json['message_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    messageIds: json['message_ids'] == null ? <int>[] : (json['message_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
     isPermanent: (json['is_permanent'] as bool?) ?? false,
     fromCache: (json['from_cache'] as bool?) ?? false,
   );
@@ -33275,7 +33275,7 @@ class UpdateNewCallSignalingData extends a.Update {
 
   factory UpdateNewCallSignalingData.fromJson(Map<String, dynamic> json) => UpdateNewCallSignalingData(
     callId: (json['call_id'] as int?) ?? 0,
-    data: base64.decode(json['data']),
+    data: json['data'] == null ? Uint8List(0) : base64.decode(json['data']),
   );
 }
 
@@ -33533,7 +33533,7 @@ class UpdateInstalledStickerSets extends a.Update {
 
   factory UpdateInstalledStickerSets.fromJson(Map<String, dynamic> json) => UpdateInstalledStickerSets(
     isMasks: (json['is_masks'] as bool?) ?? false,
-    stickerSetIds: (json['sticker_set_ids'] as List<dynamic>).map((e) => (int.parse(e ?? '0'))).toList(growable: false),
+    stickerSetIds: json['sticker_set_ids'] == null ? <int>[] : (json['sticker_set_ids'] as List<dynamic>).map((e) => (int.parse(e ?? '0'))).toList(growable: false),
   );
 }
 
@@ -33605,7 +33605,7 @@ class UpdateRecentStickers extends a.Update {
 
   factory UpdateRecentStickers.fromJson(Map<String, dynamic> json) => UpdateRecentStickers(
     isAttached: (json['is_attached'] as bool?) ?? false,
-    stickerIds: (json['sticker_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    stickerIds: json['sticker_ids'] == null ? <int>[] : (json['sticker_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -33638,7 +33638,7 @@ class UpdateFavoriteStickers extends a.Update {
   };
 
   factory UpdateFavoriteStickers.fromJson(Map<String, dynamic> json) => UpdateFavoriteStickers(
-    stickerIds: (json['sticker_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    stickerIds: json['sticker_ids'] == null ? <int>[] : (json['sticker_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -33671,7 +33671,7 @@ class UpdateSavedAnimations extends a.Update {
   };
 
   factory UpdateSavedAnimations.fromJson(Map<String, dynamic> json) => UpdateSavedAnimations(
-    animationIds: (json['animation_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    animationIds: json['animation_ids'] == null ? <int>[] : (json['animation_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -33755,7 +33755,7 @@ class UpdateLanguagePackStrings extends a.Update {
   factory UpdateLanguagePackStrings.fromJson(Map<String, dynamic> json) => UpdateLanguagePackStrings(
     localizationTarget: (json['localization_target'] as String?) ?? '',
     languagePackId: (json['language_pack_id'] as String?) ?? '',
-    strings: (json['strings'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LanguagePackString?)).toList(growable: false),
+    strings: json['strings'] == null ? <LanguagePackString?>[] : (json['strings'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LanguagePackString?)).toList(growable: false),
   );
 }
 
@@ -33860,7 +33860,7 @@ class UpdateUsersNearby extends a.Update {
   };
 
   factory UpdateUsersNearby.fromJson(Map<String, dynamic> json) => UpdateUsersNearby(
-    usersNearby: (json['users_nearby'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatNearby?)).toList(growable: false),
+    usersNearby: json['users_nearby'] == null ? <ChatNearby?>[] : (json['users_nearby'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatNearby?)).toList(growable: false),
   );
 }
 
@@ -33893,7 +33893,7 @@ class UpdateDiceEmojis extends a.Update {
   };
 
   factory UpdateDiceEmojis.fromJson(Map<String, dynamic> json) => UpdateDiceEmojis(
-    emojis: (json['emojis'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
+    emojis: json['emojis'] == null ? <String>[] : (json['emojis'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
   );
 }
 
@@ -33932,7 +33932,7 @@ class UpdateAnimationSearchParameters extends a.Update {
 
   factory UpdateAnimationSearchParameters.fromJson(Map<String, dynamic> json) => UpdateAnimationSearchParameters(
     provider: (json['provider'] as String?) ?? '',
-    emojis: (json['emojis'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
+    emojis: json['emojis'] == null ? <String>[] : (json['emojis'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
   );
 }
 
@@ -33970,8 +33970,8 @@ class UpdateSuggestedActions extends a.Update {
   };
 
   factory UpdateSuggestedActions.fromJson(Map<String, dynamic> json) => UpdateSuggestedActions(
-    addedActions: (json['added_actions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.SuggestedAction?)).toList(growable: false),
-    removedActions: (json['removed_actions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.SuggestedAction?)).toList(growable: false),
+    addedActions: json['added_actions'] == null ? <a.SuggestedAction?>[] : (json['added_actions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.SuggestedAction?)).toList(growable: false),
+    removedActions: json['removed_actions'] == null ? <a.SuggestedAction?>[] : (json['removed_actions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.SuggestedAction?)).toList(growable: false),
   );
 }
 
@@ -34329,7 +34329,7 @@ class UpdateNewPreCheckoutQuery extends a.Update {
     senderUserId: (json['sender_user_id'] as int?) ?? 0,
     currency: (json['currency'] as String?) ?? '',
     totalAmount: (json['total_amount'] as int?) ?? 0,
-    invoicePayload: base64.decode(json['invoice_payload']),
+    invoicePayload: json['invoice_payload'] == null ? Uint8List(0) : base64.decode(json['invoice_payload']),
     shippingOptionId: (json['shipping_option_id'] as String?) ?? '',
     orderInfo: b.TdBase.fromJson(json['order_info']) as OrderInfo?,
   );
@@ -34487,7 +34487,7 @@ class UpdatePollAnswer extends a.Update {
   factory UpdatePollAnswer.fromJson(Map<String, dynamic> json) => UpdatePollAnswer(
     pollId: int.parse(json['poll_id'] ?? '0'),
     userId: (json['user_id'] as int?) ?? 0,
-    optionIds: (json['option_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    optionIds: json['option_ids'] == null ? <int>[] : (json['option_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -34583,7 +34583,7 @@ class Updates extends a.Updates {
   };
 
   factory Updates.fromJson(Map<String, dynamic> json) => Updates(
-    updates: (json['updates'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.Update?)).toList(growable: false),
+    updates: json['updates'] == null ? <a.Update?>[] : (json['updates'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.Update?)).toList(growable: false),
   );
 }
 
@@ -34744,7 +34744,7 @@ class LogTags extends a.LogTags {
   };
 
   factory LogTags.fromJson(Map<String, dynamic> json) => LogTags(
-    tags: (json['tags'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
+    tags: json['tags'] == null ? <String>[] : (json['tags'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
   );
 }
 
@@ -34843,7 +34843,7 @@ class TestBytes extends a.TestBytes {
   };
 
   factory TestBytes.fromJson(Map<String, dynamic> json) => TestBytes(
-    value: base64.decode(json['value']),
+    value: json['value'] == null ? Uint8List(0) : base64.decode(json['value']),
   );
 }
 
@@ -34876,7 +34876,7 @@ class TestVectorInt extends a.TestVectorInt {
   };
 
   factory TestVectorInt.fromJson(Map<String, dynamic> json) => TestVectorInt(
-    value: (json['value'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    value: json['value'] == null ? <int>[] : (json['value'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -34909,7 +34909,7 @@ class TestVectorIntObject extends a.TestVectorIntObject {
   };
 
   factory TestVectorIntObject.fromJson(Map<String, dynamic> json) => TestVectorIntObject(
-    value: (json['value'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TestInt?)).toList(growable: false),
+    value: json['value'] == null ? <TestInt?>[] : (json['value'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TestInt?)).toList(growable: false),
   );
 }
 
@@ -34942,7 +34942,7 @@ class TestVectorString extends a.TestVectorString {
   };
 
   factory TestVectorString.fromJson(Map<String, dynamic> json) => TestVectorString(
-    value: (json['value'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
+    value: json['value'] == null ? <String>[] : (json['value'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
   );
 }
 
@@ -34975,7 +34975,7 @@ class TestVectorStringObject extends a.TestVectorStringObject {
   };
 
   factory TestVectorStringObject.fromJson(Map<String, dynamic> json) => TestVectorStringObject(
-    value: (json['value'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TestString?)).toList(growable: false),
+    value: json['value'] == null ? <TestString?>[] : (json['value'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as TestString?)).toList(growable: false),
   );
 }
 

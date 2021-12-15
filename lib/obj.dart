@@ -8287,7 +8287,7 @@ class ReplyMarkupShowKeyboard extends a.ReplyMarkup {
   };
 
   factory ReplyMarkupShowKeyboard.fromJson(Map<String, dynamic> json) => ReplyMarkupShowKeyboard(
-    rows: (json['rows'] as List<dynamic>).map((e) => ((json[''] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as KeyboardButton?)).toList(growable: false))).toList(growable: false),
+    rows: (json['rows'] as List<dynamic>).map((e) => ((e as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as KeyboardButton?)).toList(growable: false))).toList(growable: false),
     resizeKeyboard: (json['resize_keyboard'] as bool?) ?? false,
     oneTime: (json['one_time'] as bool?) ?? false,
     isPersonal: (json['is_personal'] as bool?) ?? false,
@@ -8323,7 +8323,7 @@ class ReplyMarkupInlineKeyboard extends a.ReplyMarkup {
   };
 
   factory ReplyMarkupInlineKeyboard.fromJson(Map<String, dynamic> json) => ReplyMarkupInlineKeyboard(
-    rows: (json['rows'] as List<dynamic>).map((e) => ((json[''] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as InlineKeyboardButton?)).toList(growable: false))).toList(growable: false),
+    rows: (json['rows'] as List<dynamic>).map((e) => ((e as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as InlineKeyboardButton?)).toList(growable: false))).toList(growable: false),
   );
 }
 
@@ -10485,7 +10485,7 @@ class PageBlockTable extends a.PageBlock {
 
   factory PageBlockTable.fromJson(Map<String, dynamic> json) => PageBlockTable(
     caption: b.TdBase.fromJson(json['caption']) as a.RichText?,
-    cells: (json['cells'] as List<dynamic>).map((e) => ((json[''] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PageBlockTableCell?)).toList(growable: false))).toList(growable: false),
+    cells: (json['cells'] as List<dynamic>).map((e) => ((e as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as PageBlockTableCell?)).toList(growable: false))).toList(growable: false),
     isBordered: (json['is_bordered'] as bool?) ?? false,
     isStriped: (json['is_striped'] as bool?) ?? false,
   );

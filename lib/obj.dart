@@ -284,7 +284,7 @@ class AuthenticationCodeTypeCall extends a.AuthenticationCodeType {
   );
 }
 
-/// An authentication code is delivered by an immediately cancelled call to the specified phone number. The number from which the call was made is the code
+/// An authentication code is delivered by an immediately canceled call to the specified phone number. The phone number, from which the call was made, is the code that must be entered automatically
 class AuthenticationCodeTypeFlashCall extends a.AuthenticationCodeType {
   /// Pattern of the phone number from which the call will be made
   final String pattern;
@@ -317,15 +317,54 @@ class AuthenticationCodeTypeFlashCall extends a.AuthenticationCodeType {
   );
 }
 
+/// An authentication code is delivered by an immediately canceled call to the specified phone number. The phone number, from which the call was made, is the code that is supposed to be entered manually by the user
+class AuthenticationCodeTypeMissedCall extends a.AuthenticationCodeType {
+  /// Prefix of the phone number from which the call will be made
+  final String phoneNumberPrefix;
+  /// Number of digits in the code, excluding the prefix
+  final int length;
+
+  AuthenticationCodeTypeMissedCall({
+    required this.phoneNumberPrefix,
+    required this.length,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::AuthenticationCodeTypeMissedCall(';
+
+    // Params
+    final params = <String>[];
+    params.add(phoneNumberPrefix.toString());
+    params.add(length.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'authenticationCodeTypeMissedCall',
+    'phone_number_prefix': phoneNumberPrefix,
+    'length': length,
+  };
+
+  factory AuthenticationCodeTypeMissedCall.fromJson(Map<String, dynamic> json) => AuthenticationCodeTypeMissedCall(
+    phoneNumberPrefix: (json['phone_number_prefix'] as String?) ?? '',
+    length: (json['length'] as int?) ?? 0,
+  );
+}
+
 /// Information about the authentication code that was sent
 class AuthenticationCodeInfo extends a.AuthenticationCodeInfo {
   /// A phone number that is being authenticated
   final String phoneNumber;
-  /// Describes the way the code was sent to the user
+  /// The way the code was sent to the user
   final a.AuthenticationCodeType? type;
-  /// Describes the way the next code will be sent to the user; may be null
+  /// The way the next code will be sent to the user; may be null
   final a.AuthenticationCodeType? nextType;
-  /// Timeout before the code should be re-sent, in seconds
+  /// Timeout before the code can be re-sent, in seconds
   final int timeout;
 
   AuthenticationCodeInfo({
@@ -908,6 +947,8 @@ class PasswordState extends a.PasswordState {
   final bool hasPassportData;
   /// Information about the recovery email address to which the confirmation email was sent; may be null
   final EmailAddressAuthenticationCodeInfo? recoveryEmailAddressCodeInfo;
+  /// If not 0, point in time (Unix timestamp) after which the password can be reset immediately using resetPassword
+  final int pendingResetDate;
 
   PasswordState({
     required this.hasPassword,
@@ -915,6 +956,7 @@ class PasswordState extends a.PasswordState {
     required this.hasRecoveryEmailAddress,
     required this.hasPassportData,
     required this.recoveryEmailAddressCodeInfo,
+    required this.pendingResetDate,
   });
 
   @override
@@ -928,6 +970,7 @@ class PasswordState extends a.PasswordState {
     params.add(hasRecoveryEmailAddress.toString());
     params.add(hasPassportData.toString());
     params.add(recoveryEmailAddressCodeInfo.toString());
+    params.add(pendingResetDate.toString());
     s += params.join(', ');
 
     s += ')';
@@ -942,6 +985,7 @@ class PasswordState extends a.PasswordState {
     'has_recovery_email_address': hasRecoveryEmailAddress,
     'has_passport_data': hasPassportData,
     'recovery_email_address_code_info': recoveryEmailAddressCodeInfo?.toJson(),
+    'pending_reset_date': pendingResetDate,
   };
 
   factory PasswordState.fromJson(Map<String, dynamic> json) => PasswordState(
@@ -950,6 +994,7 @@ class PasswordState extends a.PasswordState {
     hasRecoveryEmailAddress: (json['has_recovery_email_address'] as bool?) ?? false,
     hasPassportData: (json['has_passport_data'] as bool?) ?? false,
     recoveryEmailAddressCodeInfo: b.TdBase.fromJson(json['recovery_email_address_code_info']) as EmailAddressAuthenticationCodeInfo?,
+    pendingResetDate: (json['pending_reset_date'] as int?) ?? 0,
   );
 }
 
@@ -1039,9 +1084,9 @@ class LocalFile extends a.LocalFile {
   final bool isDownloadingCompleted;
   /// Download will be started from this offset. downloaded_prefix_size is calculated from this offset
   final int downloadOffset;
-  /// If is_downloading_completed is false, then only some prefix of the file starting from download_offset is ready to be read. downloaded_prefix_size is the size of that prefix
+  /// If is_downloading_completed is false, then only some prefix of the file starting from download_offset is ready to be read. downloaded_prefix_size is the size of that prefix in bytes
   final int downloadedPrefixSize;
-  /// Total downloaded file bytes. Should be used only for calculating download progress. The actual file size may be bigger, and some parts of it may contain garbage
+  /// Total downloaded file size, in bytes. Can be used only for calculating download progress. The actual file size may be bigger, and some parts of it may contain garbage
   final int downloadedSize;
 
   LocalFile({
@@ -1110,7 +1155,7 @@ class RemoteFile extends a.RemoteFile {
   final bool isUploadingActive;
   /// True, if a remote copy is fully available
   final bool isUploadingCompleted;
-  /// Size of the remote available part of the file; 0 if unknown
+  /// Size of the remote available part of the file, in bytes; 0 if unknown
   final int uploadedSize;
 
   RemoteFile({
@@ -1161,9 +1206,9 @@ class RemoteFile extends a.RemoteFile {
 class File extends a.File {
   /// Unique file identifier
   final int id;
-  /// File size; 0 if unknown
+  /// File size, in bytes; 0 if unknown
   final int size;
-  /// Expected file size in case the exact file size is unknown, but an approximate size is known. Can be used to show download/upload progress
+  /// Approximate file size in bytes in case the exact file size is unknown. Can be used to show download/upload progress
   final int expectedSize;
   /// Information about the local copy of the file
   final LocalFile? local;
@@ -1317,9 +1362,9 @@ class InputFileLocal extends a.InputFile {
 class InputFileGenerated extends a.InputFile {
   /// Local path to a file from which the file is generated; may be empty if there is no such file
   final String originalPath;
-  /// String specifying the conversion applied to the original file; should be persistent across application restarts. Conversions beginning with '#' are reserved for internal TDLib usage
+  /// String specifying the conversion applied to the original file; must be persistent across application restarts. Conversions beginning with '#' are reserved for internal TDLib usage
   final String conversion;
-  /// Expected size of the generated file; 0 if unknown
+  /// Expected size of the generated file, in bytes; 0 if unknown
   final int expectedSize;
 
   InputFileGenerated({
@@ -1368,7 +1413,7 @@ class PhotoSize extends a.PhotoSize {
   final int width;
   /// Image height
   final int height;
-  /// Sizes of progressive JPEG file prefixes, which can be used to preliminarily show the image
+  /// Sizes of progressive JPEG file prefixes, which can be used to preliminarily show the image; in bytes
   final List<int> progressiveSizes;
 
   PhotoSize({
@@ -1661,7 +1706,7 @@ class Thumbnail extends a.Thumbnail {
   );
 }
 
-/// A mask should be placed relatively to the forehead
+/// The mask is placed relatively to the forehead
 class MaskPointForehead extends a.MaskPoint {
   MaskPointForehead();
 
@@ -1686,7 +1731,7 @@ class MaskPointForehead extends a.MaskPoint {
   );
 }
 
-/// A mask should be placed relatively to the eyes
+/// The mask is placed relatively to the eyes
 class MaskPointEyes extends a.MaskPoint {
   MaskPointEyes();
 
@@ -1711,7 +1756,7 @@ class MaskPointEyes extends a.MaskPoint {
   );
 }
 
-/// A mask should be placed relatively to the mouth
+/// The mask is placed relatively to the mouth
 class MaskPointMouth extends a.MaskPoint {
   MaskPointMouth();
 
@@ -1736,7 +1781,7 @@ class MaskPointMouth extends a.MaskPoint {
   );
 }
 
-/// A mask should be placed relatively to the chin
+/// The mask is placed relatively to the chin
 class MaskPointChin extends a.MaskPoint {
   MaskPointChin();
 
@@ -1761,9 +1806,9 @@ class MaskPointChin extends a.MaskPoint {
   );
 }
 
-/// Position on a photo where a mask should be placed
+/// Position on a photo where a mask is placed
 class MaskPosition extends a.MaskPosition {
-  /// Part of the face, relative to which the mask should be placed
+  /// Part of the face, relative to which the mask is placed
   final a.MaskPoint? point;
   /// Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. (For example, -1.0 will place the mask just to the left of the default mask position)
   final double xShift;
@@ -2069,7 +2114,7 @@ class Audio extends a.Audio {
   final String mimeType;
   /// The minithumbnail of the album cover; may be null
   final Minithumbnail? albumCoverMinithumbnail;
-  /// The thumbnail of the album cover in JPEG format; as defined by the sender. The full size thumbnail should be extracted from the downloaded file; may be null
+  /// The thumbnail of the album cover in JPEG format; as defined by the sender. The full size thumbnail is supposed to be extracted from the downloaded file; may be null
   final Thumbnail? albumCoverThumbnail;
   /// File containing the audio
   final File? audio;
@@ -2246,7 +2291,7 @@ class Sticker extends a.Sticker {
   final bool isAnimated;
   /// True, if the sticker is a mask
   final bool isMask;
-  /// Position where the mask should be placed; may be null
+  /// Position where the mask is placed; may be null
   final MaskPosition? maskPosition;
   /// Sticker's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
   final List<ClosedVectorPath?> outline;
@@ -2333,7 +2378,7 @@ class Video extends a.Video {
   final String mimeType;
   /// True, if stickers were added to the video. The list of corresponding sticker sets can be received using getAttachedStickerSets
   final bool hasStickers;
-  /// True, if the video should be tried to be streamed
+  /// True, if the video is supposed to be streamed
   final bool supportsStreaming;
   /// Video minithumbnail; may be null
   final Minithumbnail? minithumbnail;
@@ -2514,6 +2559,51 @@ class VoiceNote extends a.VoiceNote {
   );
 }
 
+/// Describes an animated representation of an emoji
+class AnimatedEmoji extends a.AnimatedEmoji {
+  /// Animated sticker for the emoji
+  final Sticker? sticker;
+  /// Emoji modifier fitzpatrick type; 0-6; 0 if none
+  final int fitzpatrickType;
+  /// File containing the sound to be played when the animated emoji is clicked if any; may be null. The sound is encoded with the Opus codec, and stored inside an OGG container
+  final File? sound;
+
+  AnimatedEmoji({
+    required this.sticker,
+    required this.fitzpatrickType,
+    required this.sound,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::AnimatedEmoji(';
+
+    // Params
+    final params = <String>[];
+    params.add(sticker.toString());
+    params.add(fitzpatrickType.toString());
+    params.add(sound.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'animatedEmoji',
+    'sticker': sticker?.toJson(),
+    'fitzpatrick_type': fitzpatrickType,
+    'sound': sound?.toJson(),
+  };
+
+  factory AnimatedEmoji.fromJson(Map<String, dynamic> json) => AnimatedEmoji(
+    sticker: b.TdBase.fromJson(json['sticker']) as Sticker?,
+    fitzpatrickType: (json['fitzpatrick_type'] as int?) ?? 0,
+    sound: b.TdBase.fromJson(json['sound']) as File?,
+  );
+}
+
 /// Describes a user contact
 class Contact extends a.Contact {
   /// Phone number of the user
@@ -2624,7 +2714,7 @@ class Venue extends a.Venue {
   final String title;
   /// Venue address; as defined by the sender
   final String address;
-  /// Provider of the venue database; as defined by the sender. Currently only "foursquare" and "gplaces" (Google Places) need to be supported
+  /// Provider of the venue database; as defined by the sender. Currently, only "foursquare" and "gplaces" (Google Places) need to be supported
   final String provider;
   /// Identifier of the venue in the provider database; as defined by the sender
   final String id;
@@ -2766,7 +2856,7 @@ class Poll extends a.Poll {
   final a.PollType? type;
   /// Amount of time the poll will be active after creation, in seconds
   final int openPeriod;
-  /// Point in time (Unix timestamp) when the poll will be automatically closed
+  /// Point in time (Unix timestamp) when the poll will automatically be closed
   final int closeDate;
   /// True, if the poll is closed
   final bool isClosed;
@@ -3003,7 +3093,7 @@ class UserTypeBot extends a.UserType {
   final bool isInline;
   /// Placeholder for inline queries (displayed on the application input field)
   final String inlineQueryPlaceholder;
-  /// True, if the location of the user should be sent with every inline query to this bot
+  /// True, if the location of the user is expected to be sent with every inline query to this bot
   final bool needLocation;
 
   UserTypeBot({
@@ -3114,25 +3204,25 @@ class BotCommand extends a.BotCommand {
   );
 }
 
-/// Provides information about a bot and its supported commands
-class BotInfo extends a.BotInfo {
-  /// Long description shown on the user info page
-  final String description;
-  /// A list of commands supported by the bot
+/// Contains a list of bot commands
+class BotCommands extends a.BotCommands {
+  /// Bot's user identifier
+  final int botUserId;
+  /// List of bot commands
   final List<BotCommand?> commands;
 
-  BotInfo({
-    required this.description,
+  BotCommands({
+    required this.botUserId,
     required this.commands,
   });
 
   @override
   String toString() {
-    var s = 'td::BotInfo(';
+    var s = 'td::BotCommands(';
 
     // Params
     final params = <String>[];
-    params.add(description.toString());
+    params.add(botUserId.toString());
     params.add(commands.toString());
     s += params.join(', ');
 
@@ -3142,13 +3232,13 @@ class BotInfo extends a.BotInfo {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'botInfo',
-    'description': description,
+    '@type': 'botCommands',
+    'bot_user_id': botUserId,
     'commands': commands.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
-  factory BotInfo.fromJson(Map<String, dynamic> json) => BotInfo(
-    description: (json['description'] as String?) ?? '',
+  factory BotCommands.fromJson(Map<String, dynamic> json) => BotCommands(
+    botUserId: (json['bot_user_id'] as int?) ?? 0,
     commands: json['commands'] == null ? <BotCommand?>[] : (json['commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as BotCommand?)).toList(growable: false),
   );
 }
@@ -3579,16 +3669,20 @@ class UserFullInfo extends a.UserFullInfo {
   final bool supportsVideoCalls;
   /// True, if the user can't be called due to their privacy settings
   final bool hasPrivateCalls;
+  /// True, if the user can't be linked in forwarded messages due to their privacy settings
+  final bool hasPrivateForwards;
   /// True, if the current user needs to explicitly allow to share their phone number with the user when the method addContact is used
   final bool needPhoneNumberPrivacyException;
   /// A short user bio
   final String bio;
-  /// For bots, the text that is included with the link when users share the bot
+  /// For bots, the text that is shown on the bot's profile page and is sent together with the link when users share the bot
   final String shareText;
+  /// For bots, the text shown in the chat with the bot if the chat is empty
+  final String description;
   /// Number of group chats where both the other user and the current user are a member; 0 for the current user
   final int groupInCommonCount;
-  /// If the user is a bot, information about the bot; may be null
-  final BotInfo? botInfo;
+  /// For bots, list of the bot commands
+  final List<BotCommand?> commands;
 
   UserFullInfo({
     required this.photo,
@@ -3596,11 +3690,13 @@ class UserFullInfo extends a.UserFullInfo {
     required this.canBeCalled,
     required this.supportsVideoCalls,
     required this.hasPrivateCalls,
+    required this.hasPrivateForwards,
     required this.needPhoneNumberPrivacyException,
     required this.bio,
     required this.shareText,
+    required this.description,
     required this.groupInCommonCount,
-    required this.botInfo,
+    required this.commands,
   });
 
   @override
@@ -3614,11 +3710,13 @@ class UserFullInfo extends a.UserFullInfo {
     params.add(canBeCalled.toString());
     params.add(supportsVideoCalls.toString());
     params.add(hasPrivateCalls.toString());
+    params.add(hasPrivateForwards.toString());
     params.add(needPhoneNumberPrivacyException.toString());
     params.add(bio.toString());
     params.add(shareText.toString());
+    params.add(description.toString());
     params.add(groupInCommonCount.toString());
-    params.add(botInfo.toString());
+    params.add(commands.toString());
     s += params.join(', ');
 
     s += ')';
@@ -3633,11 +3731,13 @@ class UserFullInfo extends a.UserFullInfo {
     'can_be_called': canBeCalled,
     'supports_video_calls': supportsVideoCalls,
     'has_private_calls': hasPrivateCalls,
+    'has_private_forwards': hasPrivateForwards,
     'need_phone_number_privacy_exception': needPhoneNumberPrivacyException,
     'bio': bio,
     'share_text': shareText,
+    'description': description,
     'group_in_common_count': groupInCommonCount,
-    'bot_info': botInfo?.toJson(),
+    'commands': commands.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory UserFullInfo.fromJson(Map<String, dynamic> json) => UserFullInfo(
@@ -3646,11 +3746,13 @@ class UserFullInfo extends a.UserFullInfo {
     canBeCalled: (json['can_be_called'] as bool?) ?? false,
     supportsVideoCalls: (json['supports_video_calls'] as bool?) ?? false,
     hasPrivateCalls: (json['has_private_calls'] as bool?) ?? false,
+    hasPrivateForwards: (json['has_private_forwards'] as bool?) ?? false,
     needPhoneNumberPrivacyException: (json['need_phone_number_privacy_exception'] as bool?) ?? false,
     bio: (json['bio'] as String?) ?? '',
     shareText: (json['share_text'] as String?) ?? '',
+    description: (json['description'] as String?) ?? '',
     groupInCommonCount: (json['group_in_common_count'] as int?) ?? 0,
-    botInfo: b.TdBase.fromJson(json['bot_info']) as BotInfo?,
+    commands: json['commands'] == null ? <BotCommand?>[] : (json['commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as BotCommand?)).toList(growable: false),
   );
 }
 
@@ -3846,7 +3948,7 @@ class ChatPermissions extends a.ChatPermissions {
   );
 }
 
-/// The user is the owner of a chat and has all the administrator privileges
+/// The user is the owner of the chat and has all the administrator privileges
 class ChatMemberStatusCreator extends a.ChatMemberStatus {
   /// A custom title of the owner; 0-16 characters without emojis; applicable to supergroups only
   final String customTitle;
@@ -3891,7 +3993,7 @@ class ChatMemberStatusCreator extends a.ChatMemberStatus {
   );
 }
 
-/// The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, ban unprivileged members, and manage voice chats. In supergroups and channels, there are more detailed options for administrator privileges
+/// The user is a member of the chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, ban unprivileged members, and manage video chats. In supergroups and channels, there are more detailed options for administrator privileges
 class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
   /// A custom title of the administrator; 0-16 characters without emojis; applicable to supergroups only
   final String customTitle;
@@ -3909,14 +4011,14 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
   final bool canDeleteMessages;
   /// True, if the administrator can invite new users to the chat
   final bool canInviteUsers;
-  /// True, if the administrator can restrict, ban, or unban chat members
+  /// True, if the administrator can restrict, ban, or unban chat members; always true for channels
   final bool canRestrictMembers;
   /// True, if the administrator can pin messages; applicable to basic groups and supergroups only
   final bool canPinMessages;
   /// True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by them
   final bool canPromoteMembers;
-  /// True, if the administrator can manage voice chats
-  final bool canManageVoiceChats;
+  /// True, if the administrator can manage video chats
+  final bool canManageVideoChats;
   /// True, if the administrator isn't shown in the chat member list and sends messages anonymously; applicable to supergroups only
   final bool isAnonymous;
 
@@ -3932,7 +4034,7 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
     required this.canRestrictMembers,
     required this.canPinMessages,
     required this.canPromoteMembers,
-    required this.canManageVoiceChats,
+    required this.canManageVideoChats,
     required this.isAnonymous,
   });
 
@@ -3953,7 +4055,7 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
     params.add(canRestrictMembers.toString());
     params.add(canPinMessages.toString());
     params.add(canPromoteMembers.toString());
-    params.add(canManageVoiceChats.toString());
+    params.add(canManageVideoChats.toString());
     params.add(isAnonymous.toString());
     s += params.join(', ');
 
@@ -3975,7 +4077,7 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
     'can_restrict_members': canRestrictMembers,
     'can_pin_messages': canPinMessages,
     'can_promote_members': canPromoteMembers,
-    'can_manage_voice_chats': canManageVoiceChats,
+    'can_manage_video_chats': canManageVideoChats,
     'is_anonymous': isAnonymous,
   };
 
@@ -3991,12 +4093,12 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
     canRestrictMembers: (json['can_restrict_members'] as bool?) ?? false,
     canPinMessages: (json['can_pin_messages'] as bool?) ?? false,
     canPromoteMembers: (json['can_promote_members'] as bool?) ?? false,
-    canManageVoiceChats: (json['can_manage_voice_chats'] as bool?) ?? false,
+    canManageVideoChats: (json['can_manage_video_chats'] as bool?) ?? false,
     isAnonymous: (json['is_anonymous'] as bool?) ?? false,
   );
 }
 
-/// The user is a member of a chat, without any additional privileges or restrictions
+/// The user is a member of the chat, without any additional privileges or restrictions
 class ChatMemberStatusMember extends a.ChatMemberStatus {
   ChatMemberStatusMember();
 
@@ -4091,7 +4193,7 @@ class ChatMemberStatusLeft extends a.ChatMemberStatus {
   );
 }
 
-/// The user or the chat was banned (and hence is not a member of the chat). Implies the user can't return to the chat, view messages, or be used as a participant identifier to join a voice chat of the chat
+/// The user or the chat was banned (and hence is not a member of the chat). Implies the user can't return to the chat, view messages, or be used as a participant identifier to join a video chat of the chat
 class ChatMemberStatusBanned extends a.ChatMemberStatus {
   /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Always 0 in basic groups
   final int bannedUntilDate;
@@ -4124,7 +4226,7 @@ class ChatMemberStatusBanned extends a.ChatMemberStatus {
   );
 }
 
-/// Information about a user or a chat as a member of another chat
+/// Describes a user or a chat as a member of another chat
 class ChatMember extends a.ChatMember {
   /// Identifier of the chat member. Currently, other chats can be only Left or Banned. Only supergroups and channels can have other chats as Left or Banned members and these chats must be supergroups or channels
   final a.MessageSender? memberId;
@@ -4134,15 +4236,12 @@ class ChatMember extends a.ChatMember {
   final int joinedChatDate;
   /// Status of the member in the chat
   final a.ChatMemberStatus? status;
-  /// If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not the chat member
-  final BotInfo? botInfo;
 
   ChatMember({
     required this.memberId,
     required this.inviterUserId,
     required this.joinedChatDate,
     required this.status,
-    required this.botInfo,
   });
 
   @override
@@ -4155,7 +4254,6 @@ class ChatMember extends a.ChatMember {
     params.add(inviterUserId.toString());
     params.add(joinedChatDate.toString());
     params.add(status.toString());
-    params.add(botInfo.toString());
     s += params.join(', ');
 
     s += ')';
@@ -4169,7 +4267,6 @@ class ChatMember extends a.ChatMember {
     'inviter_user_id': inviterUserId,
     'joined_chat_date': joinedChatDate,
     'status': status?.toJson(),
-    'bot_info': botInfo?.toJson(),
   };
 
   factory ChatMember.fromJson(Map<String, dynamic> json) => ChatMember(
@@ -4177,7 +4274,6 @@ class ChatMember extends a.ChatMember {
     inviterUserId: (json['inviter_user_id'] as int?) ?? 0,
     joinedChatDate: (json['joined_chat_date'] as int?) ?? 0,
     status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
-    botInfo: b.TdBase.fromJson(json['bot_info']) as BotInfo?,
   );
 }
 
@@ -4653,6 +4749,8 @@ class SupergroupMembersFilterBots extends a.SupergroupMembersFilter {
 class ChatInviteLink extends a.ChatInviteLink {
   /// Chat invite link
   final String inviteLink;
+  /// Name of the link
+  final String name;
   /// User identifier of an administrator created the link
   final int creatorUserId;
   /// Point in time (Unix timestamp) when the link was created
@@ -4661,23 +4759,30 @@ class ChatInviteLink extends a.ChatInviteLink {
   final int editDate;
   /// Point in time (Unix timestamp) when the link will expire; 0 if never
   final int expireDate;
-  /// The maximum number of members, which can join the chat using the link simultaneously; 0 if not limited
+  /// The maximum number of members, which can join the chat using the link simultaneously; 0 if not limited. Always 0 if the link requires approval
   final int memberLimit;
   /// Number of chat members, which joined the chat using the link
   final int memberCount;
-  /// True, if the link is primary. Primary invite link can't have expire date or usage limit. There is exactly one primary invite link for each administrator with can_invite_users right at a given time
+  /// Number of pending join requests created using this link
+  final int pendingJoinRequestCount;
+  /// True, if the link only creates join request. If true, total number of joining members will be unlimited
+  final bool createsJoinRequest;
+  /// True, if the link is primary. Primary invite link can't have name, expire date or usage limit. There is exactly one primary invite link for each administrator with can_invite_users right at a given time
   final bool isPrimary;
   /// True, if the link was revoked
   final bool isRevoked;
 
   ChatInviteLink({
     required this.inviteLink,
+    required this.name,
     required this.creatorUserId,
     required this.date,
     required this.editDate,
     required this.expireDate,
     required this.memberLimit,
     required this.memberCount,
+    required this.pendingJoinRequestCount,
+    required this.createsJoinRequest,
     required this.isPrimary,
     required this.isRevoked,
   });
@@ -4689,12 +4794,15 @@ class ChatInviteLink extends a.ChatInviteLink {
     // Params
     final params = <String>[];
     params.add(inviteLink.toString());
+    params.add(name.toString());
     params.add(creatorUserId.toString());
     params.add(date.toString());
     params.add(editDate.toString());
     params.add(expireDate.toString());
     params.add(memberLimit.toString());
     params.add(memberCount.toString());
+    params.add(pendingJoinRequestCount.toString());
+    params.add(createsJoinRequest.toString());
     params.add(isPrimary.toString());
     params.add(isRevoked.toString());
     s += params.join(', ');
@@ -4707,24 +4815,30 @@ class ChatInviteLink extends a.ChatInviteLink {
   Map<String, dynamic> toJson() => {
     '@type': 'chatInviteLink',
     'invite_link': inviteLink,
+    'name': name,
     'creator_user_id': creatorUserId,
     'date': date,
     'edit_date': editDate,
     'expire_date': expireDate,
     'member_limit': memberLimit,
     'member_count': memberCount,
+    'pending_join_request_count': pendingJoinRequestCount,
+    'creates_join_request': createsJoinRequest,
     'is_primary': isPrimary,
     'is_revoked': isRevoked,
   };
 
   factory ChatInviteLink.fromJson(Map<String, dynamic> json) => ChatInviteLink(
     inviteLink: (json['invite_link'] as String?) ?? '',
+    name: (json['name'] as String?) ?? '',
     creatorUserId: (json['creator_user_id'] as int?) ?? 0,
     date: (json['date'] as int?) ?? 0,
     editDate: (json['edit_date'] as int?) ?? 0,
     expireDate: (json['expire_date'] as int?) ?? 0,
     memberLimit: (json['member_limit'] as int?) ?? 0,
     memberCount: (json['member_count'] as int?) ?? 0,
+    pendingJoinRequestCount: (json['pending_join_request_count'] as int?) ?? 0,
+    createsJoinRequest: (json['creates_join_request'] as bool?) ?? false,
     isPrimary: (json['is_primary'] as bool?) ?? false,
     isRevoked: (json['is_revoked'] as bool?) ?? false,
   );
@@ -4816,7 +4930,7 @@ class ChatInviteLinkCount extends a.ChatInviteLinkCount {
 
 /// Contains a list of chat invite link counts
 class ChatInviteLinkCounts extends a.ChatInviteLinkCounts {
-  /// List of invite linkcounts
+  /// List of invite link counts
   final List<ChatInviteLinkCount?> inviteLinkCounts;
 
   ChatInviteLinkCounts({
@@ -4853,10 +4967,13 @@ class ChatInviteLinkMember extends a.ChatInviteLinkMember {
   final int userId;
   /// Point in time (Unix timestamp) when the user joined the chat
   final int joinedChatDate;
+  /// User identifier of the chat administrator, approved user join request
+  final int approverUserId;
 
   ChatInviteLinkMember({
     required this.userId,
     required this.joinedChatDate,
+    required this.approverUserId,
   });
 
   @override
@@ -4867,6 +4984,7 @@ class ChatInviteLinkMember extends a.ChatInviteLinkMember {
     final params = <String>[];
     params.add(userId.toString());
     params.add(joinedChatDate.toString());
+    params.add(approverUserId.toString());
     s += params.join(', ');
 
     s += ')';
@@ -4878,11 +4996,13 @@ class ChatInviteLinkMember extends a.ChatInviteLinkMember {
     '@type': 'chatInviteLinkMember',
     'user_id': userId,
     'joined_chat_date': joinedChatDate,
+    'approver_user_id': approverUserId,
   };
 
   factory ChatInviteLinkMember.fromJson(Map<String, dynamic> json) => ChatInviteLinkMember(
     userId: (json['user_id'] as int?) ?? 0,
     joinedChatDate: (json['joined_chat_date'] as int?) ?? 0,
+    approverUserId: (json['approver_user_id'] as int?) ?? 0,
   );
 }
 
@@ -4931,16 +5051,20 @@ class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
   final int chatId;
   /// If non-zero, the amount of time for which read access to the chat will remain available, in seconds
   final int accessibleFor;
-  /// Contains information about the type of the chat
+  /// Type of the chat
   final a.ChatType? type;
   /// Title of the chat
   final String title;
   /// Chat photo; may be null
   final ChatPhotoInfo? photo;
+  /// Chat description
+  final String description;
   /// Number of members in the chat
   final int memberCount;
   /// User identifiers of some chat members that may be known to the current user
   final List<int> memberUserIds;
+  /// True, if the link only creates join request
+  final bool createsJoinRequest;
   /// True, if the chat is a public supergroup or channel, i.e. it has a username or it is a location-based supergroup
   final bool isPublic;
 
@@ -4950,8 +5074,10 @@ class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
     required this.type,
     required this.title,
     required this.photo,
+    required this.description,
     required this.memberCount,
     required this.memberUserIds,
+    required this.createsJoinRequest,
     required this.isPublic,
   });
 
@@ -4966,8 +5092,10 @@ class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
     params.add(type.toString());
     params.add(title.toString());
     params.add(photo.toString());
+    params.add(description.toString());
     params.add(memberCount.toString());
     params.add(memberUserIds.toString());
+    params.add(createsJoinRequest.toString());
     params.add(isPublic.toString());
     s += params.join(', ');
 
@@ -4983,8 +5111,10 @@ class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
     'type': type?.toJson(),
     'title': title,
     'photo': photo?.toJson(),
+    'description': description,
     'member_count': memberCount,
     'member_user_ids': memberUserIds.map((_e1) => _e1).toList(growable: false),
+    'creates_join_request': createsJoinRequest,
     'is_public': isPublic,
   };
 
@@ -4994,9 +5124,134 @@ class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
     type: b.TdBase.fromJson(json['type']) as a.ChatType?,
     title: (json['title'] as String?) ?? '',
     photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
+    description: (json['description'] as String?) ?? '',
     memberCount: (json['member_count'] as int?) ?? 0,
     memberUserIds: json['member_user_ids'] == null ? <int>[] : (json['member_user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    createsJoinRequest: (json['creates_join_request'] as bool?) ?? false,
     isPublic: (json['is_public'] as bool?) ?? false,
+  );
+}
+
+/// Describes a user that sent a join request and waits for administrator approval
+class ChatJoinRequest extends a.ChatJoinRequest {
+  /// User identifier
+  final int userId;
+  /// Point in time (Unix timestamp) when the user sent the join request
+  final int date;
+  /// A short bio of the user
+  final String bio;
+
+  ChatJoinRequest({
+    required this.userId,
+    required this.date,
+    required this.bio,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ChatJoinRequest(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    params.add(date.toString());
+    params.add(bio.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'chatJoinRequest',
+    'user_id': userId,
+    'date': date,
+    'bio': bio,
+  };
+
+  factory ChatJoinRequest.fromJson(Map<String, dynamic> json) => ChatJoinRequest(
+    userId: (json['user_id'] as int?) ?? 0,
+    date: (json['date'] as int?) ?? 0,
+    bio: (json['bio'] as String?) ?? '',
+  );
+}
+
+/// Contains a list of chat join requests
+class ChatJoinRequests extends a.ChatJoinRequests {
+  /// Approximate total count of requests found
+  final int totalCount;
+  /// List of the requests
+  final List<ChatJoinRequest?> requests;
+
+  ChatJoinRequests({
+    required this.totalCount,
+    required this.requests,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ChatJoinRequests(';
+
+    // Params
+    final params = <String>[];
+    params.add(totalCount.toString());
+    params.add(requests.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'chatJoinRequests',
+    'total_count': totalCount,
+    'requests': requests.map((_e1) => _e1?.toJson()).toList(growable: false),
+  };
+
+  factory ChatJoinRequests.fromJson(Map<String, dynamic> json) => ChatJoinRequests(
+    totalCount: (json['total_count'] as int?) ?? 0,
+    requests: json['requests'] == null ? <ChatJoinRequest?>[] : (json['requests'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatJoinRequest?)).toList(growable: false),
+  );
+}
+
+/// Contains information about pending chat join requests
+class ChatJoinRequestsInfo extends a.ChatJoinRequestsInfo {
+  /// Total number of pending join requests
+  final int totalCount;
+  /// Identifiers of users sent the newest pending join requests
+  final List<int> userIds;
+
+  ChatJoinRequestsInfo({
+    required this.totalCount,
+    required this.userIds,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ChatJoinRequestsInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(totalCount.toString());
+    params.add(userIds.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'chatJoinRequestsInfo',
+    'total_count': totalCount,
+    'user_ids': userIds.map((_e1) => _e1).toList(growable: false),
+  };
+
+  factory ChatJoinRequestsInfo.fromJson(Map<String, dynamic> json) => ChatJoinRequestsInfo(
+    totalCount: (json['total_count'] as int?) ?? 0,
+    userIds: json['user_ids'] == null ? <int>[] : (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -5069,6 +5324,8 @@ class BasicGroupFullInfo extends a.BasicGroupFullInfo {
   final List<ChatMember?> members;
   /// Primary invite link for this group; may be null. For chat administrators with can_invite_users right only. Updated only after the basic group is opened
   final ChatInviteLink? inviteLink;
+  /// List of commands of bots in the group
+  final List<BotCommands?> botCommands;
 
   BasicGroupFullInfo({
     required this.photo,
@@ -5076,6 +5333,7 @@ class BasicGroupFullInfo extends a.BasicGroupFullInfo {
     required this.creatorUserId,
     required this.members,
     required this.inviteLink,
+    required this.botCommands,
   });
 
   @override
@@ -5089,6 +5347,7 @@ class BasicGroupFullInfo extends a.BasicGroupFullInfo {
     params.add(creatorUserId.toString());
     params.add(members.toString());
     params.add(inviteLink.toString());
+    params.add(botCommands.toString());
     s += params.join(', ');
 
     s += ')';
@@ -5103,6 +5362,7 @@ class BasicGroupFullInfo extends a.BasicGroupFullInfo {
     'creator_user_id': creatorUserId,
     'members': members.map((_e1) => _e1?.toJson()).toList(growable: false),
     'invite_link': inviteLink?.toJson(),
+    'bot_commands': botCommands.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory BasicGroupFullInfo.fromJson(Map<String, dynamic> json) => BasicGroupFullInfo(
@@ -5111,6 +5371,7 @@ class BasicGroupFullInfo extends a.BasicGroupFullInfo {
     creatorUserId: (json['creator_user_id'] as int?) ?? 0,
     members: json['members'] == null ? <ChatMember?>[] : (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatMember?)).toList(growable: false),
     inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
+    botCommands: json['bot_commands'] == null ? <BotCommands?>[] : (json['bot_commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as BotCommands?)).toList(growable: false),
   );
 }
 
@@ -5124,13 +5385,13 @@ class Supergroup extends a.Supergroup {
   final int date;
   /// Status of the current user in the supergroup or channel; custom title will be always empty
   final a.ChatMemberStatus? status;
-  /// Number of members in the supergroup or channel; 0 if unknown. Currently it is guaranteed to be known only if the supergroup or channel was received through searchPublicChats, searchChatsNearby, getInactiveSupergroupChats, getSuitableDiscussionChats, getGroupsInCommon, or getUserPrivacySettingRules
+  /// Number of members in the supergroup or channel; 0 if unknown. Currently, it is guaranteed to be known only if the supergroup or channel was received through searchPublicChats, searchChatsNearby, getInactiveSupergroupChats, getSuitableDiscussionChats, getGroupsInCommon, or getUserPrivacySettingRules
   final int memberCount;
   /// True, if the channel has a discussion group, or the supergroup is the designated discussion group for a channel
   final bool hasLinkedChat;
   /// True, if the supergroup is connected to a location, i.e. the supergroup is a location-based supergroup
   final bool hasLocation;
-  /// True, if messages sent to the channel should contain information about the sender. This field is only applicable to channels
+  /// True, if messages sent to the channel need to contain information about the sender. This field is only applicable to channels
   final bool signMessages;
   /// True, if the slow mode is enabled in the supergroup
   final bool isSlowModeEnabled;
@@ -5269,6 +5530,8 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
   final ChatLocation? location;
   /// Primary invite link for this chat; may be null. For chat administrators with can_invite_users right only
   final ChatInviteLink? inviteLink;
+  /// List of commands of bots in the group
+  final List<BotCommands?> botCommands;
   /// Identifier of the basic group from which supergroup was upgraded; 0 if none
   final int upgradedFromBasicGroupId;
   /// Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
@@ -5293,6 +5556,7 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
     required this.stickerSetId,
     required this.location,
     required this.inviteLink,
+    required this.botCommands,
     required this.upgradedFromBasicGroupId,
     required this.upgradedFromMaxMessageId,
   });
@@ -5321,6 +5585,7 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
     params.add(stickerSetId.toString());
     params.add(location.toString());
     params.add(inviteLink.toString());
+    params.add(botCommands.toString());
     params.add(upgradedFromBasicGroupId.toString());
     params.add(upgradedFromMaxMessageId.toString());
     s += params.join(', ');
@@ -5350,6 +5615,7 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
     'sticker_set_id': stickerSetId.toString(),
     'location': location?.toJson(),
     'invite_link': inviteLink?.toJson(),
+    'bot_commands': botCommands.map((_e1) => _e1?.toJson()).toList(growable: false),
     'upgraded_from_basic_group_id': upgradedFromBasicGroupId,
     'upgraded_from_max_message_id': upgradedFromMaxMessageId,
   };
@@ -5373,6 +5639,7 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
     stickerSetId: int.parse(json['sticker_set_id'] ?? '0'),
     location: b.TdBase.fromJson(json['location']) as ChatLocation?,
     inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
+    botCommands: json['bot_commands'] == null ? <BotCommands?>[] : (json['bot_commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as BotCommands?)).toList(growable: false),
     upgradedFromBasicGroupId: (json['upgraded_from_basic_group_id'] as int?) ?? 0,
     upgradedFromMaxMessageId: (json['upgraded_from_max_message_id'] as int?) ?? 0,
   );
@@ -5465,7 +5732,7 @@ class SecretChat extends a.SecretChat {
   final bool isOutbound;
   /// Hash of the currently used key for comparison with the hash of the chat partner's key. This is a string of 36 little-endian bytes, which must be split into groups of 2 bits, each denoting a pixel of one of 4 colors FFFFFF, D5E6F3, 2D5775, and 2F99C9.
   final Uint8List keyHash;
-  /// Secret chat layer; determines features supported by the chat partner's application. Video notes are supported if the layer >= 66; nested text entities and underline and strikethrough entities are supported if the layer >= 101
+  /// Secret chat layer; determines features supported by the chat partner's application. Nested text entities and underline and strikethrough entities are supported if the layer >= 101
   final int layer;
 
   SecretChat({
@@ -5865,8 +6132,8 @@ class MessageForwardInfo extends a.MessageForwardInfo {
 class MessageReplyInfo extends a.MessageReplyInfo {
   /// Number of times the message was directly or indirectly replied
   final int replyCount;
-  /// Recent repliers to the message; available in channels with a discussion supergroup
-  final List<a.MessageSender?> recentRepliers;
+  /// Identifiers of recent repliers to the message; available in channels with a discussion supergroup
+  final List<a.MessageSender?> recentReplierIds;
   /// Identifier of the last read incoming reply to the message
   final int lastReadInboxMessageId;
   /// Identifier of the last read outgoing reply to the message
@@ -5876,7 +6143,7 @@ class MessageReplyInfo extends a.MessageReplyInfo {
 
   MessageReplyInfo({
     required this.replyCount,
-    required this.recentRepliers,
+    required this.recentReplierIds,
     required this.lastReadInboxMessageId,
     required this.lastReadOutboxMessageId,
     required this.lastMessageId,
@@ -5889,7 +6156,7 @@ class MessageReplyInfo extends a.MessageReplyInfo {
     // Params
     final params = <String>[];
     params.add(replyCount.toString());
-    params.add(recentRepliers.toString());
+    params.add(recentReplierIds.toString());
     params.add(lastReadInboxMessageId.toString());
     params.add(lastReadOutboxMessageId.toString());
     params.add(lastMessageId.toString());
@@ -5903,7 +6170,7 @@ class MessageReplyInfo extends a.MessageReplyInfo {
   Map<String, dynamic> toJson() => {
     '@type': 'messageReplyInfo',
     'reply_count': replyCount,
-    'recent_repliers': recentRepliers.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'recent_replier_ids': recentReplierIds.map((_e1) => _e1?.toJson()).toList(growable: false),
     'last_read_inbox_message_id': lastReadInboxMessageId,
     'last_read_outbox_message_id': lastReadOutboxMessageId,
     'last_message_id': lastMessageId,
@@ -5911,7 +6178,7 @@ class MessageReplyInfo extends a.MessageReplyInfo {
 
   factory MessageReplyInfo.fromJson(Map<String, dynamic> json) => MessageReplyInfo(
     replyCount: (json['reply_count'] as int?) ?? 0,
-    recentRepliers: json['recent_repliers'] == null ? <a.MessageSender?>[] : (json['recent_repliers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.MessageSender?)).toList(growable: false),
+    recentReplierIds: json['recent_replier_ids'] == null ? <a.MessageSender?>[] : (json['recent_replier_ids'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.MessageSender?)).toList(growable: false),
     lastReadInboxMessageId: (json['last_read_inbox_message_id'] as int?) ?? 0,
     lastReadOutboxMessageId: (json['last_read_outbox_message_id'] as int?) ?? 0,
     lastMessageId: (json['last_message_id'] as int?) ?? 0,
@@ -5924,7 +6191,7 @@ class MessageInteractionInfo extends a.MessageInteractionInfo {
   final int viewCount;
   /// Number of times the message was forwarded
   final int forwardCount;
-  /// Contains information about direct or indirect replies to the message; may be null. Currently, available only in channels with a discussion supergroup and discussion supergroups for messages, which are not replies itself
+  /// Information about direct or indirect replies to the message; may be null. Currently, available only in channels with a discussion supergroup and discussion supergroups for messages, which are not replies itself
   final MessageReplyInfo? replyInfo;
 
   MessageInteractionInfo({
@@ -5996,6 +6263,8 @@ class MessageSendingStateFailed extends a.MessageSendingState {
   final String errorMessage;
   /// True, if the message can be re-sent
   final bool canRetry;
+  /// True, if the message can be re-sent only on behalf of a different sender
+  final bool needAnotherSender;
   /// Time left before the message can be re-sent, in seconds. No update is sent when this field changes
   final double retryAfter;
 
@@ -6003,6 +6272,7 @@ class MessageSendingStateFailed extends a.MessageSendingState {
     required this.errorCode,
     required this.errorMessage,
     required this.canRetry,
+    required this.needAnotherSender,
     required this.retryAfter,
   });
 
@@ -6015,6 +6285,7 @@ class MessageSendingStateFailed extends a.MessageSendingState {
     params.add(errorCode.toString());
     params.add(errorMessage.toString());
     params.add(canRetry.toString());
+    params.add(needAnotherSender.toString());
     params.add(retryAfter.toString());
     s += params.join(', ');
 
@@ -6028,6 +6299,7 @@ class MessageSendingStateFailed extends a.MessageSendingState {
     'error_code': errorCode,
     'error_message': errorMessage,
     'can_retry': canRetry,
+    'need_another_sender': needAnotherSender,
     'retry_after': retryAfter,
   };
 
@@ -6035,6 +6307,7 @@ class MessageSendingStateFailed extends a.MessageSendingState {
     errorCode: (json['error_code'] as int?) ?? 0,
     errorMessage: (json['error_message'] as String?) ?? '',
     canRetry: (json['can_retry'] as bool?) ?? false,
+    needAnotherSender: (json['need_another_sender'] as bool?) ?? false,
     retryAfter: (json['retry_after'] as double?) ?? 0,
   );
 }
@@ -6043,13 +6316,13 @@ class MessageSendingStateFailed extends a.MessageSendingState {
 class Message extends a.Message {
   /// Message identifier; unique for the chat to which the message belongs
   final int id;
-  /// The sender of the message
-  final a.MessageSender? sender;
+  /// Identifier of the sender of the message
+  final a.MessageSender? senderId;
   /// Chat identifier
   final int chatId;
-  /// Information about the sending state of the message; may be null
+  /// The sending state of the message; may be null
   final a.MessageSendingState? sendingState;
-  /// Information about the scheduling state of the message; may be null
+  /// The scheduling state of the message; may be null
   final a.MessageSchedulingState? schedulingState;
   /// True, if the message is outgoing
   final bool isOutgoing;
@@ -6059,6 +6332,8 @@ class Message extends a.Message {
   final bool canBeEdited;
   /// True, if the message can be forwarded
   final bool canBeForwarded;
+  /// True, if content of the message can be saved locally or copied
+  final bool canBeSaved;
   /// True, if the message can be deleted only for the current user while other users will continue to see it
   final bool canBeDeletedOnlyForSelf;
   /// True, if the message can be deleted for all users
@@ -6067,6 +6342,12 @@ class Message extends a.Message {
   final bool canGetStatistics;
   /// True, if the message thread info is available
   final bool canGetMessageThread;
+  /// True, if chat members already viewed the message can be received through getMessageViewers
+  final bool canGetViewers;
+  /// True, if media timestamp links can be generated for media timestamp entities in the message text, caption or web page description
+  final bool canGetMediaTimestampLinks;
+  /// True, if media timestamp entities refers to a media in this message as opposed to a media in the replied message
+  final bool hasTimestampedMedia;
   /// True, if the message is a channel post. All messages to channels are channel posts, all other messages are not channel posts
   final bool isChannelPost;
   /// True, if the message contains an unread mention for the current user
@@ -6087,7 +6368,7 @@ class Message extends a.Message {
   final int messageThreadId;
   /// For self-destructing messages, the message's TTL (Time To Live), in seconds; 0 if none. TDLib will send updateDeleteMessages or updateMessageContent once the TTL expires
   final int ttl;
-  /// Time left before the message expires, in seconds
+  /// Time left before the message expires, in seconds. If the TTL timer isn't started yet, equals to the value of the ttl field
   final double ttlExpiresIn;
   /// If non-zero, the user identifier of the bot through which this message was sent
   final int viaBotUserId;
@@ -6104,7 +6385,7 @@ class Message extends a.Message {
 
   Message({
     required this.id,
-    required this.sender,
+    required this.senderId,
     required this.chatId,
     required this.sendingState,
     required this.schedulingState,
@@ -6112,10 +6393,14 @@ class Message extends a.Message {
     required this.isPinned,
     required this.canBeEdited,
     required this.canBeForwarded,
+    required this.canBeSaved,
     required this.canBeDeletedOnlyForSelf,
     required this.canBeDeletedForAllUsers,
     required this.canGetStatistics,
     required this.canGetMessageThread,
+    required this.canGetViewers,
+    required this.canGetMediaTimestampLinks,
+    required this.hasTimestampedMedia,
     required this.isChannelPost,
     required this.containsUnreadMention,
     required this.date,
@@ -6142,7 +6427,7 @@ class Message extends a.Message {
     // Params
     final params = <String>[];
     params.add(id.toString());
-    params.add(sender.toString());
+    params.add(senderId.toString());
     params.add(chatId.toString());
     params.add(sendingState.toString());
     params.add(schedulingState.toString());
@@ -6150,10 +6435,14 @@ class Message extends a.Message {
     params.add(isPinned.toString());
     params.add(canBeEdited.toString());
     params.add(canBeForwarded.toString());
+    params.add(canBeSaved.toString());
     params.add(canBeDeletedOnlyForSelf.toString());
     params.add(canBeDeletedForAllUsers.toString());
     params.add(canGetStatistics.toString());
     params.add(canGetMessageThread.toString());
+    params.add(canGetViewers.toString());
+    params.add(canGetMediaTimestampLinks.toString());
+    params.add(hasTimestampedMedia.toString());
     params.add(isChannelPost.toString());
     params.add(containsUnreadMention.toString());
     params.add(date.toString());
@@ -6181,7 +6470,7 @@ class Message extends a.Message {
   Map<String, dynamic> toJson() => {
     '@type': 'message',
     'id': id,
-    'sender': sender?.toJson(),
+    'sender_id': senderId?.toJson(),
     'chat_id': chatId,
     'sending_state': sendingState?.toJson(),
     'scheduling_state': schedulingState?.toJson(),
@@ -6189,10 +6478,14 @@ class Message extends a.Message {
     'is_pinned': isPinned,
     'can_be_edited': canBeEdited,
     'can_be_forwarded': canBeForwarded,
+    'can_be_saved': canBeSaved,
     'can_be_deleted_only_for_self': canBeDeletedOnlyForSelf,
     'can_be_deleted_for_all_users': canBeDeletedForAllUsers,
     'can_get_statistics': canGetStatistics,
     'can_get_message_thread': canGetMessageThread,
+    'can_get_viewers': canGetViewers,
+    'can_get_media_timestamp_links': canGetMediaTimestampLinks,
+    'has_timestamped_media': hasTimestampedMedia,
     'is_channel_post': isChannelPost,
     'contains_unread_mention': containsUnreadMention,
     'date': date,
@@ -6214,7 +6507,7 @@ class Message extends a.Message {
 
   factory Message.fromJson(Map<String, dynamic> json) => Message(
     id: (json['id'] as int?) ?? 0,
-    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
+    senderId: b.TdBase.fromJson(json['sender_id']) as a.MessageSender?,
     chatId: (json['chat_id'] as int?) ?? 0,
     sendingState: b.TdBase.fromJson(json['sending_state']) as a.MessageSendingState?,
     schedulingState: b.TdBase.fromJson(json['scheduling_state']) as a.MessageSchedulingState?,
@@ -6222,10 +6515,14 @@ class Message extends a.Message {
     isPinned: (json['is_pinned'] as bool?) ?? false,
     canBeEdited: (json['can_be_edited'] as bool?) ?? false,
     canBeForwarded: (json['can_be_forwarded'] as bool?) ?? false,
+    canBeSaved: (json['can_be_saved'] as bool?) ?? false,
     canBeDeletedOnlyForSelf: (json['can_be_deleted_only_for_self'] as bool?) ?? false,
     canBeDeletedForAllUsers: (json['can_be_deleted_for_all_users'] as bool?) ?? false,
     canGetStatistics: (json['can_get_statistics'] as bool?) ?? false,
     canGetMessageThread: (json['can_get_message_thread'] as bool?) ?? false,
+    canGetViewers: (json['can_get_viewers'] as bool?) ?? false,
+    canGetMediaTimestampLinks: (json['can_get_media_timestamp_links'] as bool?) ?? false,
+    hasTimestampedMedia: (json['has_timestamped_media'] as bool?) ?? false,
     isChannelPost: (json['is_channel_post'] as bool?) ?? false,
     containsUnreadMention: (json['contains_unread_mention'] as bool?) ?? false,
     date: (json['date'] as int?) ?? 0,
@@ -6330,6 +6627,252 @@ class FoundMessages extends a.FoundMessages {
   );
 }
 
+/// Contains information about a message in a specific position
+class MessagePosition extends a.MessagePosition {
+  /// 0-based message position in the full list of suitable messages
+  final int position;
+  /// Message identifier
+  final int messageId;
+  /// Point in time (Unix timestamp) when the message was sent
+  final int date;
+
+  MessagePosition({
+    required this.position,
+    required this.messageId,
+    required this.date,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::MessagePosition(';
+
+    // Params
+    final params = <String>[];
+    params.add(position.toString());
+    params.add(messageId.toString());
+    params.add(date.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'messagePosition',
+    'position': position,
+    'message_id': messageId,
+    'date': date,
+  };
+
+  factory MessagePosition.fromJson(Map<String, dynamic> json) => MessagePosition(
+    position: (json['position'] as int?) ?? 0,
+    messageId: (json['message_id'] as int?) ?? 0,
+    date: (json['date'] as int?) ?? 0,
+  );
+}
+
+/// Contains a list of message positions
+class MessagePositions extends a.MessagePositions {
+  /// Total count of messages found
+  final int totalCount;
+  /// List of message positions
+  final List<MessagePosition?> positions;
+
+  MessagePositions({
+    required this.totalCount,
+    required this.positions,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::MessagePositions(';
+
+    // Params
+    final params = <String>[];
+    params.add(totalCount.toString());
+    params.add(positions.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'messagePositions',
+    'total_count': totalCount,
+    'positions': positions.map((_e1) => _e1?.toJson()).toList(growable: false),
+  };
+
+  factory MessagePositions.fromJson(Map<String, dynamic> json) => MessagePositions(
+    totalCount: (json['total_count'] as int?) ?? 0,
+    positions: json['positions'] == null ? <MessagePosition?>[] : (json['positions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as MessagePosition?)).toList(growable: false),
+  );
+}
+
+/// Contains information about found messages sent in a specific day
+class MessageCalendarDay extends a.MessageCalendarDay {
+  /// Total number of found messages sent in the day
+  final int totalCount;
+  /// First message sent in the day
+  final Message? message;
+
+  MessageCalendarDay({
+    required this.totalCount,
+    required this.message,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::MessageCalendarDay(';
+
+    // Params
+    final params = <String>[];
+    params.add(totalCount.toString());
+    params.add(message.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'messageCalendarDay',
+    'total_count': totalCount,
+    'message': message?.toJson(),
+  };
+
+  factory MessageCalendarDay.fromJson(Map<String, dynamic> json) => MessageCalendarDay(
+    totalCount: (json['total_count'] as int?) ?? 0,
+    message: b.TdBase.fromJson(json['message']) as Message?,
+  );
+}
+
+/// Contains information about found messages, splitted by days according to the option "utc_time_offset"
+class MessageCalendar extends a.MessageCalendar {
+  /// Total number of found messages
+  final int totalCount;
+  /// Information about messages sent
+  final List<MessageCalendarDay?> days;
+
+  MessageCalendar({
+    required this.totalCount,
+    required this.days,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::MessageCalendar(';
+
+    // Params
+    final params = <String>[];
+    params.add(totalCount.toString());
+    params.add(days.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'messageCalendar',
+    'total_count': totalCount,
+    'days': days.map((_e1) => _e1?.toJson()).toList(growable: false),
+  };
+
+  factory MessageCalendar.fromJson(Map<String, dynamic> json) => MessageCalendar(
+    totalCount: (json['total_count'] as int?) ?? 0,
+    days: json['days'] == null ? <MessageCalendarDay?>[] : (json['days'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as MessageCalendarDay?)).toList(growable: false),
+  );
+}
+
+/// Describes a sponsored message
+class SponsoredMessage extends a.SponsoredMessage {
+  /// Unique sponsored message identifier
+  final int id;
+  /// Chat identifier
+  final int sponsorChatId;
+  /// An internal link to be opened when the sponsored message is clicked; may be null. If null, the sponsor chat needs to be opened instead
+  final a.InternalLinkType? link;
+  /// Content of the message. Currently, can be only of the type messageText
+  final a.MessageContent? content;
+
+  SponsoredMessage({
+    required this.id,
+    required this.sponsorChatId,
+    required this.link,
+    required this.content,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::SponsoredMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(id.toString());
+    params.add(sponsorChatId.toString());
+    params.add(link.toString());
+    params.add(content.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'sponsoredMessage',
+    'id': id,
+    'sponsor_chat_id': sponsorChatId,
+    'link': link?.toJson(),
+    'content': content?.toJson(),
+  };
+
+  factory SponsoredMessage.fromJson(Map<String, dynamic> json) => SponsoredMessage(
+    id: (json['id'] as int?) ?? 0,
+    sponsorChatId: (json['sponsor_chat_id'] as int?) ?? 0,
+    link: b.TdBase.fromJson(json['link']) as a.InternalLinkType?,
+    content: b.TdBase.fromJson(json['content']) as a.MessageContent?,
+  );
+}
+
+/// Contains a list of sponsored messages
+class SponsoredMessages extends a.SponsoredMessages {
+  /// List of sponsored messages
+  final List<SponsoredMessage?> messages;
+
+  SponsoredMessages({
+    required this.messages,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::SponsoredMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(messages.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'sponsoredMessages',
+    'messages': messages.map((_e1) => _e1?.toJson()).toList(growable: false),
+  };
+
+  factory SponsoredMessages.fromJson(Map<String, dynamic> json) => SponsoredMessages(
+    messages: json['messages'] == null ? <SponsoredMessage?>[] : (json['messages'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as SponsoredMessage?)).toList(growable: false),
+  );
+}
+
 /// Notification settings applied to all private and secret chats when the corresponding chat setting has a default value
 class NotificationSettingsScopePrivateChats extends a.NotificationSettingsScope {
   NotificationSettingsScopePrivateChats();
@@ -6417,7 +6960,7 @@ class ChatNotificationSettings extends a.ChatNotificationSettings {
   final String sound;
   /// If true, show_preview is ignored and the value for the relevant type of chat is used instead
   final bool useDefaultShowPreview;
-  /// True, if message content should be displayed in notifications
+  /// True, if message content must be displayed in notifications
   final bool showPreview;
   /// If true, disable_pinned_message_notifications is ignored and the value for the relevant type of chat is used instead
   final bool useDefaultDisablePinnedMessageNotifications;
@@ -6498,7 +7041,7 @@ class ScopeNotificationSettings extends a.ScopeNotificationSettings {
   final int muteFor;
   /// The name of an audio file to be used for notification sounds; only applies to iOS applications
   final String sound;
-  /// True, if message content should be displayed in notifications
+  /// True, if message content must be displayed in notifications
   final bool showPreview;
   /// True, if notifications for incoming pinned messages will be created as for an ordinary unread message
   final bool disablePinnedMessageNotifications;
@@ -6555,7 +7098,7 @@ class DraftMessage extends a.DraftMessage {
   final int replyToMessageId;
   /// Point in time (Unix timestamp) when the draft was created
   final int date;
-  /// Content of the message draft; this should always be of type inputMessageText
+  /// Content of the message draft; must be of the type inputMessageText
   final a.InputMessageContent? inputMessageText;
 
   DraftMessage({
@@ -6627,7 +7170,7 @@ class ChatTypePrivate extends a.ChatType {
   );
 }
 
-/// A basic group (i.e., a chat with 0-200 other users)
+/// A basic group (a chat with 0-200 other users)
 class ChatTypeBasicGroup extends a.ChatType {
   /// Basic group identifier
   final int basicGroupId;
@@ -6660,7 +7203,7 @@ class ChatTypeBasicGroup extends a.ChatType {
   );
 }
 
-/// A supergroup (i.e. a chat with up to GetOption("supergroup_max_size") other users), or channel (with unlimited members)
+/// A supergroup or channel (with unlimited members)
 class ChatTypeSupergroup extends a.ChatType {
   /// Supergroup or channel identifier
   final int supergroupId;
@@ -7191,16 +7734,16 @@ class ChatPosition extends a.ChatPosition {
   );
 }
 
-/// Describes a voice chat
-class VoiceChat extends a.VoiceChat {
-  /// Group call identifier of an active voice chat; 0 if none. Full informationa about the voice chat can be received through the method getGroupCall
+/// Describes a video chat
+class VideoChat extends a.VideoChat {
+  /// Group call identifier of an active video chat; 0 if none. Full information about the video chat can be received through the method getGroupCall
   final int groupCallId;
-  /// True, if the voice chat has participants
+  /// True, if the video chat has participants
   final bool hasParticipants;
-  /// Default group call participant identifier to join the voice chat; may be null
+  /// Default group call participant identifier to join the video chat; may be null
   final a.MessageSender? defaultParticipantId;
 
-  VoiceChat({
+  VideoChat({
     required this.groupCallId,
     required this.hasParticipants,
     required this.defaultParticipantId,
@@ -7208,7 +7751,7 @@ class VoiceChat extends a.VoiceChat {
 
   @override
   String toString() {
-    var s = 'td::VoiceChat(';
+    var s = 'td::VideoChat(';
 
     // Params
     final params = <String>[];
@@ -7223,13 +7766,13 @@ class VoiceChat extends a.VoiceChat {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'voiceChat',
+    '@type': 'videoChat',
     'group_call_id': groupCallId,
     'has_participants': hasParticipants,
     'default_participant_id': defaultParticipantId?.toJson(),
   };
 
-  factory VoiceChat.fromJson(Map<String, dynamic> json) => VoiceChat(
+  factory VideoChat.fromJson(Map<String, dynamic> json) => VideoChat(
     groupCallId: (json['group_call_id'] as int?) ?? 0,
     hasParticipants: (json['has_participants'] as bool?) ?? false,
     defaultParticipantId: b.TdBase.fromJson(json['default_participant_id']) as a.MessageSender?,
@@ -7252,6 +7795,10 @@ class Chat extends a.Chat {
   final Message? lastMessage;
   /// Positions of the chat in chat lists
   final List<ChatPosition?> positions;
+  /// Default identifier of a user or chat that is chosen to send messages in the chat; may be null if the user can't change message sender
+  final a.MessageSender? defaultMessageSenderId;
+  /// True, if chat content can't be saved locally, forwarded, or copied
+  final bool hasProtectedContent;
   /// True, if the chat is marked as unread
   final bool isMarkedAsUnread;
   /// True, if the chat is blocked by the current user and private messages from the chat can't be received
@@ -7278,15 +7825,19 @@ class Chat extends a.Chat {
   final ChatNotificationSettings? notificationSettings;
   /// Current message Time To Live setting (self-destruct timer) for the chat; 0 if not defined. TTL is counted from the time message or its content is viewed in secret chats and from the send date in other chats
   final int messageTtlSetting;
-  /// Describes actions which should be possible to do through a chat action bar; may be null
+  /// If non-empty, name of a theme, set for the chat
+  final String themeName;
+  /// Information about actions which must be possible to do through the chat action bar; may be null
   final a.ChatActionBar? actionBar;
-  /// Contains information about voice chat of the chat
-  final VoiceChat? voiceChat;
+  /// Information about video chat of the chat
+  final VideoChat? videoChat;
+  /// Information about pending join requests; may be null
+  final ChatJoinRequestsInfo? pendingJoinRequests;
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
   final int replyMarkupMessageId;
   /// A draft of a message in the chat; may be null
   final DraftMessage? draftMessage;
-  /// Contains application-specific data associated with the chat. (For example, the chat scroll position or local chat notification settings can be stored here.) Persistent if the message database is used
+  /// Application-specific data associated with the chat. (For example, the chat scroll position or local chat notification settings can be stored here.) Persistent if the message database is used
   final String clientData;
 
   Chat({
@@ -7297,6 +7848,8 @@ class Chat extends a.Chat {
     required this.permissions,
     required this.lastMessage,
     required this.positions,
+    required this.defaultMessageSenderId,
+    required this.hasProtectedContent,
     required this.isMarkedAsUnread,
     required this.isBlocked,
     required this.hasScheduledMessages,
@@ -7310,8 +7863,10 @@ class Chat extends a.Chat {
     required this.unreadMentionCount,
     required this.notificationSettings,
     required this.messageTtlSetting,
+    required this.themeName,
     required this.actionBar,
-    required this.voiceChat,
+    required this.videoChat,
+    required this.pendingJoinRequests,
     required this.replyMarkupMessageId,
     required this.draftMessage,
     required this.clientData,
@@ -7330,6 +7885,8 @@ class Chat extends a.Chat {
     params.add(permissions.toString());
     params.add(lastMessage.toString());
     params.add(positions.toString());
+    params.add(defaultMessageSenderId.toString());
+    params.add(hasProtectedContent.toString());
     params.add(isMarkedAsUnread.toString());
     params.add(isBlocked.toString());
     params.add(hasScheduledMessages.toString());
@@ -7343,8 +7900,10 @@ class Chat extends a.Chat {
     params.add(unreadMentionCount.toString());
     params.add(notificationSettings.toString());
     params.add(messageTtlSetting.toString());
+    params.add(themeName.toString());
     params.add(actionBar.toString());
-    params.add(voiceChat.toString());
+    params.add(videoChat.toString());
+    params.add(pendingJoinRequests.toString());
     params.add(replyMarkupMessageId.toString());
     params.add(draftMessage.toString());
     params.add(clientData.toString());
@@ -7364,6 +7923,8 @@ class Chat extends a.Chat {
     'permissions': permissions?.toJson(),
     'last_message': lastMessage?.toJson(),
     'positions': positions.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'default_message_sender_id': defaultMessageSenderId?.toJson(),
+    'has_protected_content': hasProtectedContent,
     'is_marked_as_unread': isMarkedAsUnread,
     'is_blocked': isBlocked,
     'has_scheduled_messages': hasScheduledMessages,
@@ -7377,8 +7938,10 @@ class Chat extends a.Chat {
     'unread_mention_count': unreadMentionCount,
     'notification_settings': notificationSettings?.toJson(),
     'message_ttl_setting': messageTtlSetting,
+    'theme_name': themeName,
     'action_bar': actionBar?.toJson(),
-    'voice_chat': voiceChat?.toJson(),
+    'video_chat': videoChat?.toJson(),
+    'pending_join_requests': pendingJoinRequests?.toJson(),
     'reply_markup_message_id': replyMarkupMessageId,
     'draft_message': draftMessage?.toJson(),
     'client_data': clientData,
@@ -7392,6 +7955,8 @@ class Chat extends a.Chat {
     permissions: b.TdBase.fromJson(json['permissions']) as ChatPermissions?,
     lastMessage: b.TdBase.fromJson(json['last_message']) as Message?,
     positions: json['positions'] == null ? <ChatPosition?>[] : (json['positions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatPosition?)).toList(growable: false),
+    defaultMessageSenderId: b.TdBase.fromJson(json['default_message_sender_id']) as a.MessageSender?,
+    hasProtectedContent: (json['has_protected_content'] as bool?) ?? false,
     isMarkedAsUnread: (json['is_marked_as_unread'] as bool?) ?? false,
     isBlocked: (json['is_blocked'] as bool?) ?? false,
     hasScheduledMessages: (json['has_scheduled_messages'] as bool?) ?? false,
@@ -7405,8 +7970,10 @@ class Chat extends a.Chat {
     unreadMentionCount: (json['unread_mention_count'] as int?) ?? 0,
     notificationSettings: b.TdBase.fromJson(json['notification_settings']) as ChatNotificationSettings?,
     messageTtlSetting: (json['message_ttl_setting'] as int?) ?? 0,
+    themeName: (json['theme_name'] as String?) ?? '',
     actionBar: b.TdBase.fromJson(json['action_bar']) as a.ChatActionBar?,
-    voiceChat: b.TdBase.fromJson(json['voice_chat']) as VoiceChat?,
+    videoChat: b.TdBase.fromJson(json['video_chat']) as VideoChat?,
+    pendingJoinRequests: b.TdBase.fromJson(json['pending_join_requests']) as ChatJoinRequestsInfo?,
     replyMarkupMessageId: (json['reply_markup_message_id'] as int?) ?? 0,
     draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage?,
     clientData: (json['client_data'] as String?) ?? '',
@@ -7638,7 +8205,7 @@ class ChatActionBarReportUnrelatedLocation extends a.ChatActionBar {
   );
 }
 
-/// The chat is a recently created group chat, to which new members can be invited
+/// The chat is a recently created group chat to which new members can be invited
 class ChatActionBarInviteMembers extends a.ChatActionBar {
   ChatActionBarInviteMembers();
 
@@ -7663,7 +8230,7 @@ class ChatActionBarInviteMembers extends a.ChatActionBar {
   );
 }
 
-/// The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be blocked using the method blockUser, or the other user can be added to the contact list using the method addContact
+/// The chat is a private or secret chat, which can be reported using the method reportChat, or the other user can be blocked using the method toggleMessageSenderIsBlocked, or the other user can be added to the contact list using the method addContact
 class ChatActionBarReportAddBlock extends a.ChatActionBar {
   /// If true, the chat was automatically archived and can be moved back to the main chat list using addChatToList simultaneously with setting chat notification settings to default using setChatNotificationSettings
   final bool canUnarchive;
@@ -7752,7 +8319,52 @@ class ChatActionBarSharePhoneNumber extends a.ChatActionBar {
   );
 }
 
-/// A simple button, with text that should be sent when the button is pressed
+/// The chat is a private chat with an administrator of a chat to which the user sent join request
+class ChatActionBarJoinRequest extends a.ChatActionBar {
+  /// Title of the chat to which the join request was sent
+  final String title;
+  /// True, if the join request was sent to a channel chat
+  final bool isChannel;
+  /// Point in time (Unix timestamp) when the join request was sent
+  final int requestDate;
+
+  ChatActionBarJoinRequest({
+    required this.title,
+    required this.isChannel,
+    required this.requestDate,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ChatActionBarJoinRequest(';
+
+    // Params
+    final params = <String>[];
+    params.add(title.toString());
+    params.add(isChannel.toString());
+    params.add(requestDate.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'chatActionBarJoinRequest',
+    'title': title,
+    'is_channel': isChannel,
+    'request_date': requestDate,
+  };
+
+  factory ChatActionBarJoinRequest.fromJson(Map<String, dynamic> json) => ChatActionBarJoinRequest(
+    title: (json['title'] as String?) ?? '',
+    isChannel: (json['is_channel'] as bool?) ?? false,
+    requestDate: (json['request_date'] as int?) ?? 0,
+  );
+}
+
+/// A simple button, with text that must be sent when the button is pressed
 class KeyboardButtonTypeText extends a.KeyboardButtonType {
   KeyboardButtonTypeText();
 
@@ -8078,7 +8690,7 @@ class InlineKeyboardButtonTypeCallbackGame extends a.InlineKeyboardButtonType {
 class InlineKeyboardButtonTypeSwitchInline extends a.InlineKeyboardButtonType {
   /// Inline query to be sent to the bot
   final String query;
-  /// True, if the inline query should be sent from the current chat
+  /// True, if the inline query must be sent from the current chat
   final bool inCurrentChat;
 
   InlineKeyboardButtonTypeSwitchInline({
@@ -8135,6 +8747,39 @@ class InlineKeyboardButtonTypeBuy extends a.InlineKeyboardButtonType {
   };
 
   factory InlineKeyboardButtonTypeBuy.fromJson(Map<String, dynamic> json) => InlineKeyboardButtonTypeBuy(
+  );
+}
+
+/// A button with a user reference to be handled in the same way as textEntityTypeMentionName entities
+class InlineKeyboardButtonTypeUser extends a.InlineKeyboardButtonType {
+  /// User identifier
+  final int userId;
+
+  InlineKeyboardButtonTypeUser({
+    required this.userId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InlineKeyboardButtonTypeUser(';
+
+    // Params
+    final params = <String>[];
+    params.add(userId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'inlineKeyboardButtonTypeUser',
+    'user_id': userId,
+  };
+
+  factory InlineKeyboardButtonTypeUser.fromJson(Map<String, dynamic> json) => InlineKeyboardButtonTypeUser(
+    userId: (json['user_id'] as int?) ?? 0,
   );
 }
 
@@ -8214,9 +8859,12 @@ class ReplyMarkupRemoveKeyboard extends a.ReplyMarkup {
 class ReplyMarkupForceReply extends a.ReplyMarkup {
   /// True, if a forced reply must automatically be shown to the current user. For outgoing messages, specify true to show the forced reply only for the mentioned users and for the target user of a reply
   final bool isPersonal;
+  /// If non-empty, the placeholder to be shown in the input field when the reply is active; 0-64 characters
+  final String inputFieldPlaceholder;
 
   ReplyMarkupForceReply({
     required this.isPersonal,
+    required this.inputFieldPlaceholder,
   });
 
   @override
@@ -8226,6 +8874,7 @@ class ReplyMarkupForceReply extends a.ReplyMarkup {
     // Params
     final params = <String>[];
     params.add(isPersonal.toString());
+    params.add(inputFieldPlaceholder.toString());
     s += params.join(', ');
 
     s += ')';
@@ -8236,10 +8885,12 @@ class ReplyMarkupForceReply extends a.ReplyMarkup {
   Map<String, dynamic> toJson() => {
     '@type': 'replyMarkupForceReply',
     'is_personal': isPersonal,
+    'input_field_placeholder': inputFieldPlaceholder,
   };
 
   factory ReplyMarkupForceReply.fromJson(Map<String, dynamic> json) => ReplyMarkupForceReply(
     isPersonal: (json['is_personal'] as bool?) ?? false,
+    inputFieldPlaceholder: (json['input_field_placeholder'] as String?) ?? '',
   );
 }
 
@@ -8253,12 +8904,15 @@ class ReplyMarkupShowKeyboard extends a.ReplyMarkup {
   final bool oneTime;
   /// True, if the keyboard must automatically be shown to the current user. For outgoing messages, specify true to show the keyboard only for the mentioned users and for the target user of a reply
   final bool isPersonal;
+  /// If non-empty, the placeholder to be shown in the input field when the keyboard is active; 0-64 characters
+  final String inputFieldPlaceholder;
 
   ReplyMarkupShowKeyboard({
     required this.rows,
     required this.resizeKeyboard,
     required this.oneTime,
     required this.isPersonal,
+    required this.inputFieldPlaceholder,
   });
 
   @override
@@ -8271,6 +8925,7 @@ class ReplyMarkupShowKeyboard extends a.ReplyMarkup {
     params.add(resizeKeyboard.toString());
     params.add(oneTime.toString());
     params.add(isPersonal.toString());
+    params.add(inputFieldPlaceholder.toString());
     s += params.join(', ');
 
     s += ')';
@@ -8284,6 +8939,7 @@ class ReplyMarkupShowKeyboard extends a.ReplyMarkup {
     'resize_keyboard': resizeKeyboard,
     'one_time': oneTime,
     'is_personal': isPersonal,
+    'input_field_placeholder': inputFieldPlaceholder,
   };
 
   factory ReplyMarkupShowKeyboard.fromJson(Map<String, dynamic> json) => ReplyMarkupShowKeyboard(
@@ -8291,6 +8947,7 @@ class ReplyMarkupShowKeyboard extends a.ReplyMarkup {
     resizeKeyboard: (json['resize_keyboard'] as bool?) ?? false,
     oneTime: (json['one_time'] as bool?) ?? false,
     isPersonal: (json['is_personal'] as bool?) ?? false,
+    inputFieldPlaceholder: (json['input_field_placeholder'] as String?) ?? '',
   );
 }
 
@@ -8423,8 +9080,10 @@ class MessageThreadInfo extends a.MessageThreadInfo {
   final int chatId;
   /// Message thread identifier, unique within the chat
   final int messageThreadId;
-  /// Contains information about the message thread
+  /// Information about the message thread
   final MessageReplyInfo? replyInfo;
+  /// Approximate number of unread messages in the message thread
+  final int unreadMessageCount;
   /// The messages from which the thread starts. The messages are returned in a reverse chronological order (i.e., in order of decreasing message_id)
   final List<Message?> messages;
   /// A draft of a message in the message thread; may be null
@@ -8434,6 +9093,7 @@ class MessageThreadInfo extends a.MessageThreadInfo {
     required this.chatId,
     required this.messageThreadId,
     required this.replyInfo,
+    required this.unreadMessageCount,
     required this.messages,
     required this.draftMessage,
   });
@@ -8447,6 +9107,7 @@ class MessageThreadInfo extends a.MessageThreadInfo {
     params.add(chatId.toString());
     params.add(messageThreadId.toString());
     params.add(replyInfo.toString());
+    params.add(unreadMessageCount.toString());
     params.add(messages.toString());
     params.add(draftMessage.toString());
     s += params.join(', ');
@@ -8461,6 +9122,7 @@ class MessageThreadInfo extends a.MessageThreadInfo {
     'chat_id': chatId,
     'message_thread_id': messageThreadId,
     'reply_info': replyInfo?.toJson(),
+    'unread_message_count': unreadMessageCount,
     'messages': messages.map((_e1) => _e1?.toJson()).toList(growable: false),
     'draft_message': draftMessage?.toJson(),
   };
@@ -8469,6 +9131,7 @@ class MessageThreadInfo extends a.MessageThreadInfo {
     chatId: (json['chat_id'] as int?) ?? 0,
     messageThreadId: (json['message_thread_id'] as int?) ?? 0,
     replyInfo: b.TdBase.fromJson(json['reply_info']) as MessageReplyInfo?,
+    unreadMessageCount: (json['unread_message_count'] as int?) ?? 0,
     messages: json['messages'] == null ? <Message?>[] : (json['messages'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Message?)).toList(growable: false),
     draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage?,
   );
@@ -8898,9 +9561,9 @@ class RichTextPhoneNumber extends a.RichText {
 class RichTextIcon extends a.RichText {
   /// The image represented as a document. The image can be in GIF, JPEG or PNG format
   final Document? document;
-  /// Width of a bounding box in which the image should be shown; 0 if unknown
+  /// Width of a bounding box in which the image must be shown; 0 if unknown
   final int width;
-  /// Height of a bounding box in which the image should be shown; 0 if unknown
+  /// Height of a bounding box in which the image must be shown; 0 if unknown
   final int height;
 
   RichTextIcon({
@@ -9021,7 +9684,7 @@ class RichTextAnchor extends a.RichText {
 class RichTextAnchorLink extends a.RichText {
   /// The link text
   final a.RichText? text;
-  /// The anchor name. If the name is empty, the link should bring back to top
+  /// The anchor name. If the name is empty, the link must bring back to top
   final String anchorName;
   /// An HTTP URL, opening the anchor
   final String url;
@@ -9173,7 +9836,7 @@ class PageBlockListItem extends a.PageBlockListItem {
   );
 }
 
-/// The content should be left-aligned
+/// The content must be left-aligned
 class PageBlockHorizontalAlignmentLeft extends a.PageBlockHorizontalAlignment {
   PageBlockHorizontalAlignmentLeft();
 
@@ -9198,7 +9861,7 @@ class PageBlockHorizontalAlignmentLeft extends a.PageBlockHorizontalAlignment {
   );
 }
 
-/// The content should be center-aligned
+/// The content must be center-aligned
 class PageBlockHorizontalAlignmentCenter extends a.PageBlockHorizontalAlignment {
   PageBlockHorizontalAlignmentCenter();
 
@@ -9223,7 +9886,7 @@ class PageBlockHorizontalAlignmentCenter extends a.PageBlockHorizontalAlignment 
   );
 }
 
-/// The content should be right-aligned
+/// The content must be right-aligned
 class PageBlockHorizontalAlignmentRight extends a.PageBlockHorizontalAlignment {
   PageBlockHorizontalAlignmentRight();
 
@@ -9248,7 +9911,7 @@ class PageBlockHorizontalAlignmentRight extends a.PageBlockHorizontalAlignment {
   );
 }
 
-/// The content should be top-aligned
+/// The content must be top-aligned
 class PageBlockVerticalAlignmentTop extends a.PageBlockVerticalAlignment {
   PageBlockVerticalAlignmentTop();
 
@@ -9273,7 +9936,7 @@ class PageBlockVerticalAlignmentTop extends a.PageBlockVerticalAlignment {
   );
 }
 
-/// The content should be middle-aligned
+/// The content must be middle-aligned
 class PageBlockVerticalAlignmentMiddle extends a.PageBlockVerticalAlignment {
   PageBlockVerticalAlignmentMiddle();
 
@@ -9298,7 +9961,7 @@ class PageBlockVerticalAlignmentMiddle extends a.PageBlockVerticalAlignment {
   );
 }
 
-/// The content should be bottom-aligned
+/// The content must be bottom-aligned
 class PageBlockVerticalAlignmentBottom extends a.PageBlockVerticalAlignment {
   PageBlockVerticalAlignmentBottom();
 
@@ -9325,13 +9988,13 @@ class PageBlockVerticalAlignmentBottom extends a.PageBlockVerticalAlignment {
 
 /// Represents a cell of a table
 class PageBlockTableCell extends a.PageBlockTableCell {
-  /// Cell text; may be null. If the text is null, then the cell should be invisible
+  /// Cell text; may be null. If the text is null, then the cell must be invisible
   final a.RichText? text;
   /// True, if it is a header cell
   final bool isHeader;
-  /// The number of columns the cell should span
+  /// The number of columns the cell spans
   final int colspan;
-  /// The number of rows the cell should span
+  /// The number of rows the cell spans
   final int rowspan;
   /// Horizontal cell content alignment
   final a.PageBlockHorizontalAlignment? align;
@@ -9690,7 +10353,7 @@ class PageBlockParagraph extends a.PageBlock {
 class PageBlockPreformatted extends a.PageBlock {
   /// Paragraph text
   final a.RichText? text;
-  /// Programming language for which the text should be formatted
+  /// Programming language for which the text needs to be formatted
   final String language;
 
   PageBlockPreformatted({
@@ -9933,7 +10596,7 @@ class PageBlockAnimation extends a.PageBlock {
   final Animation? animation;
   /// Animation caption
   final PageBlockCaption? caption;
-  /// True, if the animation should be played automatically
+  /// True, if the animation must be played automatically
   final bool needAutoplay;
 
   PageBlockAnimation({
@@ -10062,9 +10725,9 @@ class PageBlockVideo extends a.PageBlock {
   final Video? video;
   /// Video caption
   final PageBlockCaption? caption;
-  /// True, if the video should be played automatically
+  /// True, if the video must be played automatically
   final bool needAutoplay;
-  /// True, if the video should be looped
+  /// True, if the video must be looped
   final bool isLooped;
 
   PageBlockVideo({
@@ -10193,9 +10856,9 @@ class PageBlockEmbedded extends a.PageBlock {
   final int height;
   /// Block caption
   final PageBlockCaption? caption;
-  /// True, if the block should be full width
+  /// True, if the block must be full width
   final bool isFullWidth;
-  /// True, if scrolling should be allowed
+  /// True, if scrolling needs to be allowed
   final bool allowScrolling;
 
   PageBlockEmbedded({
@@ -10401,7 +11064,7 @@ class PageBlockChatLink extends a.PageBlock {
   final String title;
   /// Chat photo; may be null
   final ChatPhotoInfo? photo;
-  /// Chat username, by which all other information about the chat should be resolved
+  /// Chat username, by which all other information about the chat can be resolved
   final String username;
 
   PageBlockChatLink({
@@ -10638,12 +11301,14 @@ class WebPageInstantView extends a.WebPageInstantView {
   final List<a.PageBlock?> pageBlocks;
   /// Number of the instant view views; 0 if unknown
   final int viewCount;
-  /// Version of the instant view, currently can be 1 or 2
+  /// Version of the instant view; currently, can be 1 or 2
   final int version;
   /// True, if the instant view must be shown from right to left
   final bool isRtl;
   /// True, if the instant view contains the full page. A network request might be needed to get the full web page instant view
   final bool isFull;
+  /// An internal link to be opened to leave feedback about the instant view
+  final a.InternalLinkType? feedbackLink;
 
   WebPageInstantView({
     required this.pageBlocks,
@@ -10651,6 +11316,7 @@ class WebPageInstantView extends a.WebPageInstantView {
     required this.version,
     required this.isRtl,
     required this.isFull,
+    required this.feedbackLink,
   });
 
   @override
@@ -10664,6 +11330,7 @@ class WebPageInstantView extends a.WebPageInstantView {
     params.add(version.toString());
     params.add(isRtl.toString());
     params.add(isFull.toString());
+    params.add(feedbackLink.toString());
     s += params.join(', ');
 
     s += ')';
@@ -10678,6 +11345,7 @@ class WebPageInstantView extends a.WebPageInstantView {
     'version': version,
     'is_rtl': isRtl,
     'is_full': isFull,
+    'feedback_link': feedbackLink?.toJson(),
   };
 
   factory WebPageInstantView.fromJson(Map<String, dynamic> json) => WebPageInstantView(
@@ -10686,6 +11354,7 @@ class WebPageInstantView extends a.WebPageInstantView {
     version: (json['version'] as int?) ?? 0,
     isRtl: (json['is_rtl'] as bool?) ?? false,
     isFull: (json['is_full'] as bool?) ?? false,
+    feedbackLink: b.TdBase.fromJson(json['feedback_link']) as a.InternalLinkType?,
   );
 }
 
@@ -10721,7 +11390,7 @@ class WebPage extends a.WebPage {
   final Animation? animation;
   /// Preview of the content as an audio file, if available; may be null
   final Audio? audio;
-  /// Preview of the content as a document, if available (currently only available for small PDF files and ZIP archives); may be null
+  /// Preview of the content as a document, if available; may be null
   final Document? document;
   /// Preview of the content as a sticker for small WEBP files, if available; may be null
   final Sticker? sticker;
@@ -10731,7 +11400,7 @@ class WebPage extends a.WebPage {
   final VideoNote? videoNote;
   /// Preview of the content as a voice note, if available; may be null
   final VoiceNote? voiceNote;
-  /// Version of instant view, available for the web page (currently can be 1 or 2), 0 if none
+  /// Version of instant view, available for the web page (currently, can be 1 or 2), 0 if none
   final int instantViewVersion;
 
   WebPage({
@@ -10850,7 +11519,7 @@ class CountryInfo extends a.CountryInfo {
   final String name;
   /// English name of the country
   final String englishName;
-  /// True, if the country should be hidden from the list of all countries
+  /// True, if the country must be hidden from the list of all countries
   final bool isHidden;
   /// List of country calling codes
   final List<String> callingCodes;
@@ -10938,7 +11607,7 @@ class PhoneNumberInfo extends a.PhoneNumberInfo {
   final CountryInfo? country;
   /// The part of the phone number denoting country calling code or its part
   final String countryCallingCode;
-  /// The phone number without country calling code formatted accordingly to local rules
+  /// The phone number without country calling code formatted accordingly to local rules. Expected digits are returned as '-', but even more digits might be entered by the user
   final String formattedPhoneNumber;
 
   PhoneNumberInfo({
@@ -11426,7 +12095,7 @@ class InputCredentialsSaved extends a.InputCredentials {
 
 /// Applies if a user enters new credentials on a payment provider website
 class InputCredentialsNew extends a.InputCredentials {
-  /// Contains JSON-encoded data with a credential identifier from the payment provider
+  /// JSON-encoded data with the credential identifier from the payment provider
   final String data;
   /// True, if the credential identifier can be saved on the server side
   final bool allowSave;
@@ -11590,7 +12259,7 @@ class PaymentFormTheme extends a.PaymentFormTheme {
   final int hintColor;
   /// A color of links in the RGB24 format
   final int linkColor;
-  /// A color of thebuttons in the RGB24 format
+  /// A color of the buttons in the RGB24 format
   final int buttonColor;
   /// A color of text on the buttons in the RGB24 format
   final int buttonTextColor;
@@ -11655,11 +12324,11 @@ class PaymentForm extends a.PaymentForm {
   final int sellerBotUserId;
   /// User identifier of the payment provider bot
   final int paymentsProviderUserId;
-  /// Contains information about the payment provider, if available, to support it natively without the need for opening the URL; may be null
+  /// Information about the payment provider, if available, to support it natively without the need for opening the URL; may be null
   final PaymentsProviderStripe? paymentsProvider;
   /// Saved server-side order information; may be null
   final OrderInfo? savedOrderInfo;
-  /// Contains information about saved card credentials; may be null
+  /// Information about saved card credentials; may be null
   final SavedCredentials? savedCredentials;
   /// True, if the user can choose to save credentials
   final bool canSaveCredentials;
@@ -11771,7 +12440,7 @@ class ValidatedOrderInfo extends a.ValidatedOrderInfo {
 
 /// Contains the result of a payment request
 class PaymentResult extends a.PaymentResult {
-  /// True, if the payment request was successful; otherwise the verification_url will be not empty
+  /// True, if the payment request was successful; otherwise the verification_url will be non-empty
   final bool success;
   /// URL for additional payment credentials verification
   final String verificationUrl;
@@ -11822,7 +12491,7 @@ class PaymentReceipt extends a.PaymentReceipt {
   final int sellerBotUserId;
   /// User identifier of the payment provider bot
   final int paymentsProviderUserId;
-  /// Contains information about the invoice
+  /// Information about the invoice
   final Invoice? invoice;
   /// Order information; may be null
   final OrderInfo? orderInfo;
@@ -12401,11 +13070,11 @@ class PersonalDetails extends a.PersonalDetails {
 class IdentityDocument extends a.IdentityDocument {
   /// Document number; 1-24 characters
   final String number;
-  /// Document expiry date; may be null
+  /// Document expiry date; may be null if not applicable
   final Date? expiryDate;
   /// Front side of the document
   final DatedFile? frontSide;
-  /// Reverse side of the document; only for driver license and identity card
+  /// Reverse side of the document; only for driver license and identity card; may be null
   final DatedFile? reverseSide;
   /// Selfie with the document; may be null
   final DatedFile? selfie;
@@ -12464,13 +13133,13 @@ class IdentityDocument extends a.IdentityDocument {
 class InputIdentityDocument extends a.InputIdentityDocument {
   /// Document number; 1-24 characters
   final String number;
-  /// Document expiry date, if available
+  /// Document expiry date; pass null if not applicable
   final Date? expiryDate;
   /// Front side of the document
   final a.InputFile? frontSide;
-  /// Reverse side of the document; only for driver license and identity card
+  /// Reverse side of the document; only for driver license and identity card; pass null otherwise
   final a.InputFile? reverseSide;
-  /// Selfie with the document, if available
+  /// Selfie with the document; pass null if unavailable
   final a.InputFile? selfie;
   /// List of files containing a certified English translation of the document
   final List<a.InputFile?> translation;
@@ -13874,7 +14543,7 @@ class PassportRequiredElement extends a.PassportRequiredElement {
 class PassportAuthorizationForm extends a.PassportAuthorizationForm {
   /// Unique identifier of the authorization form
   final int id;
-  /// Information about the Telegram Passport elements that must be provided to complete the form
+  /// Telegram Passport elements that must be provided to complete the form
   final List<PassportRequiredElement?> requiredElements;
   /// URL for the privacy policy of the service; may be empty
   final String privacyPolicyUrl;
@@ -14976,6 +15645,45 @@ class MessageContact extends a.MessageContent {
   );
 }
 
+/// A message with an animated emoji
+class MessageAnimatedEmoji extends a.MessageContent {
+  /// The animated emoji
+  final AnimatedEmoji? animatedEmoji;
+  /// The corresponding emoji
+  final String emoji;
+
+  MessageAnimatedEmoji({
+    required this.animatedEmoji,
+    required this.emoji,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::MessageAnimatedEmoji(';
+
+    // Params
+    final params = <String>[];
+    params.add(animatedEmoji.toString());
+    params.add(emoji.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'messageAnimatedEmoji',
+    'animated_emoji': animatedEmoji?.toJson(),
+    'emoji': emoji,
+  };
+
+  factory MessageAnimatedEmoji.fromJson(Map<String, dynamic> json) => MessageAnimatedEmoji(
+    animatedEmoji: b.TdBase.fromJson(json['animated_emoji']) as AnimatedEmoji?,
+    emoji: (json['emoji'] as String?) ?? '',
+  );
+}
+
 /// A dice message. The dice value is randomly generated by the server
 class MessageDice extends a.MessageContent {
   /// The animated stickers with the initial dice animation; may be null if unknown. updateMessageContent will be sent when the sticker became known
@@ -15115,7 +15823,7 @@ class MessageInvoice extends a.MessageContent {
   final String startParameter;
   /// True, if the invoice is a test invoice
   final bool isTest;
-  /// True, if the shipping address should be specified
+  /// True, if the shipping address must be specified
   final bool needShippingAddress;
   /// The identifier of the message with the receipt, after the product has been purchased
   final int receiptMessageId;
@@ -15225,21 +15933,21 @@ class MessageCall extends a.MessageContent {
   );
 }
 
-/// A new voice chat was scheduled
-class MessageVoiceChatScheduled extends a.MessageContent {
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+/// A new video chat was scheduled
+class MessageVideoChatScheduled extends a.MessageContent {
+  /// Identifier of the video chat. The video chat can be received through the method getGroupCall
   final int groupCallId;
   /// Point in time (Unix timestamp) when the group call is supposed to be started by an administrator
   final int startDate;
 
-  MessageVoiceChatScheduled({
+  MessageVideoChatScheduled({
     required this.groupCallId,
     required this.startDate,
   });
 
   @override
   String toString() {
-    var s = 'td::MessageVoiceChatScheduled(';
+    var s = 'td::MessageVideoChatScheduled(';
 
     // Params
     final params = <String>[];
@@ -15253,29 +15961,29 @@ class MessageVoiceChatScheduled extends a.MessageContent {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'messageVoiceChatScheduled',
+    '@type': 'messageVideoChatScheduled',
     'group_call_id': groupCallId,
     'start_date': startDate,
   };
 
-  factory MessageVoiceChatScheduled.fromJson(Map<String, dynamic> json) => MessageVoiceChatScheduled(
+  factory MessageVideoChatScheduled.fromJson(Map<String, dynamic> json) => MessageVideoChatScheduled(
     groupCallId: (json['group_call_id'] as int?) ?? 0,
     startDate: (json['start_date'] as int?) ?? 0,
   );
 }
 
-/// A newly created voice chat
-class MessageVoiceChatStarted extends a.MessageContent {
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+/// A newly created video chat
+class MessageVideoChatStarted extends a.MessageContent {
+  /// Identifier of the video chat. The video chat can be received through the method getGroupCall
   final int groupCallId;
 
-  MessageVoiceChatStarted({
+  MessageVideoChatStarted({
     required this.groupCallId,
   });
 
   @override
   String toString() {
-    var s = 'td::MessageVoiceChatStarted(';
+    var s = 'td::MessageVideoChatStarted(';
 
     // Params
     final params = <String>[];
@@ -15288,27 +15996,27 @@ class MessageVoiceChatStarted extends a.MessageContent {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'messageVoiceChatStarted',
+    '@type': 'messageVideoChatStarted',
     'group_call_id': groupCallId,
   };
 
-  factory MessageVoiceChatStarted.fromJson(Map<String, dynamic> json) => MessageVoiceChatStarted(
+  factory MessageVideoChatStarted.fromJson(Map<String, dynamic> json) => MessageVideoChatStarted(
     groupCallId: (json['group_call_id'] as int?) ?? 0,
   );
 }
 
-/// A message with information about an ended voice chat
-class MessageVoiceChatEnded extends a.MessageContent {
-  /// Call duration
+/// A message with information about an ended video chat
+class MessageVideoChatEnded extends a.MessageContent {
+  /// Call duration, in seconds
   final int duration;
 
-  MessageVoiceChatEnded({
+  MessageVideoChatEnded({
     required this.duration,
   });
 
   @override
   String toString() {
-    var s = 'td::MessageVoiceChatEnded(';
+    var s = 'td::MessageVideoChatEnded(';
 
     // Params
     final params = <String>[];
@@ -15321,30 +16029,30 @@ class MessageVoiceChatEnded extends a.MessageContent {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'messageVoiceChatEnded',
+    '@type': 'messageVideoChatEnded',
     'duration': duration,
   };
 
-  factory MessageVoiceChatEnded.fromJson(Map<String, dynamic> json) => MessageVoiceChatEnded(
+  factory MessageVideoChatEnded.fromJson(Map<String, dynamic> json) => MessageVideoChatEnded(
     duration: (json['duration'] as int?) ?? 0,
   );
 }
 
-/// A message with information about an invite to a voice chat
-class MessageInviteVoiceChatParticipants extends a.MessageContent {
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+/// A message with information about an invite to a video chat
+class MessageInviteVideoChatParticipants extends a.MessageContent {
+  /// Identifier of the video chat. The video chat can be received through the method getGroupCall
   final int groupCallId;
   /// Invited user identifiers
   final List<int> userIds;
 
-  MessageInviteVoiceChatParticipants({
+  MessageInviteVideoChatParticipants({
     required this.groupCallId,
     required this.userIds,
   });
 
   @override
   String toString() {
-    var s = 'td::MessageInviteVoiceChatParticipants(';
+    var s = 'td::MessageInviteVideoChatParticipants(';
 
     // Params
     final params = <String>[];
@@ -15358,12 +16066,12 @@ class MessageInviteVoiceChatParticipants extends a.MessageContent {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'messageInviteVoiceChatParticipants',
+    '@type': 'messageInviteVideoChatParticipants',
     'group_call_id': groupCallId,
     'user_ids': userIds.map((_e1) => _e1).toList(growable: false),
   };
 
-  factory MessageInviteVoiceChatParticipants.fromJson(Map<String, dynamic> json) => MessageInviteVoiceChatParticipants(
+  factory MessageInviteVideoChatParticipants.fromJson(Map<String, dynamic> json) => MessageInviteVideoChatParticipants(
     groupCallId: (json['group_call_id'] as int?) ?? 0,
     userIds: json['user_ids'] == null ? <int>[] : (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
@@ -15590,6 +16298,31 @@ class MessageChatJoinByLink extends a.MessageContent {
   );
 }
 
+/// A new member was accepted to the chat by an administrator
+class MessageChatJoinByRequest extends a.MessageContent {
+  MessageChatJoinByRequest();
+
+  @override
+  String toString() {
+    var s = 'td::MessageChatJoinByRequest(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'messageChatJoinByRequest',
+  };
+
+  factory MessageChatJoinByRequest.fromJson(Map<String, dynamic> json) => MessageChatJoinByRequest(
+  );
+}
+
 /// A chat member was deleted
 class MessageChatDeleteMember extends a.MessageContent {
   /// User identifier of the deleted chat member
@@ -15750,6 +16483,39 @@ class MessageScreenshotTaken extends a.MessageContent {
   };
 
   factory MessageScreenshotTaken.fromJson(Map<String, dynamic> json) => MessageScreenshotTaken(
+  );
+}
+
+/// A theme in the chat has been changed
+class MessageChatSetTheme extends a.MessageContent {
+  /// If non-empty, name of a new theme, set for the chat. Otherwise chat theme was reset to the default one
+  final String themeName;
+
+  MessageChatSetTheme({
+    required this.themeName,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::MessageChatSetTheme(';
+
+    // Params
+    final params = <String>[];
+    params.add(themeName.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'messageChatSetTheme',
+    'theme_name': themeName,
+  };
+
+  factory MessageChatSetTheme.fromJson(Map<String, dynamic> json) => MessageChatSetTheme(
+    themeName: (json['theme_name'] as String?) ?? '',
   );
 }
 
@@ -16116,16 +16882,16 @@ class MessagePassportDataReceived extends a.MessageContent {
 
 /// A user in the chat came within proximity alert range
 class MessageProximityAlertTriggered extends a.MessageContent {
-  /// The user or chat, which triggered the proximity alert
-  final a.MessageSender? traveler;
-  /// The user or chat, which subscribed for the proximity alert
-  final a.MessageSender? watcher;
+  /// The identifier of a user or chat that triggered the proximity alert
+  final a.MessageSender? travelerId;
+  /// The identifier of a user or chat that subscribed for the proximity alert
+  final a.MessageSender? watcherId;
   /// The distance between the users
   final int distance;
 
   MessageProximityAlertTriggered({
-    required this.traveler,
-    required this.watcher,
+    required this.travelerId,
+    required this.watcherId,
     required this.distance,
   });
 
@@ -16135,8 +16901,8 @@ class MessageProximityAlertTriggered extends a.MessageContent {
 
     // Params
     final params = <String>[];
-    params.add(traveler.toString());
-    params.add(watcher.toString());
+    params.add(travelerId.toString());
+    params.add(watcherId.toString());
     params.add(distance.toString());
     s += params.join(', ');
 
@@ -16147,14 +16913,14 @@ class MessageProximityAlertTriggered extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messageProximityAlertTriggered',
-    'traveler': traveler?.toJson(),
-    'watcher': watcher?.toJson(),
+    'traveler_id': travelerId?.toJson(),
+    'watcher_id': watcherId?.toJson(),
     'distance': distance,
   };
 
   factory MessageProximityAlertTriggered.fromJson(Map<String, dynamic> json) => MessageProximityAlertTriggered(
-    traveler: b.TdBase.fromJson(json['traveler']) as a.MessageSender?,
-    watcher: b.TdBase.fromJson(json['watcher']) as a.MessageSender?,
+    travelerId: b.TdBase.fromJson(json['traveler_id']) as a.MessageSender?,
+    watcherId: b.TdBase.fromJson(json['watcher_id']) as a.MessageSender?,
     distance: (json['distance'] as int?) ?? 0,
   );
 }
@@ -16234,7 +17000,7 @@ class TextEntityTypeHashtag extends a.TextEntityType {
   );
 }
 
-/// A cashtag text, beginning with "$" and consisting of capital english letters (i.e. "$USD")
+/// A cashtag text, beginning with "$" and consisting of capital English letters (e.g., "$USD")
 class TextEntityTypeCashtag extends a.TextEntityType {
   TextEntityTypeCashtag();
 
@@ -16259,7 +17025,7 @@ class TextEntityTypeCashtag extends a.TextEntityType {
   );
 }
 
-/// A bot command, beginning with "/". This shouldn't be highlighted if there are no bots in the chat
+/// A bot command, beginning with "/"
 class TextEntityTypeBotCommand extends a.TextEntityType {
   TextEntityTypeBotCommand();
 
@@ -16633,6 +17399,39 @@ class TextEntityTypeMentionName extends a.TextEntityType {
   );
 }
 
+/// A media timestamp
+class TextEntityTypeMediaTimestamp extends a.TextEntityType {
+  /// Timestamp from which a video/audio/video note/voice note playing must start, in seconds. The media can be in the content or the web page preview of the current message, or in the same places in the replied message
+  final int mediaTimestamp;
+
+  TextEntityTypeMediaTimestamp({
+    required this.mediaTimestamp,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::TextEntityTypeMediaTimestamp(';
+
+    // Params
+    final params = <String>[];
+    params.add(mediaTimestamp.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'textEntityTypeMediaTimestamp',
+    'media_timestamp': mediaTimestamp,
+  };
+
+  factory TextEntityTypeMediaTimestamp.fromJson(Map<String, dynamic> json) => TextEntityTypeMediaTimestamp(
+    mediaTimestamp: (json['media_timestamp'] as int?) ?? 0,
+  );
+}
+
 /// A thumbnail to be sent along with a file; must be in JPEG or WEBP format for stickers, and less than 200 KB in size
 class InputThumbnail extends a.InputThumbnail {
   /// Thumbnail file to send. Sending thumbnails by file_id is currently not supported
@@ -16742,7 +17541,7 @@ class MessageSendOptions extends a.MessageSendOptions {
   final bool disableNotification;
   /// Pass true if the message is sent from the background
   final bool fromBackground;
-  /// Message scheduling state. Messages sent to a secret chat, live location messages and self-destructing messages can't be scheduled
+  /// Message scheduling state; pass null to send message immediately. Messages sent to a secret chat, live location messages and self-destructing messages can't be scheduled
   final a.MessageSchedulingState? schedulingState;
 
   MessageSendOptions({
@@ -16781,13 +17580,13 @@ class MessageSendOptions extends a.MessageSendOptions {
   );
 }
 
-/// Options to be used when a message content is copied without a link to the original message. Service messages and messageInvoice can't be copied
+/// Options to be used when a message content is copied without reference to the original sender. Service messages and messageInvoice can't be copied
 class MessageCopyOptions extends a.MessageCopyOptions {
-  /// True, if content of the message needs to be copied without a link to the original message. Always true if the message is forwarded to a secret chat
+  /// True, if content of the message needs to be copied without reference to the original sender. Always true if the message is forwarded to a secret chat or is local
   final bool sendCopy;
   /// True, if media caption of the message copy needs to be replaced. Ignored if send_copy is false
   final bool replaceCaption;
-  /// New message caption. Ignored if replace_caption is false
+  /// New message caption; pass null to copy message without caption. Ignored if replace_caption is false
   final FormattedText? newCaption;
 
   MessageCopyOptions({
@@ -16830,9 +17629,9 @@ class MessageCopyOptions extends a.MessageCopyOptions {
 class InputMessageText extends a.InputMessageContent {
   /// Formatted text to be sent; 1-GetOption("message_text_length_max") characters. Only Bold, Italic, Underline, Strikethrough, Code, Pre, PreCode, TextUrl and MentionName entities are allowed to be specified manually
   final FormattedText? text;
-  /// True, if rich web page previews for URLs in the message text should be disabled
+  /// True, if rich web page previews for URLs in the message text must be disabled
   final bool disableWebPagePreview;
-  /// True, if a chat message draft should be deleted
+  /// True, if a chat message draft must be deleted
   final bool clearDraft;
 
   InputMessageText({
@@ -16875,7 +17674,7 @@ class InputMessageText extends a.InputMessageContent {
 class InputMessageAnimation extends a.InputMessageContent {
   /// Animation file to be sent
   final a.InputFile? animation;
-  /// Animation thumbnail, if available
+  /// Animation thumbnail; pass null to skip thumbnail uploading
   final InputThumbnail? thumbnail;
   /// File identifiers of the stickers added to the animation, if applicable
   final List<int> addedStickerFileIds;
@@ -16885,7 +17684,7 @@ class InputMessageAnimation extends a.InputMessageContent {
   final int width;
   /// Height of the animation; may be replaced by the server
   final int height;
-  /// Animation caption; 0-GetOption("message_caption_length_max") characters
+  /// Animation caption; pass null to use an empty caption; 0-GetOption("message_caption_length_max") characters
   final FormattedText? caption;
 
   InputMessageAnimation({
@@ -16944,7 +17743,7 @@ class InputMessageAnimation extends a.InputMessageContent {
 class InputMessageAudio extends a.InputMessageContent {
   /// Audio file to be sent
   final a.InputFile? audio;
-  /// Thumbnail of the cover for the album, if available
+  /// Thumbnail of the cover for the album; pass null to skip thumbnail uploading
   final InputThumbnail? albumCoverThumbnail;
   /// Duration of the audio, in seconds; may be replaced by the server
   final int duration;
@@ -16952,7 +17751,7 @@ class InputMessageAudio extends a.InputMessageContent {
   final String title;
   /// Performer of the audio; 0-64 characters, may be replaced by the server
   final String performer;
-  /// Audio caption; 0-GetOption("message_caption_length_max") characters
+  /// Audio caption; pass null to use an empty caption; 0-GetOption("message_caption_length_max") characters
   final FormattedText? caption;
 
   InputMessageAudio({
@@ -17007,11 +17806,11 @@ class InputMessageAudio extends a.InputMessageContent {
 class InputMessageDocument extends a.InputMessageContent {
   /// Document to be sent
   final a.InputFile? document;
-  /// Document thumbnail, if available
+  /// Document thumbnail; pass null to skip thumbnail uploading
   final InputThumbnail? thumbnail;
   /// If true, automatic file type detection will be disabled and the document will be always sent as file. Always true for files sent to secret chats
   final bool disableContentTypeDetection;
-  /// Document caption; 0-GetOption("message_caption_length_max") characters
+  /// Document caption; pass null to use an empty caption; 0-GetOption("message_caption_length_max") characters
   final FormattedText? caption;
 
   InputMessageDocument({
@@ -17058,7 +17857,7 @@ class InputMessageDocument extends a.InputMessageContent {
 class InputMessagePhoto extends a.InputMessageContent {
   /// Photo to send
   final a.InputFile? photo;
-  /// Photo thumbnail to be sent, this is sent to the other party in secret chats only
+  /// Photo thumbnail to be sent; pass null to skip thumbnail uploading. The thumbnail is sent to the other party only in secret chats
   final InputThumbnail? thumbnail;
   /// File identifiers of the stickers added to the photo, if applicable
   final List<int> addedStickerFileIds;
@@ -17066,7 +17865,7 @@ class InputMessagePhoto extends a.InputMessageContent {
   final int width;
   /// Photo height
   final int height;
-  /// Photo caption; 0-GetOption("message_caption_length_max") characters
+  /// Photo caption; pass null to use an empty caption; 0-GetOption("message_caption_length_max") characters
   final FormattedText? caption;
   /// Photo TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
   final int ttl;
@@ -17127,7 +17926,7 @@ class InputMessagePhoto extends a.InputMessageContent {
 class InputMessageSticker extends a.InputMessageContent {
   /// Sticker to be sent
   final a.InputFile? sticker;
-  /// Sticker thumbnail, if available
+  /// Sticker thumbnail; pass null to skip thumbnail uploading
   final InputThumbnail? thumbnail;
   /// Sticker width
   final int width;
@@ -17184,7 +17983,7 @@ class InputMessageSticker extends a.InputMessageContent {
 class InputMessageVideo extends a.InputMessageContent {
   /// Video to be sent
   final a.InputFile? video;
-  /// Video thumbnail, if available
+  /// Video thumbnail; pass null to skip thumbnail uploading
   final InputThumbnail? thumbnail;
   /// File identifiers of the stickers added to the video, if applicable
   final List<int> addedStickerFileIds;
@@ -17194,9 +17993,9 @@ class InputMessageVideo extends a.InputMessageContent {
   final int width;
   /// Video height
   final int height;
-  /// True, if the video should be tried to be streamed
+  /// True, if the video is supposed to be streamed
   final bool supportsStreaming;
-  /// Video caption; 0-GetOption("message_caption_length_max") characters
+  /// Video caption; pass null to use an empty caption; 0-GetOption("message_caption_length_max") characters
   final FormattedText? caption;
   /// Video TTL (Time To Live), in seconds (0-60). A non-zero TTL can be specified only in private chats
   final int ttl;
@@ -17265,7 +18064,7 @@ class InputMessageVideo extends a.InputMessageContent {
 class InputMessageVideoNote extends a.InputMessageContent {
   /// Video note to be sent
   final a.InputFile? videoNote;
-  /// Video thumbnail, if available
+  /// Video thumbnail; pass null to skip thumbnail uploading
   final InputThumbnail? thumbnail;
   /// Duration of the video, in seconds
   final int duration;
@@ -17320,7 +18119,7 @@ class InputMessageVoiceNote extends a.InputMessageContent {
   final int duration;
   /// Waveform representation of the voice note, in 5-bit format
   final Uint8List waveform;
-  /// Voice note caption; 0-GetOption("message_caption_length_max") characters
+  /// Voice note caption; pass null to use an empty caption; 0-GetOption("message_caption_length_max") characters
   final FormattedText? caption;
 
   InputMessageVoiceNote({
@@ -17367,7 +18166,7 @@ class InputMessageVoiceNote extends a.InputMessageContent {
 class InputMessageLocation extends a.InputMessageContent {
   /// Location to be sent
   final Location? location;
-  /// Period for which the location can be updated, in seconds; should be between 60 and 86400 for a live location and 0 otherwise
+  /// Period for which the location can be updated, in seconds; must be between 60 and 86400 for a live location and 0 otherwise
   final int livePeriod;
   /// For live locations, a direction in which the location moves, in degrees; 1-360. Pass 0 if unknown
   final int heading;
@@ -17484,7 +18283,7 @@ class InputMessageContact extends a.InputMessageContent {
 class InputMessageDice extends a.InputMessageContent {
   /// Emoji on which the dice throw animation is based
   final String emoji;
-  /// True, if a chat message draft should be deleted
+  /// True, if the chat message draft must be deleted
   final bool clearDraft;
 
   InputMessageDice({
@@ -17663,7 +18462,7 @@ class InputMessagePoll extends a.InputMessageContent {
   final a.PollType? type;
   /// Amount of time the poll will be active after creation, in seconds; for bots only
   final int openPeriod;
-  /// Point in time (Unix timestamp) when the poll will be automatically closed; for bots only
+  /// Point in time (Unix timestamp) when the poll will automatically be closed; for bots only
   final int closeDate;
   /// True, if the poll needs to be sent already closed; for bots only
   final bool isClosed;
@@ -17726,9 +18525,9 @@ class InputMessageForwarded extends a.InputMessageContent {
   final int fromChatId;
   /// Identifier of the message to forward
   final int messageId;
-  /// True, if a game message should be shared within a launched game; applies only to game messages
+  /// True, if a game message is being shared from a launched game; applies only to game messages
   final bool inGameShare;
-  /// Options to be used to copy content of the message without a link to the original message
+  /// Options to be used to copy content of the message without reference to the original sender; pass null to try to forward the message as usual
   final MessageCopyOptions? copyOptions;
 
   InputMessageForwarded({
@@ -18018,56 +18817,6 @@ class SearchMessagesFilterChatPhoto extends a.SearchMessagesFilter {
   };
 
   factory SearchMessagesFilterChatPhoto.fromJson(Map<String, dynamic> json) => SearchMessagesFilterChatPhoto(
-  );
-}
-
-/// Returns only call messages
-class SearchMessagesFilterCall extends a.SearchMessagesFilter {
-  SearchMessagesFilterCall();
-
-  @override
-  String toString() {
-    var s = 'td::SearchMessagesFilterCall(';
-
-    // Params
-    final params = <String>[];
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'searchMessagesFilterCall',
-  };
-
-  factory SearchMessagesFilterCall.fromJson(Map<String, dynamic> json) => SearchMessagesFilterCall(
-  );
-}
-
-/// Returns only incoming call messages with missed/declined discard reasons
-class SearchMessagesFilterMissedCall extends a.SearchMessagesFilter {
-  SearchMessagesFilterMissedCall();
-
-  @override
-  String toString() {
-    var s = 'td::SearchMessagesFilterMissedCall(';
-
-    // Params
-    final params = <String>[];
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'searchMessagesFilterMissedCall',
-  };
-
-  factory SearchMessagesFilterMissedCall.fromJson(Map<String, dynamic> json) => SearchMessagesFilterMissedCall(
   );
 }
 
@@ -18428,6 +19177,31 @@ class ChatActionUploadingDocument extends a.ChatAction {
   );
 }
 
+/// The user is picking a sticker to send
+class ChatActionChoosingSticker extends a.ChatAction {
+  ChatActionChoosingSticker();
+
+  @override
+  String toString() {
+    var s = 'td::ChatActionChoosingSticker(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'chatActionChoosingSticker',
+  };
+
+  factory ChatActionChoosingSticker.fromJson(Map<String, dynamic> json) => ChatActionChoosingSticker(
+  );
+}
+
 /// The user is picking a location or venue to send
 class ChatActionChoosingLocation extends a.ChatAction {
   ChatActionChoosingLocation();
@@ -18561,7 +19335,40 @@ class ChatActionUploadingVideoNote extends a.ChatAction {
   );
 }
 
-/// The user has cancelled the previous action
+/// The user is watching animations sent by the other party by clicking on an animated emoji
+class ChatActionWatchingAnimations extends a.ChatAction {
+  /// The animated emoji
+  final String emoji;
+
+  ChatActionWatchingAnimations({
+    required this.emoji,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ChatActionWatchingAnimations(';
+
+    // Params
+    final params = <String>[];
+    params.add(emoji.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'chatActionWatchingAnimations',
+    'emoji': emoji,
+  };
+
+  factory ChatActionWatchingAnimations.fromJson(Map<String, dynamic> json) => ChatActionWatchingAnimations(
+    emoji: (json['emoji'] as String?) ?? '',
+  );
+}
+
+/// The user has canceled the previous action
 class ChatActionCancel extends a.ChatAction {
   ChatActionCancel();
 
@@ -18949,7 +19756,7 @@ class StickerSetInfo extends a.StickerSetInfo {
   final bool isViewed;
   /// Total number of stickers in the set
   final int size;
-  /// Contains up to the first 5 stickers from the set, depending on the context. If the application needs more stickers the full set should be requested
+  /// Up to the first 5 stickers from the set, depending on the context. If the application needs more stickers the full sticker set needs to be requested
   final List<Sticker?> covers;
 
   StickerSetInfo({
@@ -19092,7 +19899,7 @@ class CallDiscardReasonEmpty extends a.CallDiscardReason {
   );
 }
 
-/// The call was ended before the conversation started. It was cancelled by the caller or missed by the other party
+/// The call was ended before the conversation started. It was canceled by the caller or missed by the other party
 class CallDiscardReasonMissed extends a.CallDiscardReason {
   CallDiscardReasonMissed();
 
@@ -19612,9 +20419,9 @@ class CallStateHangingUp extends a.CallState {
 class CallStateDiscarded extends a.CallState {
   /// The reason, why the call has ended
   final a.CallDiscardReason? reason;
-  /// True, if the call rating should be sent to the server
+  /// True, if the call rating must be sent to the server
   final bool needRating;
-  /// True, if the call debug information should be sent to the server
+  /// True, if the call debug information must be sent to the server
   final bool needDebugInformation;
 
   CallStateDiscarded({
@@ -19686,6 +20493,81 @@ class CallStateError extends a.CallState {
   );
 }
 
+/// The worst available video quality
+class GroupCallVideoQualityThumbnail extends a.GroupCallVideoQuality {
+  GroupCallVideoQualityThumbnail();
+
+  @override
+  String toString() {
+    var s = 'td::GroupCallVideoQualityThumbnail(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'groupCallVideoQualityThumbnail',
+  };
+
+  factory GroupCallVideoQualityThumbnail.fromJson(Map<String, dynamic> json) => GroupCallVideoQualityThumbnail(
+  );
+}
+
+/// The medium video quality
+class GroupCallVideoQualityMedium extends a.GroupCallVideoQuality {
+  GroupCallVideoQualityMedium();
+
+  @override
+  String toString() {
+    var s = 'td::GroupCallVideoQualityMedium(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'groupCallVideoQualityMedium',
+  };
+
+  factory GroupCallVideoQualityMedium.fromJson(Map<String, dynamic> json) => GroupCallVideoQualityMedium(
+  );
+}
+
+/// The best available video quality
+class GroupCallVideoQualityFull extends a.GroupCallVideoQuality {
+  GroupCallVideoQualityFull();
+
+  @override
+  String toString() {
+    var s = 'td::GroupCallVideoQualityFull(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'groupCallVideoQualityFull',
+  };
+
+  factory GroupCallVideoQualityFull.fromJson(Map<String, dynamic> json) => GroupCallVideoQualityFull(
+  );
+}
+
 /// Describes a recently speaking participant in a group call
 class GroupCallRecentSpeaker extends a.GroupCallRecentSpeaker {
   /// Group call participant identifier
@@ -19749,13 +20631,21 @@ class GroupCall extends a.GroupCall {
   final bool loadedAllParticipants;
   /// Recently speaking users in the group call
   final List<GroupCallRecentSpeaker?> recentSpeakers;
+  /// True, if the current user's video is enabled
+  final bool isMyVideoEnabled;
+  /// True, if the current user's video is paused
+  final bool isMyVideoPaused;
+  /// True, if the current user can broadcast video or share screen
+  final bool canEnableVideo;
   /// True, if only group call administrators can unmute new participants
   final bool muteNewParticipants;
   /// True, if the current user can enable or disable mute_new_participants setting
-  final bool canChangeMuteNewParticipants;
+  final bool canToggleMuteNewParticipants;
   /// Duration of the ongoing group call recording, in seconds; 0 if none. An updateGroupCall update is not triggered when value of this field changes, but the same recording goes on
   final int recordDuration;
-  /// Call duration; for ended calls only
+  /// True, if a video file is being recorded for the call
+  final bool isVideoRecorded;
+  /// Call duration, in seconds; for ended calls only
   final int duration;
 
   GroupCall({
@@ -19770,9 +20660,13 @@ class GroupCall extends a.GroupCall {
     required this.participantCount,
     required this.loadedAllParticipants,
     required this.recentSpeakers,
+    required this.isMyVideoEnabled,
+    required this.isMyVideoPaused,
+    required this.canEnableVideo,
     required this.muteNewParticipants,
-    required this.canChangeMuteNewParticipants,
+    required this.canToggleMuteNewParticipants,
     required this.recordDuration,
+    required this.isVideoRecorded,
     required this.duration,
   });
 
@@ -19793,9 +20687,13 @@ class GroupCall extends a.GroupCall {
     params.add(participantCount.toString());
     params.add(loadedAllParticipants.toString());
     params.add(recentSpeakers.toString());
+    params.add(isMyVideoEnabled.toString());
+    params.add(isMyVideoPaused.toString());
+    params.add(canEnableVideo.toString());
     params.add(muteNewParticipants.toString());
-    params.add(canChangeMuteNewParticipants.toString());
+    params.add(canToggleMuteNewParticipants.toString());
     params.add(recordDuration.toString());
+    params.add(isVideoRecorded.toString());
     params.add(duration.toString());
     s += params.join(', ');
 
@@ -19817,9 +20715,13 @@ class GroupCall extends a.GroupCall {
     'participant_count': participantCount,
     'loaded_all_participants': loadedAllParticipants,
     'recent_speakers': recentSpeakers.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'is_my_video_enabled': isMyVideoEnabled,
+    'is_my_video_paused': isMyVideoPaused,
+    'can_enable_video': canEnableVideo,
     'mute_new_participants': muteNewParticipants,
-    'can_change_mute_new_participants': canChangeMuteNewParticipants,
+    'can_toggle_mute_new_participants': canToggleMuteNewParticipants,
     'record_duration': recordDuration,
+    'is_video_recorded': isVideoRecorded,
     'duration': duration,
   };
 
@@ -19835,37 +20737,37 @@ class GroupCall extends a.GroupCall {
     participantCount: (json['participant_count'] as int?) ?? 0,
     loadedAllParticipants: (json['loaded_all_participants'] as bool?) ?? false,
     recentSpeakers: json['recent_speakers'] == null ? <GroupCallRecentSpeaker?>[] : (json['recent_speakers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallRecentSpeaker?)).toList(growable: false),
+    isMyVideoEnabled: (json['is_my_video_enabled'] as bool?) ?? false,
+    isMyVideoPaused: (json['is_my_video_paused'] as bool?) ?? false,
+    canEnableVideo: (json['can_enable_video'] as bool?) ?? false,
     muteNewParticipants: (json['mute_new_participants'] as bool?) ?? false,
-    canChangeMuteNewParticipants: (json['can_change_mute_new_participants'] as bool?) ?? false,
+    canToggleMuteNewParticipants: (json['can_toggle_mute_new_participants'] as bool?) ?? false,
     recordDuration: (json['record_duration'] as int?) ?? 0,
+    isVideoRecorded: (json['is_video_recorded'] as bool?) ?? false,
     duration: (json['duration'] as int?) ?? 0,
   );
 }
 
-/// Describes a payload fingerprint for interaction with tgcalls
-class GroupCallPayloadFingerprint extends a.GroupCallPayloadFingerprint {
-  /// Value of the field hash
-  final String hash;
-  /// Value of the field setup
-  final String setup;
-  /// Value of the field fingerprint
-  final String fingerprint;
+/// Describes a group of video synchronization source identifiers
+class GroupCallVideoSourceGroup extends a.GroupCallVideoSourceGroup {
+  /// The semantics of sources, one of "SIM" or "FID"
+  final String semantics;
+  /// The list of synchronization source identifiers
+  final List<int> sourceIds;
 
-  GroupCallPayloadFingerprint({
-    required this.hash,
-    required this.setup,
-    required this.fingerprint,
+  GroupCallVideoSourceGroup({
+    required this.semantics,
+    required this.sourceIds,
   });
 
   @override
   String toString() {
-    var s = 'td::GroupCallPayloadFingerprint(';
+    var s = 'td::GroupCallVideoSourceGroup(';
 
     // Params
     final params = <String>[];
-    params.add(hash.toString());
-    params.add(setup.toString());
-    params.add(fingerprint.toString());
+    params.add(semantics.toString());
+    params.add(sourceIds.toString());
     s += params.join(', ');
 
     s += ')';
@@ -19874,43 +20776,41 @@ class GroupCallPayloadFingerprint extends a.GroupCallPayloadFingerprint {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'groupCallPayloadFingerprint',
-    'hash': hash,
-    'setup': setup,
-    'fingerprint': fingerprint,
+    '@type': 'groupCallVideoSourceGroup',
+    'semantics': semantics,
+    'source_ids': sourceIds.map((_e1) => _e1).toList(growable: false),
   };
 
-  factory GroupCallPayloadFingerprint.fromJson(Map<String, dynamic> json) => GroupCallPayloadFingerprint(
-    hash: (json['hash'] as String?) ?? '',
-    setup: (json['setup'] as String?) ?? '',
-    fingerprint: (json['fingerprint'] as String?) ?? '',
+  factory GroupCallVideoSourceGroup.fromJson(Map<String, dynamic> json) => GroupCallVideoSourceGroup(
+    semantics: (json['semantics'] as String?) ?? '',
+    sourceIds: json['source_ids'] == null ? <int>[] : (json['source_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
-/// Describes a payload for interaction with tgcalls
-class GroupCallPayload extends a.GroupCallPayload {
-  /// Value of the field ufrag
-  final String ufrag;
-  /// Value of the field pwd
-  final String pwd;
-  /// The list of fingerprints
-  final List<GroupCallPayloadFingerprint?> fingerprints;
+/// Contains information about a group call participant's video channel
+class GroupCallParticipantVideoInfo extends a.GroupCallParticipantVideoInfo {
+  /// List of synchronization source groups of the video
+  final List<GroupCallVideoSourceGroup?> sourceGroups;
+  /// Video channel endpoint identifier
+  final String endpointId;
+  /// True if the video is paused. This flag needs to be ignored, if new video frames are received
+  final bool isPaused;
 
-  GroupCallPayload({
-    required this.ufrag,
-    required this.pwd,
-    required this.fingerprints,
+  GroupCallParticipantVideoInfo({
+    required this.sourceGroups,
+    required this.endpointId,
+    required this.isPaused,
   });
 
   @override
   String toString() {
-    var s = 'td::GroupCallPayload(';
+    var s = 'td::GroupCallParticipantVideoInfo(';
 
     // Params
     final params = <String>[];
-    params.add(ufrag.toString());
-    params.add(pwd.toString());
-    params.add(fingerprints.toString());
+    params.add(sourceGroups.toString());
+    params.add(endpointId.toString());
+    params.add(isPaused.toString());
     s += params.join(', ');
 
     s += ')';
@@ -19919,185 +20819,16 @@ class GroupCallPayload extends a.GroupCallPayload {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'groupCallPayload',
-    'ufrag': ufrag,
-    'pwd': pwd,
-    'fingerprints': fingerprints.map((_e1) => _e1?.toJson()).toList(growable: false),
+    '@type': 'groupCallParticipantVideoInfo',
+    'source_groups': sourceGroups.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'endpoint_id': endpointId,
+    'is_paused': isPaused,
   };
 
-  factory GroupCallPayload.fromJson(Map<String, dynamic> json) => GroupCallPayload(
-    ufrag: (json['ufrag'] as String?) ?? '',
-    pwd: (json['pwd'] as String?) ?? '',
-    fingerprints: json['fingerprints'] == null ? <GroupCallPayloadFingerprint?>[] : (json['fingerprints'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallPayloadFingerprint?)).toList(growable: false),
-  );
-}
-
-/// Describes a join response candidate for interaction with tgcalls
-class GroupCallJoinResponseCandidate extends a.GroupCallJoinResponseCandidate {
-  /// Value of the field port
-  final String port;
-  /// Value of the field protocol
-  final String protocol;
-  /// Value of the field network
-  final String network;
-  /// Value of the field generation
-  final String generation;
-  /// Value of the field id
-  final String id;
-  /// Value of the field component
-  final String component;
-  /// Value of the field foundation
-  final String foundation;
-  /// Value of the field priority
-  final String priority;
-  /// Value of the field ip
-  final String ip;
-  /// Value of the field type
-  final String type;
-  /// Value of the field tcp_type
-  final String tcpType;
-  /// Value of the field rel_addr
-  final String relAddr;
-  /// Value of the field rel_port
-  final String relPort;
-
-  GroupCallJoinResponseCandidate({
-    required this.port,
-    required this.protocol,
-    required this.network,
-    required this.generation,
-    required this.id,
-    required this.component,
-    required this.foundation,
-    required this.priority,
-    required this.ip,
-    required this.type,
-    required this.tcpType,
-    required this.relAddr,
-    required this.relPort,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GroupCallJoinResponseCandidate(';
-
-    // Params
-    final params = <String>[];
-    params.add(port.toString());
-    params.add(protocol.toString());
-    params.add(network.toString());
-    params.add(generation.toString());
-    params.add(id.toString());
-    params.add(component.toString());
-    params.add(foundation.toString());
-    params.add(priority.toString());
-    params.add(ip.toString());
-    params.add(type.toString());
-    params.add(tcpType.toString());
-    params.add(relAddr.toString());
-    params.add(relPort.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'groupCallJoinResponseCandidate',
-    'port': port,
-    'protocol': protocol,
-    'network': network,
-    'generation': generation,
-    'id': id,
-    'component': component,
-    'foundation': foundation,
-    'priority': priority,
-    'ip': ip,
-    'type': type,
-    'tcp_type': tcpType,
-    'rel_addr': relAddr,
-    'rel_port': relPort,
-  };
-
-  factory GroupCallJoinResponseCandidate.fromJson(Map<String, dynamic> json) => GroupCallJoinResponseCandidate(
-    port: (json['port'] as String?) ?? '',
-    protocol: (json['protocol'] as String?) ?? '',
-    network: (json['network'] as String?) ?? '',
-    generation: (json['generation'] as String?) ?? '',
-    id: (json['id'] as String?) ?? '',
-    component: (json['component'] as String?) ?? '',
-    foundation: (json['foundation'] as String?) ?? '',
-    priority: (json['priority'] as String?) ?? '',
-    ip: (json['ip'] as String?) ?? '',
-    type: (json['type'] as String?) ?? '',
-    tcpType: (json['tcp_type'] as String?) ?? '',
-    relAddr: (json['rel_addr'] as String?) ?? '',
-    relPort: (json['rel_port'] as String?) ?? '',
-  );
-}
-
-/// Contains data needed to join the group call with WebRTC
-class GroupCallJoinResponseWebrtc extends a.GroupCallJoinResponse {
-  /// Group call payload to pass to tgcalls
-  final GroupCallPayload? payload;
-  /// Join response candidates to pass to tgcalls
-  final List<GroupCallJoinResponseCandidate?> candidates;
-
-  GroupCallJoinResponseWebrtc({
-    required this.payload,
-    required this.candidates,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GroupCallJoinResponseWebrtc(';
-
-    // Params
-    final params = <String>[];
-    params.add(payload.toString());
-    params.add(candidates.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'groupCallJoinResponseWebrtc',
-    'payload': payload?.toJson(),
-    'candidates': candidates.map((_e1) => _e1?.toJson()).toList(growable: false),
-  };
-
-  factory GroupCallJoinResponseWebrtc.fromJson(Map<String, dynamic> json) => GroupCallJoinResponseWebrtc(
-    payload: b.TdBase.fromJson(json['payload']) as GroupCallPayload?,
-    candidates: json['candidates'] == null ? <GroupCallJoinResponseCandidate?>[] : (json['candidates'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallJoinResponseCandidate?)).toList(growable: false),
-  );
-}
-
-/// Describes that group call needs to be joined as a stream
-class GroupCallJoinResponseStream extends a.GroupCallJoinResponse {
-  GroupCallJoinResponseStream();
-
-  @override
-  String toString() {
-    var s = 'td::GroupCallJoinResponseStream(';
-
-    // Params
-    final params = <String>[];
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'groupCallJoinResponseStream',
-  };
-
-  factory GroupCallJoinResponseStream.fromJson(Map<String, dynamic> json) => GroupCallJoinResponseStream(
+  factory GroupCallParticipantVideoInfo.fromJson(Map<String, dynamic> json) => GroupCallParticipantVideoInfo(
+    sourceGroups: json['source_groups'] == null ? <GroupCallVideoSourceGroup?>[] : (json['source_groups'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallVideoSourceGroup?)).toList(growable: false),
+    endpointId: (json['endpoint_id'] as String?) ?? '',
+    isPaused: (json['is_paused'] as bool?) ?? false,
   );
 }
 
@@ -20105,8 +20836,14 @@ class GroupCallJoinResponseStream extends a.GroupCallJoinResponse {
 class GroupCallParticipant extends a.GroupCallParticipant {
   /// Identifier of the group call participant
   final a.MessageSender? participantId;
-  /// User's synchronization source
-  final int source;
+  /// User's audio channel synchronization source identifier
+  final int audioSourceId;
+  /// User's screen sharing audio channel synchronization source identifier
+  final int screenSharingAudioSourceId;
+  /// Information about user's video channel; may be null if there is no active video
+  final GroupCallParticipantVideoInfo? videoInfo;
+  /// Information about user's screen sharing video channel; may be null if there is no active screen sharing video
+  final GroupCallParticipantVideoInfo? screenSharingVideoInfo;
   /// The participant user's bio or the participant chat's description
   final String bio;
   /// True, if the participant is the current user
@@ -20117,7 +20854,7 @@ class GroupCallParticipant extends a.GroupCallParticipant {
   final bool isHandRaised;
   /// True, if the current user can mute the participant for all other group call participants
   final bool canBeMutedForAllUsers;
-  /// True, if the current user can allow the participant to unmute themself or unmute the participant (if the participant is the current user)
+  /// True, if the current user can allow the participant to unmute themselves or unmute the participant (if the participant is the current user)
   final bool canBeUnmutedForAllUsers;
   /// True, if the current user can mute the participant only for self
   final bool canBeMutedForCurrentUser;
@@ -20127,7 +20864,7 @@ class GroupCallParticipant extends a.GroupCallParticipant {
   final bool isMutedForAllUsers;
   /// True, if the participant is muted for the current user
   final bool isMutedForCurrentUser;
-  /// True, if the participant is muted for all users, but can unmute themself
+  /// True, if the participant is muted for all users, but can unmute themselves
   final bool canUnmuteSelf;
   /// Participant's volume level; 1-20000 in hundreds of percents
   final int volumeLevel;
@@ -20136,7 +20873,10 @@ class GroupCallParticipant extends a.GroupCallParticipant {
 
   GroupCallParticipant({
     required this.participantId,
-    required this.source,
+    required this.audioSourceId,
+    required this.screenSharingAudioSourceId,
+    required this.videoInfo,
+    required this.screenSharingVideoInfo,
     required this.bio,
     required this.isCurrentUser,
     required this.isSpeaking,
@@ -20159,7 +20899,10 @@ class GroupCallParticipant extends a.GroupCallParticipant {
     // Params
     final params = <String>[];
     params.add(participantId.toString());
-    params.add(source.toString());
+    params.add(audioSourceId.toString());
+    params.add(screenSharingAudioSourceId.toString());
+    params.add(videoInfo.toString());
+    params.add(screenSharingVideoInfo.toString());
     params.add(bio.toString());
     params.add(isCurrentUser.toString());
     params.add(isSpeaking.toString());
@@ -20183,7 +20926,10 @@ class GroupCallParticipant extends a.GroupCallParticipant {
   Map<String, dynamic> toJson() => {
     '@type': 'groupCallParticipant',
     'participant_id': participantId?.toJson(),
-    'source': source,
+    'audio_source_id': audioSourceId,
+    'screen_sharing_audio_source_id': screenSharingAudioSourceId,
+    'video_info': videoInfo?.toJson(),
+    'screen_sharing_video_info': screenSharingVideoInfo?.toJson(),
     'bio': bio,
     'is_current_user': isCurrentUser,
     'is_speaking': isSpeaking,
@@ -20201,7 +20947,10 @@ class GroupCallParticipant extends a.GroupCallParticipant {
 
   factory GroupCallParticipant.fromJson(Map<String, dynamic> json) => GroupCallParticipant(
     participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    source: (json['source'] as int?) ?? 0,
+    audioSourceId: (json['audio_source_id'] as int?) ?? 0,
+    screenSharingAudioSourceId: (json['screen_sharing_audio_source_id'] as int?) ?? 0,
+    videoInfo: b.TdBase.fromJson(json['video_info']) as GroupCallParticipantVideoInfo?,
+    screenSharingVideoInfo: b.TdBase.fromJson(json['screen_sharing_video_info']) as GroupCallParticipantVideoInfo?,
     bio: (json['bio'] as String?) ?? '',
     isCurrentUser: (json['is_current_user'] as bool?) ?? false,
     isSpeaking: (json['is_speaking'] as bool?) ?? false,
@@ -20502,17 +21251,23 @@ class Call extends a.Call {
 
 /// Contains settings for the authentication of the user's phone number
 class PhoneNumberAuthenticationSettings extends a.PhoneNumberAuthenticationSettings {
-  /// Pass true if the authentication code may be sent via flash call to the specified phone number
+  /// Pass true if the authentication code may be sent via a flash call to the specified phone number
   final bool allowFlashCall;
+  /// Pass true if the authentication code may be sent via a missed call to the specified phone number
+  final bool allowMissedCall;
   /// Pass true if the authenticated phone number is used on the current device
   final bool isCurrentPhoneNumber;
   /// For official applications only. True, if the application can use Android SMS Retriever API (requires Google Play Services >= 10.2) to automatically receive the authentication code from the SMS. See https://developers.google.com/identity/sms-retriever/ for more details
   final bool allowSmsRetrieverApi;
+  /// List of up to 20 authentication tokens, recently received in updateOption("authentication_token") in previously logged out sessions
+  final List<String> authenticationTokens;
 
   PhoneNumberAuthenticationSettings({
     required this.allowFlashCall,
+    required this.allowMissedCall,
     required this.isCurrentPhoneNumber,
     required this.allowSmsRetrieverApi,
+    required this.authenticationTokens,
   });
 
   @override
@@ -20522,8 +21277,10 @@ class PhoneNumberAuthenticationSettings extends a.PhoneNumberAuthenticationSetti
     // Params
     final params = <String>[];
     params.add(allowFlashCall.toString());
+    params.add(allowMissedCall.toString());
     params.add(isCurrentPhoneNumber.toString());
     params.add(allowSmsRetrieverApi.toString());
+    params.add(authenticationTokens.toString());
     s += params.join(', ');
 
     s += ')';
@@ -20534,14 +21291,18 @@ class PhoneNumberAuthenticationSettings extends a.PhoneNumberAuthenticationSetti
   Map<String, dynamic> toJson() => {
     '@type': 'phoneNumberAuthenticationSettings',
     'allow_flash_call': allowFlashCall,
+    'allow_missed_call': allowMissedCall,
     'is_current_phone_number': isCurrentPhoneNumber,
     'allow_sms_retriever_api': allowSmsRetrieverApi,
+    'authentication_tokens': authenticationTokens.map((_e1) => _e1).toList(growable: false),
   };
 
   factory PhoneNumberAuthenticationSettings.fromJson(Map<String, dynamic> json) => PhoneNumberAuthenticationSettings(
     allowFlashCall: (json['allow_flash_call'] as bool?) ?? false,
+    allowMissedCall: (json['allow_missed_call'] as bool?) ?? false,
     isCurrentPhoneNumber: (json['is_current_phone_number'] as bool?) ?? false,
     allowSmsRetrieverApi: (json['allow_sms_retriever_api'] as bool?) ?? false,
+    authenticationTokens: json['authentication_tokens'] == null ? <String>[] : (json['authentication_tokens'] as List<dynamic>).map((e) => ((e as String?) ?? '')).toList(growable: false),
   );
 }
 
@@ -20740,7 +21501,7 @@ class HttpUrl extends a.HttpUrl {
   );
 }
 
-/// Represents a link to an animated GIF or an animated (i.e. without sound) H.264/MPEG-4 AVC video
+/// Represents a link to an animated GIF or an animated (i.e., without sound) H.264/MPEG-4 AVC video
 class InputInlineQueryResultAnimation extends a.InputInlineQueryResult {
   /// Unique identifier of the query result
   final String id;
@@ -20760,7 +21521,7 @@ class InputInlineQueryResultAnimation extends a.InputInlineQueryResult {
   final int videoWidth;
   /// Height of the video
   final int videoHeight;
-  /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+  /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageAnimation, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
   final a.InputMessageContent? inputMessageContent;
@@ -20851,7 +21612,7 @@ class InputInlineQueryResultArticle extends a.InputInlineQueryResult {
   final int thumbnailWidth;
   /// Thumbnail height, if known
   final int thumbnailHeight;
-  /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+  /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
   final a.InputMessageContent? inputMessageContent;
@@ -20932,7 +21693,7 @@ class InputInlineQueryResultAudio extends a.InputInlineQueryResult {
   final String audioUrl;
   /// Audio file duration, in seconds
   final int audioDuration;
-  /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+  /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageAudio, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
   final a.InputMessageContent? inputMessageContent;
@@ -21001,7 +21762,7 @@ class InputInlineQueryResultContact extends a.InputInlineQueryResult {
   final int thumbnailWidth;
   /// Thumbnail height, if known
   final int thumbnailHeight;
-  /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+  /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
   final a.InputMessageContent? inputMessageContent;
@@ -21076,7 +21837,7 @@ class InputInlineQueryResultDocument extends a.InputInlineQueryResult {
   final int thumbnailWidth;
   /// Height of the thumbnail
   final int thumbnailHeight;
-  /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+  /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageDocument, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
   final a.InputMessageContent? inputMessageContent;
@@ -21151,7 +21912,7 @@ class InputInlineQueryResultGame extends a.InputInlineQueryResult {
   final String id;
   /// Short name of the game
   final String gameShortName;
-  /// Message reply markup. Must be of type replyMarkupInlineKeyboard or null
+  /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
 
   InputInlineQueryResultGame({
@@ -21206,7 +21967,7 @@ class InputInlineQueryResultLocation extends a.InputInlineQueryResult {
   final int thumbnailWidth;
   /// Thumbnail height, if known
   final int thumbnailHeight;
-  /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+  /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
   final a.InputMessageContent? inputMessageContent;
@@ -21287,7 +22048,7 @@ class InputInlineQueryResultPhoto extends a.InputInlineQueryResult {
   final int photoWidth;
   /// Height of the photo
   final int photoHeight;
-  /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+  /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessagePhoto, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
   final a.InputMessageContent? inputMessageContent;
@@ -21364,7 +22125,7 @@ class InputInlineQueryResultSticker extends a.InputInlineQueryResult {
   final int stickerWidth;
   /// Height of the sticker
   final int stickerHeight;
-  /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+  /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageSticker, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
   final a.InputMessageContent? inputMessageContent;
@@ -21433,7 +22194,7 @@ class InputInlineQueryResultVenue extends a.InputInlineQueryResult {
   final int thumbnailWidth;
   /// Thumbnail height, if known
   final int thumbnailHeight;
-  /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+  /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
   final a.InputMessageContent? inputMessageContent;
@@ -21510,7 +22271,7 @@ class InputInlineQueryResultVideo extends a.InputInlineQueryResult {
   final int videoHeight;
   /// Video duration, in seconds
   final int videoDuration;
-  /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+  /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVideo, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
   final a.InputMessageContent? inputMessageContent;
@@ -21593,7 +22354,7 @@ class InputInlineQueryResultVoiceNote extends a.InputInlineQueryResult {
   final String voiceNoteUrl;
   /// Duration of the voice note, in seconds
   final int voiceNoteDuration;
-  /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
+  /// The message reply markup; pass null if none. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVoiceNote, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
   final a.InputMessageContent? inputMessageContent;
@@ -22218,7 +22979,7 @@ class InlineQueryResults extends a.InlineQueryResults {
   final String nextOffset;
   /// Results of the query
   final List<a.InlineQueryResult?> results;
-  /// If non-empty, this text should be shown on the button, which opens a private chat with the bot and sends the bot a start message with the switch_pm_parameter
+  /// If non-empty, this text must be shown on the button, which opens a private chat with the bot and sends the bot a start message with the switch_pm_parameter
   final String switchPmText;
   /// Parameter for the bot start message
   final String switchPmParameter;
@@ -22376,7 +23137,7 @@ class CallbackQueryPayloadGame extends a.CallbackQueryPayload {
 class CallbackQueryAnswer extends a.CallbackQueryAnswer {
   /// Text of the answer
   final String text;
-  /// True, if an alert should be shown to the user instead of a toast notification
+  /// True, if an alert must be shown to the user instead of a toast notification
   final bool showAlert;
   /// URL to be opened
   final String url;
@@ -22753,6 +23514,45 @@ class ChatEventMemberJoinedByInviteLink extends a.ChatEventAction {
   };
 
   factory ChatEventMemberJoinedByInviteLink.fromJson(Map<String, dynamic> json) => ChatEventMemberJoinedByInviteLink(
+    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
+  );
+}
+
+/// A new member was accepted to the chat by an administrator
+class ChatEventMemberJoinedByRequest extends a.ChatEventAction {
+  /// User identifier of the chat administrator, approved user join request
+  final int approverUserId;
+  /// Invite link used to join the chat; may be null
+  final ChatInviteLink? inviteLink;
+
+  ChatEventMemberJoinedByRequest({
+    required this.approverUserId,
+    required this.inviteLink,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ChatEventMemberJoinedByRequest(';
+
+    // Params
+    final params = <String>[];
+    params.add(approverUserId.toString());
+    params.add(inviteLink.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'chatEventMemberJoinedByRequest',
+    'approver_user_id': approverUserId,
+    'invite_link': inviteLink?.toJson(),
+  };
+
+  factory ChatEventMemberJoinedByRequest.fromJson(Map<String, dynamic> json) => ChatEventMemberJoinedByRequest(
+    approverUserId: (json['approver_user_id'] as int?) ?? 0,
     inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
   );
 }
@@ -23180,9 +23980,9 @@ class ChatEventLinkedChatChanged extends a.ChatEventAction {
 
 /// The slow_mode_delay setting of a supergroup was changed
 class ChatEventSlowModeDelayChanged extends a.ChatEventAction {
-  /// Previous value of slow_mode_delay
+  /// Previous value of slow_mode_delay, in seconds
   final int oldSlowModeDelay;
-  /// New value of slow_mode_delay
+  /// New value of slow_mode_delay, in seconds
   final int newSlowModeDelay;
 
   ChatEventSlowModeDelayChanged({
@@ -23286,6 +24086,39 @@ class ChatEventSignMessagesToggled extends a.ChatEventAction {
 
   factory ChatEventSignMessagesToggled.fromJson(Map<String, dynamic> json) => ChatEventSignMessagesToggled(
     signMessages: (json['sign_messages'] as bool?) ?? false,
+  );
+}
+
+/// The has_protected_content setting of a channel was toggled
+class ChatEventHasProtectedContentToggled extends a.ChatEventAction {
+  /// New value of has_protected_content
+  final bool hasProtectedContent;
+
+  ChatEventHasProtectedContentToggled({
+    required this.hasProtectedContent,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ChatEventHasProtectedContentToggled(';
+
+    // Params
+    final params = <String>[];
+    params.add(hasProtectedContent.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'chatEventHasProtectedContentToggled',
+    'has_protected_content': hasProtectedContent,
+  };
+
+  factory ChatEventHasProtectedContentToggled.fromJson(Map<String, dynamic> json) => ChatEventHasProtectedContentToggled(
+    hasProtectedContent: (json['has_protected_content'] as bool?) ?? false,
   );
 }
 
@@ -23505,18 +24338,18 @@ class ChatEventInviteLinkDeleted extends a.ChatEventAction {
   );
 }
 
-/// A voice chat was created
-class ChatEventVoiceChatCreated extends a.ChatEventAction {
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+/// A video chat was created
+class ChatEventVideoChatCreated extends a.ChatEventAction {
+  /// Identifier of the video chat. The video chat can be received through the method getGroupCall
   final int groupCallId;
 
-  ChatEventVoiceChatCreated({
+  ChatEventVideoChatCreated({
     required this.groupCallId,
   });
 
   @override
   String toString() {
-    var s = 'td::ChatEventVoiceChatCreated(';
+    var s = 'td::ChatEventVideoChatCreated(';
 
     // Params
     final params = <String>[];
@@ -23529,27 +24362,27 @@ class ChatEventVoiceChatCreated extends a.ChatEventAction {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'chatEventVoiceChatCreated',
+    '@type': 'chatEventVideoChatCreated',
     'group_call_id': groupCallId,
   };
 
-  factory ChatEventVoiceChatCreated.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatCreated(
+  factory ChatEventVideoChatCreated.fromJson(Map<String, dynamic> json) => ChatEventVideoChatCreated(
     groupCallId: (json['group_call_id'] as int?) ?? 0,
   );
 }
 
-/// A voice chat was discarded
-class ChatEventVoiceChatDiscarded extends a.ChatEventAction {
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
+/// A video chat was discarded
+class ChatEventVideoChatDiscarded extends a.ChatEventAction {
+  /// Identifier of the video chat. The video chat can be received through the method getGroupCall
   final int groupCallId;
 
-  ChatEventVoiceChatDiscarded({
+  ChatEventVideoChatDiscarded({
     required this.groupCallId,
   });
 
   @override
   String toString() {
-    var s = 'td::ChatEventVoiceChatDiscarded(';
+    var s = 'td::ChatEventVideoChatDiscarded(';
 
     // Params
     final params = <String>[];
@@ -23562,30 +24395,30 @@ class ChatEventVoiceChatDiscarded extends a.ChatEventAction {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'chatEventVoiceChatDiscarded',
+    '@type': 'chatEventVideoChatDiscarded',
     'group_call_id': groupCallId,
   };
 
-  factory ChatEventVoiceChatDiscarded.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatDiscarded(
+  factory ChatEventVideoChatDiscarded.fromJson(Map<String, dynamic> json) => ChatEventVideoChatDiscarded(
     groupCallId: (json['group_call_id'] as int?) ?? 0,
   );
 }
 
-/// A voice chat participant was muted or unmuted
-class ChatEventVoiceChatParticipantIsMutedToggled extends a.ChatEventAction {
+/// A video chat participant was muted or unmuted
+class ChatEventVideoChatParticipantIsMutedToggled extends a.ChatEventAction {
   /// Identifier of the affected group call participant
   final a.MessageSender? participantId;
   /// New value of is_muted
   final bool isMuted;
 
-  ChatEventVoiceChatParticipantIsMutedToggled({
+  ChatEventVideoChatParticipantIsMutedToggled({
     required this.participantId,
     required this.isMuted,
   });
 
   @override
   String toString() {
-    var s = 'td::ChatEventVoiceChatParticipantIsMutedToggled(';
+    var s = 'td::ChatEventVideoChatParticipantIsMutedToggled(';
 
     // Params
     final params = <String>[];
@@ -23599,32 +24432,32 @@ class ChatEventVoiceChatParticipantIsMutedToggled extends a.ChatEventAction {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'chatEventVoiceChatParticipantIsMutedToggled',
+    '@type': 'chatEventVideoChatParticipantIsMutedToggled',
     'participant_id': participantId?.toJson(),
     'is_muted': isMuted,
   };
 
-  factory ChatEventVoiceChatParticipantIsMutedToggled.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatParticipantIsMutedToggled(
+  factory ChatEventVideoChatParticipantIsMutedToggled.fromJson(Map<String, dynamic> json) => ChatEventVideoChatParticipantIsMutedToggled(
     participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
     isMuted: (json['is_muted'] as bool?) ?? false,
   );
 }
 
-/// A voice chat participant volume level was changed
-class ChatEventVoiceChatParticipantVolumeLevelChanged extends a.ChatEventAction {
+/// A video chat participant volume level was changed
+class ChatEventVideoChatParticipantVolumeLevelChanged extends a.ChatEventAction {
   /// Identifier of the affected group call participant
   final a.MessageSender? participantId;
   /// New value of volume_level; 1-20000 in hundreds of percents
   final int volumeLevel;
 
-  ChatEventVoiceChatParticipantVolumeLevelChanged({
+  ChatEventVideoChatParticipantVolumeLevelChanged({
     required this.participantId,
     required this.volumeLevel,
   });
 
   @override
   String toString() {
-    var s = 'td::ChatEventVoiceChatParticipantVolumeLevelChanged(';
+    var s = 'td::ChatEventVideoChatParticipantVolumeLevelChanged(';
 
     // Params
     final params = <String>[];
@@ -23638,29 +24471,29 @@ class ChatEventVoiceChatParticipantVolumeLevelChanged extends a.ChatEventAction 
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'chatEventVoiceChatParticipantVolumeLevelChanged',
+    '@type': 'chatEventVideoChatParticipantVolumeLevelChanged',
     'participant_id': participantId?.toJson(),
     'volume_level': volumeLevel,
   };
 
-  factory ChatEventVoiceChatParticipantVolumeLevelChanged.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatParticipantVolumeLevelChanged(
+  factory ChatEventVideoChatParticipantVolumeLevelChanged.fromJson(Map<String, dynamic> json) => ChatEventVideoChatParticipantVolumeLevelChanged(
     participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
     volumeLevel: (json['volume_level'] as int?) ?? 0,
   );
 }
 
-/// The mute_new_participants setting of a voice chat was toggled
-class ChatEventVoiceChatMuteNewParticipantsToggled extends a.ChatEventAction {
+/// The mute_new_participants setting of a video chat was toggled
+class ChatEventVideoChatMuteNewParticipantsToggled extends a.ChatEventAction {
   /// New value of the mute_new_participants setting
   final bool muteNewParticipants;
 
-  ChatEventVoiceChatMuteNewParticipantsToggled({
+  ChatEventVideoChatMuteNewParticipantsToggled({
     required this.muteNewParticipants,
   });
 
   @override
   String toString() {
-    var s = 'td::ChatEventVoiceChatMuteNewParticipantsToggled(';
+    var s = 'td::ChatEventVideoChatMuteNewParticipantsToggled(';
 
     // Params
     final params = <String>[];
@@ -23673,11 +24506,11 @@ class ChatEventVoiceChatMuteNewParticipantsToggled extends a.ChatEventAction {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'chatEventVoiceChatMuteNewParticipantsToggled',
+    '@type': 'chatEventVideoChatMuteNewParticipantsToggled',
     'mute_new_participants': muteNewParticipants,
   };
 
-  factory ChatEventVoiceChatMuteNewParticipantsToggled.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatMuteNewParticipantsToggled(
+  factory ChatEventVideoChatMuteNewParticipantsToggled.fromJson(Map<String, dynamic> json) => ChatEventVideoChatMuteNewParticipantsToggled(
     muteNewParticipants: (json['mute_new_participants'] as bool?) ?? false,
   );
 }
@@ -23768,30 +24601,30 @@ class ChatEvents extends a.ChatEvents {
 
 /// Represents a set of filters used to obtain a chat event log
 class ChatEventLogFilters extends a.ChatEventLogFilters {
-  /// True, if message edits should be returned
+  /// True, if message edits need to be returned
   final bool messageEdits;
-  /// True, if message deletions should be returned
+  /// True, if message deletions need to be returned
   final bool messageDeletions;
-  /// True, if pin/unpin events should be returned
+  /// True, if pin/unpin events need to be returned
   final bool messagePins;
-  /// True, if members joining events should be returned
+  /// True, if members joining events need to be returned
   final bool memberJoins;
-  /// True, if members leaving events should be returned
+  /// True, if members leaving events need to be returned
   final bool memberLeaves;
-  /// True, if invited member events should be returned
+  /// True, if invited member events need to be returned
   final bool memberInvites;
-  /// True, if member promotion/demotion events should be returned
+  /// True, if member promotion/demotion events need to be returned
   final bool memberPromotions;
-  /// True, if member restricted/unrestricted/banned/unbanned events should be returned
+  /// True, if member restricted/unrestricted/banned/unbanned events need to be returned
   final bool memberRestrictions;
-  /// True, if changes in chat information should be returned
+  /// True, if changes in chat information need to be returned
   final bool infoChanges;
-  /// True, if changes in chat settings should be returned
+  /// True, if changes in chat settings need to be returned
   final bool settingChanges;
-  /// True, if changes to invite links should be returned
+  /// True, if changes to invite links need to be returned
   final bool inviteLinkChanges;
-  /// True, if voice chat actions should be returned
-  final bool voiceChatChanges;
+  /// True, if video chat actions need to be returned
+  final bool videoChatChanges;
 
   ChatEventLogFilters({
     required this.messageEdits,
@@ -23805,7 +24638,7 @@ class ChatEventLogFilters extends a.ChatEventLogFilters {
     required this.infoChanges,
     required this.settingChanges,
     required this.inviteLinkChanges,
-    required this.voiceChatChanges,
+    required this.videoChatChanges,
   });
 
   @override
@@ -23825,7 +24658,7 @@ class ChatEventLogFilters extends a.ChatEventLogFilters {
     params.add(infoChanges.toString());
     params.add(settingChanges.toString());
     params.add(inviteLinkChanges.toString());
-    params.add(voiceChatChanges.toString());
+    params.add(videoChatChanges.toString());
     s += params.join(', ');
 
     s += ')';
@@ -23846,7 +24679,7 @@ class ChatEventLogFilters extends a.ChatEventLogFilters {
     'info_changes': infoChanges,
     'setting_changes': settingChanges,
     'invite_link_changes': inviteLinkChanges,
-    'voice_chat_changes': voiceChatChanges,
+    'video_chat_changes': videoChatChanges,
   };
 
   factory ChatEventLogFilters.fromJson(Map<String, dynamic> json) => ChatEventLogFilters(
@@ -23861,7 +24694,7 @@ class ChatEventLogFilters extends a.ChatEventLogFilters {
     infoChanges: (json['info_changes'] as bool?) ?? false,
     settingChanges: (json['setting_changes'] as bool?) ?? false,
     inviteLinkChanges: (json['invite_link_changes'] as bool?) ?? false,
-    voiceChatChanges: (json['voice_chat_changes'] as bool?) ?? false,
+    videoChatChanges: (json['video_chat_changes'] as bool?) ?? false,
   );
 }
 
@@ -23961,7 +24794,7 @@ class LanguagePackStringValuePluralized extends a.LanguagePackStringValue {
   );
 }
 
-/// A deleted language pack string, the value should be taken from the built-in english language pack
+/// A deleted language pack string, the value must be taken from the built-in English language pack
 class LanguagePackStringValueDeleted extends a.LanguagePackStringValue {
   LanguagePackStringValueDeleted();
 
@@ -23990,7 +24823,7 @@ class LanguagePackStringValueDeleted extends a.LanguagePackStringValue {
 class LanguagePackString extends a.LanguagePackString {
   /// String key
   final String key;
-  /// String value
+  /// String value; pass null if the string needs to be taken from the built-in English language pack
   final a.LanguagePackStringValue? value;
 
   LanguagePackString({
@@ -24062,7 +24895,7 @@ class LanguagePackStrings extends a.LanguagePackStrings {
 class LanguagePackInfo extends a.LanguagePackInfo {
   /// Unique language pack identifier
   final String id;
-  /// Identifier of a base language pack; may be empty. If a string is missed in the language pack, then it should be fetched from base language pack. Unsupported in custom language packs
+  /// Identifier of a base language pack; may be empty. If a string is missed in the language pack, then it must be fetched from base language pack. Unsupported in custom language packs
   final String baseLanguagePackId;
   /// Language name
   final String name;
@@ -24200,7 +25033,7 @@ class LocalizationTargetInfo extends a.LocalizationTargetInfo {
 class DeviceTokenFirebaseCloudMessaging extends a.DeviceToken {
   /// Device registration token; may be empty to de-register a device
   final String token;
-  /// True, if push notifications should be additionally encrypted
+  /// True, if push notifications must be additionally encrypted
   final bool encrypt;
 
   DeviceTokenFirebaseCloudMessaging({
@@ -24280,7 +25113,7 @@ class DeviceTokenApplePushVoIP extends a.DeviceToken {
   final String deviceToken;
   /// True, if App Sandbox is enabled
   final bool isAppSandbox;
-  /// True, if push notifications should be additionally encrypted
+  /// True, if push notifications must be additionally encrypted
   final bool encrypt;
 
   DeviceTokenApplePushVoIP({
@@ -24667,7 +25500,7 @@ class BackgroundFillGradient extends a.BackgroundFill {
   final int topColor;
   /// A bottom color of the background in the RGB24 format
   final int bottomColor;
-  /// Clockwise rotation angle of the gradient, in degrees; 0-359. Should be always divisible by 45
+  /// Clockwise rotation angle of the gradient, in degrees; 0-359. Must be always divisible by 45
   final int rotationAngle;
 
   BackgroundFillGradient({
@@ -24703,6 +25536,39 @@ class BackgroundFillGradient extends a.BackgroundFill {
     topColor: (json['top_color'] as int?) ?? 0,
     bottomColor: (json['bottom_color'] as int?) ?? 0,
     rotationAngle: (json['rotation_angle'] as int?) ?? 0,
+  );
+}
+
+/// Describes a freeform gradient fill of a background
+class BackgroundFillFreeformGradient extends a.BackgroundFill {
+  /// A list of 3 or 4 colors of the freeform gradients in the RGB24 format
+  final List<int> colors;
+
+  BackgroundFillFreeformGradient({
+    required this.colors,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::BackgroundFillFreeformGradient(';
+
+    // Params
+    final params = <String>[];
+    params.add(colors.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'backgroundFillFreeformGradient',
+    'colors': colors.map((_e1) => _e1).toList(growable: false),
+  };
+
+  factory BackgroundFillFreeformGradient.fromJson(Map<String, dynamic> json) => BackgroundFillFreeformGradient(
+    colors: json['colors'] == null ? <int>[] : (json['colors'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -24747,16 +25613,19 @@ class BackgroundTypeWallpaper extends a.BackgroundType {
 
 /// A PNG or TGV (gzipped subset of SVG with MIME type "application/x-tgwallpattern") pattern to be combined with the background fill chosen by the user
 class BackgroundTypePattern extends a.BackgroundType {
-  /// Description of the background fill
+  /// Fill of the background
   final a.BackgroundFill? fill;
-  /// Intensity of the pattern when it is shown above the filled background; 0-100
+  /// Intensity of the pattern when it is shown above the filled background; 0-100.
   final int intensity;
+  /// True, if the background fill must be applied only to the pattern itself. All other pixels are black in this case. For dark themes only
+  final bool isInverted;
   /// True, if the background needs to be slightly moved when device is tilted
   final bool isMoving;
 
   BackgroundTypePattern({
     required this.fill,
     required this.intensity,
+    required this.isInverted,
     required this.isMoving,
   });
 
@@ -24768,6 +25637,7 @@ class BackgroundTypePattern extends a.BackgroundType {
     final params = <String>[];
     params.add(fill.toString());
     params.add(intensity.toString());
+    params.add(isInverted.toString());
     params.add(isMoving.toString());
     s += params.join(', ');
 
@@ -24780,19 +25650,21 @@ class BackgroundTypePattern extends a.BackgroundType {
     '@type': 'backgroundTypePattern',
     'fill': fill?.toJson(),
     'intensity': intensity,
+    'is_inverted': isInverted,
     'is_moving': isMoving,
   };
 
   factory BackgroundTypePattern.fromJson(Map<String, dynamic> json) => BackgroundTypePattern(
     fill: b.TdBase.fromJson(json['fill']) as a.BackgroundFill?,
     intensity: (json['intensity'] as int?) ?? 0,
+    isInverted: (json['is_inverted'] as bool?) ?? false,
     isMoving: (json['is_moving'] as bool?) ?? false,
   );
 }
 
 /// A filled background
 class BackgroundTypeFill extends a.BackgroundType {
-  /// Description of the background fill
+  /// The background fill
   final a.BackgroundFill? fill;
 
   BackgroundTypeFill({
@@ -24982,6 +25854,108 @@ class InputBackgroundRemote extends a.InputBackground {
 
   factory InputBackgroundRemote.fromJson(Map<String, dynamic> json) => InputBackgroundRemote(
     backgroundId: int.parse(json['background_id'] ?? '0'),
+  );
+}
+
+/// Describes theme settings
+class ThemeSettings extends a.ThemeSettings {
+  /// Theme accent color in ARGB format
+  final int accentColor;
+  /// The background to be used in chats; may be null
+  final Background? background;
+  /// The fill to be used as a background for outgoing messages
+  final a.BackgroundFill? outgoingMessageFill;
+  /// If true, the freeform gradient fill needs to be animated on every sent message
+  final bool animateOutgoingMessageFill;
+  /// Accent color of outgoing messages in ARGB format
+  final int outgoingMessageAccentColor;
+
+  ThemeSettings({
+    required this.accentColor,
+    required this.background,
+    required this.outgoingMessageFill,
+    required this.animateOutgoingMessageFill,
+    required this.outgoingMessageAccentColor,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ThemeSettings(';
+
+    // Params
+    final params = <String>[];
+    params.add(accentColor.toString());
+    params.add(background.toString());
+    params.add(outgoingMessageFill.toString());
+    params.add(animateOutgoingMessageFill.toString());
+    params.add(outgoingMessageAccentColor.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'themeSettings',
+    'accent_color': accentColor,
+    'background': background?.toJson(),
+    'outgoing_message_fill': outgoingMessageFill?.toJson(),
+    'animate_outgoing_message_fill': animateOutgoingMessageFill,
+    'outgoing_message_accent_color': outgoingMessageAccentColor,
+  };
+
+  factory ThemeSettings.fromJson(Map<String, dynamic> json) => ThemeSettings(
+    accentColor: (json['accent_color'] as int?) ?? 0,
+    background: b.TdBase.fromJson(json['background']) as Background?,
+    outgoingMessageFill: b.TdBase.fromJson(json['outgoing_message_fill']) as a.BackgroundFill?,
+    animateOutgoingMessageFill: (json['animate_outgoing_message_fill'] as bool?) ?? false,
+    outgoingMessageAccentColor: (json['outgoing_message_accent_color'] as int?) ?? 0,
+  );
+}
+
+/// Describes a chat theme
+class ChatTheme extends a.ChatTheme {
+  /// Theme name
+  final String name;
+  /// Theme settings for a light chat theme
+  final ThemeSettings? lightSettings;
+  /// Theme settings for a dark chat theme
+  final ThemeSettings? darkSettings;
+
+  ChatTheme({
+    required this.name,
+    required this.lightSettings,
+    required this.darkSettings,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ChatTheme(';
+
+    // Params
+    final params = <String>[];
+    params.add(name.toString());
+    params.add(lightSettings.toString());
+    params.add(darkSettings.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'chatTheme',
+    'name': name,
+    'light_settings': lightSettings?.toJson(),
+    'dark_settings': darkSettings?.toJson(),
+  };
+
+  factory ChatTheme.fromJson(Map<String, dynamic> json) => ChatTheme(
+    name: (json['name'] as String?) ?? '',
+    lightSettings: b.TdBase.fromJson(json['light_settings']) as ThemeSettings?,
+    darkSettings: b.TdBase.fromJson(json['dark_settings']) as ThemeSettings?,
   );
 }
 
@@ -25209,7 +26183,7 @@ class CheckChatUsernameResultUsernameOccupied extends a.CheckChatUsernameResult 
   );
 }
 
-/// The user has too much chats with username, one of them should be made private first
+/// The user has too much chats with username, one of them must be made private first
 class CheckChatUsernameResultPublicChatsTooMuch extends a.CheckChatUsernameResult {
   CheckChatUsernameResultPublicChatsTooMuch();
 
@@ -25256,6 +26230,172 @@ class CheckChatUsernameResultPublicGroupsUnavailable extends a.CheckChatUsername
   };
 
   factory CheckChatUsernameResultPublicGroupsUnavailable.fromJson(Map<String, dynamic> json) => CheckChatUsernameResultPublicGroupsUnavailable(
+  );
+}
+
+/// The name can be set
+class CheckStickerSetNameResultOk extends a.CheckStickerSetNameResult {
+  CheckStickerSetNameResultOk();
+
+  @override
+  String toString() {
+    var s = 'td::CheckStickerSetNameResultOk(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'checkStickerSetNameResultOk',
+  };
+
+  factory CheckStickerSetNameResultOk.fromJson(Map<String, dynamic> json) => CheckStickerSetNameResultOk(
+  );
+}
+
+/// The name is invalid
+class CheckStickerSetNameResultNameInvalid extends a.CheckStickerSetNameResult {
+  CheckStickerSetNameResultNameInvalid();
+
+  @override
+  String toString() {
+    var s = 'td::CheckStickerSetNameResultNameInvalid(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'checkStickerSetNameResultNameInvalid',
+  };
+
+  factory CheckStickerSetNameResultNameInvalid.fromJson(Map<String, dynamic> json) => CheckStickerSetNameResultNameInvalid(
+  );
+}
+
+/// The name is occupied
+class CheckStickerSetNameResultNameOccupied extends a.CheckStickerSetNameResult {
+  CheckStickerSetNameResultNameOccupied();
+
+  @override
+  String toString() {
+    var s = 'td::CheckStickerSetNameResultNameOccupied(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'checkStickerSetNameResultNameOccupied',
+  };
+
+  factory CheckStickerSetNameResultNameOccupied.fromJson(Map<String, dynamic> json) => CheckStickerSetNameResultNameOccupied(
+  );
+}
+
+/// The password was reset
+class ResetPasswordResultOk extends a.ResetPasswordResult {
+  ResetPasswordResultOk();
+
+  @override
+  String toString() {
+    var s = 'td::ResetPasswordResultOk(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'resetPasswordResultOk',
+  };
+
+  factory ResetPasswordResultOk.fromJson(Map<String, dynamic> json) => ResetPasswordResultOk(
+  );
+}
+
+/// The password reset request is pending
+class ResetPasswordResultPending extends a.ResetPasswordResult {
+  /// Point in time (Unix timestamp) after which the password can be reset immediately using resetPassword
+  final int pendingResetDate;
+
+  ResetPasswordResultPending({
+    required this.pendingResetDate,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ResetPasswordResultPending(';
+
+    // Params
+    final params = <String>[];
+    params.add(pendingResetDate.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'resetPasswordResultPending',
+    'pending_reset_date': pendingResetDate,
+  };
+
+  factory ResetPasswordResultPending.fromJson(Map<String, dynamic> json) => ResetPasswordResultPending(
+    pendingResetDate: (json['pending_reset_date'] as int?) ?? 0,
+  );
+}
+
+/// The password reset request was declined
+class ResetPasswordResultDeclined extends a.ResetPasswordResult {
+  /// Point in time (Unix timestamp) when the password reset can be retried
+  final int retryDate;
+
+  ResetPasswordResultDeclined({
+    required this.retryDate,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ResetPasswordResultDeclined(';
+
+    // Params
+    final params = <String>[];
+    params.add(retryDate.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'resetPasswordResultDeclined',
+    'retry_date': retryDate,
+  };
+
+  factory ResetPasswordResultDeclined.fromJson(Map<String, dynamic> json) => ResetPasswordResultDeclined(
+    retryDate: (json['retry_date'] as int?) ?? 0,
   );
 }
 
@@ -26097,7 +27237,7 @@ class PushMessageContentChatAddMembers extends a.PushMessageContent {
   final String memberName;
   /// True, if the current user was added to the group
   final bool isCurrentUser;
-  /// True, if the user has returned to the group themself
+  /// True, if the user has returned to the group themselves
   final bool isReturned;
 
   PushMessageContentChatAddMembers({
@@ -26194,13 +27334,46 @@ class PushMessageContentChatChangeTitle extends a.PushMessageContent {
   );
 }
 
+/// A chat theme was edited
+class PushMessageContentChatSetTheme extends a.PushMessageContent {
+  /// If non-empty, name of a new theme, set for the chat. Otherwise chat theme was reset to the default one
+  final String themeName;
+
+  PushMessageContentChatSetTheme({
+    required this.themeName,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::PushMessageContentChatSetTheme(';
+
+    // Params
+    final params = <String>[];
+    params.add(themeName.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'pushMessageContentChatSetTheme',
+    'theme_name': themeName,
+  };
+
+  factory PushMessageContentChatSetTheme.fromJson(Map<String, dynamic> json) => PushMessageContentChatSetTheme(
+    themeName: (json['theme_name'] as String?) ?? '',
+  );
+}
+
 /// A chat member was deleted
 class PushMessageContentChatDeleteMember extends a.PushMessageContent {
   /// Name of the deleted member
   final String memberName;
   /// True, if the current user was deleted from the group
   final bool isCurrentUser;
-  /// True, if the user has left the group themself
+  /// True, if the user has left the group themselves
   final bool isLeft;
 
   PushMessageContentChatDeleteMember({
@@ -26261,6 +27434,31 @@ class PushMessageContentChatJoinByLink extends a.PushMessageContent {
   };
 
   factory PushMessageContentChatJoinByLink.fromJson(Map<String, dynamic> json) => PushMessageContentChatJoinByLink(
+  );
+}
+
+/// A new member was accepted to the chat by an administrator
+class PushMessageContentChatJoinByRequest extends a.PushMessageContent {
+  PushMessageContentChatJoinByRequest();
+
+  @override
+  String toString() {
+    var s = 'td::PushMessageContentChatJoinByRequest(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'pushMessageContentChatJoinByRequest',
+  };
+
+  factory PushMessageContentChatJoinByRequest.fromJson(Map<String, dynamic> json) => PushMessageContentChatJoinByRequest(
   );
 }
 
@@ -26449,8 +27647,8 @@ class NotificationTypeNewCall extends a.NotificationType {
 class NotificationTypeNewPushMessage extends a.NotificationType {
   /// The message identifier. The message will not be available in the chat history, but the ID can be used in viewMessages, or as reply_to_message_id
   final int messageId;
-  /// The sender of the message. Corresponding user or chat may be inaccessible
-  final a.MessageSender? sender;
+  /// Identifier of the sender of the message. Corresponding user or chat may be inaccessible
+  final a.MessageSender? senderId;
   /// Name of the sender
   final String senderName;
   /// True, if the message is outgoing
@@ -26460,7 +27658,7 @@ class NotificationTypeNewPushMessage extends a.NotificationType {
 
   NotificationTypeNewPushMessage({
     required this.messageId,
-    required this.sender,
+    required this.senderId,
     required this.senderName,
     required this.isOutgoing,
     required this.content,
@@ -26473,7 +27671,7 @@ class NotificationTypeNewPushMessage extends a.NotificationType {
     // Params
     final params = <String>[];
     params.add(messageId.toString());
-    params.add(sender.toString());
+    params.add(senderId.toString());
     params.add(senderName.toString());
     params.add(isOutgoing.toString());
     params.add(content.toString());
@@ -26487,7 +27685,7 @@ class NotificationTypeNewPushMessage extends a.NotificationType {
   Map<String, dynamic> toJson() => {
     '@type': 'notificationTypeNewPushMessage',
     'message_id': messageId,
-    'sender': sender?.toJson(),
+    'sender_id': senderId?.toJson(),
     'sender_name': senderName,
     'is_outgoing': isOutgoing,
     'content': content?.toJson(),
@@ -26495,7 +27693,7 @@ class NotificationTypeNewPushMessage extends a.NotificationType {
 
   factory NotificationTypeNewPushMessage.fromJson(Map<String, dynamic> json) => NotificationTypeNewPushMessage(
     messageId: (json['message_id'] as int?) ?? 0,
-    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
+    senderId: b.TdBase.fromJson(json['sender_id']) as a.MessageSender?,
     senderName: (json['sender_name'] as String?) ?? '',
     isOutgoing: (json['is_outgoing'] as bool?) ?? false,
     content: b.TdBase.fromJson(json['content']) as a.PushMessageContent?,
@@ -27530,7 +28728,7 @@ class UserPrivacySettingAllowFindingByPhoneNumber extends a.UserPrivacySetting {
 
 /// Contains information about the period of inactivity after which the current user's account will automatically be deleted
 class AccountTtl extends a.AccountTtl {
-  /// Number of days of inactivity before the account will be flagged for deletion; should range from 30-366 days
+  /// Number of days of inactivity before the account will be flagged for deletion; 30-366 days
   final int days;
 
   AccountTtl({
@@ -27561,7 +28759,7 @@ class AccountTtl extends a.AccountTtl {
   );
 }
 
-/// Contains information about one session in a Telegram application used by the current user. Sessions should be shown to the user in the returned order
+/// Contains information about one session in a Telegram application used by the current user. Sessions must be shown to the user in the returned order
 class Session extends a.Session {
   /// Session identifier
   final int id;
@@ -27569,6 +28767,10 @@ class Session extends a.Session {
   final bool isCurrent;
   /// True, if a password is needed to complete authorization of the session
   final bool isPasswordPending;
+  /// True, if incoming secret chats can be accepted by the session
+  final bool canAcceptSecretChats;
+  /// True, if incoming calls can be accepted by the session
+  final bool canAcceptCalls;
   /// Telegram API identifier, as provided by the application
   final int apiId;
   /// Name of the application, as provided by the application
@@ -27598,6 +28800,8 @@ class Session extends a.Session {
     required this.id,
     required this.isCurrent,
     required this.isPasswordPending,
+    required this.canAcceptSecretChats,
+    required this.canAcceptCalls,
     required this.apiId,
     required this.applicationName,
     required this.applicationVersion,
@@ -27621,6 +28825,8 @@ class Session extends a.Session {
     params.add(id.toString());
     params.add(isCurrent.toString());
     params.add(isPasswordPending.toString());
+    params.add(canAcceptSecretChats.toString());
+    params.add(canAcceptCalls.toString());
     params.add(apiId.toString());
     params.add(applicationName.toString());
     params.add(applicationVersion.toString());
@@ -27645,6 +28851,8 @@ class Session extends a.Session {
     'id': id.toString(),
     'is_current': isCurrent,
     'is_password_pending': isPasswordPending,
+    'can_accept_secret_chats': canAcceptSecretChats,
+    'can_accept_calls': canAcceptCalls,
     'api_id': apiId,
     'application_name': applicationName,
     'application_version': applicationVersion,
@@ -27663,6 +28871,8 @@ class Session extends a.Session {
     id: int.parse(json['id'] ?? '0'),
     isCurrent: (json['is_current'] as bool?) ?? false,
     isPasswordPending: (json['is_password_pending'] as bool?) ?? false,
+    canAcceptSecretChats: (json['can_accept_secret_chats'] as bool?) ?? false,
+    canAcceptCalls: (json['can_accept_calls'] as bool?) ?? false,
     apiId: (json['api_id'] as int?) ?? 0,
     applicationName: (json['application_name'] as String?) ?? '',
     applicationVersion: (json['application_version'] as String?) ?? '',
@@ -27682,9 +28892,12 @@ class Session extends a.Session {
 class Sessions extends a.Sessions {
   /// List of sessions
   final List<Session?> sessions;
+  /// Number of days of inactivity before sessions will automatically be terminated; 1-366 days
+  final int inactiveSessionTtlDays;
 
   Sessions({
     required this.sessions,
+    required this.inactiveSessionTtlDays,
   });
 
   @override
@@ -27694,6 +28907,7 @@ class Sessions extends a.Sessions {
     // Params
     final params = <String>[];
     params.add(sessions.toString());
+    params.add(inactiveSessionTtlDays.toString());
     s += params.join(', ');
 
     s += ')';
@@ -27704,10 +28918,12 @@ class Sessions extends a.Sessions {
   Map<String, dynamic> toJson() => {
     '@type': 'sessions',
     'sessions': sessions.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'inactive_session_ttl_days': inactiveSessionTtlDays,
   };
 
   factory Sessions.fromJson(Map<String, dynamic> json) => Sessions(
     sessions: json['sessions'] == null ? <Session?>[] : (json['sessions'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as Session?)).toList(growable: false),
+    inactiveSessionTtlDays: (json['inactive_session_ttl_days'] as int?) ?? 0,
   );
 }
 
@@ -28025,6 +29241,820 @@ class ChatReportReasonCustom extends a.ChatReportReason {
   );
 }
 
+/// The link is a link to the active sessions section of the app. Use getActiveSessions to handle the link
+class InternalLinkTypeActiveSessions extends a.InternalLinkType {
+  InternalLinkTypeActiveSessions();
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeActiveSessions(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeActiveSessions',
+  };
+
+  factory InternalLinkTypeActiveSessions.fromJson(Map<String, dynamic> json) => InternalLinkTypeActiveSessions(
+  );
+}
+
+/// The link contains an authentication code. Call checkAuthenticationCode with the code if the current authorization state is authorizationStateWaitCode
+class InternalLinkTypeAuthenticationCode extends a.InternalLinkType {
+  /// The authentication code
+  final String code;
+
+  InternalLinkTypeAuthenticationCode({
+    required this.code,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeAuthenticationCode(';
+
+    // Params
+    final params = <String>[];
+    params.add(code.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeAuthenticationCode',
+    'code': code,
+  };
+
+  factory InternalLinkTypeAuthenticationCode.fromJson(Map<String, dynamic> json) => InternalLinkTypeAuthenticationCode(
+    code: (json['code'] as String?) ?? '',
+  );
+}
+
+/// The link is a link to a background. Call searchBackground with the given background name to process the link
+class InternalLinkTypeBackground extends a.InternalLinkType {
+  /// Name of the background
+  final String backgroundName;
+
+  InternalLinkTypeBackground({
+    required this.backgroundName,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeBackground(';
+
+    // Params
+    final params = <String>[];
+    params.add(backgroundName.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeBackground',
+    'background_name': backgroundName,
+  };
+
+  factory InternalLinkTypeBackground.fromJson(Map<String, dynamic> json) => InternalLinkTypeBackground(
+    backgroundName: (json['background_name'] as String?) ?? '',
+  );
+}
+
+/// The link is a link to a chat with a Telegram bot. Call searchPublicChat with the given bot username, check that the user is a bot, show START button in the chat with the bot,
+class InternalLinkTypeBotStart extends a.InternalLinkType {
+  /// Username of the bot
+  final String botUsername;
+  /// The parameter to be passed to sendBotStartMessage
+  final String startParameter;
+
+  InternalLinkTypeBotStart({
+    required this.botUsername,
+    required this.startParameter,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeBotStart(';
+
+    // Params
+    final params = <String>[];
+    params.add(botUsername.toString());
+    params.add(startParameter.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeBotStart',
+    'bot_username': botUsername,
+    'start_parameter': startParameter,
+  };
+
+  factory InternalLinkTypeBotStart.fromJson(Map<String, dynamic> json) => InternalLinkTypeBotStart(
+    botUsername: (json['bot_username'] as String?) ?? '',
+    startParameter: (json['start_parameter'] as String?) ?? '',
+  );
+}
+
+/// The link is a link to a Telegram bot, which is supposed to be added to a group chat. Call searchPublicChat with the given bot username, check that the user is a bot and can be added to groups,
+class InternalLinkTypeBotStartInGroup extends a.InternalLinkType {
+  /// Username of the bot
+  final String botUsername;
+  /// The parameter to be passed to sendBotStartMessage
+  final String startParameter;
+
+  InternalLinkTypeBotStartInGroup({
+    required this.botUsername,
+    required this.startParameter,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeBotStartInGroup(';
+
+    // Params
+    final params = <String>[];
+    params.add(botUsername.toString());
+    params.add(startParameter.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeBotStartInGroup',
+    'bot_username': botUsername,
+    'start_parameter': startParameter,
+  };
+
+  factory InternalLinkTypeBotStartInGroup.fromJson(Map<String, dynamic> json) => InternalLinkTypeBotStartInGroup(
+    botUsername: (json['bot_username'] as String?) ?? '',
+    startParameter: (json['start_parameter'] as String?) ?? '',
+  );
+}
+
+/// The link is a link to the change phone number section of the app
+class InternalLinkTypeChangePhoneNumber extends a.InternalLinkType {
+  InternalLinkTypeChangePhoneNumber();
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeChangePhoneNumber(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeChangePhoneNumber',
+  };
+
+  factory InternalLinkTypeChangePhoneNumber.fromJson(Map<String, dynamic> json) => InternalLinkTypeChangePhoneNumber(
+  );
+}
+
+/// The link is a chat invite link. Call checkChatInviteLink with the given invite link to process the link
+class InternalLinkTypeChatInvite extends a.InternalLinkType {
+  /// Internal representation of the invite link
+  final String inviteLink;
+
+  InternalLinkTypeChatInvite({
+    required this.inviteLink,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeChatInvite(';
+
+    // Params
+    final params = <String>[];
+    params.add(inviteLink.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeChatInvite',
+    'invite_link': inviteLink,
+  };
+
+  factory InternalLinkTypeChatInvite.fromJson(Map<String, dynamic> json) => InternalLinkTypeChatInvite(
+    inviteLink: (json['invite_link'] as String?) ?? '',
+  );
+}
+
+/// The link is a link to the filter settings section of the app
+class InternalLinkTypeFilterSettings extends a.InternalLinkType {
+  InternalLinkTypeFilterSettings();
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeFilterSettings(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeFilterSettings',
+  };
+
+  factory InternalLinkTypeFilterSettings.fromJson(Map<String, dynamic> json) => InternalLinkTypeFilterSettings(
+  );
+}
+
+/// The link is a link to a game. Call searchPublicChat with the given bot username, check that the user is a bot, ask the current user to select a chat to send the game, and then call sendMessage with inputMessageGame
+class InternalLinkTypeGame extends a.InternalLinkType {
+  /// Username of the bot that owns the game
+  final String botUsername;
+  /// Short name of the game
+  final String gameShortName;
+
+  InternalLinkTypeGame({
+    required this.botUsername,
+    required this.gameShortName,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeGame(';
+
+    // Params
+    final params = <String>[];
+    params.add(botUsername.toString());
+    params.add(gameShortName.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeGame',
+    'bot_username': botUsername,
+    'game_short_name': gameShortName,
+  };
+
+  factory InternalLinkTypeGame.fromJson(Map<String, dynamic> json) => InternalLinkTypeGame(
+    botUsername: (json['bot_username'] as String?) ?? '',
+    gameShortName: (json['game_short_name'] as String?) ?? '',
+  );
+}
+
+/// The link is a link to a language pack. Call getLanguagePackInfo with the given language pack identifier to process the link
+class InternalLinkTypeLanguagePack extends a.InternalLinkType {
+  /// Language pack identifier
+  final String languagePackId;
+
+  InternalLinkTypeLanguagePack({
+    required this.languagePackId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeLanguagePack(';
+
+    // Params
+    final params = <String>[];
+    params.add(languagePackId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeLanguagePack',
+    'language_pack_id': languagePackId,
+  };
+
+  factory InternalLinkTypeLanguagePack.fromJson(Map<String, dynamic> json) => InternalLinkTypeLanguagePack(
+    languagePackId: (json['language_pack_id'] as String?) ?? '',
+  );
+}
+
+/// The link is a link to a Telegram message. Call getMessageLinkInfo with the given URL to process the link
+class InternalLinkTypeMessage extends a.InternalLinkType {
+  /// URL to be passed to getMessageLinkInfo
+  final String url;
+
+  InternalLinkTypeMessage({
+    required this.url,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(url.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeMessage',
+    'url': url,
+  };
+
+  factory InternalLinkTypeMessage.fromJson(Map<String, dynamic> json) => InternalLinkTypeMessage(
+    url: (json['url'] as String?) ?? '',
+  );
+}
+
+/// The link contains a message draft text. A share screen needs to be shown to the user, then the chosen chat must be opened and the text is added to the input field
+class InternalLinkTypeMessageDraft extends a.InternalLinkType {
+  /// Message draft text
+  final FormattedText? text;
+  /// True, if the first line of the text contains a link. If true, the input field needs to be focused and the text after the link must be selected
+  final bool containsLink;
+
+  InternalLinkTypeMessageDraft({
+    required this.text,
+    required this.containsLink,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeMessageDraft(';
+
+    // Params
+    final params = <String>[];
+    params.add(text.toString());
+    params.add(containsLink.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeMessageDraft',
+    'text': text?.toJson(),
+    'contains_link': containsLink,
+  };
+
+  factory InternalLinkTypeMessageDraft.fromJson(Map<String, dynamic> json) => InternalLinkTypeMessageDraft(
+    text: b.TdBase.fromJson(json['text']) as FormattedText?,
+    containsLink: (json['contains_link'] as bool?) ?? false,
+  );
+}
+
+/// The link contains a request of Telegram passport data. Call getPassportAuthorizationForm with the given parameters to process the link if the link was received from outside of the app, otherwise ignore it
+class InternalLinkTypePassportDataRequest extends a.InternalLinkType {
+  /// User identifier of the service's bot
+  final int botUserId;
+  /// Telegram Passport element types requested by the service
+  final String scope;
+  /// Service's public key
+  final String publicKey;
+  /// Unique request identifier provided by the service
+  final String nonce;
+  /// An HTTP URL to open once the request is finished or canceled with the parameter tg_passport=success or tg_passport=cancel respectively. If empty, then the link tgbot{bot_user_id}://passport/success or tgbot{bot_user_id}://passport/cancel needs to be opened instead
+  final String callbackUrl;
+
+  InternalLinkTypePassportDataRequest({
+    required this.botUserId,
+    required this.scope,
+    required this.publicKey,
+    required this.nonce,
+    required this.callbackUrl,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypePassportDataRequest(';
+
+    // Params
+    final params = <String>[];
+    params.add(botUserId.toString());
+    params.add(scope.toString());
+    params.add(publicKey.toString());
+    params.add(nonce.toString());
+    params.add(callbackUrl.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypePassportDataRequest',
+    'bot_user_id': botUserId,
+    'scope': scope,
+    'public_key': publicKey,
+    'nonce': nonce,
+    'callback_url': callbackUrl,
+  };
+
+  factory InternalLinkTypePassportDataRequest.fromJson(Map<String, dynamic> json) => InternalLinkTypePassportDataRequest(
+    botUserId: (json['bot_user_id'] as int?) ?? 0,
+    scope: (json['scope'] as String?) ?? '',
+    publicKey: (json['public_key'] as String?) ?? '',
+    nonce: (json['nonce'] as String?) ?? '',
+    callbackUrl: (json['callback_url'] as String?) ?? '',
+  );
+}
+
+/// The link can be used to confirm ownership of a phone number to prevent account deletion. Call sendPhoneNumberConfirmationCode with the given hash and phone number to process the link
+class InternalLinkTypePhoneNumberConfirmation extends a.InternalLinkType {
+  /// Hash value from the link
+  final String hash;
+  /// Phone number value from the link
+  final String phoneNumber;
+
+  InternalLinkTypePhoneNumberConfirmation({
+    required this.hash,
+    required this.phoneNumber,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypePhoneNumberConfirmation(';
+
+    // Params
+    final params = <String>[];
+    params.add(hash.toString());
+    params.add(phoneNumber.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypePhoneNumberConfirmation',
+    'hash': hash,
+    'phone_number': phoneNumber,
+  };
+
+  factory InternalLinkTypePhoneNumberConfirmation.fromJson(Map<String, dynamic> json) => InternalLinkTypePhoneNumberConfirmation(
+    hash: (json['hash'] as String?) ?? '',
+    phoneNumber: (json['phone_number'] as String?) ?? '',
+  );
+}
+
+/// The link is a link to a proxy. Call addProxy with the given parameters to process the link and add the proxy
+class InternalLinkTypeProxy extends a.InternalLinkType {
+  /// Proxy server IP address
+  final String server;
+  /// Proxy server port
+  final int port;
+  /// Type of the proxy
+  final a.ProxyType? type;
+
+  InternalLinkTypeProxy({
+    required this.server,
+    required this.port,
+    required this.type,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeProxy(';
+
+    // Params
+    final params = <String>[];
+    params.add(server.toString());
+    params.add(port.toString());
+    params.add(type.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeProxy',
+    'server': server,
+    'port': port,
+    'type': type?.toJson(),
+  };
+
+  factory InternalLinkTypeProxy.fromJson(Map<String, dynamic> json) => InternalLinkTypeProxy(
+    server: (json['server'] as String?) ?? '',
+    port: (json['port'] as int?) ?? 0,
+    type: b.TdBase.fromJson(json['type']) as a.ProxyType?,
+  );
+}
+
+/// The link is a link to a chat by its username. Call searchPublicChat with the given chat username to process the link
+class InternalLinkTypePublicChat extends a.InternalLinkType {
+  /// Username of the chat
+  final String chatUsername;
+
+  InternalLinkTypePublicChat({
+    required this.chatUsername,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypePublicChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatUsername.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypePublicChat',
+    'chat_username': chatUsername,
+  };
+
+  factory InternalLinkTypePublicChat.fromJson(Map<String, dynamic> json) => InternalLinkTypePublicChat(
+    chatUsername: (json['chat_username'] as String?) ?? '',
+  );
+}
+
+/// The link can be used to login the current user on another device, but it must be scanned from QR-code using in-app camera. An alert similar to
+class InternalLinkTypeQrCodeAuthentication extends a.InternalLinkType {
+  InternalLinkTypeQrCodeAuthentication();
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeQrCodeAuthentication(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeQrCodeAuthentication',
+  };
+
+  factory InternalLinkTypeQrCodeAuthentication.fromJson(Map<String, dynamic> json) => InternalLinkTypeQrCodeAuthentication(
+  );
+}
+
+/// The link is a link to app settings
+class InternalLinkTypeSettings extends a.InternalLinkType {
+  InternalLinkTypeSettings();
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeSettings(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeSettings',
+  };
+
+  factory InternalLinkTypeSettings.fromJson(Map<String, dynamic> json) => InternalLinkTypeSettings(
+  );
+}
+
+/// The link is a link to a sticker set. Call searchStickerSet with the given sticker set name to process the link and show the sticker set
+class InternalLinkTypeStickerSet extends a.InternalLinkType {
+  /// Name of the sticker set
+  final String stickerSetName;
+
+  InternalLinkTypeStickerSet({
+    required this.stickerSetName,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeStickerSet(';
+
+    // Params
+    final params = <String>[];
+    params.add(stickerSetName.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeStickerSet',
+    'sticker_set_name': stickerSetName,
+  };
+
+  factory InternalLinkTypeStickerSet.fromJson(Map<String, dynamic> json) => InternalLinkTypeStickerSet(
+    stickerSetName: (json['sticker_set_name'] as String?) ?? '',
+  );
+}
+
+/// The link is a link to a theme. TDLib has no theme support yet
+class InternalLinkTypeTheme extends a.InternalLinkType {
+  /// Name of the theme
+  final String themeName;
+
+  InternalLinkTypeTheme({
+    required this.themeName,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeTheme(';
+
+    // Params
+    final params = <String>[];
+    params.add(themeName.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeTheme',
+    'theme_name': themeName,
+  };
+
+  factory InternalLinkTypeTheme.fromJson(Map<String, dynamic> json) => InternalLinkTypeTheme(
+    themeName: (json['theme_name'] as String?) ?? '',
+  );
+}
+
+/// The link is a link to the theme settings section of the app
+class InternalLinkTypeThemeSettings extends a.InternalLinkType {
+  InternalLinkTypeThemeSettings();
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeThemeSettings(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeThemeSettings',
+  };
+
+  factory InternalLinkTypeThemeSettings.fromJson(Map<String, dynamic> json) => InternalLinkTypeThemeSettings(
+  );
+}
+
+/// The link is an unknown tg: link. Call getDeepLinkInfo to process the link
+class InternalLinkTypeUnknownDeepLink extends a.InternalLinkType {
+  /// Link to be passed to getDeepLinkInfo
+  final String link;
+
+  InternalLinkTypeUnknownDeepLink({
+    required this.link,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeUnknownDeepLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(link.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeUnknownDeepLink',
+    'link': link,
+  };
+
+  factory InternalLinkTypeUnknownDeepLink.fromJson(Map<String, dynamic> json) => InternalLinkTypeUnknownDeepLink(
+    link: (json['link'] as String?) ?? '',
+  );
+}
+
+/// The link is a link to an unsupported proxy. An alert can be shown to the user
+class InternalLinkTypeUnsupportedProxy extends a.InternalLinkType {
+  InternalLinkTypeUnsupportedProxy();
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeUnsupportedProxy(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeUnsupportedProxy',
+  };
+
+  factory InternalLinkTypeUnsupportedProxy.fromJson(Map<String, dynamic> json) => InternalLinkTypeUnsupportedProxy(
+  );
+}
+
+/// The link is a link to a video chat. Call searchPublicChat with the given chat username, and then joinGoupCall with the given invite hash to process the link
+class InternalLinkTypeVideoChat extends a.InternalLinkType {
+  /// Username of the chat with the video chat
+  final String chatUsername;
+  /// If non-empty, invite hash to be used to join the video chat without being muted by administrators
+  final String inviteHash;
+  /// True, if the video chat is expected to be a live stream in a channel or a broadcast group
+  final bool isLiveStream;
+
+  InternalLinkTypeVideoChat({
+    required this.chatUsername,
+    required this.inviteHash,
+    required this.isLiveStream,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InternalLinkTypeVideoChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatUsername.toString());
+    params.add(inviteHash.toString());
+    params.add(isLiveStream.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'internalLinkTypeVideoChat',
+    'chat_username': chatUsername,
+    'invite_hash': inviteHash,
+    'is_live_stream': isLiveStream,
+  };
+
+  factory InternalLinkTypeVideoChat.fromJson(Map<String, dynamic> json) => InternalLinkTypeVideoChat(
+    chatUsername: (json['chat_username'] as String?) ?? '',
+    inviteHash: (json['invite_hash'] as String?) ?? '',
+    isLiveStream: (json['is_live_stream'] as bool?) ?? false,
+  );
+}
+
 /// Contains an HTTPS link to a message in a supergroup or channel
 class MessageLink extends a.MessageLink {
   /// Message link
@@ -28072,6 +30102,8 @@ class MessageLinkInfo extends a.MessageLinkInfo {
   final int chatId;
   /// If found, the linked message; may be null
   final Message? message;
+  /// Timestamp from which the video/audio/video note/voice note playing must start, in seconds; 0 if not specified. The media can be in the message content or in its web page preview
+  final int mediaTimestamp;
   /// True, if the whole media album to which the message belongs is linked
   final bool forAlbum;
   /// True, if the message is linked as a channel post comment or from a message thread
@@ -28081,6 +30113,7 @@ class MessageLinkInfo extends a.MessageLinkInfo {
     required this.isPublic,
     required this.chatId,
     required this.message,
+    required this.mediaTimestamp,
     required this.forAlbum,
     required this.forComment,
   });
@@ -28094,6 +30127,7 @@ class MessageLinkInfo extends a.MessageLinkInfo {
     params.add(isPublic.toString());
     params.add(chatId.toString());
     params.add(message.toString());
+    params.add(mediaTimestamp.toString());
     params.add(forAlbum.toString());
     params.add(forComment.toString());
     s += params.join(', ');
@@ -28108,6 +30142,7 @@ class MessageLinkInfo extends a.MessageLinkInfo {
     'is_public': isPublic,
     'chat_id': chatId,
     'message': message?.toJson(),
+    'media_timestamp': mediaTimestamp,
     'for_album': forAlbum,
     'for_comment': forComment,
   };
@@ -28116,6 +30151,7 @@ class MessageLinkInfo extends a.MessageLinkInfo {
     isPublic: (json['is_public'] as bool?) ?? false,
     chatId: (json['chat_id'] as int?) ?? 0,
     message: b.TdBase.fromJson(json['message']) as Message?,
+    mediaTimestamp: (json['media_timestamp'] as int?) ?? 0,
     forAlbum: (json['for_album'] as bool?) ?? false,
     forComment: (json['for_comment'] as bool?) ?? false,
   );
@@ -28558,7 +30594,7 @@ class FileTypeWallpaper extends a.FileType {
 class StorageStatisticsByFileType extends a.StorageStatisticsByFileType {
   /// File type
   final a.FileType? fileType;
-  /// Total size of the files
+  /// Total size of the files, in bytes
   final int size;
   /// Total number of files
   final int count;
@@ -28603,7 +30639,7 @@ class StorageStatisticsByFileType extends a.StorageStatisticsByFileType {
 class StorageStatisticsByChat extends a.StorageStatisticsByChat {
   /// Chat identifier; 0 if none
   final int chatId;
-  /// Total size of the files in the chat
+  /// Total size of the files in the chat, in bytes
   final int size;
   /// Total number of files in the chat
   final int count;
@@ -28652,7 +30688,7 @@ class StorageStatisticsByChat extends a.StorageStatisticsByChat {
 
 /// Contains the exact storage usage statistics split by chats and file type
 class StorageStatistics extends a.StorageStatistics {
-  /// Total size of files
+  /// Total size of files, in bytes
   final int size;
   /// Total number of files
   final int count;
@@ -28697,7 +30733,7 @@ class StorageStatistics extends a.StorageStatistics {
 
 /// Contains approximate storage usage statistics, excluding files of unknown file type
 class StorageStatisticsFast extends a.StorageStatisticsFast {
-  /// Approximate total size of files
+  /// Approximate total size of files, in bytes
   final int filesSize;
   /// Approximate number of files
   final int fileCount;
@@ -28912,7 +30948,7 @@ class NetworkTypeOther extends a.NetworkType {
 
 /// Contains information about the total amount of data that was used to send and receive files
 class NetworkStatisticsEntryFile extends a.NetworkStatisticsEntry {
-  /// Type of the file the data is part of
+  /// Type of the file the data is part of; pass null if the data isn't related to files
   final a.FileType? fileType;
   /// Type of the network the data was sent through. Call setNetworkType to maintain the actual network type
   final a.NetworkType? networkType;
@@ -29055,13 +31091,13 @@ class NetworkStatistics extends a.NetworkStatistics {
 class AutoDownloadSettings extends a.AutoDownloadSettings {
   /// True, if the auto-download is enabled
   final bool isAutoDownloadEnabled;
-  /// The maximum size of a photo file to be auto-downloaded
+  /// The maximum size of a photo file to be auto-downloaded, in bytes
   final int maxPhotoFileSize;
-  /// The maximum size of a video file to be auto-downloaded
+  /// The maximum size of a video file to be auto-downloaded, in bytes
   final int maxVideoFileSize;
-  /// The maximum size of other file types to be auto-downloaded
+  /// The maximum size of other file types to be auto-downloaded, in bytes
   final int maxOtherFileSize;
-  /// The maximum suggested bitrate for uploaded videos
+  /// The maximum suggested bitrate for uploaded videos, in kbit/s
   final int videoUploadBitrate;
   /// True, if the beginning of video files needs to be preloaded for instant playback
   final bool preloadLargeVideos;
@@ -29126,7 +31162,7 @@ class AutoDownloadSettings extends a.AutoDownloadSettings {
   );
 }
 
-/// Contains auto-download settings presets for the user
+/// Contains auto-download settings presets for the current user
 class AutoDownloadSettingsPresets extends a.AutoDownloadSettingsPresets {
   /// Preset with lowest settings; supposed to be used by default when roaming
   final AutoDownloadSettings? low;
@@ -29700,7 +31736,32 @@ class SuggestedActionEnableArchiveAndMuteNewChats extends a.SuggestedAction {
   );
 }
 
-/// Suggests the user to check authorization phone number and change the phone number if it is inaccessible
+/// Suggests the user to check whether 2-step verification password is still remembered
+class SuggestedActionCheckPassword extends a.SuggestedAction {
+  SuggestedActionCheckPassword();
+
+  @override
+  String toString() {
+    var s = 'td::SuggestedActionCheckPassword(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'suggestedActionCheckPassword',
+  };
+
+  factory SuggestedActionCheckPassword.fromJson(Map<String, dynamic> json) => SuggestedActionCheckPassword(
+  );
+}
+
+/// Suggests the user to check whether authorization phone number is correct and change the phone number if it is inaccessible
 class SuggestedActionCheckPhoneNumber extends a.SuggestedAction {
   SuggestedActionCheckPhoneNumber();
 
@@ -29725,7 +31786,7 @@ class SuggestedActionCheckPhoneNumber extends a.SuggestedAction {
   );
 }
 
-/// Suggests the user to see a hint about meaning of one and two ticks on sent message
+/// Suggests the user to see a hint about meaning of one and two ticks on sent messages
 class SuggestedActionSeeTicksHint extends a.SuggestedAction {
   SuggestedActionSeeTicksHint();
 
@@ -29780,6 +31841,39 @@ class SuggestedActionConvertToBroadcastGroup extends a.SuggestedAction {
 
   factory SuggestedActionConvertToBroadcastGroup.fromJson(Map<String, dynamic> json) => SuggestedActionConvertToBroadcastGroup(
     supergroupId: (json['supergroup_id'] as int?) ?? 0,
+  );
+}
+
+/// Suggests the user to set a 2-step verification password to be able to log in again
+class SuggestedActionSetPassword extends a.SuggestedAction {
+  /// The number of days to pass between consecutive authorizations if the user declines to set password
+  final int authorizationDelay;
+
+  SuggestedActionSetPassword({
+    required this.authorizationDelay,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::SuggestedActionSetPassword(';
+
+    // Params
+    final params = <String>[];
+    params.add(authorizationDelay.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'suggestedActionSetPassword',
+    'authorization_delay': authorizationDelay,
+  };
+
+  factory SuggestedActionSetPassword.fromJson(Map<String, dynamic> json) => SuggestedActionSetPassword(
+    authorizationDelay: (json['authorization_delay'] as int?) ?? 0,
   );
 }
 
@@ -29882,11 +31976,11 @@ class Seconds extends a.Seconds {
   );
 }
 
-/// Contains information about a tg:// deep link
+/// Contains information about a tg: deep link
 class DeepLinkInfo extends a.DeepLinkInfo {
   /// Text to be shown to the user
   final FormattedText? text;
-  /// True, if user should be asked to update the application
+  /// True, if the user must be asked to update the application
   final bool needUpdateApplication;
 
   DeepLinkInfo({
@@ -30198,7 +32292,7 @@ class InputStickerStatic extends a.InputSticker {
   final a.InputFile? sticker;
   /// Emojis corresponding to the sticker
   final String emojis;
-  /// For masks, position where the mask should be placed; may be null
+  /// For masks, position where the mask is placed; pass null if unspecified
   final MaskPosition? maskPosition;
 
   InputStickerStatic({
@@ -30516,7 +32610,7 @@ class ChatStatisticsMessageSenderInfo extends a.ChatStatisticsMessageSenderInfo 
   final int userId;
   /// Number of sent messages
   final int sentMessageCount;
-  /// Average number of characters in sent messages
+  /// Average number of characters in sent messages; 0 if unknown
   final int averageCharacterCount;
 
   ChatStatisticsMessageSenderInfo({
@@ -31035,6 +33129,211 @@ class VectorPathCommandCubicBezierCurve extends a.VectorPathCommand {
   );
 }
 
+/// A scope covering all users
+class BotCommandScopeDefault extends a.BotCommandScope {
+  BotCommandScopeDefault();
+
+  @override
+  String toString() {
+    var s = 'td::BotCommandScopeDefault(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'botCommandScopeDefault',
+  };
+
+  factory BotCommandScopeDefault.fromJson(Map<String, dynamic> json) => BotCommandScopeDefault(
+  );
+}
+
+/// A scope covering all private chats
+class BotCommandScopeAllPrivateChats extends a.BotCommandScope {
+  BotCommandScopeAllPrivateChats();
+
+  @override
+  String toString() {
+    var s = 'td::BotCommandScopeAllPrivateChats(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'botCommandScopeAllPrivateChats',
+  };
+
+  factory BotCommandScopeAllPrivateChats.fromJson(Map<String, dynamic> json) => BotCommandScopeAllPrivateChats(
+  );
+}
+
+/// A scope covering all group and supergroup chats
+class BotCommandScopeAllGroupChats extends a.BotCommandScope {
+  BotCommandScopeAllGroupChats();
+
+  @override
+  String toString() {
+    var s = 'td::BotCommandScopeAllGroupChats(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'botCommandScopeAllGroupChats',
+  };
+
+  factory BotCommandScopeAllGroupChats.fromJson(Map<String, dynamic> json) => BotCommandScopeAllGroupChats(
+  );
+}
+
+/// A scope covering all group and supergroup chat administrators
+class BotCommandScopeAllChatAdministrators extends a.BotCommandScope {
+  BotCommandScopeAllChatAdministrators();
+
+  @override
+  String toString() {
+    var s = 'td::BotCommandScopeAllChatAdministrators(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'botCommandScopeAllChatAdministrators',
+  };
+
+  factory BotCommandScopeAllChatAdministrators.fromJson(Map<String, dynamic> json) => BotCommandScopeAllChatAdministrators(
+  );
+}
+
+/// A scope covering all members of a chat
+class BotCommandScopeChat extends a.BotCommandScope {
+  /// Chat identifier
+  final int chatId;
+
+  BotCommandScopeChat({
+    required this.chatId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::BotCommandScopeChat(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'botCommandScopeChat',
+    'chat_id': chatId,
+  };
+
+  factory BotCommandScopeChat.fromJson(Map<String, dynamic> json) => BotCommandScopeChat(
+    chatId: (json['chat_id'] as int?) ?? 0,
+  );
+}
+
+/// A scope covering all administrators of a chat
+class BotCommandScopeChatAdministrators extends a.BotCommandScope {
+  /// Chat identifier
+  final int chatId;
+
+  BotCommandScopeChatAdministrators({
+    required this.chatId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::BotCommandScopeChatAdministrators(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'botCommandScopeChatAdministrators',
+    'chat_id': chatId,
+  };
+
+  factory BotCommandScopeChatAdministrators.fromJson(Map<String, dynamic> json) => BotCommandScopeChatAdministrators(
+    chatId: (json['chat_id'] as int?) ?? 0,
+  );
+}
+
+/// A scope covering a member of a chat
+class BotCommandScopeChatMember extends a.BotCommandScope {
+  /// Chat identifier
+  final int chatId;
+  /// User identifier
+  final int userId;
+
+  BotCommandScopeChatMember({
+    required this.chatId,
+    required this.userId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::BotCommandScopeChatMember(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(userId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'botCommandScopeChatMember',
+    'chat_id': chatId,
+    'user_id': userId,
+  };
+
+  factory BotCommandScopeChatMember.fromJson(Map<String, dynamic> json) => BotCommandScopeChatMember(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    userId: (json['user_id'] as int?) ?? 0,
+  );
+}
+
 /// The user authorization state has changed
 class UpdateAuthorizationState extends a.Update {
   /// New authorization state
@@ -31142,7 +33441,7 @@ class UpdateMessageSendAcknowledged extends a.Update {
 
 /// A message has been successfully sent
 class UpdateMessageSendSucceeded extends a.Update {
-  /// Information about the sent message. Usually only the message identifier, date, and content are changed, but almost all other fields can also change
+  /// The sent message. Usually only the message identifier, date, and content are changed, but almost all other fields can also change
   final Message? message;
   /// The previous temporary message identifier
   final int oldMessageId;
@@ -31181,7 +33480,7 @@ class UpdateMessageSendSucceeded extends a.Update {
 
 /// A message failed to send. Be aware that some messages being sent can be irrecoverably deleted, in which case updateDeleteMessages will be received instead of this update
 class UpdateMessageSendFailed extends a.Update {
-  /// Contains information about the message which failed to send
+  /// The failed to send message
   final Message? message;
   /// The previous temporary message identifier
   final int oldMessageId;
@@ -31773,6 +34072,84 @@ class UpdateChatPosition extends a.Update {
   );
 }
 
+/// The default message sender that is chosen to send messages in a chat has changed
+class UpdateChatDefaultMessageSenderId extends a.Update {
+  /// Chat identifier
+  final int chatId;
+  /// New value of default_message_sender_id; may be null if the user can't change message sender
+  final a.MessageSender? defaultMessageSenderId;
+
+  UpdateChatDefaultMessageSenderId({
+    required this.chatId,
+    required this.defaultMessageSenderId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::UpdateChatDefaultMessageSenderId(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(defaultMessageSenderId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'updateChatDefaultMessageSenderId',
+    'chat_id': chatId,
+    'default_message_sender_id': defaultMessageSenderId?.toJson(),
+  };
+
+  factory UpdateChatDefaultMessageSenderId.fromJson(Map<String, dynamic> json) => UpdateChatDefaultMessageSenderId(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    defaultMessageSenderId: b.TdBase.fromJson(json['default_message_sender_id']) as a.MessageSender?,
+  );
+}
+
+/// A chat content was allowed or restricted for saving
+class UpdateChatHasProtectedContent extends a.Update {
+  /// Chat identifier
+  final int chatId;
+  /// New value of has_protected_content
+  final bool hasProtectedContent;
+
+  UpdateChatHasProtectedContent({
+    required this.chatId,
+    required this.hasProtectedContent,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::UpdateChatHasProtectedContent(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(hasProtectedContent.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'updateChatHasProtectedContent',
+    'chat_id': chatId,
+    'has_protected_content': hasProtectedContent,
+  };
+
+  factory UpdateChatHasProtectedContent.fromJson(Map<String, dynamic> json) => UpdateChatHasProtectedContent(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    hasProtectedContent: (json['has_protected_content'] as bool?) ?? false,
+  );
+}
+
 /// A chat was marked as unread or was read
 class UpdateChatIsMarkedAsUnread extends a.Update {
   /// Chat identifier
@@ -31890,26 +34267,26 @@ class UpdateChatHasScheduledMessages extends a.Update {
   );
 }
 
-/// A chat voice chat state has changed
-class UpdateChatVoiceChat extends a.Update {
+/// A chat video chat state has changed
+class UpdateChatVideoChat extends a.Update {
   /// Chat identifier
   final int chatId;
-  /// New value of voice_chat
-  final VoiceChat? voiceChat;
+  /// New value of video_chat
+  final VideoChat? videoChat;
 
-  UpdateChatVoiceChat({
+  UpdateChatVideoChat({
     required this.chatId,
-    required this.voiceChat,
+    required this.videoChat,
   });
 
   @override
   String toString() {
-    var s = 'td::UpdateChatVoiceChat(';
+    var s = 'td::UpdateChatVideoChat(';
 
     // Params
     final params = <String>[];
     params.add(chatId.toString());
-    params.add(voiceChat.toString());
+    params.add(videoChat.toString());
     s += params.join(', ');
 
     s += ')';
@@ -31918,14 +34295,14 @@ class UpdateChatVoiceChat extends a.Update {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'updateChatVoiceChat',
+    '@type': 'updateChatVideoChat',
     'chat_id': chatId,
-    'voice_chat': voiceChat?.toJson(),
+    'video_chat': videoChat?.toJson(),
   };
 
-  factory UpdateChatVoiceChat.fromJson(Map<String, dynamic> json) => UpdateChatVoiceChat(
+  factory UpdateChatVideoChat.fromJson(Map<String, dynamic> json) => UpdateChatVideoChat(
     chatId: (json['chat_id'] as int?) ?? 0,
-    voiceChat: b.TdBase.fromJson(json['voice_chat']) as VoiceChat?,
+    videoChat: b.TdBase.fromJson(json['video_chat']) as VideoChat?,
   );
 }
 
@@ -31968,7 +34345,7 @@ class UpdateChatDefaultDisableNotification extends a.Update {
   );
 }
 
-/// Incoming messages were read or number of unread messages has been changed
+/// Incoming messages were read or the number of unread messages has been changed
 class UpdateChatReadInbox extends a.Update {
   /// Chat identifier
   final int chatId;
@@ -32247,6 +34624,84 @@ class UpdateChatActionBar extends a.Update {
   );
 }
 
+/// The chat theme was changed
+class UpdateChatTheme extends a.Update {
+  /// Chat identifier
+  final int chatId;
+  /// The new name of the chat theme; may be empty if theme was reset to default
+  final String themeName;
+
+  UpdateChatTheme({
+    required this.chatId,
+    required this.themeName,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::UpdateChatTheme(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(themeName.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'updateChatTheme',
+    'chat_id': chatId,
+    'theme_name': themeName,
+  };
+
+  factory UpdateChatTheme.fromJson(Map<String, dynamic> json) => UpdateChatTheme(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    themeName: (json['theme_name'] as String?) ?? '',
+  );
+}
+
+/// The chat pending join requests were changed
+class UpdateChatPendingJoinRequests extends a.Update {
+  /// Chat identifier
+  final int chatId;
+  /// The new data about pending join requests; may be null
+  final ChatJoinRequestsInfo? pendingJoinRequests;
+
+  UpdateChatPendingJoinRequests({
+    required this.chatId,
+    required this.pendingJoinRequests,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::UpdateChatPendingJoinRequests(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(pendingJoinRequests.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'updateChatPendingJoinRequests',
+    'chat_id': chatId,
+    'pending_join_requests': pendingJoinRequests?.toJson(),
+  };
+
+  factory UpdateChatPendingJoinRequests.fromJson(Map<String, dynamic> json) => UpdateChatPendingJoinRequests(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    pendingJoinRequests: b.TdBase.fromJson(json['pending_join_requests']) as ChatJoinRequestsInfo?,
+  );
+}
+
 /// The default chat reply markup was changed. Can occur because new messages with reply markup were received or because an old reply markup was hidden by the user
 class UpdateChatReplyMarkup extends a.Update {
   /// Chat identifier
@@ -32286,7 +34741,7 @@ class UpdateChatReplyMarkup extends a.Update {
   );
 }
 
-/// A chat draft has changed. Be aware that the update may come in the currently opened chat but with old content of the draft. If the user has changed the content of the draft, this update shouldn't be applied
+/// A chat draft has changed. Be aware that the update may come in the currently opened chat but with old content of the draft. If the user has changed the content of the draft, this update mustn't be applied
 class UpdateChatDraftMessage extends a.Update {
   /// Chat identifier
   final int chatId;
@@ -32452,7 +34907,7 @@ class UpdateNotificationGroup extends a.Update {
   final int chatId;
   /// Chat identifier, which notification settings must be applied to the added notifications
   final int notificationSettingsChatId;
-  /// True, if the notifications should be shown without sound
+  /// True, if the notifications must be shown without sound
   final bool isSilent;
   /// Total number of unread notifications in the group, can be bigger than number of active notifications
   final int totalCount;
@@ -32640,33 +35095,33 @@ class UpdateDeleteMessages extends a.Update {
   );
 }
 
-/// User activity in the chat has changed
-class UpdateUserChatAction extends a.Update {
+/// A message sender activity in the chat has changed
+class UpdateChatAction extends a.Update {
   /// Chat identifier
   final int chatId;
   /// If not 0, a message thread identifier in which the action was performed
   final int messageThreadId;
-  /// Identifier of a user performing an action
-  final int userId;
-  /// The action description
+  /// Identifier of a message sender performing the action
+  final a.MessageSender? senderId;
+  /// The action
   final a.ChatAction? action;
 
-  UpdateUserChatAction({
+  UpdateChatAction({
     required this.chatId,
     required this.messageThreadId,
-    required this.userId,
+    required this.senderId,
     required this.action,
   });
 
   @override
   String toString() {
-    var s = 'td::UpdateUserChatAction(';
+    var s = 'td::UpdateChatAction(';
 
     // Params
     final params = <String>[];
     params.add(chatId.toString());
     params.add(messageThreadId.toString());
-    params.add(userId.toString());
+    params.add(senderId.toString());
     params.add(action.toString());
     s += params.join(', ');
 
@@ -32676,17 +35131,17 @@ class UpdateUserChatAction extends a.Update {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'updateUserChatAction',
+    '@type': 'updateChatAction',
     'chat_id': chatId,
     'message_thread_id': messageThreadId,
-    'user_id': userId,
+    'sender_id': senderId?.toJson(),
     'action': action?.toJson(),
   };
 
-  factory UpdateUserChatAction.fromJson(Map<String, dynamic> json) => UpdateUserChatAction(
+  factory UpdateChatAction.fromJson(Map<String, dynamic> json) => UpdateChatAction(
     chatId: (json['chat_id'] as int?) ?? 0,
     messageThreadId: (json['message_thread_id'] as int?) ?? 0,
-    userId: (json['user_id'] as int?) ?? 0,
+    senderId: b.TdBase.fromJson(json['sender_id']) as a.MessageSender?,
     action: b.TdBase.fromJson(json['action']) as a.ChatAction?,
   );
 }
@@ -32862,7 +35317,7 @@ class UpdateSecretChat extends a.Update {
   );
 }
 
-/// Some data from userFullInfo has been changed
+/// Some data in userFullInfo has been changed
 class UpdateUserFullInfo extends a.Update {
   /// User identifier
   final int userId;
@@ -32901,7 +35356,7 @@ class UpdateUserFullInfo extends a.Update {
   );
 }
 
-/// Some data from basicGroupFullInfo has been changed
+/// Some data in basicGroupFullInfo has been changed
 class UpdateBasicGroupFullInfo extends a.Update {
   /// Identifier of a basic group
   final int basicGroupId;
@@ -32940,7 +35395,7 @@ class UpdateBasicGroupFullInfo extends a.Update {
   );
 }
 
-/// Some data from supergroupFullInfo has been changed
+/// Some data in supergroupFullInfo has been changed
 class UpdateSupergroupFullInfo extends a.Update {
   /// Identifier of the supergroup or channel
   final int supergroupId;
@@ -32979,9 +35434,9 @@ class UpdateSupergroupFullInfo extends a.Update {
   );
 }
 
-/// Service notification from the server. Upon receiving this the application must show a popup with the content of the notification
+/// A service notification from the server was received. Upon receiving this the application must show a popup with the content of the notification
 class UpdateServiceNotification extends a.Update {
-  /// Notification type. If type begins with "AUTH_KEY_DROP_", then two buttons "Cancel" and "Log out" should be shown under notification; if user presses the second, all local data should be destroyed using Destroy method
+  /// Notification type. If type begins with "AUTH_KEY_DROP_", then two buttons "Cancel" and "Log out" must be shown under notification; if user presses the second, all local data must be destroyed using Destroy method
   final String type;
   /// Notification content
   final a.MessageContent? content;
@@ -33057,9 +35512,9 @@ class UpdateFileGenerationStart extends a.Update {
   final int generationId;
   /// The path to a file from which a new file is generated; may be empty
   final String originalPath;
-  /// The path to a file that should be created and where the new file should be generated
+  /// The path to a file that must be created and where the new file is generated
   final String destinationPath;
-  /// String specifying the conversion applied to the original file. If conversion is "#url#" than original_path contains an HTTP/HTTPS URL of a file, which should be downloaded by the application
+  /// String specifying the conversion applied to the original file. If conversion is "#url#" than original_path contains an HTTP/HTTPS URL of a file, which must be downloaded by the application
   final String conversion;
 
   UpdateFileGenerationStart({
@@ -33714,6 +36169,39 @@ class UpdateSelectedBackground extends a.Update {
   );
 }
 
+/// The list of available chat themes has changed
+class UpdateChatThemes extends a.Update {
+  /// The new list of chat themes
+  final List<ChatTheme?> chatThemes;
+
+  UpdateChatThemes({
+    required this.chatThemes,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::UpdateChatThemes(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatThemes.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'updateChatThemes',
+    'chat_themes': chatThemes.map((_e1) => _e1?.toJson()).toList(growable: false),
+  };
+
+  factory UpdateChatThemes.fromJson(Map<String, dynamic> json) => UpdateChatThemes(
+    chatThemes: json['chat_themes'] == null ? <ChatTheme?>[] : (json['chat_themes'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatTheme?)).toList(growable: false),
+  );
+}
+
 /// Some language pack strings have been updated
 class UpdateLanguagePackStrings extends a.Update {
   /// Localization target to which the language pack belongs
@@ -33792,7 +36280,7 @@ class UpdateConnectionState extends a.Update {
   );
 }
 
-/// New terms of service must be accepted by the user. If the terms of service are declined, then the deleteAccount method should be called with the reason "Decline ToS update"
+/// New terms of service must be accepted by the user. If the terms of service are declined, then the deleteAccount method must be called with the reason "Decline ToS update"
 class UpdateTermsOfService extends a.Update {
   /// Identifier of the terms of service
   final String termsOfServiceId;
@@ -33897,6 +36385,51 @@ class UpdateDiceEmojis extends a.Update {
   );
 }
 
+/// Some animated emoji message was clicked and a big animated sticker must be played if the message is visible on the screen. chatActionWatchingAnimations with the text of the message needs to be sent if the sticker is played
+class UpdateAnimatedEmojiMessageClicked extends a.Update {
+  /// Chat identifier
+  final int chatId;
+  /// Message identifier
+  final int messageId;
+  /// The animated sticker to be played
+  final Sticker? sticker;
+
+  UpdateAnimatedEmojiMessageClicked({
+    required this.chatId,
+    required this.messageId,
+    required this.sticker,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::UpdateAnimatedEmojiMessageClicked(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    params.add(sticker.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'updateAnimatedEmojiMessageClicked',
+    'chat_id': chatId,
+    'message_id': messageId,
+    'sticker': sticker?.toJson(),
+  };
+
+  factory UpdateAnimatedEmojiMessageClicked.fromJson(Map<String, dynamic> json) => UpdateAnimatedEmojiMessageClicked(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    messageId: (json['message_id'] as int?) ?? 0,
+    sticker: b.TdBase.fromJson(json['sticker']) as Sticker?,
+  );
+}
+
 /// The parameters of animation search through GetOption("animation_search_bot_username") bot has changed
 class UpdateAnimationSearchParameters extends a.Update {
   /// Name of the animation search provider
@@ -33983,7 +36516,7 @@ class UpdateNewInlineQuery extends a.Update {
   final int senderUserId;
   /// User location; may be null
   final Location? userLocation;
-  /// Contains information about the type of the chat, from which the query originated; may be null if unknown
+  /// The type of the chat, from which the query originated; may be null if unknown
   final a.ChatType? chatType;
   /// Text of the query
   final String query;
@@ -34554,6 +37087,51 @@ class UpdateChatMember extends a.Update {
   );
 }
 
+/// A user sent a join request to a chat; for bots only
+class UpdateNewChatJoinRequest extends a.Update {
+  /// Chat identifier
+  final int chatId;
+  /// Join request
+  final ChatJoinRequest? request;
+  /// The invite link, which was used to send join request; may be null
+  final ChatInviteLink? inviteLink;
+
+  UpdateNewChatJoinRequest({
+    required this.chatId,
+    required this.request,
+    required this.inviteLink,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::UpdateNewChatJoinRequest(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(request.toString());
+    params.add(inviteLink.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'updateNewChatJoinRequest',
+    'chat_id': chatId,
+    'request': request?.toJson(),
+    'invite_link': inviteLink?.toJson(),
+  };
+
+  factory UpdateNewChatJoinRequest.fromJson(Map<String, dynamic> json) => UpdateNewChatJoinRequest(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    request: b.TdBase.fromJson(json['request']) as ChatJoinRequest?,
+    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
+  );
+}
+
 /// Contains a list of updates
 class Updates extends a.Updates {
   /// List of updates
@@ -34616,7 +37194,7 @@ class LogStreamDefault extends a.LogStream {
 class LogStreamFile extends a.LogStream {
   /// Path to the file to where the internal TDLib log will be written
   final String path;
-  /// The maximum size of the file to where the internal TDLib log is written before the file will be auto-rotated
+  /// The maximum size of the file to where the internal TDLib log is written before the file will automatically be rotated, in bytes
   final int maxFileSize;
   /// Pass true to additionally redirect stderr to the log file. Ignored on Windows
   final bool redirectStderr;

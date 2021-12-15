@@ -34,7 +34,7 @@ class GetAuthorizationState extends TdFunction {
 
 /// Sets the parameters for TDLib initialization. Works only when the current authorization state is authorizationStateWaitTdlibParameters
 class SetTdlibParameters extends TdFunction {
-  /// Parameters
+  /// Parameters for TDLib initialization
   final o.TdlibParameters? parameters;
 
   SetTdlibParameters({
@@ -102,7 +102,7 @@ class CheckDatabaseEncryptionKey extends TdFunction {
 class SetAuthenticationPhoneNumber extends TdFunction {
   /// The phone number of the user, in international format
   final String phoneNumber;
-  /// Settings for the authentication of the user's phone number
+  /// Settings for the authentication of the user's phone number; pass null to use default settings
   final o.PhoneNumberAuthenticationSettings? settings;
 
   SetAuthenticationPhoneNumber({
@@ -137,7 +137,7 @@ class SetAuthenticationPhoneNumber extends TdFunction {
   );
 }
 
-/// Re-sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitCode and the next_code_type of the result is not null
+/// Re-sends an authentication code to the user. Works only when the current authorization state is authorizationStateWaitCode, the next_code_type of the result is not null and the server-specified timeout has passed
 class ResendAuthenticationCode extends TdFunction {
   ResendAuthenticationCode();
 
@@ -164,7 +164,7 @@ class ResendAuthenticationCode extends TdFunction {
 
 /// Checks the authentication code. Works only when the current authorization state is authorizationStateWaitCode
 class CheckAuthenticationCode extends TdFunction {
-  /// The verification code received via SMS, Telegram message, phone call, or flash call
+  /// Authentication code to check
   final String code;
 
   CheckAuthenticationCode({
@@ -325,18 +325,18 @@ class RequestAuthenticationPasswordRecovery extends TdFunction {
   );
 }
 
-/// Recovers the password with a password recovery code sent to an email address that was previously set up. Works only when the current authorization state is authorizationStateWaitPassword
-class RecoverAuthenticationPassword extends TdFunction {
+/// Checks whether a password recovery code sent to an email address is valid. Works only when the current authorization state is authorizationStateWaitPassword
+class CheckAuthenticationPasswordRecoveryCode extends TdFunction {
   /// Recovery code to check
   final String recoveryCode;
 
-  RecoverAuthenticationPassword({
+  CheckAuthenticationPasswordRecoveryCode({
     required this.recoveryCode,
   });
 
   @override
   String toString() {
-    var s = 'td::RecoverAuthenticationPassword(';
+    var s = 'td::CheckAuthenticationPasswordRecoveryCode(';
 
     // Params
     final params = <String>[];
@@ -349,12 +349,57 @@ class RecoverAuthenticationPassword extends TdFunction {
   }
   @override
   Map<String, dynamic> toJson() => {
+    '@type': 'checkAuthenticationPasswordRecoveryCode',
+    'recovery_code': recoveryCode,
+  };
+
+  factory CheckAuthenticationPasswordRecoveryCode.fromJson(Map<String, dynamic> json) => CheckAuthenticationPasswordRecoveryCode(
+    recoveryCode: (json['recovery_code'] as String?) ?? '',
+  );
+}
+
+/// Recovers the password with a password recovery code sent to an email address that was previously set up. Works only when the current authorization state is authorizationStateWaitPassword
+class RecoverAuthenticationPassword extends TdFunction {
+  /// Recovery code to check
+  final String recoveryCode;
+  /// New password of the user; may be empty to remove the password
+  final String newPassword;
+  /// New password hint; may be empty
+  final String newHint;
+
+  RecoverAuthenticationPassword({
+    required this.recoveryCode,
+    required this.newPassword,
+    required this.newHint,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::RecoverAuthenticationPassword(';
+
+    // Params
+    final params = <String>[];
+    params.add(recoveryCode.toString());
+    params.add(newPassword.toString());
+    params.add(newHint.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
     '@type': 'recoverAuthenticationPassword',
     'recovery_code': recoveryCode,
+    'new_password': newPassword,
+    'new_hint': newHint,
   };
 
   factory RecoverAuthenticationPassword.fromJson(Map<String, dynamic> json) => RecoverAuthenticationPassword(
     recoveryCode: (json['recovery_code'] as String?) ?? '',
+    newPassword: (json['new_password'] as String?) ?? '',
+    newHint: (json['new_hint'] as String?) ?? '',
   );
 }
 
@@ -582,7 +627,7 @@ class GetPasswordState extends TdFunction {
   );
 }
 
-/// Changes the password for the user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed
+/// Changes the password for the current user. If a new recovery email address is specified, then the change will not be applied until the new recovery email address is confirmed
 class SetPassword extends TdFunction {
   /// Previous password of the user
   final String oldPassword;
@@ -590,7 +635,7 @@ class SetPassword extends TdFunction {
   final String newPassword;
   /// New password hint; may be empty
   final String newHint;
-  /// Pass true if the recovery email address should be changed
+  /// Pass true if the recovery email address must be changed
   final bool setRecoveryEmailAddress;
   /// New recovery email address; may be empty
   final String newRecoveryEmailAddress;
@@ -713,7 +758,7 @@ class SetRecoveryEmailAddress extends TdFunction {
 
 /// Checks the 2-step verification recovery email address verification code
 class CheckRecoveryEmailAddressCode extends TdFunction {
-  /// Verification code
+  /// Verification code to check
   final String code;
 
   CheckRecoveryEmailAddressCode({
@@ -769,7 +814,7 @@ class ResendRecoveryEmailAddressCode extends TdFunction {
   );
 }
 
-/// Requests to send a password recovery code to an email address that was previously set up
+/// Requests to send a 2-step verification password recovery code to an email address that was previously set up
 class RequestPasswordRecovery extends TdFunction {
   RequestPasswordRecovery();
 
@@ -794,18 +839,18 @@ class RequestPasswordRecovery extends TdFunction {
   );
 }
 
-/// Recovers the password using a recovery code sent to an email address that was previously set up
-class RecoverPassword extends TdFunction {
+/// Checks whether a 2-step verification password recovery code sent to an email address is valid
+class CheckPasswordRecoveryCode extends TdFunction {
   /// Recovery code to check
   final String recoveryCode;
 
-  RecoverPassword({
+  CheckPasswordRecoveryCode({
     required this.recoveryCode,
   });
 
   @override
   String toString() {
-    var s = 'td::RecoverPassword(';
+    var s = 'td::CheckPasswordRecoveryCode(';
 
     // Params
     final params = <String>[];
@@ -818,12 +863,107 @@ class RecoverPassword extends TdFunction {
   }
   @override
   Map<String, dynamic> toJson() => {
+    '@type': 'checkPasswordRecoveryCode',
+    'recovery_code': recoveryCode,
+  };
+
+  factory CheckPasswordRecoveryCode.fromJson(Map<String, dynamic> json) => CheckPasswordRecoveryCode(
+    recoveryCode: (json['recovery_code'] as String?) ?? '',
+  );
+}
+
+/// Recovers the 2-step verification password using a recovery code sent to an email address that was previously set up
+class RecoverPassword extends TdFunction {
+  /// Recovery code to check
+  final String recoveryCode;
+  /// New password of the user; may be empty to remove the password
+  final String newPassword;
+  /// New password hint; may be empty
+  final String newHint;
+
+  RecoverPassword({
+    required this.recoveryCode,
+    required this.newPassword,
+    required this.newHint,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::RecoverPassword(';
+
+    // Params
+    final params = <String>[];
+    params.add(recoveryCode.toString());
+    params.add(newPassword.toString());
+    params.add(newHint.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
     '@type': 'recoverPassword',
     'recovery_code': recoveryCode,
+    'new_password': newPassword,
+    'new_hint': newHint,
   };
 
   factory RecoverPassword.fromJson(Map<String, dynamic> json) => RecoverPassword(
     recoveryCode: (json['recovery_code'] as String?) ?? '',
+    newPassword: (json['new_password'] as String?) ?? '',
+    newHint: (json['new_hint'] as String?) ?? '',
+  );
+}
+
+/// Removes 2-step verification password without previous password and access to recovery email address. The password can't be reset immediately and the request needs to be repeated after the specified time
+class ResetPassword extends TdFunction {
+  ResetPassword();
+
+  @override
+  String toString() {
+    var s = 'td::ResetPassword(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'resetPassword',
+  };
+
+  factory ResetPassword.fromJson(Map<String, dynamic> json) => ResetPassword(
+  );
+}
+
+/// Cancels reset of 2-step verification password. The method can be called if passwordState.pending_reset_date > 0
+class CancelPasswordReset extends TdFunction {
+  CancelPasswordReset();
+
+  @override
+  String toString() {
+    var s = 'td::CancelPasswordReset(';
+
+    // Params
+    final params = <String>[];
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'cancelPasswordReset',
+  };
+
+  factory CancelPasswordReset.fromJson(Map<String, dynamic> json) => CancelPasswordReset(
   );
 }
 
@@ -831,7 +971,7 @@ class RecoverPassword extends TdFunction {
 class CreateTemporaryPassword extends TdFunction {
   /// Persistent user password
   final String password;
-  /// Time during which the temporary password will be valid, in seconds; should be between 60 and 86400
+  /// Time during which the temporary password will be valid, in seconds; must be between 60 and 86400
   final int validFor;
 
   CreateTemporaryPassword({
@@ -1262,7 +1402,7 @@ class GetMessageLocally extends TdFunction {
 class GetRepliedMessage extends TdFunction {
   /// Identifier of the chat the message belongs to
   final int chatId;
-  /// Identifier of the message reply to which to get
+  /// Identifier of the reply message
   final int messageId;
 
   GetRepliedMessage({
@@ -1453,6 +1593,45 @@ class GetMessageThread extends TdFunction {
   );
 }
 
+/// Returns viewers of a recent outgoing message in a basic group or a supergroup chat. For video notes and voice notes only users, opened content of the message, are returned. The method can be called if message.can_get_viewers == true
+class GetMessageViewers extends TdFunction {
+  /// Chat identifier
+  final int chatId;
+  /// Identifier of the message
+  final int messageId;
+
+  GetMessageViewers({
+    required this.chatId,
+    required this.messageId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::GetMessageViewers(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getMessageViewers',
+    'chat_id': chatId,
+    'message_id': messageId,
+  };
+
+  factory GetMessageViewers.fromJson(Map<String, dynamic> json) => GetMessageViewers(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    messageId: (json['message_id'] as int?) ?? 0,
+  );
+}
+
 /// Returns information about a file; this is an offline request
 class GetFile extends TdFunction {
   /// Identifier of the file to get
@@ -1490,7 +1669,7 @@ class GetFile extends TdFunction {
 class GetRemoteFile extends TdFunction {
   /// Remote identifier of the file to get
   final String remoteFileId;
-  /// File type, if known
+  /// File type; pass null if unknown
   final a.FileType? fileType;
 
   GetRemoteFile({
@@ -1525,21 +1704,54 @@ class GetRemoteFile extends TdFunction {
   );
 }
 
-/// Returns an ordered list of chats in a chat list. Chats are sorted by the pair (chat.position.order, chat.id) in descending order. (For example, to get a list of chats from the beginning, the offset_order should be equal to a biggest signed 64-bit number 9223372036854775807 == 2^63 - 1).
-class GetChats extends TdFunction {
-  /// The chat list in which to return chats
+/// Loads more chats from a chat list. The loaded chats and their positions in the chat list will be sent through updates. Chats are sorted by the pair (chat.position.order, chat.id) in descending order. Returns a 404 error if all chats have been loaded
+class LoadChats extends TdFunction {
+  /// The chat list in which to load chats; pass null to load chats from the main chat list
   final a.ChatList? chatList;
-  /// Chat order to return chats from
-  final int offsetOrder;
-  /// Chat identifier to return chats from
-  final int offsetChatId;
-  /// The maximum number of chats to be returned. It is possible that fewer chats than the limit are returned even if the end of the list is not reached
+  /// The maximum number of chats to be loaded. For optimal performance, the number of loaded chats is chosen by TDLib and can be smaller than the specified limit, even if the end of the list is not reached
+  final int limit;
+
+  LoadChats({
+    required this.chatList,
+    required this.limit,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::LoadChats(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatList.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'loadChats',
+    'chat_list': chatList?.toJson(),
+    'limit': limit,
+  };
+
+  factory LoadChats.fromJson(Map<String, dynamic> json) => LoadChats(
+    chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
+    limit: (json['limit'] as int?) ?? 0,
+  );
+}
+
+/// Returns an ordered list of chats from the beginning of a chat list. For informational purposes only. Use loadChats and updates processing instead to maintain chat lists in a consistent state
+class GetChats extends TdFunction {
+  /// The chat list in which to return chats; pass null to get chats from the main chat list
+  final a.ChatList? chatList;
+  /// The maximum number of chats to be returned
   final int limit;
 
   GetChats({
     required this.chatList,
-    required this.offsetOrder,
-    required this.offsetChatId,
     required this.limit,
   });
 
@@ -1550,8 +1762,6 @@ class GetChats extends TdFunction {
     // Params
     final params = <String>[];
     params.add(chatList.toString());
-    params.add(offsetOrder.toString());
-    params.add(offsetChatId.toString());
     params.add(limit.toString());
     s += params.join(', ');
 
@@ -1563,20 +1773,16 @@ class GetChats extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'getChats',
     'chat_list': chatList?.toJson(),
-    'offset_order': offsetOrder.toString(),
-    'offset_chat_id': offsetChatId,
     'limit': limit,
   };
 
   factory GetChats.fromJson(Map<String, dynamic> json) => GetChats(
     chatList: b.TdBase.fromJson(json['chat_list']) as a.ChatList?,
-    offsetOrder: int.parse(json['offset_order'] ?? '0'),
-    offsetChatId: (json['offset_chat_id'] as int?) ?? 0,
     limit: (json['limit'] as int?) ?? 0,
   );
 }
 
-/// Searches a public chat by its username. Currently only private chats, supergroups and channels can be public. Returns the chat if found; otherwise an error is returned
+/// Searches a public chat by its username. Currently, only private chats, supergroups and channels can be public. Returns the chat if found; otherwise an error is returned
 class SearchPublicChat extends TdFunction {
   /// Username to be resolved
   final String username;
@@ -1609,7 +1815,7 @@ class SearchPublicChat extends TdFunction {
   );
 }
 
-/// Searches public chats by looking for specified query in their username and title. Currently only private chats, supergroups and channels can be public. Returns a meaningful number of results. Returns nothing if the length of the searched username prefix is less than 5. Excludes private chats with contacts and chats from the chat list from the results
+/// Searches public chats by looking for specified query in their username and title. Currently, only private chats, supergroups and channels can be public. Returns a meaningful number of results.
 class SearchPublicChats extends TdFunction {
   /// Query to search for
   final String query;
@@ -1644,7 +1850,7 @@ class SearchPublicChats extends TdFunction {
 
 /// Searches for the specified query in the title and username of already known chats, this is an offline request. Returns chats in the order seen in the main chat list
 class SearchChats extends TdFunction {
-  /// Query to search for. If the query is empty, returns up to 20 recently found chats
+  /// Query to search for. If the query is empty, returns up to 50 recently found chats
   final String query;
   /// The maximum number of chats to be returned
   final int limit;
@@ -1720,7 +1926,7 @@ class SearchChatsOnServer extends TdFunction {
   );
 }
 
-/// Returns a list of users and location-based supergroups nearby. The list of users nearby will be updated for 60 seconds after the request by the updates updateUsersNearby. The request should be sent again every 25 seconds with adjusted location to not miss new chats
+/// Returns a list of users and location-based supergroups nearby. The list of users nearby will be updated for 60 seconds after the request by the updates updateUsersNearby. The request must be sent again every 25 seconds with adjusted location to not miss new chats
 class SearchChatsNearby extends TdFunction {
   /// Current user location
   final o.Location? location;
@@ -1922,9 +2128,42 @@ class ClearRecentlyFoundChats extends TdFunction {
   );
 }
 
+/// Returns recently opened chats, this is an offline request. Returns chats in the order of last opening
+class GetRecentlyOpenedChats extends TdFunction {
+  /// The maximum number of chats to be returned
+  final int limit;
+
+  GetRecentlyOpenedChats({
+    required this.limit,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::GetRecentlyOpenedChats(';
+
+    // Params
+    final params = <String>[];
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getRecentlyOpenedChats',
+    'limit': limit,
+  };
+
+  factory GetRecentlyOpenedChats.fromJson(Map<String, dynamic> json) => GetRecentlyOpenedChats(
+    limit: (json['limit'] as int?) ?? 0,
+  );
+}
+
 /// Checks whether a username can be set for a chat
 class CheckChatUsername extends TdFunction {
-  /// Chat identifier; should be identifier of a supergroup chat, or a channel chat, or a private chat with self, or zero if chat is being created
+  /// Chat identifier; must be identifier of a supergroup chat, or a channel chat, or a private chat with self, or zero if the chat is being created
   final int chatId;
   /// Username to be checked
   final String username;
@@ -2130,7 +2369,7 @@ class GetChatHistory extends TdFunction {
   final int fromMessageId;
   /// Specify 0 to get results from exactly the from_message_id or a negative offset up to 99 to get additionally some newer messages
   final int offset;
-  /// The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than or equal to -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+  /// The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than or equal to -offset. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
   final int limit;
   /// If true, returns only messages that are available locally without sending network requests
   final bool onlyLocal;
@@ -2189,7 +2428,7 @@ class GetMessageThreadHistory extends TdFunction {
   final int fromMessageId;
   /// Specify 0 to get results from exactly the from_message_id or a negative offset up to 99 to get additionally some newer messages
   final int offset;
-  /// The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than or equal to -offset. Fewer messages may be returned than specified by the limit, even if the end of the message thread history has not been reached
+  /// The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than or equal to -offset. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
   final int limit;
 
   GetMessageThreadHistory({
@@ -2236,11 +2475,11 @@ class GetMessageThreadHistory extends TdFunction {
   );
 }
 
-/// Deletes all messages in the chat. Use Chat.can_be_deleted_only_for_self and Chat.can_be_deleted_for_all_users fields to find whether and how the method can be applied to the chat
+/// Deletes all messages in the chat. Use chat.can_be_deleted_only_for_self and chat.can_be_deleted_for_all_users fields to find whether and how the method can be applied to the chat
 class DeleteChatHistory extends TdFunction {
   /// Chat identifier
   final int chatId;
-  /// Pass true if the chat should be removed from the chat list
+  /// Pass true if the chat needs to be removed from the chat list
   final bool removeFromChatList;
   /// Pass true to try to delete chat history for all users
   final bool revoke;
@@ -2320,15 +2559,15 @@ class SearchChatMessages extends TdFunction {
   final int chatId;
   /// Query to search for
   final String query;
-  /// If not null, only messages sent by the specified sender will be returned. Not supported in secret chats
-  final a.MessageSender? sender;
+  /// Identifier of the sender of messages to search for; pass null to search for messages from any sender. Not supported in secret chats
+  final a.MessageSender? senderId;
   /// Identifier of the message starting from which history must be fetched; use 0 to get results from the last message
   final int fromMessageId;
   /// Specify 0 to get results from exactly the from_message_id or a negative offset to get the specified message and some newer messages
   final int offset;
-  /// The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than -offset. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+  /// The maximum number of messages to be returned; must be positive and can't be greater than 100. If the offset is negative, the limit must be greater than -offset. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
   final int limit;
-  /// Filter for message content in the search results
+  /// Additional filter for messages to search; pass null to search for all messages
   final a.SearchMessagesFilter? filter;
   /// If not 0, only messages in the specified thread will be returned; supergroups only
   final int messageThreadId;
@@ -2336,7 +2575,7 @@ class SearchChatMessages extends TdFunction {
   SearchChatMessages({
     required this.chatId,
     required this.query,
-    required this.sender,
+    required this.senderId,
     required this.fromMessageId,
     required this.offset,
     required this.limit,
@@ -2352,7 +2591,7 @@ class SearchChatMessages extends TdFunction {
     final params = <String>[];
     params.add(chatId.toString());
     params.add(query.toString());
-    params.add(sender.toString());
+    params.add(senderId.toString());
     params.add(fromMessageId.toString());
     params.add(offset.toString());
     params.add(limit.toString());
@@ -2369,7 +2608,7 @@ class SearchChatMessages extends TdFunction {
     '@type': 'searchChatMessages',
     'chat_id': chatId,
     'query': query,
-    'sender': sender?.toJson(),
+    'sender_id': senderId?.toJson(),
     'from_message_id': fromMessageId,
     'offset': offset,
     'limit': limit,
@@ -2380,7 +2619,7 @@ class SearchChatMessages extends TdFunction {
   factory SearchChatMessages.fromJson(Map<String, dynamic> json) => SearchChatMessages(
     chatId: (json['chat_id'] as int?) ?? 0,
     query: (json['query'] as String?) ?? '',
-    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
+    senderId: b.TdBase.fromJson(json['sender_id']) as a.MessageSender?,
     fromMessageId: (json['from_message_id'] as int?) ?? 0,
     offset: (json['offset'] as int?) ?? 0,
     limit: (json['limit'] as int?) ?? 0,
@@ -2395,15 +2634,15 @@ class SearchMessages extends TdFunction {
   final a.ChatList? chatList;
   /// Query to search for
   final String query;
-  /// The date of the message starting from which the results should be fetched. Use 0 or any date in the future to get results from the last message
+  /// The date of the message starting from which the results need to be fetched. Use 0 or any date in the future to get results from the last message
   final int offsetDate;
   /// The chat identifier of the last found message, or 0 for the first request
   final int offsetChatId;
   /// The message identifier of the last found message, or 0 for the first request
   final int offsetMessageId;
-  /// The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+  /// The maximum number of messages to be returned; up to 100. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
   final int limit;
-  /// Filter for message content in the search results; searchMessagesFilterCall, searchMessagesFilterMissedCall, searchMessagesFilterMention, searchMessagesFilterUnreadMention, searchMessagesFilterFailedToSend and searchMessagesFilterPinned are unsupported in this function
+  /// Additional filter for messages to search; pass null to search for all messages. Filters searchMessagesFilterMention, searchMessagesFilterUnreadMention, searchMessagesFilterFailedToSend and searchMessagesFilterPinned are unsupported in this function
   final a.SearchMessagesFilter? filter;
   /// If not 0, the minimum date of the messages to return
   final int minDate;
@@ -2470,17 +2709,17 @@ class SearchMessages extends TdFunction {
   );
 }
 
-/// Searches for messages in secret chats. Returns the results in reverse chronological order. For optimal performance the number of returned messages is chosen by the library
+/// Searches for messages in secret chats. Returns the results in reverse chronological order. For optimal performance, the number of returned messages is chosen by TDLib
 class SearchSecretMessages extends TdFunction {
   /// Identifier of the chat in which to search. Specify 0 to search in all secret chats
   final int chatId;
-  /// Query to search for. If empty, searchChatMessages should be used instead
+  /// Query to search for. If empty, searchChatMessages must be used instead
   final String query;
   /// Offset of the first entry to return as received from the previous request; use empty string to get first chunk of results
   final String offset;
-  /// The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+  /// The maximum number of messages to be returned; up to 100. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
   final int limit;
-  /// A filter for message content in the search results
+  /// Additional filter for messages to search; pass null to search for all messages
   final a.SearchMessagesFilter? filter;
 
   SearchSecretMessages({
@@ -2527,13 +2766,13 @@ class SearchSecretMessages extends TdFunction {
   );
 }
 
-/// Searches for call messages. Returns the results in reverse chronological order (i. e., in order of decreasing message_id). For optimal performance the number of returned messages is chosen by the library
+/// Searches for call messages. Returns the results in reverse chronological order (i. e., in order of decreasing message_id). For optimal performance, the number of returned messages is chosen by TDLib
 class SearchCallMessages extends TdFunction {
   /// Identifier of the message from which to search; use 0 to get results from the last message
   final int fromMessageId;
-  /// The maximum number of messages to be returned; up to 100. Fewer messages may be returned than specified by the limit, even if the end of the message history has not been reached
+  /// The maximum number of messages to be returned; up to 100. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
   final int limit;
-  /// If true, returns only messages with missed calls
+  /// If true, returns only messages with missed/declined calls
   final bool onlyMissed;
 
   SearchCallMessages({
@@ -2644,7 +2883,7 @@ class SearchChatRecentLocationMessages extends TdFunction {
   );
 }
 
-/// Returns all active live locations that should be updated by the application. The list is persistent across application restarts only if the message database is used
+/// Returns all active live locations that need to be updated by the application. The list is persistent across application restarts only if the message database is used
 class GetActiveLiveLocationMessages extends TdFunction {
   GetActiveLiveLocationMessages();
 
@@ -2705,6 +2944,102 @@ class GetChatMessageByDate extends TdFunction {
   factory GetChatMessageByDate.fromJson(Map<String, dynamic> json) => GetChatMessageByDate(
     chatId: (json['chat_id'] as int?) ?? 0,
     date: (json['date'] as int?) ?? 0,
+  );
+}
+
+/// Returns sparse positions of messages of the specified type in the chat to be used for shared media scroll implementation. Returns the results in reverse chronological order (i.e., in order of decreasing message_id).
+class GetChatSparseMessagePositions extends TdFunction {
+  /// Identifier of the chat in which to return information about message positions
+  final int chatId;
+  /// Filter for message content. Filters searchMessagesFilterEmpty, searchMessagesFilterMention and searchMessagesFilterUnreadMention are unsupported in this function
+  final a.SearchMessagesFilter? filter;
+  /// The message identifier from which to return information about message positions
+  final int fromMessageId;
+  /// The expected number of message positions to be returned; 50-2000. A smaller number of positions can be returned, if there are not enough appropriate messages
+  final int limit;
+
+  GetChatSparseMessagePositions({
+    required this.chatId,
+    required this.filter,
+    required this.fromMessageId,
+    required this.limit,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::GetChatSparseMessagePositions(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(filter.toString());
+    params.add(fromMessageId.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getChatSparseMessagePositions',
+    'chat_id': chatId,
+    'filter': filter?.toJson(),
+    'from_message_id': fromMessageId,
+    'limit': limit,
+  };
+
+  factory GetChatSparseMessagePositions.fromJson(Map<String, dynamic> json) => GetChatSparseMessagePositions(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter?,
+    fromMessageId: (json['from_message_id'] as int?) ?? 0,
+    limit: (json['limit'] as int?) ?? 0,
+  );
+}
+
+/// Returns information about the next messages of the specified type in the chat splitted by days. Returns the results in reverse chronological order. Can return partial result for the last returned day. Behavior of this method depends on the value of the option "utc_time_offset"
+class GetChatMessageCalendar extends TdFunction {
+  /// Identifier of the chat in which to return information about messages
+  final int chatId;
+  /// Filter for message content. Filters searchMessagesFilterEmpty, searchMessagesFilterMention and searchMessagesFilterUnreadMention are unsupported in this function
+  final a.SearchMessagesFilter? filter;
+  /// The message identifier from which to return information about messages; use 0 to get results from the last message
+  final int fromMessageId;
+
+  GetChatMessageCalendar({
+    required this.chatId,
+    required this.filter,
+    required this.fromMessageId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::GetChatMessageCalendar(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(filter.toString());
+    params.add(fromMessageId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getChatMessageCalendar',
+    'chat_id': chatId,
+    'filter': filter?.toJson(),
+    'from_message_id': fromMessageId,
+  };
+
+  factory GetChatMessageCalendar.fromJson(Map<String, dynamic> json) => GetChatMessageCalendar(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    filter: b.TdBase.fromJson(json['filter']) as a.SearchMessagesFilter?,
+    fromMessageId: (json['from_message_id'] as int?) ?? 0,
   );
 }
 
@@ -2786,7 +3121,7 @@ class GetChatScheduledMessages extends TdFunction {
   );
 }
 
-/// Returns forwarded copies of a channel message to different public channels. For optimal performance the number of returned messages is chosen by the library
+/// Returns forwarded copies of a channel message to different public channels. For optimal performance, the number of returned messages is chosen by TDLib
 class GetMessagePublicForwards extends TdFunction {
   /// Chat identifier of the message
   final int chatId;
@@ -2794,7 +3129,7 @@ class GetMessagePublicForwards extends TdFunction {
   final int messageId;
   /// Offset of the first entry to return as received from the previous request; use empty string to get first chunk of results
   final String offset;
-  /// The maximum number of messages to be returned; must be positive and can't be greater than 100. Fewer messages may be returned than specified by the limit, even if the end of the list has not been reached
+  /// The maximum number of messages to be returned; must be positive and can't be greater than 100. For optimal performance, the number of returned messages is chosen by TDLib and can be smaller than the specified limit
   final int limit;
 
   GetMessagePublicForwards({
@@ -2834,6 +3169,78 @@ class GetMessagePublicForwards extends TdFunction {
     messageId: (json['message_id'] as int?) ?? 0,
     offset: (json['offset'] as String?) ?? '',
     limit: (json['limit'] as int?) ?? 0,
+  );
+}
+
+/// Returns sponsored messages to be shown in a chat; for channel chats only
+class GetChatSponsoredMessages extends TdFunction {
+  /// Identifier of the chat
+  final int chatId;
+
+  GetChatSponsoredMessages({
+    required this.chatId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::GetChatSponsoredMessages(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getChatSponsoredMessages',
+    'chat_id': chatId,
+  };
+
+  factory GetChatSponsoredMessages.fromJson(Map<String, dynamic> json) => GetChatSponsoredMessages(
+    chatId: (json['chat_id'] as int?) ?? 0,
+  );
+}
+
+/// Informs TDLib that a sponsored message was viewed by the user
+class ViewSponsoredMessage extends TdFunction {
+  /// Identifier of the chat with the sponsored message
+  final int chatId;
+  /// The identifier of the sponsored message being viewed
+  final int sponsoredMessageId;
+
+  ViewSponsoredMessage({
+    required this.chatId,
+    required this.sponsoredMessageId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ViewSponsoredMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(sponsoredMessageId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'viewSponsoredMessage',
+    'chat_id': chatId,
+    'sponsored_message_id': sponsoredMessageId,
+  };
+
+  factory ViewSponsoredMessage.fromJson(Map<String, dynamic> json) => ViewSponsoredMessage(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    sponsoredMessageId: (json['sponsored_message_id'] as int?) ?? 0,
   );
 }
 
@@ -2915,12 +3322,14 @@ class RemoveNotificationGroup extends TdFunction {
   );
 }
 
-/// Returns an HTTPS link to a message in a chat. Available only for already sent messages in supergroups and channels. This is an offline request
+/// Returns an HTTPS link to a message in a chat. Available only for already sent messages in supergroups and channels, or if message.can_get_media_timestamp_links and a media timestamp link is generated. This is an offline request
 class GetMessageLink extends TdFunction {
   /// Identifier of the chat to which the message belongs
   final int chatId;
   /// Identifier of the message
   final int messageId;
+  /// If not 0, timestamp from which the video/audio/video note/voice note playing must start, in seconds. The media can be in the message content or in its web page preview
+  final int mediaTimestamp;
   /// Pass true to create a link for the whole media album
   final bool forAlbum;
   /// Pass true to create a link to the message as a channel post comment, or from a message thread
@@ -2929,6 +3338,7 @@ class GetMessageLink extends TdFunction {
   GetMessageLink({
     required this.chatId,
     required this.messageId,
+    required this.mediaTimestamp,
     required this.forAlbum,
     required this.forComment,
   });
@@ -2941,6 +3351,7 @@ class GetMessageLink extends TdFunction {
     final params = <String>[];
     params.add(chatId.toString());
     params.add(messageId.toString());
+    params.add(mediaTimestamp.toString());
     params.add(forAlbum.toString());
     params.add(forComment.toString());
     s += params.join(', ');
@@ -2954,6 +3365,7 @@ class GetMessageLink extends TdFunction {
     '@type': 'getMessageLink',
     'chat_id': chatId,
     'message_id': messageId,
+    'media_timestamp': mediaTimestamp,
     'for_album': forAlbum,
     'for_comment': forComment,
   };
@@ -2961,6 +3373,7 @@ class GetMessageLink extends TdFunction {
   factory GetMessageLink.fromJson(Map<String, dynamic> json) => GetMessageLink(
     chatId: (json['chat_id'] as int?) ?? 0,
     messageId: (json['message_id'] as int?) ?? 0,
+    mediaTimestamp: (json['media_timestamp'] as int?) ?? 0,
     forAlbum: (json['for_album'] as bool?) ?? false,
     forComment: (json['for_comment'] as bool?) ?? false,
   );
@@ -3011,9 +3424,9 @@ class GetMessageEmbeddingCode extends TdFunction {
   );
 }
 
-/// Returns information about a public or private message link
+/// Returns information about a public or private message link. Can be called for any internal link of the type internalLinkTypeMessage
 class GetMessageLinkInfo extends TdFunction {
-  /// The message link in the format "https://t.me/c/...", or "tg://privatepost?...", or "https://t.me/username/...", or "tg://resolve?..."
+  /// The message link
   final String url;
 
   GetMessageLinkInfo({
@@ -3044,6 +3457,78 @@ class GetMessageLinkInfo extends TdFunction {
   );
 }
 
+/// Returns list of message sender identifiers, which can be used to send messages in a chat
+class GetChatAvailableMessageSenders extends TdFunction {
+  /// Chat identifier
+  final int chatId;
+
+  GetChatAvailableMessageSenders({
+    required this.chatId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::GetChatAvailableMessageSenders(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getChatAvailableMessageSenders',
+    'chat_id': chatId,
+  };
+
+  factory GetChatAvailableMessageSenders.fromJson(Map<String, dynamic> json) => GetChatAvailableMessageSenders(
+    chatId: (json['chat_id'] as int?) ?? 0,
+  );
+}
+
+/// Changes default message sender that is chosen in a chat
+class SetChatDefaultMessageSender extends TdFunction {
+  /// Chat identifier
+  final int chatId;
+  /// New default message sender in the chat
+  final a.MessageSender? defaultMessageSenderId;
+
+  SetChatDefaultMessageSender({
+    required this.chatId,
+    required this.defaultMessageSenderId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::SetChatDefaultMessageSender(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(defaultMessageSenderId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'setChatDefaultMessageSender',
+    'chat_id': chatId,
+    'default_message_sender_id': defaultMessageSenderId?.toJson(),
+  };
+
+  factory SetChatDefaultMessageSender.fromJson(Map<String, dynamic> json) => SetChatDefaultMessageSender(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    defaultMessageSenderId: b.TdBase.fromJson(json['default_message_sender_id']) as a.MessageSender?,
+  );
+}
+
 /// Sends a message. Returns the sent message
 class SendMessage extends TdFunction {
   /// Target chat
@@ -3052,9 +3537,9 @@ class SendMessage extends TdFunction {
   final int messageThreadId;
   /// Identifier of the message to reply to or 0
   final int replyToMessageId;
-  /// Options to be used to send the message
+  /// Options to be used to send the message; pass null to use default options
   final o.MessageSendOptions? options;
-  /// Markup for replying to the message; for bots only
+  /// Markup for replying to the message; pass null if none; for bots only
   final a.ReplyMarkup? replyMarkup;
   /// The content of the message to be sent
   final a.InputMessageContent? inputMessageContent;
@@ -3107,7 +3592,7 @@ class SendMessage extends TdFunction {
   );
 }
 
-/// Sends 2-10 messages grouped together into an album. Currently only audio, document, photo and video messages can be grouped into an album. Documents and audio files can be only grouped in an album with messages of the same type. Returns sent messages
+/// Sends 2-10 messages grouped together into an album. Currently, only audio, document, photo and video messages can be grouped into an album. Documents and audio files can be only grouped in an album with messages of the same type. Returns sent messages
 class SendMessageAlbum extends TdFunction {
   /// Target chat
   final int chatId;
@@ -3115,7 +3600,7 @@ class SendMessageAlbum extends TdFunction {
   final int messageThreadId;
   /// Identifier of a message to reply to or 0
   final int replyToMessageId;
-  /// Options to be used to send the messages
+  /// Options to be used to send the messages; pass null to use default options
   final o.MessageSendOptions? options;
   /// Contents of messages to be sent. At most 10 messages can be added to an album
   final List<a.InputMessageContent?> inputMessageContents;
@@ -3217,7 +3702,7 @@ class SendInlineQueryResultMessage extends TdFunction {
   final int messageThreadId;
   /// Identifier of a message to reply to or 0
   final int replyToMessageId;
-  /// Options to be used to send the message
+  /// Options to be used to send the message; pass null to use default options
   final o.MessageSendOptions? options;
   /// Identifier of the inline query
   final int queryId;
@@ -3286,12 +3771,14 @@ class ForwardMessages extends TdFunction {
   final int fromChatId;
   /// Identifiers of the messages to forward. Message identifiers must be in a strictly increasing order. At most 100 messages can be forwarded simultaneously
   final List<int> messageIds;
-  /// Options to be used to send the messages
+  /// Options to be used to send the messages; pass null to use default options
   final o.MessageSendOptions? options;
-  /// True, if content of the messages needs to be copied without links to the original messages. Always true if the messages are forwarded to a secret chat
+  /// If true, content of the messages will be copied without reference to the original sender. Always true if the messages are forwarded to a secret chat or are local
   final bool sendCopy;
-  /// True, if media caption of message copies needs to be removed. Ignored if send_copy is false
+  /// If true, media caption of message copies will be removed. Ignored if send_copy is false
   final bool removeCaption;
+  /// If true, messages will not be forwarded and instead fake messages will be returned
+  final bool onlyPreview;
 
   ForwardMessages({
     required this.chatId,
@@ -3300,6 +3787,7 @@ class ForwardMessages extends TdFunction {
     required this.options,
     required this.sendCopy,
     required this.removeCaption,
+    required this.onlyPreview,
   });
 
   @override
@@ -3314,6 +3802,7 @@ class ForwardMessages extends TdFunction {
     params.add(options.toString());
     params.add(sendCopy.toString());
     params.add(removeCaption.toString());
+    params.add(onlyPreview.toString());
     s += params.join(', ');
 
     s += ')';
@@ -3329,6 +3818,7 @@ class ForwardMessages extends TdFunction {
     'options': options?.toJson(),
     'send_copy': sendCopy,
     'remove_caption': removeCaption,
+    'only_preview': onlyPreview,
   };
 
   factory ForwardMessages.fromJson(Map<String, dynamic> json) => ForwardMessages(
@@ -3338,6 +3828,7 @@ class ForwardMessages extends TdFunction {
     options: b.TdBase.fromJson(json['options']) as o.MessageSendOptions?,
     sendCopy: (json['send_copy'] as bool?) ?? false,
     removeCaption: (json['remove_caption'] as bool?) ?? false,
+    onlyPreview: (json['only_preview'] as bool?) ?? false,
   );
 }
 
@@ -3417,8 +3908,8 @@ class SendChatScreenshotTakenNotification extends TdFunction {
 class AddLocalMessage extends TdFunction {
   /// Target chat
   final int chatId;
-  /// The sender sender of the message
-  final a.MessageSender? sender;
+  /// Identifier of the sender of the message
+  final a.MessageSender? senderId;
   /// Identifier of the message to reply to or 0
   final int replyToMessageId;
   /// Pass true to disable notification for the message
@@ -3428,7 +3919,7 @@ class AddLocalMessage extends TdFunction {
 
   AddLocalMessage({
     required this.chatId,
-    required this.sender,
+    required this.senderId,
     required this.replyToMessageId,
     required this.disableNotification,
     required this.inputMessageContent,
@@ -3441,7 +3932,7 @@ class AddLocalMessage extends TdFunction {
     // Params
     final params = <String>[];
     params.add(chatId.toString());
-    params.add(sender.toString());
+    params.add(senderId.toString());
     params.add(replyToMessageId.toString());
     params.add(disableNotification.toString());
     params.add(inputMessageContent.toString());
@@ -3455,7 +3946,7 @@ class AddLocalMessage extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'addLocalMessage',
     'chat_id': chatId,
-    'sender': sender?.toJson(),
+    'sender_id': senderId?.toJson(),
     'reply_to_message_id': replyToMessageId,
     'disable_notification': disableNotification,
     'input_message_content': inputMessageContent?.toJson(),
@@ -3463,7 +3954,7 @@ class AddLocalMessage extends TdFunction {
 
   factory AddLocalMessage.fromJson(Map<String, dynamic> json) => AddLocalMessage(
     chatId: (json['chat_id'] as int?) ?? 0,
-    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
+    senderId: b.TdBase.fromJson(json['sender_id']) as a.MessageSender?,
     replyToMessageId: (json['reply_to_message_id'] as int?) ?? 0,
     disableNotification: (json['disable_notification'] as bool?) ?? false,
     inputMessageContent: b.TdBase.fromJson(json['input_message_content']) as a.InputMessageContent?,
@@ -3515,26 +4006,26 @@ class DeleteMessages extends TdFunction {
   );
 }
 
-/// Deletes all messages sent by the specified user to a chat. Supported only for supergroups; requires can_delete_messages administrator privileges
-class DeleteChatMessagesFromUser extends TdFunction {
+/// Deletes all messages sent by the specified message sender in a chat. Supported only for supergroups; requires can_delete_messages administrator privileges
+class DeleteChatMessagesBySender extends TdFunction {
   /// Chat identifier
   final int chatId;
-  /// User identifier
-  final int userId;
+  /// Identifier of the sender of messages to delete
+  final a.MessageSender? senderId;
 
-  DeleteChatMessagesFromUser({
+  DeleteChatMessagesBySender({
     required this.chatId,
-    required this.userId,
+    required this.senderId,
   });
 
   @override
   String toString() {
-    var s = 'td::DeleteChatMessagesFromUser(';
+    var s = 'td::DeleteChatMessagesBySender(';
 
     // Params
     final params = <String>[];
     params.add(chatId.toString());
-    params.add(userId.toString());
+    params.add(senderId.toString());
     s += params.join(', ');
 
     s += ')';
@@ -3543,14 +4034,65 @@ class DeleteChatMessagesFromUser extends TdFunction {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'deleteChatMessagesFromUser',
+    '@type': 'deleteChatMessagesBySender',
     'chat_id': chatId,
-    'user_id': userId,
+    'sender_id': senderId?.toJson(),
   };
 
-  factory DeleteChatMessagesFromUser.fromJson(Map<String, dynamic> json) => DeleteChatMessagesFromUser(
+  factory DeleteChatMessagesBySender.fromJson(Map<String, dynamic> json) => DeleteChatMessagesBySender(
     chatId: (json['chat_id'] as int?) ?? 0,
-    userId: (json['user_id'] as int?) ?? 0,
+    senderId: b.TdBase.fromJson(json['sender_id']) as a.MessageSender?,
+  );
+}
+
+/// Deletes all messages between the specified dates in a chat. Supported only for private chats and basic groups. Messages sent in the last 30 seconds will not be deleted
+class DeleteChatMessagesByDate extends TdFunction {
+  /// Chat identifier
+  final int chatId;
+  /// The minimum date of the messages to delete
+  final int minDate;
+  /// The maximum date of the messages to delete
+  final int maxDate;
+  /// Pass true to try to delete chat messages for all users; private chats only
+  final bool revoke;
+
+  DeleteChatMessagesByDate({
+    required this.chatId,
+    required this.minDate,
+    required this.maxDate,
+    required this.revoke,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::DeleteChatMessagesByDate(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(minDate.toString());
+    params.add(maxDate.toString());
+    params.add(revoke.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'deleteChatMessagesByDate',
+    'chat_id': chatId,
+    'min_date': minDate,
+    'max_date': maxDate,
+    'revoke': revoke,
+  };
+
+  factory DeleteChatMessagesByDate.fromJson(Map<String, dynamic> json) => DeleteChatMessagesByDate(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    minDate: (json['min_date'] as int?) ?? 0,
+    maxDate: (json['max_date'] as int?) ?? 0,
+    revoke: (json['revoke'] as bool?) ?? false,
   );
 }
 
@@ -3560,9 +4102,9 @@ class EditMessageText extends TdFunction {
   final int chatId;
   /// Identifier of the message
   final int messageId;
-  /// The new message reply markup; for bots only
+  /// The new message reply markup; pass null if none; for bots only
   final a.ReplyMarkup? replyMarkup;
-  /// New text content of the message. Should be of type inputMessageText
+  /// New text content of the message. Must be of type inputMessageText
   final a.InputMessageContent? inputMessageContent;
 
   EditMessageText({
@@ -3611,9 +4153,9 @@ class EditMessageLiveLocation extends TdFunction {
   final int chatId;
   /// Identifier of the message
   final int messageId;
-  /// The new message reply markup; for bots only
+  /// The new message reply markup; pass null if none; for bots only
   final a.ReplyMarkup? replyMarkup;
-  /// New location content of the message; may be null. Pass null to stop sharing the live location
+  /// New location content of the message; pass null to stop sharing the live location
   final o.Location? location;
   /// The new direction in which the location moves, in degrees; 1-360. Pass 0 if unknown
   final int heading;
@@ -3668,13 +4210,13 @@ class EditMessageLiveLocation extends TdFunction {
   );
 }
 
-/// Edits the content of a message with an animation, an audio, a document, a photo or a video. The media in the message can't be replaced if the message was set to self-destruct. Media can't be replaced by self-destructing media. Media in an album can be edited only to contain a photo or a video. Returns the edited message after the edit is completed on the server side
+/// Edits the content of a message with an animation, an audio, a document, a photo or a video, including message caption. If only the caption needs to be edited, use editMessageCaption instead.
 class EditMessageMedia extends TdFunction {
   /// The chat the message belongs to
   final int chatId;
   /// Identifier of the message
   final int messageId;
-  /// The new message reply markup; for bots only
+  /// The new message reply markup; pass null if none; for bots only
   final a.ReplyMarkup? replyMarkup;
   /// New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto or inputMessageVideo
   final a.InputMessageContent? inputMessageContent;
@@ -3725,9 +4267,9 @@ class EditMessageCaption extends TdFunction {
   final int chatId;
   /// Identifier of the message
   final int messageId;
-  /// The new message reply markup; for bots only
+  /// The new message reply markup; pass null if none; for bots only
   final a.ReplyMarkup? replyMarkup;
-  /// New message content caption; 0-GetOption("message_caption_length_max") characters
+  /// New message content caption; 0-GetOption("message_caption_length_max") characters; pass null to remove caption
   final o.FormattedText? caption;
 
   EditMessageCaption({
@@ -3776,7 +4318,7 @@ class EditMessageReplyMarkup extends TdFunction {
   final int chatId;
   /// Identifier of the message
   final int messageId;
-  /// The new message reply markup
+  /// The new message reply markup; pass null if none
   final a.ReplyMarkup? replyMarkup;
 
   EditMessageReplyMarkup({
@@ -3819,9 +4361,9 @@ class EditMessageReplyMarkup extends TdFunction {
 class EditInlineMessageText extends TdFunction {
   /// Inline message identifier
   final String inlineMessageId;
-  /// The new message reply markup
+  /// The new message reply markup; pass null if none
   final a.ReplyMarkup? replyMarkup;
-  /// New text content of the message. Should be of type inputMessageText
+  /// New text content of the message. Must be of type inputMessageText
   final a.InputMessageContent? inputMessageContent;
 
   EditInlineMessageText({
@@ -3864,9 +4406,9 @@ class EditInlineMessageText extends TdFunction {
 class EditInlineMessageLiveLocation extends TdFunction {
   /// Inline message identifier
   final String inlineMessageId;
-  /// The new message reply markup
+  /// The new message reply markup; pass null if none
   final a.ReplyMarkup? replyMarkup;
-  /// New location content of the message; may be null. Pass null to stop sharing the live location
+  /// New location content of the message; pass null to stop sharing the live location
   final o.Location? location;
   /// The new direction in which the location moves, in degrees; 1-360. Pass 0 if unknown
   final int heading;
@@ -3921,7 +4463,7 @@ class EditInlineMessageLiveLocation extends TdFunction {
 class EditInlineMessageMedia extends TdFunction {
   /// Inline message identifier
   final String inlineMessageId;
-  /// The new message reply markup; for bots only
+  /// The new message reply markup; pass null if none; for bots only
   final a.ReplyMarkup? replyMarkup;
   /// New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto or inputMessageVideo
   final a.InputMessageContent? inputMessageContent;
@@ -3966,9 +4508,9 @@ class EditInlineMessageMedia extends TdFunction {
 class EditInlineMessageCaption extends TdFunction {
   /// Inline message identifier
   final String inlineMessageId;
-  /// The new message reply markup
+  /// The new message reply markup; pass null if none
   final a.ReplyMarkup? replyMarkup;
-  /// New message content caption; 0-GetOption("message_caption_length_max") characters
+  /// New message content caption; pass null to remove caption; 0-GetOption("message_caption_length_max") characters
   final o.FormattedText? caption;
 
   EditInlineMessageCaption({
@@ -4011,7 +4553,7 @@ class EditInlineMessageCaption extends TdFunction {
 class EditInlineMessageReplyMarkup extends TdFunction {
   /// Inline message identifier
   final String inlineMessageId;
-  /// The new message reply markup
+  /// The new message reply markup; pass null if none
   final a.ReplyMarkup? replyMarkup;
 
   EditInlineMessageReplyMarkup({
@@ -4052,7 +4594,7 @@ class EditMessageSchedulingState extends TdFunction {
   final int chatId;
   /// Identifier of the message
   final int messageId;
-  /// The new message scheduling state. Pass null to send the message immediately
+  /// The new message scheduling state; pass null to send the message immediately
   final a.MessageSchedulingState? schedulingState;
 
   EditMessageSchedulingState({
@@ -4490,7 +5032,7 @@ class SetPollAnswer extends TdFunction {
   );
 }
 
-/// Returns users voted for the specified option in a non-anonymous polls. For the optimal performance the number of returned users is chosen by the library
+/// Returns users voted for the specified option in a non-anonymous polls. For optimal performance, the number of returned users is chosen by TDLib
 class GetPollVoters extends TdFunction {
   /// Identifier of the chat to which the poll belongs
   final int chatId;
@@ -4500,7 +5042,7 @@ class GetPollVoters extends TdFunction {
   final int optionId;
   /// Number of users to skip in the result; must be non-negative
   final int offset;
-  /// The maximum number of users to be returned; must be positive and can't be greater than 50. Fewer users may be returned than specified by the limit, even if the end of the voter list has not been reached
+  /// The maximum number of users to be returned; must be positive and can't be greater than 50. For optimal performance, the number of returned users is chosen by TDLib and can be smaller than the specified limit, even if the end of the voter list has not been reached
   final int limit;
 
   GetPollVoters({
@@ -4553,7 +5095,7 @@ class StopPoll extends TdFunction {
   final int chatId;
   /// Identifier of the message containing the poll
   final int messageId;
-  /// The new message reply markup; for bots only
+  /// The new message reply markup; pass null if none; for bots only
   final a.ReplyMarkup? replyMarkup;
 
   StopPoll({
@@ -4727,7 +5269,7 @@ class GetInlineQueryResults extends TdFunction {
   final int botUserId;
   /// Identifier of the chat where the query was sent
   final int chatId;
-  /// Location of the user, only if needed
+  /// Location of the user; pass null if unknown or the bot doesn't need user's location
   final o.Location? userLocation;
   /// Text of the query
   final String query;
@@ -4790,7 +5332,7 @@ class AnswerInlineQuery extends TdFunction {
   final int cacheTime;
   /// Offset for the next inline query; pass an empty string if there are no more results
   final String nextOffset;
-  /// If non-empty, this text should be shown on the button that opens a private chat with the bot and sends a start message to the bot with the parameter switch_pm_parameter
+  /// If non-empty, this text must be shown on the button that opens a private chat with the bot and sends a start message to the bot with the parameter switch_pm_parameter
   final String switchPmText;
   /// The parameter for the bot start message
   final String switchPmParameter;
@@ -4898,7 +5440,7 @@ class AnswerCallbackQuery extends TdFunction {
   final int callbackQueryId;
   /// Text of the answer
   final String text;
-  /// If true, an alert should be shown to the user instead of a toast notification
+  /// If true, an alert must be shown to the user instead of a toast notification
   final bool showAlert;
   /// URL to be opened
   final String url;
@@ -5039,7 +5581,7 @@ class SetGameScore extends TdFunction {
   final int chatId;
   /// Identifier of the message
   final int messageId;
-  /// True, if the message should be edited
+  /// True, if the message needs to be edited
   final bool editMessage;
   /// User identifier
   final int userId;
@@ -5100,7 +5642,7 @@ class SetGameScore extends TdFunction {
 class SetInlineGameScore extends TdFunction {
   /// Inline message identifier
   final String inlineMessageId;
-  /// True, if the message should be edited
+  /// True, if the message needs to be edited
   final bool editMessage;
   /// User identifier
   final int userId;
@@ -5237,7 +5779,7 @@ class GetInlineGameHighScores extends TdFunction {
   );
 }
 
-/// Deletes the default reply markup from a chat. Must be called after a one-time keyboard or a ForceReply reply markup has been used. UpdateChatReplyMarkup will be sent if the reply markup will be changed
+/// Deletes the default reply markup from a chat. Must be called after a one-time keyboard or a ForceReply reply markup has been used. UpdateChatReplyMarkup will be sent if the reply markup is changed
 class DeleteChatReplyMarkup extends TdFunction {
   /// Chat identifier
   final int chatId;
@@ -5282,7 +5824,7 @@ class SendChatAction extends TdFunction {
   final int chatId;
   /// If not 0, a message thread identifier in which the action was performed
   final int messageThreadId;
-  /// The action description
+  /// The action description; pass null to cancel the currently active action
   final a.ChatAction? action;
 
   SendChatAction({
@@ -5395,7 +5937,7 @@ class ViewMessages extends TdFunction {
   final int messageThreadId;
   /// The identifiers of the messages being viewed
   final List<int> messageIds;
-  /// True, if messages in closed chats should be marked as read by the request
+  /// True, if messages in closed chats must be marked as read by the request
   final bool forceRead;
 
   ViewMessages({
@@ -5477,9 +6019,81 @@ class OpenMessageContent extends TdFunction {
   );
 }
 
-/// Returns information about an action to be done when the current user clicks an HTTP link. This method can be used to automatically authorize the current user on a website. Don't use this method for links from secret chats if link preview is disabled in secret chats
+/// Informs TDLib that a message with an animated emoji was clicked by the user. Returns a big animated sticker to be played or a 404 error if usual animation needs to be played
+class ClickAnimatedEmojiMessage extends TdFunction {
+  /// Chat identifier of the message
+  final int chatId;
+  /// Identifier of the clicked message
+  final int messageId;
+
+  ClickAnimatedEmojiMessage({
+    required this.chatId,
+    required this.messageId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ClickAnimatedEmojiMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(messageId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'clickAnimatedEmojiMessage',
+    'chat_id': chatId,
+    'message_id': messageId,
+  };
+
+  factory ClickAnimatedEmojiMessage.fromJson(Map<String, dynamic> json) => ClickAnimatedEmojiMessage(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    messageId: (json['message_id'] as int?) ?? 0,
+  );
+}
+
+/// Returns information about the type of an internal link. Returns a 404 error if the link is not internal. Can be called before authorization
+class GetInternalLinkType extends TdFunction {
+  /// The link
+  final String link;
+
+  GetInternalLinkType({
+    required this.link,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::GetInternalLinkType(';
+
+    // Params
+    final params = <String>[];
+    params.add(link.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getInternalLinkType',
+    'link': link,
+  };
+
+  factory GetInternalLinkType.fromJson(Map<String, dynamic> json) => GetInternalLinkType(
+    link: (json['link'] as String?) ?? '',
+  );
+}
+
+/// Returns information about an action to be done when the current user clicks an external link. Don't use this method for links from secret chats if web page preview is disabled in secret chats
 class GetExternalLinkInfo extends TdFunction {
-  /// The HTTP link
+  /// The link
   final String link;
 
   GetExternalLinkInfo({
@@ -5779,7 +6393,7 @@ class CreateNewSupergroupChat extends TdFunction {
   final bool isChannel;
   /// Chat description; 0-255 characters
   final String description;
-  /// Chat location if a location-based supergroup is being created
+  /// Chat location if a location-based supergroup is being created; pass null to create an ordinary supergroup chat
   final o.ChatLocation? location;
   /// True, if the supergroup is created for importing messages using importMessage
   final bool forImport;
@@ -6238,7 +6852,7 @@ class SetChatTitle extends TdFunction {
 class SetChatPhoto extends TdFunction {
   /// Chat identifier
   final int chatId;
-  /// New chat photo. Pass null to delete the chat photo
+  /// New chat photo; pass null to delete the chat photo
   final a.InputChatPhoto? photo;
 
   SetChatPhoto({
@@ -6277,7 +6891,7 @@ class SetChatPhoto extends TdFunction {
 class SetChatMessageTtlSetting extends TdFunction {
   /// Chat identifier
   final int chatId;
-  /// New TTL value, in seconds; must be one of 0, 86400, 604800 unless chat is secret
+  /// New TTL value, in seconds; must be one of 0, 86400, 7 * 86400, or 31 * 86400 unless the chat is secret
   final int ttl;
 
   SetChatMessageTtlSetting({
@@ -6351,13 +6965,52 @@ class SetChatPermissions extends TdFunction {
   );
 }
 
+/// Changes the chat theme. Supported only in private and secret chats
+class SetChatTheme extends TdFunction {
+  /// Chat identifier
+  final int chatId;
+  /// Name of the new chat theme; pass an empty string to return the default theme
+  final String themeName;
+
+  SetChatTheme({
+    required this.chatId,
+    required this.themeName,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::SetChatTheme(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(themeName.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'setChatTheme',
+    'chat_id': chatId,
+    'theme_name': themeName,
+  };
+
+  factory SetChatTheme.fromJson(Map<String, dynamic> json) => SetChatTheme(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    themeName: (json['theme_name'] as String?) ?? '',
+  );
+}
+
 /// Changes the draft message in a chat
 class SetChatDraftMessage extends TdFunction {
   /// Chat identifier
   final int chatId;
   /// If not 0, a message thread identifier in which the draft was changed
   final int messageThreadId;
-  /// New draft message; may be null
+  /// New draft message; pass null to remove the draft
   final o.DraftMessage? draftMessage;
 
   SetChatDraftMessage({
@@ -6432,6 +7085,45 @@ class SetChatNotificationSettings extends TdFunction {
   factory SetChatNotificationSettings.fromJson(Map<String, dynamic> json) => SetChatNotificationSettings(
     chatId: (json['chat_id'] as int?) ?? 0,
     notificationSettings: b.TdBase.fromJson(json['notification_settings']) as o.ChatNotificationSettings?,
+  );
+}
+
+/// Changes the ability of users to save, forward, or copy chat content. Supported only for basic groups, supergroups and channels. Requires owner privileges
+class ToggleChatHasProtectedContent extends TdFunction {
+  /// Chat identifier
+  final int chatId;
+  /// True, if chat content can't be saved locally, forwarded, or copied
+  final bool hasProtectedContent;
+
+  ToggleChatHasProtectedContent({
+    required this.chatId,
+    required this.hasProtectedContent,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ToggleChatHasProtectedContent(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(hasProtectedContent.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'toggleChatHasProtectedContent',
+    'chat_id': chatId,
+    'has_protected_content': hasProtectedContent,
+  };
+
+  factory ToggleChatHasProtectedContent.fromJson(Map<String, dynamic> json) => ToggleChatHasProtectedContent(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    hasProtectedContent: (json['has_protected_content'] as bool?) ?? false,
   );
 }
 
@@ -6673,7 +7365,7 @@ class SetChatLocation extends TdFunction {
 class SetChatSlowModeDelay extends TdFunction {
   /// Chat identifier
   final int chatId;
-  /// New slow mode delay for the chat; must be one of 0, 10, 30, 60, 300, 900, 3600
+  /// New slow mode delay for the chat, in seconds; must be one of 0, 10, 30, 60, 300, 900, 3600
   final int slowModeDelay;
 
   SetChatSlowModeDelay({
@@ -6714,7 +7406,7 @@ class PinChatMessage extends TdFunction {
   final int chatId;
   /// Identifier of the new pinned message
   final int messageId;
-  /// True, if there should be no notification about the pinned message. Notifications are always disabled in channels and private chats
+  /// True, if there must be no notification about the pinned message. Notifications are always disabled in channels and private chats
   final bool disableNotification;
   /// True, if the message needs to be pinned for one side only; private chats only
   final bool onlyForSelf;
@@ -6903,7 +7595,7 @@ class AddChatMember extends TdFunction {
   final int chatId;
   /// Identifier of the user
   final int userId;
-  /// The number of earlier messages from the chat to be forwarded to the new member; up to 100. Ignored for supergroups and channels
+  /// The number of earlier messages from the chat to be forwarded to the new member; up to 100. Ignored for supergroups and channels, or if the added user is a bot
   final int forwardLimit;
 
   AddChatMember({
@@ -6942,7 +7634,7 @@ class AddChatMember extends TdFunction {
   );
 }
 
-/// Adds multiple new members to a chat. Currently this method is only available for supergroups and channels. This method can't be used to join a chat. Members can't be added to a channel if it has more than 200 members
+/// Adds multiple new members to a chat. Currently, this method is only available for supergroups and channels. This method can't be used to join a chat. Members can't be added to a channel if it has more than 200 members
 class AddChatMembers extends TdFunction {
   /// Chat identifier
   final int chatId;
@@ -6981,7 +7673,7 @@ class AddChatMembers extends TdFunction {
   );
 }
 
-/// Changes the status of a chat member, needs appropriate privileges. This function is currently not suitable for adding new members to the chat and transferring chat ownership; instead, use addChatMember or transferChatOwnership
+/// Changes the status of a chat member, needs appropriate privileges. This function is currently not suitable for transferring chat ownership; use transferChatOwnership instead. Use addChatMember or banChatMember if some additional parameters needs to be passed
 class SetChatMemberStatus extends TdFunction {
   /// Chat identifier
   final int chatId;
@@ -7032,9 +7724,9 @@ class BanChatMember extends TdFunction {
   final int chatId;
   /// Member identifier
   final a.MessageSender? memberId;
-  /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Ignored in basic groups
+  /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Ignored in basic groups and if a chat is banned
   final int bannedUntilDate;
-  /// Pass true to delete all messages in the chat for the user. Always true for supergroups and channels
+  /// Pass true to delete all messages in the chat for the user that is being removed. Always true for supergroups and channels
   final bool revokeMessages;
 
   BanChatMember({
@@ -7192,9 +7884,9 @@ class SearchChatMembers extends TdFunction {
   final int chatId;
   /// Query to search for
   final String query;
-  /// The maximum number of users to be returned
+  /// The maximum number of users to be returned; up to 200
   final int limit;
-  /// The type of users to return. By default, chatMembersFilterMembers
+  /// The type of users to search for; pass null to search among all chat members
   final a.ChatMembersFilter? filter;
 
   SearchChatMembers({
@@ -7305,7 +7997,7 @@ class ClearAllDraftMessages extends TdFunction {
 
 /// Returns list of chats with non-default notification settings
 class GetChatNotificationSettingsExceptions extends TdFunction {
-  /// If specified, only chats from the specified scope will be returned
+  /// If specified, only chats from the scope will be returned; pass null to return chats from all scopes
   final a.NotificationSettingsScope? scope;
   /// If true, also chats with non-default sound will be returned
   final bool compareSound;
@@ -7529,9 +8221,9 @@ class DownloadFile extends TdFunction {
   final int fileId;
   /// Priority of the download (1-32). The higher the priority, the earlier the file will be downloaded. If the priorities of two files are equal, then the last one for which downloadFile was called will be downloaded first
   final int priority;
-  /// The starting position from which the file should be downloaded
+  /// The starting position from which the file needs to be downloaded
   final int offset;
-  /// Number of bytes which should be downloaded starting from the "offset" position before the download will be automatically cancelled; use 0 to download without a limit
+  /// Number of bytes which need to be downloaded starting from the "offset" position before the download will automatically be canceled; use 0 to download without a limit
   final int limit;
   /// If false, this request returns file state just after the download has been started. If true, this request returns file state only after
   final bool synchronous;
@@ -7580,11 +8272,11 @@ class DownloadFile extends TdFunction {
   );
 }
 
-/// Returns file downloaded prefix size from a given offset
+/// Returns file downloaded prefix size from a given offset, in bytes
 class GetFileDownloadedPrefixSize extends TdFunction {
   /// Identifier of the file
   final int fileId;
-  /// Offset from which downloaded prefix size should be calculated
+  /// Offset from which downloaded prefix size needs to be calculated
   final int offset;
 
   GetFileDownloadedPrefixSize({
@@ -7658,11 +8350,50 @@ class CancelDownloadFile extends TdFunction {
   );
 }
 
+/// Returns suggested name for saving a file in a given directory
+class GetSuggestedFileName extends TdFunction {
+  /// Identifier of the file
+  final int fileId;
+  /// Directory in which the file is supposed to be saved
+  final String directory;
+
+  GetSuggestedFileName({
+    required this.fileId,
+    required this.directory,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::GetSuggestedFileName(';
+
+    // Params
+    final params = <String>[];
+    params.add(fileId.toString());
+    params.add(directory.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getSuggestedFileName',
+    'file_id': fileId,
+    'directory': directory,
+  };
+
+  factory GetSuggestedFileName.fromJson(Map<String, dynamic> json) => GetSuggestedFileName(
+    fileId: (json['file_id'] as int?) ?? 0,
+    directory: (json['directory'] as String?) ?? '',
+  );
+}
+
 /// Asynchronously uploads a file to the cloud without sending it in a message. updateFile will be used to notify about upload progress and successful completion of the upload. The file will not have a persistent remote identifier until it will be sent in a message
 class UploadFile extends TdFunction {
   /// File to upload
   final a.InputFile? file;
-  /// File type
+  /// File type; pass null if unknown
   final a.FileType? fileType;
   /// Priority of the upload (1-32). The higher the priority, the earlier the file will be uploaded. If the priorities of two files are equal, then the first one for which uploadFile was called will be uploaded first
   final int priority;
@@ -7830,7 +8561,7 @@ class SetFileGenerationProgress extends TdFunction {
 class FinishFileGeneration extends TdFunction {
   /// The identifier of the generation process
   final int generationId;
-  /// If set, means that file generation has failed and should be terminated
+  /// If passed, the file generation has failed and must be terminated; pass null if the file generation succeeded
   final o.Error? error;
 
   FinishFileGeneration({
@@ -8091,15 +8822,21 @@ class ReplacePrimaryChatInviteLink extends TdFunction {
 class CreateChatInviteLink extends TdFunction {
   /// Chat identifier
   final int chatId;
+  /// Invite link name; 0-32 characters
+  final String name;
   /// Point in time (Unix timestamp) when the link will expire; pass 0 if never
   final int expireDate;
   /// The maximum number of chat members that can join the chat by the link simultaneously; 0-99999; pass 0 if not limited
   final int memberLimit;
+  /// True, if the link only creates join request. If true, member_limit must not be specified
+  final bool createsJoinRequest;
 
   CreateChatInviteLink({
     required this.chatId,
+    required this.name,
     required this.expireDate,
     required this.memberLimit,
+    required this.createsJoinRequest,
   });
 
   @override
@@ -8109,8 +8846,10 @@ class CreateChatInviteLink extends TdFunction {
     // Params
     final params = <String>[];
     params.add(chatId.toString());
+    params.add(name.toString());
     params.add(expireDate.toString());
     params.add(memberLimit.toString());
+    params.add(createsJoinRequest.toString());
     s += params.join(', ');
 
     s += ')';
@@ -8121,14 +8860,18 @@ class CreateChatInviteLink extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'createChatInviteLink',
     'chat_id': chatId,
+    'name': name,
     'expire_date': expireDate,
     'member_limit': memberLimit,
+    'creates_join_request': createsJoinRequest,
   };
 
   factory CreateChatInviteLink.fromJson(Map<String, dynamic> json) => CreateChatInviteLink(
     chatId: (json['chat_id'] as int?) ?? 0,
+    name: (json['name'] as String?) ?? '',
     expireDate: (json['expire_date'] as int?) ?? 0,
     memberLimit: (json['member_limit'] as int?) ?? 0,
+    createsJoinRequest: (json['creates_join_request'] as bool?) ?? false,
   );
 }
 
@@ -8138,16 +8881,22 @@ class EditChatInviteLink extends TdFunction {
   final int chatId;
   /// Invite link to be edited
   final String inviteLink;
+  /// Invite link name; 0-32 characters
+  final String name;
   /// Point in time (Unix timestamp) when the link will expire; pass 0 if never
   final int expireDate;
   /// The maximum number of chat members that can join the chat by the link simultaneously; 0-99999; pass 0 if not limited
   final int memberLimit;
+  /// True, if the link only creates join request. If true, member_limit must not be specified
+  final bool createsJoinRequest;
 
   EditChatInviteLink({
     required this.chatId,
     required this.inviteLink,
+    required this.name,
     required this.expireDate,
     required this.memberLimit,
+    required this.createsJoinRequest,
   });
 
   @override
@@ -8158,8 +8907,10 @@ class EditChatInviteLink extends TdFunction {
     final params = <String>[];
     params.add(chatId.toString());
     params.add(inviteLink.toString());
+    params.add(name.toString());
     params.add(expireDate.toString());
     params.add(memberLimit.toString());
+    params.add(createsJoinRequest.toString());
     s += params.join(', ');
 
     s += ')';
@@ -8171,15 +8922,19 @@ class EditChatInviteLink extends TdFunction {
     '@type': 'editChatInviteLink',
     'chat_id': chatId,
     'invite_link': inviteLink,
+    'name': name,
     'expire_date': expireDate,
     'member_limit': memberLimit,
+    'creates_join_request': createsJoinRequest,
   };
 
   factory EditChatInviteLink.fromJson(Map<String, dynamic> json) => EditChatInviteLink(
     chatId: (json['chat_id'] as int?) ?? 0,
     inviteLink: (json['invite_link'] as String?) ?? '',
+    name: (json['name'] as String?) ?? '',
     expireDate: (json['expire_date'] as int?) ?? 0,
     memberLimit: (json['member_limit'] as int?) ?? 0,
+    createsJoinRequest: (json['creates_join_request'] as bool?) ?? false,
   );
 }
 
@@ -8267,7 +9022,7 @@ class GetChatInviteLinks extends TdFunction {
   final int offsetDate;
   /// Invite link starting after which to return invite links; use empty string to get results from the beginning
   final String offsetInviteLink;
-  /// The maximum number of invite links to return
+  /// The maximum number of invite links to return; up to 100
   final int limit;
 
   GetChatInviteLinks({
@@ -8324,9 +9079,9 @@ class GetChatInviteLinkMembers extends TdFunction {
   final int chatId;
   /// Invite link for which to return chat members
   final String inviteLink;
-  /// A chat member from which to return next chat members; use null to get results from the beginning
+  /// A chat member from which to return next chat members; pass null to get results from the beginning
   final o.ChatInviteLinkMember? offsetMember;
-  /// The maximum number of chat members to return
+  /// The maximum number of chat members to return; up to 100
   final int limit;
 
   GetChatInviteLinkMembers({
@@ -8488,7 +9243,7 @@ class DeleteAllRevokedChatInviteLinks extends TdFunction {
 
 /// Checks the validity of an invite link for a chat and returns information about the corresponding chat
 class CheckChatInviteLink extends TdFunction {
-  /// Invite link to be checked; must have URL "t.me", "telegram.me", or "telegram.dog" and query beginning with "/joinchat/" or "/+"
+  /// Invite link to be checked
   final String inviteLink;
 
   CheckChatInviteLink({
@@ -8521,7 +9276,7 @@ class CheckChatInviteLink extends TdFunction {
 
 /// Uses an invite link to add the current user to the chat if possible
 class JoinChatByInviteLink extends TdFunction {
-  /// Invite link to import; must have URL "t.me", "telegram.me", or "telegram.dog" and query beginning with "/joinchat/" or "/+"
+  /// Invite link to use
   final String inviteLink;
 
   JoinChatByInviteLink({
@@ -8552,11 +9307,158 @@ class JoinChatByInviteLink extends TdFunction {
   );
 }
 
+/// Returns pending join requests in a chat
+class GetChatJoinRequests extends TdFunction {
+  /// Chat identifier
+  final int chatId;
+  /// Invite link for which to return join requests. If empty, all join requests will be returned. Requires administrator privileges and can_invite_users right in the chat for own links and owner privileges for other links
+  final String inviteLink;
+  /// A query to search for in the first names, last names and usernames of the users to return
+  final String query;
+  /// A chat join request from which to return next requests; pass null to get results from the beginning
+  final o.ChatJoinRequest? offsetRequest;
+  /// The maximum number of chat join requests to return
+  final int limit;
+
+  GetChatJoinRequests({
+    required this.chatId,
+    required this.inviteLink,
+    required this.query,
+    required this.offsetRequest,
+    required this.limit,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::GetChatJoinRequests(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(inviteLink.toString());
+    params.add(query.toString());
+    params.add(offsetRequest.toString());
+    params.add(limit.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getChatJoinRequests',
+    'chat_id': chatId,
+    'invite_link': inviteLink,
+    'query': query,
+    'offset_request': offsetRequest?.toJson(),
+    'limit': limit,
+  };
+
+  factory GetChatJoinRequests.fromJson(Map<String, dynamic> json) => GetChatJoinRequests(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    inviteLink: (json['invite_link'] as String?) ?? '',
+    query: (json['query'] as String?) ?? '',
+    offsetRequest: b.TdBase.fromJson(json['offset_request']) as o.ChatJoinRequest?,
+    limit: (json['limit'] as int?) ?? 0,
+  );
+}
+
+/// Handles a pending join request in a chat
+class ProcessChatJoinRequest extends TdFunction {
+  /// Chat identifier
+  final int chatId;
+  /// Identifier of the user that sent the request
+  final int userId;
+  /// True, if the request is approved. Otherwise the request is declived
+  final bool approve;
+
+  ProcessChatJoinRequest({
+    required this.chatId,
+    required this.userId,
+    required this.approve,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ProcessChatJoinRequest(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(userId.toString());
+    params.add(approve.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'processChatJoinRequest',
+    'chat_id': chatId,
+    'user_id': userId,
+    'approve': approve,
+  };
+
+  factory ProcessChatJoinRequest.fromJson(Map<String, dynamic> json) => ProcessChatJoinRequest(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    userId: (json['user_id'] as int?) ?? 0,
+    approve: (json['approve'] as bool?) ?? false,
+  );
+}
+
+/// Handles all pending join requests for a given link in a chat
+class ProcessChatJoinRequests extends TdFunction {
+  /// Chat identifier
+  final int chatId;
+  /// Invite link for which to process join requests. If empty, all join requests will be processed. Requires administrator privileges and can_invite_users right in the chat for own links and owner privileges for other links
+  final String inviteLink;
+  /// True, if the requests are approved. Otherwise the requests are declived
+  final bool approve;
+
+  ProcessChatJoinRequests({
+    required this.chatId,
+    required this.inviteLink,
+    required this.approve,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ProcessChatJoinRequests(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(inviteLink.toString());
+    params.add(approve.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'processChatJoinRequests',
+    'chat_id': chatId,
+    'invite_link': inviteLink,
+    'approve': approve,
+  };
+
+  factory ProcessChatJoinRequests.fromJson(Map<String, dynamic> json) => ProcessChatJoinRequests(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    inviteLink: (json['invite_link'] as String?) ?? '',
+    approve: (json['approve'] as bool?) ?? false,
+  );
+}
+
 /// Creates a new call
 class CreateCall extends TdFunction {
   /// Identifier of the user to be called
   final int userId;
-  /// Description of the call protocols supported by the application
+  /// The call protocols supported by the application
   final o.CallProtocol? protocol;
   /// True, if a video call needs to be created
   final bool isVideo;
@@ -8601,7 +9503,7 @@ class CreateCall extends TdFunction {
 class AcceptCall extends TdFunction {
   /// Call identifier
   final int callId;
-  /// Description of the call protocols supported by the application
+  /// The call protocols supported by the application
   final o.CallProtocol? protocol;
 
   AcceptCall({
@@ -8822,18 +9724,18 @@ class SendCallDebugInformation extends TdFunction {
   );
 }
 
-/// Returns list of participant identifiers, which can be used to join voice chats in a chat
-class GetVoiceChatAvailableParticipants extends TdFunction {
+/// Returns list of participant identifiers, which can be used to join video chats in a chat
+class GetVideoChatAvailableParticipants extends TdFunction {
   /// Chat identifier
   final int chatId;
 
-  GetVoiceChatAvailableParticipants({
+  GetVideoChatAvailableParticipants({
     required this.chatId,
   });
 
   @override
   String toString() {
-    var s = 'td::GetVoiceChatAvailableParticipants(';
+    var s = 'td::GetVideoChatAvailableParticipants(';
 
     // Params
     final params = <String>[];
@@ -8846,30 +9748,30 @@ class GetVoiceChatAvailableParticipants extends TdFunction {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'getVoiceChatAvailableParticipants',
+    '@type': 'getVideoChatAvailableParticipants',
     'chat_id': chatId,
   };
 
-  factory GetVoiceChatAvailableParticipants.fromJson(Map<String, dynamic> json) => GetVoiceChatAvailableParticipants(
+  factory GetVideoChatAvailableParticipants.fromJson(Map<String, dynamic> json) => GetVideoChatAvailableParticipants(
     chatId: (json['chat_id'] as int?) ?? 0,
   );
 }
 
-/// Changes default participant identifier, which can be used to join voice chats in a chat
-class SetVoiceChatDefaultParticipant extends TdFunction {
+/// Changes default participant identifier, which can be used to join video chats in a chat
+class SetVideoChatDefaultParticipant extends TdFunction {
   /// Chat identifier
   final int chatId;
-  /// Default group call participant identifier to join the voice chats
+  /// Default group call participant identifier to join the video chats
   final a.MessageSender? defaultParticipantId;
 
-  SetVoiceChatDefaultParticipant({
+  SetVideoChatDefaultParticipant({
     required this.chatId,
     required this.defaultParticipantId,
   });
 
   @override
   String toString() {
-    var s = 'td::SetVoiceChatDefaultParticipant(';
+    var s = 'td::SetVideoChatDefaultParticipant(';
 
     // Params
     final params = <String>[];
@@ -8883,27 +9785,27 @@ class SetVoiceChatDefaultParticipant extends TdFunction {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'setVoiceChatDefaultParticipant',
+    '@type': 'setVideoChatDefaultParticipant',
     'chat_id': chatId,
     'default_participant_id': defaultParticipantId?.toJson(),
   };
 
-  factory SetVoiceChatDefaultParticipant.fromJson(Map<String, dynamic> json) => SetVoiceChatDefaultParticipant(
+  factory SetVideoChatDefaultParticipant.fromJson(Map<String, dynamic> json) => SetVideoChatDefaultParticipant(
     chatId: (json['chat_id'] as int?) ?? 0,
     defaultParticipantId: b.TdBase.fromJson(json['default_participant_id']) as a.MessageSender?,
   );
 }
 
-/// Creates a voice chat (a group call bound to a chat). Available only for basic groups, supergroups and channels; requires can_manage_voice_chats rights
-class CreateVoiceChat extends TdFunction {
-  /// Chat identifier, in which the voice chat will be created
+/// Creates a video chat (a group call bound to a chat). Available only for basic groups, supergroups and channels; requires can_manage_video_chats rights
+class CreateVideoChat extends TdFunction {
+  /// Chat identifier, in which the video chat will be created
   final int chatId;
   /// Group call title; if empty, chat title will be used
   final String title;
-  /// Point in time (Unix timestamp) when the group call is supposed to be started by an administrator; 0 to start the voice chat immediately. The date must be at least 10 seconds and at most 8 days in the future
+  /// Point in time (Unix timestamp) when the group call is supposed to be started by an administrator; 0 to start the video chat immediately. The date must be at least 10 seconds and at most 8 days in the future
   final int startDate;
 
-  CreateVoiceChat({
+  CreateVideoChat({
     required this.chatId,
     required this.title,
     required this.startDate,
@@ -8911,7 +9813,7 @@ class CreateVoiceChat extends TdFunction {
 
   @override
   String toString() {
-    var s = 'td::CreateVoiceChat(';
+    var s = 'td::CreateVideoChat(';
 
     // Params
     final params = <String>[];
@@ -8926,13 +9828,13 @@ class CreateVoiceChat extends TdFunction {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'createVoiceChat',
+    '@type': 'createVideoChat',
     'chat_id': chatId,
     'title': title,
     'start_date': startDate,
   };
 
-  factory CreateVoiceChat.fromJson(Map<String, dynamic> json) => CreateVoiceChat(
+  factory CreateVideoChat.fromJson(Map<String, dynamic> json) => CreateVideoChat(
     chatId: (json['chat_id'] as int?) ?? 0,
     title: (json['title'] as String?) ?? '',
     startDate: (json['start_date'] as int?) ?? 0,
@@ -9044,27 +9946,30 @@ class ToggleGroupCallEnabledStartNotification extends TdFunction {
   );
 }
 
-/// Joins an active group call
+/// Joins an active group call. Returns join response payload for tgcalls
 class JoinGroupCall extends TdFunction {
   /// Group call identifier
   final int groupCallId;
-  /// Identifier of a group call participant, which will be used to join the call; voice chats only
+  /// Identifier of a group call participant, which will be used to join the call; pass null to join as self; video chats only
   final a.MessageSender? participantId;
-  /// Group join payload; received from tgcalls
-  final o.GroupCallPayload? payload;
-  /// Caller synchronization source identifier; received from tgcalls
-  final int source;
+  /// Caller audio channel synchronization source identifier; received from tgcalls
+  final int audioSourceId;
+  /// Group call join payload; received from tgcalls
+  final String payload;
   /// True, if the user's microphone is muted
   final bool isMuted;
+  /// True, if the user's video is enabled
+  final bool isMyVideoEnabled;
   /// If non-empty, invite hash to be used to join the group call without being muted by administrators
   final String inviteHash;
 
   JoinGroupCall({
     required this.groupCallId,
     required this.participantId,
+    required this.audioSourceId,
     required this.payload,
-    required this.source,
     required this.isMuted,
+    required this.isMyVideoEnabled,
     required this.inviteHash,
   });
 
@@ -9076,9 +9981,10 @@ class JoinGroupCall extends TdFunction {
     final params = <String>[];
     params.add(groupCallId.toString());
     params.add(participantId.toString());
+    params.add(audioSourceId.toString());
     params.add(payload.toString());
-    params.add(source.toString());
     params.add(isMuted.toString());
+    params.add(isMyVideoEnabled.toString());
     params.add(inviteHash.toString());
     s += params.join(', ');
 
@@ -9091,19 +9997,138 @@ class JoinGroupCall extends TdFunction {
     '@type': 'joinGroupCall',
     'group_call_id': groupCallId,
     'participant_id': participantId?.toJson(),
-    'payload': payload?.toJson(),
-    'source': source,
+    'audio_source_id': audioSourceId,
+    'payload': payload,
     'is_muted': isMuted,
+    'is_my_video_enabled': isMyVideoEnabled,
     'invite_hash': inviteHash,
   };
 
   factory JoinGroupCall.fromJson(Map<String, dynamic> json) => JoinGroupCall(
     groupCallId: (json['group_call_id'] as int?) ?? 0,
     participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    payload: b.TdBase.fromJson(json['payload']) as o.GroupCallPayload?,
-    source: (json['source'] as int?) ?? 0,
+    audioSourceId: (json['audio_source_id'] as int?) ?? 0,
+    payload: (json['payload'] as String?) ?? '',
     isMuted: (json['is_muted'] as bool?) ?? false,
+    isMyVideoEnabled: (json['is_my_video_enabled'] as bool?) ?? false,
     inviteHash: (json['invite_hash'] as String?) ?? '',
+  );
+}
+
+/// Starts screen sharing in a joined group call. Returns join response payload for tgcalls
+class StartGroupCallScreenSharing extends TdFunction {
+  /// Group call identifier
+  final int groupCallId;
+  /// Screen sharing audio channel synchronization source identifier; received from tgcalls
+  final int audioSourceId;
+  /// Group call join payload; received from tgcalls
+  final String payload;
+
+  StartGroupCallScreenSharing({
+    required this.groupCallId,
+    required this.audioSourceId,
+    required this.payload,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::StartGroupCallScreenSharing(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(audioSourceId.toString());
+    params.add(payload.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'startGroupCallScreenSharing',
+    'group_call_id': groupCallId,
+    'audio_source_id': audioSourceId,
+    'payload': payload,
+  };
+
+  factory StartGroupCallScreenSharing.fromJson(Map<String, dynamic> json) => StartGroupCallScreenSharing(
+    groupCallId: (json['group_call_id'] as int?) ?? 0,
+    audioSourceId: (json['audio_source_id'] as int?) ?? 0,
+    payload: (json['payload'] as String?) ?? '',
+  );
+}
+
+/// Pauses or unpauses screen sharing in a joined group call
+class ToggleGroupCallScreenSharingIsPaused extends TdFunction {
+  /// Group call identifier
+  final int groupCallId;
+  /// True if screen sharing is paused
+  final bool isPaused;
+
+  ToggleGroupCallScreenSharingIsPaused({
+    required this.groupCallId,
+    required this.isPaused,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ToggleGroupCallScreenSharingIsPaused(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(isPaused.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'toggleGroupCallScreenSharingIsPaused',
+    'group_call_id': groupCallId,
+    'is_paused': isPaused,
+  };
+
+  factory ToggleGroupCallScreenSharingIsPaused.fromJson(Map<String, dynamic> json) => ToggleGroupCallScreenSharingIsPaused(
+    groupCallId: (json['group_call_id'] as int?) ?? 0,
+    isPaused: (json['is_paused'] as bool?) ?? false,
+  );
+}
+
+/// Ends screen sharing in a joined group call
+class EndGroupCallScreenSharing extends TdFunction {
+  /// Group call identifier
+  final int groupCallId;
+
+  EndGroupCallScreenSharing({
+    required this.groupCallId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::EndGroupCallScreenSharing(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'endGroupCallScreenSharing',
+    'group_call_id': groupCallId,
+  };
+
+  factory EndGroupCallScreenSharing.fromJson(Map<String, dynamic> json) => EndGroupCallScreenSharing(
+    groupCallId: (json['group_call_id'] as int?) ?? 0,
   );
 }
 
@@ -9146,7 +10171,7 @@ class SetGroupCallTitle extends TdFunction {
   );
 }
 
-/// Toggles whether new participants of a group call can be unmuted only by administrators of the group call. Requires groupCall.can_change_mute_new_participants group call flag
+/// Toggles whether new participants of a group call can be unmuted only by administrators of the group call. Requires groupCall.can_toggle_mute_new_participants group call flag
 class ToggleGroupCallMuteNewParticipants extends TdFunction {
   /// Group call identifier
   final int groupCallId;
@@ -9185,40 +10210,7 @@ class ToggleGroupCallMuteNewParticipants extends TdFunction {
   );
 }
 
-/// Revokes invite link for a group call. Requires groupCall.can_be_managed group call flag
-class RevokeGroupCallInviteLink extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-
-  RevokeGroupCallInviteLink({
-    required this.groupCallId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::RevokeGroupCallInviteLink(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'revokeGroupCallInviteLink',
-    'group_call_id': groupCallId,
-  };
-
-  factory RevokeGroupCallInviteLink.fromJson(Map<String, dynamic> json) => RevokeGroupCallInviteLink(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-  );
-}
-
-/// Invites users to an active group call. Sends a service message of type messageInviteToGroupCall for voice chats
+/// Invites users to an active group call. Sends a service message of type messageInviteToGroupCall for video chats
 class InviteGroupCallParticipants extends TdFunction {
   /// Group call identifier
   final int groupCallId;
@@ -9257,11 +10249,11 @@ class InviteGroupCallParticipants extends TdFunction {
   );
 }
 
-/// Returns invite link to a voice chat in a public chat
+/// Returns invite link to a video chat in a public chat
 class GetGroupCallInviteLink extends TdFunction {
   /// Group call identifier
   final int groupCallId;
-  /// Pass true if the invite_link should contain an invite hash, passing which to joinGroupCall would allow the invited user to unmute themself. Requires groupCall.can_be_managed group call flag
+  /// Pass true if the invite link needs to contain an invite hash, passing which to joinGroupCall would allow the invited user to unmute themselves. Requires groupCall.can_be_managed group call flag
   final bool canSelfUnmute;
 
   GetGroupCallInviteLink({
@@ -9296,16 +10288,55 @@ class GetGroupCallInviteLink extends TdFunction {
   );
 }
 
+/// Revokes invite link for a group call. Requires groupCall.can_be_managed group call flag
+class RevokeGroupCallInviteLink extends TdFunction {
+  /// Group call identifier
+  final int groupCallId;
+
+  RevokeGroupCallInviteLink({
+    required this.groupCallId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::RevokeGroupCallInviteLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'revokeGroupCallInviteLink',
+    'group_call_id': groupCallId,
+  };
+
+  factory RevokeGroupCallInviteLink.fromJson(Map<String, dynamic> json) => RevokeGroupCallInviteLink(
+    groupCallId: (json['group_call_id'] as int?) ?? 0,
+  );
+}
+
 /// Starts recording of an active group call. Requires groupCall.can_be_managed group call flag
 class StartGroupCallRecording extends TdFunction {
   /// Group call identifier
   final int groupCallId;
   /// Group call recording title; 0-64 characters
   final String title;
+  /// Pass true to record a video file instead of an audio file
+  final bool recordVideo;
+  /// Pass true to use portrait orientation for video instead of landscape one
+  final bool usePortraitOrientation;
 
   StartGroupCallRecording({
     required this.groupCallId,
     required this.title,
+    required this.recordVideo,
+    required this.usePortraitOrientation,
   });
 
   @override
@@ -9316,6 +10347,8 @@ class StartGroupCallRecording extends TdFunction {
     final params = <String>[];
     params.add(groupCallId.toString());
     params.add(title.toString());
+    params.add(recordVideo.toString());
+    params.add(usePortraitOrientation.toString());
     s += params.join(', ');
 
     s += ')';
@@ -9327,11 +10360,15 @@ class StartGroupCallRecording extends TdFunction {
     '@type': 'startGroupCallRecording',
     'group_call_id': groupCallId,
     'title': title,
+    'record_video': recordVideo,
+    'use_portrait_orientation': usePortraitOrientation,
   };
 
   factory StartGroupCallRecording.fromJson(Map<String, dynamic> json) => StartGroupCallRecording(
     groupCallId: (json['group_call_id'] as int?) ?? 0,
     title: (json['title'] as String?) ?? '',
+    recordVideo: (json['record_video'] as bool?) ?? false,
+    usePortraitOrientation: (json['use_portrait_orientation'] as bool?) ?? false,
   );
 }
 
@@ -9368,18 +10405,96 @@ class EndGroupCallRecording extends TdFunction {
   );
 }
 
-/// Informs TDLib that a participant of an active group call speaking state has changed
+/// Toggles whether current user's video is paused
+class ToggleGroupCallIsMyVideoPaused extends TdFunction {
+  /// Group call identifier
+  final int groupCallId;
+  /// Pass true if the current user's video is paused
+  final bool isMyVideoPaused;
+
+  ToggleGroupCallIsMyVideoPaused({
+    required this.groupCallId,
+    required this.isMyVideoPaused,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ToggleGroupCallIsMyVideoPaused(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(isMyVideoPaused.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'toggleGroupCallIsMyVideoPaused',
+    'group_call_id': groupCallId,
+    'is_my_video_paused': isMyVideoPaused,
+  };
+
+  factory ToggleGroupCallIsMyVideoPaused.fromJson(Map<String, dynamic> json) => ToggleGroupCallIsMyVideoPaused(
+    groupCallId: (json['group_call_id'] as int?) ?? 0,
+    isMyVideoPaused: (json['is_my_video_paused'] as bool?) ?? false,
+  );
+}
+
+/// Toggles whether current user's video is enabled
+class ToggleGroupCallIsMyVideoEnabled extends TdFunction {
+  /// Group call identifier
+  final int groupCallId;
+  /// Pass true if the current user's video is enabled
+  final bool isMyVideoEnabled;
+
+  ToggleGroupCallIsMyVideoEnabled({
+    required this.groupCallId,
+    required this.isMyVideoEnabled,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ToggleGroupCallIsMyVideoEnabled(';
+
+    // Params
+    final params = <String>[];
+    params.add(groupCallId.toString());
+    params.add(isMyVideoEnabled.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'toggleGroupCallIsMyVideoEnabled',
+    'group_call_id': groupCallId,
+    'is_my_video_enabled': isMyVideoEnabled,
+  };
+
+  factory ToggleGroupCallIsMyVideoEnabled.fromJson(Map<String, dynamic> json) => ToggleGroupCallIsMyVideoEnabled(
+    groupCallId: (json['group_call_id'] as int?) ?? 0,
+    isMyVideoEnabled: (json['is_my_video_enabled'] as bool?) ?? false,
+  );
+}
+
+/// Informs TDLib that speaking state of a participant of an active group has changed
 class SetGroupCallParticipantIsSpeaking extends TdFunction {
   /// Group call identifier
   final int groupCallId;
-  /// Group call participant's synchronization source identifier, or 0 for the current user
-  final int source;
+  /// Group call participant's synchronization audio source identifier, or 0 for the current user
+  final int audioSource;
   /// True, if the user is speaking
   final bool isSpeaking;
 
   SetGroupCallParticipantIsSpeaking({
     required this.groupCallId,
-    required this.source,
+    required this.audioSource,
     required this.isSpeaking,
   });
 
@@ -9390,7 +10505,7 @@ class SetGroupCallParticipantIsSpeaking extends TdFunction {
     // Params
     final params = <String>[];
     params.add(groupCallId.toString());
-    params.add(source.toString());
+    params.add(audioSource.toString());
     params.add(isSpeaking.toString());
     s += params.join(', ');
 
@@ -9402,18 +10517,18 @@ class SetGroupCallParticipantIsSpeaking extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setGroupCallParticipantIsSpeaking',
     'group_call_id': groupCallId,
-    'source': source,
+    'audio_source': audioSource,
     'is_speaking': isSpeaking,
   };
 
   factory SetGroupCallParticipantIsSpeaking.fromJson(Map<String, dynamic> json) => SetGroupCallParticipantIsSpeaking(
     groupCallId: (json['group_call_id'] as int?) ?? 0,
-    source: (json['source'] as int?) ?? 0,
+    audioSource: (json['audio_source'] as int?) ?? 0,
     isSpeaking: (json['is_speaking'] as bool?) ?? false,
   );
 }
 
-/// Toggles whether a participant of an active group call is muted, unmuted, or allowed to unmute themself
+/// Toggles whether a participant of an active group call is muted, unmuted, or allowed to unmute themselves
 class ToggleGroupCallParticipantIsMuted extends TdFunction {
   /// Group call identifier
   final int groupCallId;
@@ -9458,7 +10573,7 @@ class ToggleGroupCallParticipantIsMuted extends TdFunction {
   );
 }
 
-/// Changes volume level of a participant of an active group call. If the current user can manage the group call, then the participant's volume level will be changed for all users with default volume level
+/// Changes volume level of a participant of an active group call. If the current user can manage the group call, then the participant's volume level will be changed for all users with the default volume level
 class SetGroupCallParticipantVolumeLevel extends TdFunction {
   /// Group call identifier
   final int groupCallId;
@@ -9509,7 +10624,7 @@ class ToggleGroupCallParticipantIsHandRaised extends TdFunction {
   final int groupCallId;
   /// Participant identifier
   final a.MessageSender? participantId;
-  /// Pass true if the user's hand should be raised. Only self hand can be raised. Requires groupCall.can_be_managed group call flag to lower other's hand
+  /// Pass true if the user's hand needs to be raised. Only self hand can be raised. Requires groupCall.can_be_managed group call flag to lower other's hand
   final bool isHandRaised;
 
   ToggleGroupCallParticipantIsHandRaised({
@@ -9548,11 +10663,11 @@ class ToggleGroupCallParticipantIsHandRaised extends TdFunction {
   );
 }
 
-/// Loads more participants of a group call. The loaded participants will be received through updates. Use the field groupCall.loaded_all_participants to check whether all participants has already been loaded
+/// Loads more participants of a group call. The loaded participants will be received through updates. Use the field groupCall.loaded_all_participants to check whether all participants have already been loaded
 class LoadGroupCallParticipants extends TdFunction {
   /// Group call identifier. The group call must be previously received through getGroupCall and must be joined or being joined
   final int groupCallId;
-  /// The maximum number of participants to load
+  /// The maximum number of participants to load; up to 100
   final int limit;
 
   LoadGroupCallParticipants({
@@ -9653,7 +10768,7 @@ class DiscardGroupCall extends TdFunction {
   );
 }
 
-/// Returns a file with a segment of a group call stream in a modified OGG format
+/// Returns a file with a segment of a group call stream in a modified OGG format for audio or MPEG-4 format for video
 class GetGroupCallStreamSegment extends TdFunction {
   /// Group call identifier
   final int groupCallId;
@@ -9661,11 +10776,17 @@ class GetGroupCallStreamSegment extends TdFunction {
   final int timeOffset;
   /// Segment duration scale; 0-1. Segment's duration is 1000/(2**scale) milliseconds
   final int scale;
+  /// Identifier of an audio/video channel to get as received from tgcalls
+  final int channelId;
+  /// Video quality as received from tgcalls; pass null to get the worst available quality
+  final a.GroupCallVideoQuality? videoQuality;
 
   GetGroupCallStreamSegment({
     required this.groupCallId,
     required this.timeOffset,
     required this.scale,
+    required this.channelId,
+    required this.videoQuality,
   });
 
   @override
@@ -9677,6 +10798,8 @@ class GetGroupCallStreamSegment extends TdFunction {
     params.add(groupCallId.toString());
     params.add(timeOffset.toString());
     params.add(scale.toString());
+    params.add(channelId.toString());
+    params.add(videoQuality.toString());
     s += params.join(', ');
 
     s += ')';
@@ -9689,24 +10812,28 @@ class GetGroupCallStreamSegment extends TdFunction {
     'group_call_id': groupCallId,
     'time_offset': timeOffset,
     'scale': scale,
+    'channel_id': channelId,
+    'video_quality': videoQuality?.toJson(),
   };
 
   factory GetGroupCallStreamSegment.fromJson(Map<String, dynamic> json) => GetGroupCallStreamSegment(
     groupCallId: (json['group_call_id'] as int?) ?? 0,
     timeOffset: (json['time_offset'] as int?) ?? 0,
     scale: (json['scale'] as int?) ?? 0,
+    channelId: (json['channel_id'] as int?) ?? 0,
+    videoQuality: b.TdBase.fromJson(json['video_quality']) as a.GroupCallVideoQuality?,
   );
 }
 
 /// Changes the block state of a message sender. Currently, only users and supergroup chats can be blocked
 class ToggleMessageSenderIsBlocked extends TdFunction {
-  /// Message Sender
-  final a.MessageSender? sender;
+  /// Identifier of a message sender to block/unblock
+  final a.MessageSender? senderId;
   /// New value of is_blocked
   final bool isBlocked;
 
   ToggleMessageSenderIsBlocked({
-    required this.sender,
+    required this.senderId,
     required this.isBlocked,
   });
 
@@ -9716,7 +10843,7 @@ class ToggleMessageSenderIsBlocked extends TdFunction {
 
     // Params
     final params = <String>[];
-    params.add(sender.toString());
+    params.add(senderId.toString());
     params.add(isBlocked.toString());
     s += params.join(', ');
 
@@ -9727,12 +10854,12 @@ class ToggleMessageSenderIsBlocked extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'toggleMessageSenderIsBlocked',
-    'sender': sender?.toJson(),
+    'sender_id': senderId?.toJson(),
     'is_blocked': isBlocked,
   };
 
   factory ToggleMessageSenderIsBlocked.fromJson(Map<String, dynamic> json) => ToggleMessageSenderIsBlocked(
-    sender: b.TdBase.fromJson(json['sender']) as a.MessageSender?,
+    senderId: b.TdBase.fromJson(json['sender_id']) as a.MessageSender?,
     isBlocked: (json['is_blocked'] as bool?) ?? false,
   );
 }
@@ -9831,7 +10958,7 @@ class GetBlockedMessageSenders extends TdFunction {
 class AddContact extends TdFunction {
   /// The contact to add or edit; phone number can be empty and needs to be specified only if known, vCard is ignored
   final o.Contact? contact;
-  /// True, if the new contact needs to be allowed to see current user's phone number. A corresponding rule to userPrivacySettingShowPhoneNumber will be added if needed. Use the field UserFullInfo.need_phone_number_privacy_exception to check whether the current user needs to be asked to share their phone number
+  /// True, if the new contact needs to be allowed to see current user's phone number. A corresponding rule to userPrivacySettingShowPhoneNumber will be added if needed. Use the field userFullInfo.need_phone_number_privacy_exception to check whether the current user needs to be asked to share their phone number
   final bool sharePhoneNumber;
 
   AddContact({
@@ -10157,7 +11284,7 @@ class GetUserProfilePhotos extends TdFunction {
   );
 }
 
-/// Returns stickers from the installed sticker sets that correspond to a given emoji. If the emoji is not empty, favorite and recently used stickers may also be returned
+/// Returns stickers from the installed sticker sets that correspond to a given emoji. If the emoji is non-empty, favorite and recently used stickers may also be returned
 class GetStickers extends TdFunction {
   /// String representation of emoji. If empty, returns all known installed stickers
   final String emoji;
@@ -10274,7 +11401,7 @@ class GetArchivedStickerSets extends TdFunction {
   final bool isMasks;
   /// Identifier of the sticker set from which to return the result
   final int offsetStickerSetId;
-  /// The maximum number of sticker sets to return
+  /// The maximum number of sticker sets to return; up to 100
   final int limit;
 
   GetArchivedStickerSets({
@@ -10313,11 +11440,11 @@ class GetArchivedStickerSets extends TdFunction {
   );
 }
 
-/// Returns a list of trending sticker sets. For the optimal performance the number of returned sticker sets is chosen by the library
+/// Returns a list of trending sticker sets. For optimal performance, the number of returned sticker sets is chosen by TDLib
 class GetTrendingStickerSets extends TdFunction {
   /// The offset from which to return the sticker sets; must be non-negative
   final int offset;
-  /// The maximum number of sticker sets to be returned; must be non-negative. Fewer sticker sets may be returned than specified by the limit, even if the end of the list has not been reached
+  /// The maximum number of sticker sets to be returned; up to 100. For optimal performance, the number of returned sticker sets is chosen by TDLib and can be smaller than the specified limit, even if the end of the list has not been reached
   final int limit;
 
   GetTrendingStickerSets({
@@ -10352,7 +11479,7 @@ class GetTrendingStickerSets extends TdFunction {
   );
 }
 
-/// Returns a list of sticker sets attached to a file. Currently only photos and videos can have attached sticker sets
+/// Returns a list of sticker sets attached to a file. Currently, only photos and videos can have attached sticker sets
 class GetAttachedStickerSets extends TdFunction {
   /// File identifier
   final int fileId;
@@ -10959,6 +12086,39 @@ class SearchEmojis extends TdFunction {
   );
 }
 
+/// Returns an animated emoji corresponding to a given emoji. Returns a 404 error if the emoji has no animated emoji
+class GetAnimatedEmoji extends TdFunction {
+  /// The emoji
+  final String emoji;
+
+  GetAnimatedEmoji({
+    required this.emoji,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::GetAnimatedEmoji(';
+
+    // Params
+    final params = <String>[];
+    params.add(emoji.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getAnimatedEmoji',
+    'emoji': emoji,
+  };
+
+  factory GetAnimatedEmoji.fromJson(Map<String, dynamic> json) => GetAnimatedEmoji(
+    emoji: (json['emoji'] as String?) ?? '',
+  );
+}
+
 /// Returns an HTTP URL which can be used to automatically log in to the translation platform and suggest new emoji replacements. The URL will be valid for 30 seconds after generation
 class GetEmojiSuggestionsUrl extends TdFunction {
   /// Language code for which the emoji replacements will be suggested
@@ -11019,7 +12179,7 @@ class GetSavedAnimations extends TdFunction {
 
 /// Manually adds a new animation to the list of saved animations. The new animation is added to the beginning of the list. If the animation was already in the list, it is removed first. Only non-secret video animations with MIME type "video/mp4" can be added to the list
 class AddSavedAnimation extends TdFunction {
-  /// The animation file to be added. Only animations known to the server (i.e. successfully sent via a message) can be added to the list
+  /// The animation file to be added. Only animations known to the server (i.e., successfully sent via a message) can be added to the list
   final a.InputFile? animation;
 
   AddSavedAnimation({
@@ -11320,9 +12480,9 @@ class DeleteProfilePhoto extends TdFunction {
 
 /// Changes the first and last name of the current user
 class SetName extends TdFunction {
-  /// The new value of the first name for the user; 1-64 characters
+  /// The new value of the first name for the current user; 1-64 characters
   final String firstName;
-  /// The new value of the optional last name for the user; 0-64 characters
+  /// The new value of the optional last name for the current user; 0-64 characters
   final String lastName;
 
   SetName({
@@ -11460,7 +12620,7 @@ class SetLocation extends TdFunction {
 class ChangePhoneNumber extends TdFunction {
   /// The new phone number of the user in international format
   final String phoneNumber;
-  /// Settings for the authentication of the user's phone number
+  /// Settings for the authentication of the user's phone number; pass null to use default settings
   final o.PhoneNumberAuthenticationSettings? settings;
 
   ChangePhoneNumber({
@@ -11495,7 +12655,7 @@ class ChangePhoneNumber extends TdFunction {
   );
 }
 
-/// Re-sends the authentication code sent to confirm a new phone number for the user. Works only if the previously received authenticationCodeInfo next_code_type was not null
+/// Re-sends the authentication code sent to confirm a new phone number for the current user. Works only if the previously received authenticationCodeInfo next_code_type was not null and the server-specified timeout has passed
 class ResendChangePhoneNumberCode extends TdFunction {
   ResendChangePhoneNumberCode();
 
@@ -11522,7 +12682,7 @@ class ResendChangePhoneNumberCode extends TdFunction {
 
 /// Checks the authentication code sent to confirm a new phone number of the user
 class CheckChangePhoneNumberCode extends TdFunction {
-  /// Verification code received by SMS, phone call or flash call
+  /// Authentication code to check
   final String code;
 
   CheckChangePhoneNumberCode({
@@ -11553,12 +12713,18 @@ class CheckChangePhoneNumberCode extends TdFunction {
   );
 }
 
-/// Sets the list of commands supported by the bot; for bots only
+/// Sets the list of commands supported by the bot for the given user scope and language; for bots only
 class SetCommands extends TdFunction {
+  /// The scope to which the commands are relevant; pass null to change commands in the default bot command scope
+  final a.BotCommandScope? scope;
+  /// A two-letter ISO 639-1 country code. If empty, the commands will be applied to all users from the given scope, for which language there are no dedicated commands
+  final String languageCode;
   /// List of the bot's commands
   final List<o.BotCommand?> commands;
 
   SetCommands({
+    required this.scope,
+    required this.languageCode,
     required this.commands,
   });
 
@@ -11568,6 +12734,8 @@ class SetCommands extends TdFunction {
 
     // Params
     final params = <String>[];
+    params.add(scope.toString());
+    params.add(languageCode.toString());
     params.add(commands.toString());
     s += params.join(', ');
 
@@ -11578,11 +12746,93 @@ class SetCommands extends TdFunction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'setCommands',
+    'scope': scope?.toJson(),
+    'language_code': languageCode,
     'commands': commands.map((_e1) => _e1?.toJson()).toList(growable: false),
   };
 
   factory SetCommands.fromJson(Map<String, dynamic> json) => SetCommands(
+    scope: b.TdBase.fromJson(json['scope']) as a.BotCommandScope?,
+    languageCode: (json['language_code'] as String?) ?? '',
     commands: json['commands'] == null ? <o.BotCommand?>[] : (json['commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as o.BotCommand?)).toList(growable: false),
+  );
+}
+
+/// Deletes commands supported by the bot for the given user scope and language; for bots only
+class DeleteCommands extends TdFunction {
+  /// The scope to which the commands are relevant; pass null to delete commands in the default bot command scope
+  final a.BotCommandScope? scope;
+  /// A two-letter ISO 639-1 country code or an empty string
+  final String languageCode;
+
+  DeleteCommands({
+    required this.scope,
+    required this.languageCode,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::DeleteCommands(';
+
+    // Params
+    final params = <String>[];
+    params.add(scope.toString());
+    params.add(languageCode.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'deleteCommands',
+    'scope': scope?.toJson(),
+    'language_code': languageCode,
+  };
+
+  factory DeleteCommands.fromJson(Map<String, dynamic> json) => DeleteCommands(
+    scope: b.TdBase.fromJson(json['scope']) as a.BotCommandScope?,
+    languageCode: (json['language_code'] as String?) ?? '',
+  );
+}
+
+/// Returns the list of commands supported by the bot for the given user scope and language; for bots only
+class GetCommands extends TdFunction {
+  /// The scope to which the commands are relevant; pass null to get commands in the default bot command scope
+  final a.BotCommandScope? scope;
+  /// A two-letter ISO 639-1 country code or an empty string
+  final String languageCode;
+
+  GetCommands({
+    required this.scope,
+    required this.languageCode,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::GetCommands(';
+
+    // Params
+    final params = <String>[];
+    params.add(scope.toString());
+    params.add(languageCode.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getCommands',
+    'scope': scope?.toJson(),
+    'language_code': languageCode,
+  };
+
+  factory GetCommands.fromJson(Map<String, dynamic> json) => GetCommands(
+    scope: b.TdBase.fromJson(json['scope']) as a.BotCommandScope?,
+    languageCode: (json['language_code'] as String?) ?? '',
   );
 }
 
@@ -11666,6 +12916,117 @@ class TerminateAllOtherSessions extends TdFunction {
   };
 
   factory TerminateAllOtherSessions.fromJson(Map<String, dynamic> json) => TerminateAllOtherSessions(
+  );
+}
+
+/// Toggles whether a session can accept incoming calls
+class ToggleSessionCanAcceptCalls extends TdFunction {
+  /// Session identifier
+  final int sessionId;
+  /// True, if incoming calls can be accepted by the session
+  final bool canAcceptCalls;
+
+  ToggleSessionCanAcceptCalls({
+    required this.sessionId,
+    required this.canAcceptCalls,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ToggleSessionCanAcceptCalls(';
+
+    // Params
+    final params = <String>[];
+    params.add(sessionId.toString());
+    params.add(canAcceptCalls.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'toggleSessionCanAcceptCalls',
+    'session_id': sessionId.toString(),
+    'can_accept_calls': canAcceptCalls,
+  };
+
+  factory ToggleSessionCanAcceptCalls.fromJson(Map<String, dynamic> json) => ToggleSessionCanAcceptCalls(
+    sessionId: int.parse(json['session_id'] ?? '0'),
+    canAcceptCalls: (json['can_accept_calls'] as bool?) ?? false,
+  );
+}
+
+/// Toggles whether a session can accept incoming secret chats
+class ToggleSessionCanAcceptSecretChats extends TdFunction {
+  /// Session identifier
+  final int sessionId;
+  /// True, if incoming secret chats can be accepted by the session
+  final bool canAcceptSecretChats;
+
+  ToggleSessionCanAcceptSecretChats({
+    required this.sessionId,
+    required this.canAcceptSecretChats,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ToggleSessionCanAcceptSecretChats(';
+
+    // Params
+    final params = <String>[];
+    params.add(sessionId.toString());
+    params.add(canAcceptSecretChats.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'toggleSessionCanAcceptSecretChats',
+    'session_id': sessionId.toString(),
+    'can_accept_secret_chats': canAcceptSecretChats,
+  };
+
+  factory ToggleSessionCanAcceptSecretChats.fromJson(Map<String, dynamic> json) => ToggleSessionCanAcceptSecretChats(
+    sessionId: int.parse(json['session_id'] ?? '0'),
+    canAcceptSecretChats: (json['can_accept_secret_chats'] as bool?) ?? false,
+  );
+}
+
+/// Changes the period of inactivity after which sessions will automatically be terminated
+class SetInactiveSessionTtl extends TdFunction {
+  /// New number of days of inactivity before sessions will be automatically terminated; 1-366 days
+  final int inactiveSessionTtlDays;
+
+  SetInactiveSessionTtl({
+    required this.inactiveSessionTtlDays,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::SetInactiveSessionTtl(';
+
+    // Params
+    final params = <String>[];
+    params.add(inactiveSessionTtlDays.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'setInactiveSessionTtl',
+    'inactive_session_ttl_days': inactiveSessionTtlDays,
+  };
+
+  factory SetInactiveSessionTtl.fromJson(Map<String, dynamic> json) => SetInactiveSessionTtl(
+    inactiveSessionTtlDays: (json['inactive_session_ttl_days'] as int?) ?? 0,
   );
 }
 
@@ -11830,7 +13191,7 @@ class SetSupergroupStickerSet extends TdFunction {
   );
 }
 
-/// Toggles sender signatures messages sent in a channel; requires can_change_info administrator right
+/// Toggles whether sender signature is added to sent messages in a channel; requires can_change_info administrator right
 class ToggleSupergroupSignMessages extends TdFunction {
   /// Identifier of the channel
   final int supergroupId;
@@ -11941,18 +13302,15 @@ class ToggleSupergroupIsBroadcastGroup extends TdFunction {
   );
 }
 
-/// Reports some messages from a user in a supergroup as spam; requires administrator rights in the supergroup
+/// Reports messages in a supergroup as spam; requires administrator rights in the supergroup
 class ReportSupergroupSpam extends TdFunction {
   /// Supergroup identifier
   final int supergroupId;
-  /// User identifier
-  final int userId;
-  /// Identifiers of messages sent in the supergroup by the user. This list must be non-empty
+  /// Identifiers of messages to report
   final List<int> messageIds;
 
   ReportSupergroupSpam({
     required this.supergroupId,
-    required this.userId,
     required this.messageIds,
   });
 
@@ -11963,7 +13321,6 @@ class ReportSupergroupSpam extends TdFunction {
     // Params
     final params = <String>[];
     params.add(supergroupId.toString());
-    params.add(userId.toString());
     params.add(messageIds.toString());
     s += params.join(', ');
 
@@ -11975,22 +13332,20 @@ class ReportSupergroupSpam extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'reportSupergroupSpam',
     'supergroup_id': supergroupId,
-    'user_id': userId,
     'message_ids': messageIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory ReportSupergroupSpam.fromJson(Map<String, dynamic> json) => ReportSupergroupSpam(
     supergroupId: (json['supergroup_id'] as int?) ?? 0,
-    userId: (json['user_id'] as int?) ?? 0,
     messageIds: json['message_ids'] == null ? <int>[] : (json['message_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
-/// Returns information about members or banned users in a supergroup or channel. Can be used only if SupergroupFullInfo.can_get_members == true; additionally, administrator privileges may be required for some filters
+/// Returns information about members or banned users in a supergroup or channel. Can be used only if supergroupFullInfo.can_get_members == true; additionally, administrator privileges may be required for some filters
 class GetSupergroupMembers extends TdFunction {
   /// Identifier of the supergroup or channel
   final int supergroupId;
-  /// The type of users to return. By default, supergroupMembersFilterRecent
+  /// The type of users to return; pass null to use supergroupMembersFilterRecent
   final a.SupergroupMembersFilter? filter;
   /// Number of users to skip
   final int offset;
@@ -12080,7 +13435,7 @@ class GetChatEventLog extends TdFunction {
   final int fromEventId;
   /// The maximum number of events to return; up to 100
   final int limit;
-  /// The types of events to return. By default, all types will be returned
+  /// The types of events to return; pass null to get chat events of all types
   final o.ChatEventLogFilters? filters;
   /// User identifiers by which to filter events. By default, events relating to all users will be returned
   final List<int> userIds;
@@ -12133,13 +13488,13 @@ class GetChatEventLog extends TdFunction {
   );
 }
 
-/// Returns an invoice payment form. This method should be called when the user presses inlineKeyboardButtonBuy
+/// Returns an invoice payment form. This method must be called when the user presses inlineKeyboardButtonBuy
 class GetPaymentForm extends TdFunction {
   /// Chat identifier of the Invoice message
   final int chatId;
   /// Message identifier
   final int messageId;
-  /// Preferred payment form theme
+  /// Preferred payment form theme; pass null to use the default theme
   final o.PaymentFormTheme? theme;
 
   GetPaymentForm({
@@ -12184,7 +13539,7 @@ class ValidateOrderInfo extends TdFunction {
   final int chatId;
   /// Message identifier
   final int messageId;
-  /// The order information, provided by the user
+  /// The order information, provided by the user; pass null if empty
   final o.OrderInfo? orderInfo;
   /// True, if the order information can be saved
   final bool allowSave;
@@ -12544,9 +13899,9 @@ class SearchBackground extends TdFunction {
 
 /// Changes the background selected by the user; adds background to the list of installed backgrounds
 class SetBackground extends TdFunction {
-  /// The input background to use, null for filled backgrounds
+  /// The input background to use; pass null to create a new filled backgrounds or to remove the current background
   final a.InputBackground? background;
-  /// Background type; null for default background. The method will return error 404 if type is null
+  /// Background type; pass null to use the default type of the remote background or to remove the current background
   final a.BackgroundType? type;
   /// True, if the background is chosen for dark theme
   final bool forDarkTheme;
@@ -12750,7 +14105,7 @@ class GetLanguagePackStrings extends TdFunction {
   );
 }
 
-/// Fetches the latest versions of all strings from a language pack in the current localization target from the server. This method shouldn't be called explicitly for the current used/base language packs. Can be called before authorization
+/// Fetches the latest versions of all strings from a language pack in the current localization target from the server. This method doesn't need to be called explicitly for the current used/base language packs. Can be called before authorization
 class SynchronizeLanguagePack extends TdFunction {
   /// Language pack identifier
   final String languagePackId;
@@ -13207,7 +14562,7 @@ class GetOption extends TdFunction {
 class SetOption extends TdFunction {
   /// The name of the option
   final String name;
-  /// The new value of the option
+  /// The new value of the option; pass null to reset option value to a default value
   final a.OptionValue? value;
 
   SetOption({
@@ -13366,7 +14721,7 @@ class RemoveChatActionBar extends TdFunction {
   );
 }
 
-/// Reports a chat to the Telegram moderators. A chat can be reported only from the chat action bar, or if this is a private chat with a bot, a private chat with a user sharing their location, a supergroup, or a channel, since other chats can't be checked by moderators
+/// Reports a chat to the Telegram moderators. A chat can be reported only from the chat action bar, or if chat.can_be_reported
 class ReportChat extends TdFunction {
   /// Chat identifier
   final int chatId;
@@ -13417,7 +14772,7 @@ class ReportChat extends TdFunction {
   );
 }
 
-/// Reports a chat photo to the Telegram moderators. A chat photo can be reported only if this is a private chat with a bot, a private chat with a user sharing their location, a supergroup, or a channel, since other chats can't be checked by moderators
+/// Reports a chat photo to the Telegram moderators. A chat photo can be reported only if chat.can_be_reported
 class ReportChatPhoto extends TdFunction {
   /// Chat identifier
   final int chatId;
@@ -13468,52 +14823,7 @@ class ReportChatPhoto extends TdFunction {
   );
 }
 
-/// Returns an HTTP URL with the chat statistics. Currently this method of getting the statistics are disabled and can be deleted in the future
-class GetChatStatisticsUrl extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// Parameters from "tg://statsrefresh?params=******" link
-  final String parameters;
-  /// Pass true if a URL with the dark theme must be returned
-  final bool isDark;
-
-  GetChatStatisticsUrl({
-    required this.chatId,
-    required this.parameters,
-    required this.isDark,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetChatStatisticsUrl(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(parameters.toString());
-    params.add(isDark.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getChatStatisticsUrl',
-    'chat_id': chatId,
-    'parameters': parameters,
-    'is_dark': isDark,
-  };
-
-  factory GetChatStatisticsUrl.fromJson(Map<String, dynamic> json) => GetChatStatisticsUrl(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    parameters: (json['parameters'] as String?) ?? '',
-    isDark: (json['is_dark'] as bool?) ?? false,
-  );
-}
-
-/// Returns detailed statistics about a chat. Currently this method can be used only for supergroups and channels. Can be used only if SupergroupFullInfo.can_get_statistics == true
+/// Returns detailed statistics about a chat. Currently, this method can be used only for supergroups and channels. Can be used only if supergroupFullInfo.can_get_statistics == true
 class GetChatStatistics extends TdFunction {
   /// Chat identifier
   final int chatId;
@@ -13552,7 +14862,7 @@ class GetChatStatistics extends TdFunction {
   );
 }
 
-/// Returns detailed statistics about a message. Can be used only if Message.can_get_statistics == true
+/// Returns detailed statistics about a message. Can be used only if message.can_get_statistics == true
 class GetMessageStatistics extends TdFunction {
   /// Chat identifier
   final int chatId;
@@ -13644,7 +14954,7 @@ class GetStatisticalGraph extends TdFunction {
 
 /// Returns storage usage statistics. Can be called before authorization
 class GetStorageStatistics extends TdFunction {
-  /// The maximum number of chats with the largest storage usage for which separate statistics should be returned. All other chats will be grouped in entries with chat_id == 0. If the chat info database is not used, the chat_limit is ignored and is always set to 0
+  /// The maximum number of chats with the largest storage usage for which separate statistics need to be returned. All other chats will be grouped in entries with chat_id == 0. If the chat info database is not used, the chat_limit is ignored and is always set to 0
   final int chatLimit;
 
   GetStorageStatistics({
@@ -13727,7 +15037,7 @@ class GetDatabaseStatistics extends TdFunction {
 
 /// Optimizes storage usage, i.e. deletes some files and returns new storage usage statistics. Secret thumbnails can't be deleted
 class OptimizeStorage extends TdFunction {
-  /// Limit on the total size of files after deletion. Pass -1 to use the default limit
+  /// Limit on the total size of files after deletion, in bytes. Pass -1 to use the default limit
   final int size;
   /// Limit on the time that has passed since the last time a file was accessed (or creation time for some filesystems). Pass -1 to use the default limit
   final int ttl;
@@ -13735,11 +15045,11 @@ class OptimizeStorage extends TdFunction {
   final int count;
   /// The amount of time after the creation of a file during which it can't be deleted, in seconds. Pass -1 to use the default value
   final int immunityDelay;
-  /// If not empty, only files with the given type(s) are considered. By default, all types except thumbnails, profile photos, stickers and wallpapers are deleted
+  /// If non-empty, only files with the given types are considered. By default, all types except thumbnails, profile photos, stickers and wallpapers are deleted
   final List<a.FileType?> fileTypes;
-  /// If not empty, only files from the given chats are considered. Use 0 as chat identifier to delete files not belonging to any chat (e.g., profile photos)
+  /// If non-empty, only files from the given chats are considered. Use 0 as chat identifier to delete files not belonging to any chat (e.g., profile photos)
   final List<int> chatIds;
-  /// If not empty, files from the given chats are excluded. Use 0 as chat identifier to exclude all files not belonging to any chat (e.g., profile photos)
+  /// If non-empty, files from the given chats are excluded. Use 0 as chat identifier to exclude all files not belonging to any chat (e.g., profile photos)
   final List<int> excludeChatIds;
   /// Pass true if statistics about the files that were deleted must be returned instead of the whole storage usage statistics. Affects only returned statistics
   final bool returnDeletedFileStatistics;
@@ -13806,9 +15116,9 @@ class OptimizeStorage extends TdFunction {
   );
 }
 
-/// Sets the current network type. Can be called before authorization. Calling this method forces all network connections to reopen, mitigating the delay in switching between different networks, so it should be called whenever the network is changed, even if the network type remains the same.
+/// Sets the current network type. Can be called before authorization. Calling this method forces all network connections to reopen, mitigating the delay in switching between different networks, so it must be called whenever the network is changed, even if the network type remains the same.
 class SetNetworkType extends TdFunction {
-  /// The new network type. By default, networkTypeOther
+  /// The new network type; pass null to set network type to networkTypeOther
   final a.NetworkType? type;
 
   SetNetworkType({
@@ -13959,7 +15269,7 @@ class GetAutoDownloadSettingsPresets extends TdFunction {
 class SetAutoDownloadSettings extends TdFunction {
   /// New user auto-download settings
   final o.AutoDownloadSettings? settings;
-  /// Type of the network for which the new settings are applied
+  /// Type of the network for which the new settings are relevant
   final a.NetworkType? type;
 
   SetAutoDownloadSettings({
@@ -14210,7 +15520,7 @@ class SetPassportElementErrors extends TdFunction {
   );
 }
 
-/// Returns an IETF language tag of the language preferred in the country, which should be used to fill native fields in Telegram Passport personal details. Returns a 404 error if unknown
+/// Returns an IETF language tag of the language preferred in the country, which must be used to fill native fields in Telegram Passport personal details. Returns a 404 error if unknown
 class GetPreferredCountryLanguage extends TdFunction {
   /// A two-letter ISO 3166-1 alpha-2 country code
   final String countryCode;
@@ -14247,7 +15557,7 @@ class GetPreferredCountryLanguage extends TdFunction {
 class SendPhoneNumberVerificationCode extends TdFunction {
   /// The phone number of the user, in international format
   final String phoneNumber;
-  /// Settings for the authentication of the user's phone number
+  /// Settings for the authentication of the user's phone number; pass null to use default settings
   final o.PhoneNumberAuthenticationSettings? settings;
 
   SendPhoneNumberVerificationCode({
@@ -14309,7 +15619,7 @@ class ResendPhoneNumberVerificationCode extends TdFunction {
 
 /// Checks the phone number verification code for Telegram Passport
 class CheckPhoneNumberVerificationCode extends TdFunction {
-  /// Verification code
+  /// Verification code to check
   final String code;
 
   CheckPhoneNumberVerificationCode({
@@ -14400,7 +15710,7 @@ class ResendEmailAddressVerificationCode extends TdFunction {
 
 /// Checks the email address verification code for Telegram Passport
 class CheckEmailAddressVerificationCode extends TdFunction {
-  /// Verification code
+  /// Verification code to check
   final String code;
 
   CheckEmailAddressVerificationCode({
@@ -14437,9 +15747,9 @@ class GetPassportAuthorizationForm extends TdFunction {
   final int botUserId;
   /// Telegram Passport element types requested by the service
   final String scope;
-  /// Service's public_key
+  /// Service's public key
   final String publicKey;
-  /// Authorization form nonce provided by the service
+  /// Unique request identifier provided by the service
   final String nonce;
 
   GetPassportAuthorizationForm({
@@ -14560,13 +15870,13 @@ class SendPassportAuthorizationForm extends TdFunction {
   );
 }
 
-/// Sends phone number confirmation code. Should be called when user presses "https://t.me/confirmphone?phone=*******&hash=**********" or "tg://confirmphone?phone=*******&hash=**********" link
+/// Sends phone number confirmation code to handle links of the type internalLinkTypePhoneNumberConfirmation
 class SendPhoneNumberConfirmationCode extends TdFunction {
-  /// Value of the "hash" parameter from the link
+  /// Hash value from the link
   final String hash;
-  /// Value of the "phone" parameter from the link
+  /// Phone number value from the link
   final String phoneNumber;
-  /// Settings for the authentication of the user's phone number
+  /// Settings for the authentication of the user's phone number; pass null to use default settings
   final o.PhoneNumberAuthenticationSettings? settings;
 
   SendPhoneNumberConfirmationCode({
@@ -14632,7 +15942,7 @@ class ResendPhoneNumberConfirmationCode extends TdFunction {
 
 /// Checks phone number confirmation code
 class CheckPhoneNumberConfirmationCode extends TdFunction {
-  /// The phone number confirmation code
+  /// Confirmation code to check
   final String code;
 
   CheckPhoneNumberConfirmationCode({
@@ -14702,16 +16012,16 @@ class SetBotUpdatesStatus extends TdFunction {
   );
 }
 
-/// Uploads a PNG image with a sticker; for bots only; returns the uploaded file
+/// Uploads a file with a sticker; returns the uploaded file
 class UploadStickerFile extends TdFunction {
-  /// Sticker file owner
+  /// Sticker file owner; ignored for regular users
   final int userId;
-  /// PNG image with the sticker; must be up to 512 KB in size and fit in 512x512 square
-  final a.InputFile? pngSticker;
+  /// Sticker file to upload
+  final a.InputSticker? sticker;
 
   UploadStickerFile({
     required this.userId,
-    required this.pngSticker,
+    required this.sticker,
   });
 
   @override
@@ -14721,7 +16031,7 @@ class UploadStickerFile extends TdFunction {
     // Params
     final params = <String>[];
     params.add(userId.toString());
-    params.add(pngSticker.toString());
+    params.add(sticker.toString());
     s += params.join(', ');
 
     s += ')';
@@ -14732,27 +16042,95 @@ class UploadStickerFile extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'uploadStickerFile',
     'user_id': userId,
-    'png_sticker': pngSticker?.toJson(),
+    'sticker': sticker?.toJson(),
   };
 
   factory UploadStickerFile.fromJson(Map<String, dynamic> json) => UploadStickerFile(
     userId: (json['user_id'] as int?) ?? 0,
-    pngSticker: b.TdBase.fromJson(json['png_sticker']) as a.InputFile?,
+    sticker: b.TdBase.fromJson(json['sticker']) as a.InputSticker?,
   );
 }
 
-/// Creates a new sticker set; for bots only. Returns the newly created sticker set
+/// Returns a suggested name for a new sticker set with a given title
+class GetSuggestedStickerSetName extends TdFunction {
+  /// Sticker set title; 1-64 characters
+  final String title;
+
+  GetSuggestedStickerSetName({
+    required this.title,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::GetSuggestedStickerSetName(';
+
+    // Params
+    final params = <String>[];
+    params.add(title.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getSuggestedStickerSetName',
+    'title': title,
+  };
+
+  factory GetSuggestedStickerSetName.fromJson(Map<String, dynamic> json) => GetSuggestedStickerSetName(
+    title: (json['title'] as String?) ?? '',
+  );
+}
+
+/// Checks whether a name can be used for a new sticker set
+class CheckStickerSetName extends TdFunction {
+  /// Name to be checked
+  final String name;
+
+  CheckStickerSetName({
+    required this.name,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::CheckStickerSetName(';
+
+    // Params
+    final params = <String>[];
+    params.add(name.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'checkStickerSetName',
+    'name': name,
+  };
+
+  factory CheckStickerSetName.fromJson(Map<String, dynamic> json) => CheckStickerSetName(
+    name: (json['name'] as String?) ?? '',
+  );
+}
+
+/// Creates a new sticker set. Returns the newly created sticker set
 class CreateNewStickerSet extends TdFunction {
-  /// Sticker set owner
+  /// Sticker set owner; ignored for regular users
   final int userId;
   /// Sticker set title; 1-64 characters
   final String title;
-  /// Sticker set name. Can contain only English letters, digits and underscores. Must end with *"_by_<bot username>"* (*<bot_username>* is case insensitive); 1-64 characters
+  /// Sticker set name. Can contain only English letters, digits and underscores. Must end with *"_by_<bot username>"* (*<bot_username>* is case insensitive) for bots; 1-64 characters
   final String name;
   /// True, if stickers are masks. Animated stickers can't be masks
   final bool isMasks;
-  /// List of stickers to be added to the set; must be non-empty. All stickers must be of the same type
+  /// List of stickers to be added to the set; must be non-empty. All stickers must be of the same type. For animated stickers, uploadStickerFile must be used before the sticker is shown
   final List<a.InputSticker?> stickers;
+  /// Source of the sticker set; may be empty if unknown
+  final String source;
 
   CreateNewStickerSet({
     required this.userId,
@@ -14760,6 +16138,7 @@ class CreateNewStickerSet extends TdFunction {
     required this.name,
     required this.isMasks,
     required this.stickers,
+    required this.source,
   });
 
   @override
@@ -14773,6 +16152,7 @@ class CreateNewStickerSet extends TdFunction {
     params.add(name.toString());
     params.add(isMasks.toString());
     params.add(stickers.toString());
+    params.add(source.toString());
     s += params.join(', ');
 
     s += ')';
@@ -14787,6 +16167,7 @@ class CreateNewStickerSet extends TdFunction {
     'name': name,
     'is_masks': isMasks,
     'stickers': stickers.map((_e1) => _e1?.toJson()).toList(growable: false),
+    'source': source,
   };
 
   factory CreateNewStickerSet.fromJson(Map<String, dynamic> json) => CreateNewStickerSet(
@@ -14795,6 +16176,7 @@ class CreateNewStickerSet extends TdFunction {
     name: (json['name'] as String?) ?? '',
     isMasks: (json['is_masks'] as bool?) ?? false,
     stickers: json['stickers'] == null ? <a.InputSticker?>[] : (json['stickers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputSticker?)).toList(growable: false),
+    source: (json['source'] as String?) ?? '',
   );
 }
 
@@ -14849,7 +16231,7 @@ class SetStickerSetThumbnail extends TdFunction {
   final int userId;
   /// Sticker set name
   final String name;
-  /// Thumbnail to set in PNG or TGS format. Animated thumbnail must be set for animated sticker sets and only for them. Pass a zero InputFileId to delete the thumbnail
+  /// Thumbnail to set in PNG or TGS format; pass null to remove the sticker set thumbnail. Animated thumbnail must be set for animated sticker sets and only for them
   final a.InputFile? thumbnail;
 
   SetStickerSetThumbnail({
@@ -15250,13 +16632,52 @@ class GetPhoneNumberInfo extends TdFunction {
   );
 }
 
-/// Returns the default text for invitation messages to be used as a placeholder when the current user invites friends to Telegram
-class GetInviteText extends TdFunction {
-  GetInviteText();
+/// Returns information about a phone number by its prefix synchronously. getCountries must be called at least once after changing localization to the specified language if properly localized country information is expected. Can be called synchronously
+class GetPhoneNumberInfoSync extends TdFunction {
+  /// A two-letter ISO 639-1 country code for country information localization
+  final String languageCode;
+  /// The phone number prefix
+  final String phoneNumberPrefix;
+
+  GetPhoneNumberInfoSync({
+    required this.languageCode,
+    required this.phoneNumberPrefix,
+  });
 
   @override
   String toString() {
-    var s = 'td::GetInviteText(';
+    var s = 'td::GetPhoneNumberInfoSync(';
+
+    // Params
+    final params = <String>[];
+    params.add(languageCode.toString());
+    params.add(phoneNumberPrefix.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'getPhoneNumberInfoSync',
+    'language_code': languageCode,
+    'phone_number_prefix': phoneNumberPrefix,
+  };
+
+  factory GetPhoneNumberInfoSync.fromJson(Map<String, dynamic> json) => GetPhoneNumberInfoSync(
+    languageCode: (json['language_code'] as String?) ?? '',
+    phoneNumberPrefix: (json['phone_number_prefix'] as String?) ?? '',
+  );
+}
+
+/// Returns the link for downloading official Telegram application to be used when the current user invites friends to Telegram
+class GetApplicationDownloadLink extends TdFunction {
+  GetApplicationDownloadLink();
+
+  @override
+  String toString() {
+    var s = 'td::GetApplicationDownloadLink(';
 
     // Params
     final params = <String>[];
@@ -15268,10 +16689,10 @@ class GetInviteText extends TdFunction {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'getInviteText',
+    '@type': 'getApplicationDownloadLink',
   };
 
-  factory GetInviteText.fromJson(Map<String, dynamic> json) => GetInviteText(
+  factory GetApplicationDownloadLink.fromJson(Map<String, dynamic> json) => GetApplicationDownloadLink(
   );
 }
 
@@ -15384,7 +16805,7 @@ class AddProxy extends TdFunction {
   final String server;
   /// Proxy server port
   final int port;
-  /// True, if the proxy should be enabled
+  /// True, if the proxy needs to be enabled
   final bool enable;
   /// Proxy type
   final a.ProxyType? type;
@@ -15437,7 +16858,7 @@ class EditProxy extends TdFunction {
   final String server;
   /// Proxy server port
   final int port;
-  /// True, if the proxy should be enabled
+  /// True, if the proxy needs to be enabled
   final bool enable;
   /// Proxy type
   final a.ProxyType? type;

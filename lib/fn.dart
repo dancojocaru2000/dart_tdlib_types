@@ -2281,39 +2281,6 @@ class DeleteChatHistory extends TdFunction {
   );
 }
 
-/// Deletes a chat along with all messages in the corresponding chat for all chat members; requires owner privileges. For group chats this will release the username and remove all members. Chats with more than 1000 members can't be deleted using this method
-class DeleteChat extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-
-  DeleteChat({
-    required this.chatId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::DeleteChat(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'deleteChat',
-    'chat_id': chatId,
-  };
-
-  factory DeleteChat.fromJson(Map<String, dynamic> json) => DeleteChat(
-    chatId: (json['chat_id'] as int?) ?? 0,
-  );
-}
-
 /// Searches for messages with given words in the chat. Returns the results in reverse chronological order, i.e. in order of decreasing message_id. Cannot be used in secret chats with a non-empty query
 class SearchChatMessages extends TdFunction {
   /// Identifier of the chat in which to search messages
@@ -2391,7 +2358,7 @@ class SearchChatMessages extends TdFunction {
 
 /// Searches for messages in all chats except secret chats. Returns the results in reverse chronological order (i.e., in order of decreasing (date, chat_id, message_id)).
 class SearchMessages extends TdFunction {
-  /// Chat list in which to search messages; pass null to search in all chats regardless of their chat list. Only Main and Archive chat lists are supported
+  /// Chat list in which to search messages; pass null to search in all chats regardless of their chat list
   final a.ChatList? chatList;
   /// Query to search for
   final String query;
@@ -2569,39 +2536,6 @@ class SearchCallMessages extends TdFunction {
     fromMessageId: (json['from_message_id'] as int?) ?? 0,
     limit: (json['limit'] as int?) ?? 0,
     onlyMissed: (json['only_missed'] as bool?) ?? false,
-  );
-}
-
-/// Deletes all call messages
-class DeleteAllCallMessages extends TdFunction {
-  /// Pass true to delete the messages for all users
-  final bool revoke;
-
-  DeleteAllCallMessages({
-    required this.revoke,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::DeleteAllCallMessages(';
-
-    // Params
-    final params = <String>[];
-    params.add(revoke.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'deleteAllCallMessages',
-    'revoke': revoke,
-  };
-
-  factory DeleteAllCallMessages.fromJson(Map<String, dynamic> json) => DeleteAllCallMessages(
-    revoke: (json['revoke'] as bool?) ?? false,
   );
 }
 
@@ -3107,7 +3041,7 @@ class SendMessage extends TdFunction {
   );
 }
 
-/// Sends 2-10 messages grouped together into an album. Currently only audio, document, photo and video messages can be grouped into an album. Documents and audio files can be only grouped in an album with messages of the same type. Returns sent messages
+/// Sends messages grouped together into an album. Currently only audio, document, photo and video messages can be grouped into an album. Documents and audio files can be only grouped in an album with messages of the same type. Returns sent messages
 class SendMessageAlbum extends TdFunction {
   /// Target chat
   final int chatId;
@@ -3117,7 +3051,7 @@ class SendMessageAlbum extends TdFunction {
   final int replyToMessageId;
   /// Options to be used to send the messages
   final o.MessageSendOptions? options;
-  /// Contents of messages to be sent. At most 10 messages can be added to an album
+  /// Contents of messages to be sent
   final List<a.InputMessageContent?> inputMessageContents;
 
   SendMessageAlbum({
@@ -3284,7 +3218,7 @@ class ForwardMessages extends TdFunction {
   final int chatId;
   /// Identifier of the chat from which to forward messages
   final int fromChatId;
-  /// Identifiers of the messages to forward. Message identifiers must be in a strictly increasing order. At most 100 messages can be forwarded simultaneously
+  /// Identifiers of the messages to forward. Message identifiers must be in a strictly increasing order
   final List<int> messageIds;
   /// Options to be used to send the messages
   final o.MessageSendOptions? options;
@@ -3377,6 +3311,45 @@ class ResendMessages extends TdFunction {
   factory ResendMessages.fromJson(Map<String, dynamic> json) => ResendMessages(
     chatId: (json['chat_id'] as int?) ?? 0,
     messageIds: json['message_ids'] == null ? <int>[] : (json['message_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+  );
+}
+
+/// Changes the current TTL setting (sets a new self-destruct timer) in a secret chat and sends the corresponding message
+class SendChatSetTtlMessage extends TdFunction {
+  /// Chat identifier
+  final int chatId;
+  /// New TTL value, in seconds
+  final int ttl;
+
+  SendChatSetTtlMessage({
+    required this.chatId,
+    required this.ttl,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::SendChatSetTtlMessage(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(ttl.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'sendChatSetTtlMessage',
+    'chat_id': chatId,
+    'ttl': ttl,
+  };
+
+  factory SendChatSetTtlMessage.fromJson(Map<String, dynamic> json) => SendChatSetTtlMessage(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    ttl: (json['ttl'] as int?) ?? 0,
   );
 }
 
@@ -3562,7 +3535,7 @@ class EditMessageText extends TdFunction {
   final int messageId;
   /// The new message reply markup; for bots only
   final a.ReplyMarkup? replyMarkup;
-  /// New text content of the message. Should be of type inputMessageText
+  /// New text content of the message. Should be of type InputMessageText
   final a.InputMessageContent? inputMessageContent;
 
   EditMessageText({
@@ -3676,7 +3649,7 @@ class EditMessageMedia extends TdFunction {
   final int messageId;
   /// The new message reply markup; for bots only
   final a.ReplyMarkup? replyMarkup;
-  /// New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto or inputMessageVideo
+  /// New content of the message. Must be one of the following types: InputMessageAnimation, InputMessageAudio, InputMessageDocument, InputMessagePhoto or InputMessageVideo
   final a.InputMessageContent? inputMessageContent;
 
   EditMessageMedia({
@@ -3821,7 +3794,7 @@ class EditInlineMessageText extends TdFunction {
   final String inlineMessageId;
   /// The new message reply markup
   final a.ReplyMarkup? replyMarkup;
-  /// New text content of the message. Should be of type inputMessageText
+  /// New text content of the message. Should be of type InputMessageText
   final a.InputMessageContent? inputMessageContent;
 
   EditInlineMessageText({
@@ -3923,7 +3896,7 @@ class EditInlineMessageMedia extends TdFunction {
   final String inlineMessageId;
   /// The new message reply markup; for bots only
   final a.ReplyMarkup? replyMarkup;
-  /// New content of the message. Must be one of the following types: inputMessageAnimation, inputMessageAudio, inputMessageDocument, inputMessagePhoto or inputMessageVideo
+  /// New content of the message. Must be one of the following types: InputMessageAnimation, InputMessageAudio, InputMessageDocument, InputMessagePhoto or InputMessageVideo
   final a.InputMessageContent? inputMessageContent;
 
   EditInlineMessageMedia({
@@ -5477,78 +5450,6 @@ class OpenMessageContent extends TdFunction {
   );
 }
 
-/// Returns information about an action to be done when the current user clicks an HTTP link. This method can be used to automatically authorize the current user on a website. Don't use this method for links from secret chats if link preview is disabled in secret chats
-class GetExternalLinkInfo extends TdFunction {
-  /// The HTTP link
-  final String link;
-
-  GetExternalLinkInfo({
-    required this.link,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetExternalLinkInfo(';
-
-    // Params
-    final params = <String>[];
-    params.add(link.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getExternalLinkInfo',
-    'link': link,
-  };
-
-  factory GetExternalLinkInfo.fromJson(Map<String, dynamic> json) => GetExternalLinkInfo(
-    link: (json['link'] as String?) ?? '',
-  );
-}
-
-/// Returns an HTTP URL which can be used to automatically authorize the current user on a website after clicking an HTTP link. Use the method getExternalLinkInfo to find whether a prior user confirmation is needed
-class GetExternalLink extends TdFunction {
-  /// The HTTP link
-  final String link;
-  /// True, if the current user allowed the bot, returned in getExternalLinkInfo, to send them messages
-  final bool allowWriteAccess;
-
-  GetExternalLink({
-    required this.link,
-    required this.allowWriteAccess,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetExternalLink(';
-
-    // Params
-    final params = <String>[];
-    params.add(link.toString());
-    params.add(allowWriteAccess.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getExternalLink',
-    'link': link,
-    'allow_write_access': allowWriteAccess,
-  };
-
-  factory GetExternalLink.fromJson(Map<String, dynamic> json) => GetExternalLink(
-    link: (json['link'] as String?) ?? '',
-    allowWriteAccess: (json['allow_write_access'] as bool?) ?? false,
-  );
-}
-
 /// Marks all mentions in a chat as read
 class ReadAllChatMentions extends TdFunction {
   /// Chat identifier
@@ -5775,21 +5676,18 @@ class CreateNewBasicGroupChat extends TdFunction {
 class CreateNewSupergroupChat extends TdFunction {
   /// Title of the new chat; 1-128 characters
   final String title;
-  /// True, if a channel chat needs to be created
+  /// True, if a channel chat should be created
   final bool isChannel;
   /// Chat description; 0-255 characters
   final String description;
   /// Chat location if a location-based supergroup is being created
   final o.ChatLocation? location;
-  /// True, if the supergroup is created for importing messages using importMessage
-  final bool forImport;
 
   CreateNewSupergroupChat({
     required this.title,
     required this.isChannel,
     required this.description,
     required this.location,
-    required this.forImport,
   });
 
   @override
@@ -5802,7 +5700,6 @@ class CreateNewSupergroupChat extends TdFunction {
     params.add(isChannel.toString());
     params.add(description.toString());
     params.add(location.toString());
-    params.add(forImport.toString());
     s += params.join(', ');
 
     s += ')';
@@ -5816,7 +5713,6 @@ class CreateNewSupergroupChat extends TdFunction {
     'is_channel': isChannel,
     'description': description,
     'location': location?.toJson(),
-    'for_import': forImport,
   };
 
   factory CreateNewSupergroupChat.fromJson(Map<String, dynamic> json) => CreateNewSupergroupChat(
@@ -5824,7 +5720,6 @@ class CreateNewSupergroupChat extends TdFunction {
     isChannel: (json['is_channel'] as bool?) ?? false,
     description: (json['description'] as String?) ?? '',
     location: b.TdBase.fromJson(json['location']) as o.ChatLocation?,
-    forImport: (json['for_import'] as bool?) ?? false,
   );
 }
 
@@ -6195,7 +6090,7 @@ class GetChatFilterDefaultIconName extends TdFunction {
   );
 }
 
-/// Changes the chat title. Supported only for basic groups, supergroups and channels. Requires can_change_info administrator right
+/// Changes the chat title. Supported only for basic groups, supergroups and channels. Requires can_change_info rights
 class SetChatTitle extends TdFunction {
   /// Chat identifier
   final int chatId;
@@ -6234,7 +6129,7 @@ class SetChatTitle extends TdFunction {
   );
 }
 
-/// Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires can_change_info administrator right
+/// Changes the photo of a chat. Supported only for basic groups, supergroups and channels. Requires can_change_info rights
 class SetChatPhoto extends TdFunction {
   /// Chat identifier
   final int chatId;
@@ -6270,45 +6165,6 @@ class SetChatPhoto extends TdFunction {
   factory SetChatPhoto.fromJson(Map<String, dynamic> json) => SetChatPhoto(
     chatId: (json['chat_id'] as int?) ?? 0,
     photo: b.TdBase.fromJson(json['photo']) as a.InputChatPhoto?,
-  );
-}
-
-/// Changes the message TTL setting (sets a new self-destruct timer) in a chat. Requires can_delete_messages administrator right in basic groups, supergroups and channels
-class SetChatMessageTtlSetting extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// New TTL value, in seconds; must be one of 0, 86400, 604800 unless chat is secret
-  final int ttl;
-
-  SetChatMessageTtlSetting({
-    required this.chatId,
-    required this.ttl,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::SetChatMessageTtlSetting(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(ttl.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'setChatMessageTtlSetting',
-    'chat_id': chatId,
-    'ttl': ttl,
-  };
-
-  factory SetChatMessageTtlSetting.fromJson(Map<String, dynamic> json) => SetChatMessageTtlSetting(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    ttl: (json['ttl'] as int?) ?? 0,
   );
 }
 
@@ -6552,7 +6408,7 @@ class SetChatClientData extends TdFunction {
   );
 }
 
-/// Changes information about a chat. Available for basic groups, supergroups, and channels. Requires can_change_info administrator right
+/// Changes information about a chat. Available for basic groups, supergroups, and channels. Requires can_change_info rights
 class SetChatDescription extends TdFunction {
   /// Identifier of the chat
   final int chatId;
@@ -6591,7 +6447,7 @@ class SetChatDescription extends TdFunction {
   );
 }
 
-/// Changes the discussion group of a channel chat; requires can_change_info administrator right in the channel if it is specified
+/// Changes the discussion group of a channel chat; requires can_change_info rights in the channel if it is specified
 class SetChatDiscussionGroup extends TdFunction {
   /// Identifier of the channel chat. Pass 0 to remove a link from the supergroup passed in the second argument to a linked channel chat (requires can_pin_messages rights in the supergroup)
   final int chatId;
@@ -6831,7 +6687,7 @@ class UnpinAllChatMessages extends TdFunction {
   );
 }
 
-/// Adds the current user as a new member to a chat. Private and secret chats can't be joined using this method
+/// Adds current user as a new member to a chat. Private and secret chats can't be joined using this method
 class JoinChat extends TdFunction {
   /// Chat identifier
   final int chatId;
@@ -6864,7 +6720,7 @@ class JoinChat extends TdFunction {
   );
 }
 
-/// Removes the current user from chat members. Private and secret chats can't be left using this method
+/// Removes current user from chat members. Private and secret chats can't be left using this method
 class LeaveChat extends TdFunction {
   /// Chat identifier
   final int chatId;
@@ -6897,7 +6753,7 @@ class LeaveChat extends TdFunction {
   );
 }
 
-/// Adds a new member to a chat. Members can't be added to private or secret chats
+/// Adds a new member to a chat. Members can't be added to private or secret chats. Members will not be added until the chat state has been synchronized with the server
 class AddChatMember extends TdFunction {
   /// Chat identifier
   final int chatId;
@@ -6942,11 +6798,11 @@ class AddChatMember extends TdFunction {
   );
 }
 
-/// Adds multiple new members to a chat. Currently this method is only available for supergroups and channels. This method can't be used to join a chat. Members can't be added to a channel if it has more than 200 members
+/// Adds multiple new members to a chat. Currently this option is only available for supergroups and channels. This option can't be used to join a chat. Members can't be added to a channel if it has more than 200 members. Members will not be added until the chat state has been synchronized with the server
 class AddChatMembers extends TdFunction {
   /// Chat identifier
   final int chatId;
-  /// Identifiers of the users to be added to the chat. The maximum number of added users is 20 for supergroups and 100 for channels
+  /// Identifiers of the users to be added to the chat
   final List<int> userIds;
 
   AddChatMembers({
@@ -6981,18 +6837,18 @@ class AddChatMembers extends TdFunction {
   );
 }
 
-/// Changes the status of a chat member, needs appropriate privileges. This function is currently not suitable for adding new members to the chat and transferring chat ownership; instead, use addChatMember or transferChatOwnership
+/// Changes the status of a chat member, needs appropriate privileges. This function is currently not suitable for adding new members to the chat and transferring chat ownership; instead, use addChatMember or transferChatOwnership. The chat member status will not be changed until it has been synchronized with the server
 class SetChatMemberStatus extends TdFunction {
   /// Chat identifier
   final int chatId;
-  /// Member identifier. Chats can be only banned and unbanned in supergroups and channels
-  final a.MessageSender? memberId;
+  /// User identifier
+  final int userId;
   /// The new status of the member in the chat
   final a.ChatMemberStatus? status;
 
   SetChatMemberStatus({
     required this.chatId,
-    required this.memberId,
+    required this.userId,
     required this.status,
   });
 
@@ -7003,7 +6859,7 @@ class SetChatMemberStatus extends TdFunction {
     // Params
     final params = <String>[];
     params.add(chatId.toString());
-    params.add(memberId.toString());
+    params.add(userId.toString());
     params.add(status.toString());
     s += params.join(', ');
 
@@ -7015,65 +6871,14 @@ class SetChatMemberStatus extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'setChatMemberStatus',
     'chat_id': chatId,
-    'member_id': memberId?.toJson(),
+    'user_id': userId,
     'status': status?.toJson(),
   };
 
   factory SetChatMemberStatus.fromJson(Map<String, dynamic> json) => SetChatMemberStatus(
     chatId: (json['chat_id'] as int?) ?? 0,
-    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
+    userId: (json['user_id'] as int?) ?? 0,
     status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
-  );
-}
-
-/// Bans a member in a chat. Members can't be banned in private or secret chats. In supergroups and channels, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first
-class BanChatMember extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// Member identifier
-  final a.MessageSender? memberId;
-  /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Ignored in basic groups
-  final int bannedUntilDate;
-  /// Pass true to delete all messages in the chat for the user. Always true for supergroups and channels
-  final bool revokeMessages;
-
-  BanChatMember({
-    required this.chatId,
-    required this.memberId,
-    required this.bannedUntilDate,
-    required this.revokeMessages,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::BanChatMember(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(memberId.toString());
-    params.add(bannedUntilDate.toString());
-    params.add(revokeMessages.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'banChatMember',
-    'chat_id': chatId,
-    'member_id': memberId?.toJson(),
-    'banned_until_date': bannedUntilDate,
-    'revoke_messages': revokeMessages,
-  };
-
-  factory BanChatMember.fromJson(Map<String, dynamic> json) => BanChatMember(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
-    bannedUntilDate: (json['banned_until_date'] as int?) ?? 0,
-    revokeMessages: (json['revoke_messages'] as bool?) ?? false,
   );
 }
 
@@ -7151,12 +6956,12 @@ class TransferChatOwnership extends TdFunction {
 class GetChatMember extends TdFunction {
   /// Chat identifier
   final int chatId;
-  /// Member identifier
-  final a.MessageSender? memberId;
+  /// User identifier
+  final int userId;
 
   GetChatMember({
     required this.chatId,
-    required this.memberId,
+    required this.userId,
   });
 
   @override
@@ -7166,7 +6971,7 @@ class GetChatMember extends TdFunction {
     // Params
     final params = <String>[];
     params.add(chatId.toString());
-    params.add(memberId.toString());
+    params.add(userId.toString());
     s += params.join(', ');
 
     s += ')';
@@ -7177,12 +6982,12 @@ class GetChatMember extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'getChatMember',
     'chat_id': chatId,
-    'member_id': memberId?.toJson(),
+    'user_id': userId,
   };
 
   factory GetChatMember.fromJson(Map<String, dynamic> json) => GetChatMember(
     chatId: (json['chat_id'] as int?) ?? 0,
-    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
+    userId: (json['user_id'] as int?) ?? 0,
   );
 }
 
@@ -7943,129 +7748,18 @@ class DeleteFile extends TdFunction {
   );
 }
 
-/// Returns information about a file with messages exported from another app
-class GetMessageFileType extends TdFunction {
-  /// Beginning of the message file; up to 100 first lines
-  final String messageFileHead;
-
-  GetMessageFileType({
-    required this.messageFileHead,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetMessageFileType(';
-
-    // Params
-    final params = <String>[];
-    params.add(messageFileHead.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getMessageFileType',
-    'message_file_head': messageFileHead,
-  };
-
-  factory GetMessageFileType.fromJson(Map<String, dynamic> json) => GetMessageFileType(
-    messageFileHead: (json['message_file_head'] as String?) ?? '',
-  );
-}
-
-/// Returns a confirmation text to be shown to the user before starting message import
-class GetMessageImportConfirmationText extends TdFunction {
-  /// Identifier of a chat to which the messages will be imported. It must be an identifier of a private chat with a mutual contact or an identifier of a supergroup chat with can_change_info administrator right
-  final int chatId;
-
-  GetMessageImportConfirmationText({
-    required this.chatId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetMessageImportConfirmationText(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getMessageImportConfirmationText',
-    'chat_id': chatId,
-  };
-
-  factory GetMessageImportConfirmationText.fromJson(Map<String, dynamic> json) => GetMessageImportConfirmationText(
-    chatId: (json['chat_id'] as int?) ?? 0,
-  );
-}
-
-/// Imports messages exported from another app
-class ImportMessages extends TdFunction {
-  /// Identifier of a chat to which the messages will be imported. It must be an identifier of a private chat with a mutual contact or an identifier of a supergroup chat with can_change_info administrator right
-  final int chatId;
-  /// File with messages to import. Only inputFileLocal and inputFileGenerated are supported. The file must not be previously uploaded
-  final a.InputFile? messageFile;
-  /// Files used in the imported messages. Only inputFileLocal and inputFileGenerated are supported. The files must not be previously uploaded
-  final List<a.InputFile?> attachedFiles;
-
-  ImportMessages({
-    required this.chatId,
-    required this.messageFile,
-    required this.attachedFiles,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ImportMessages(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(messageFile.toString());
-    params.add(attachedFiles.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'importMessages',
-    'chat_id': chatId,
-    'message_file': messageFile?.toJson(),
-    'attached_files': attachedFiles.map((_e1) => _e1?.toJson()).toList(growable: false),
-  };
-
-  factory ImportMessages.fromJson(Map<String, dynamic> json) => ImportMessages(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    messageFile: b.TdBase.fromJson(json['message_file']) as a.InputFile?,
-    attachedFiles: json['attached_files'] == null ? <a.InputFile?>[] : (json['attached_files'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.InputFile?)).toList(growable: false),
-  );
-}
-
-/// Replaces current primary invite link for a chat with a new primary invite link. Available for basic groups, supergroups, and channels. Requires administrator privileges and can_invite_users right
-class ReplacePrimaryChatInviteLink extends TdFunction {
+/// Generates a new invite link for a chat; the previously generated link is revoked. Available for basic groups, supergroups, and channels. Requires administrator privileges and can_invite_users right
+class GenerateChatInviteLink extends TdFunction {
   /// Chat identifier
   final int chatId;
 
-  ReplacePrimaryChatInviteLink({
+  GenerateChatInviteLink({
     required this.chatId,
   });
 
   @override
   String toString() {
-    var s = 'td::ReplacePrimaryChatInviteLink(';
+    var s = 'td::GenerateChatInviteLink(';
 
     // Params
     final params = <String>[];
@@ -8078,417 +7772,18 @@ class ReplacePrimaryChatInviteLink extends TdFunction {
   }
   @override
   Map<String, dynamic> toJson() => {
-    '@type': 'replacePrimaryChatInviteLink',
+    '@type': 'generateChatInviteLink',
     'chat_id': chatId,
   };
 
-  factory ReplacePrimaryChatInviteLink.fromJson(Map<String, dynamic> json) => ReplacePrimaryChatInviteLink(
+  factory GenerateChatInviteLink.fromJson(Map<String, dynamic> json) => GenerateChatInviteLink(
     chatId: (json['chat_id'] as int?) ?? 0,
-  );
-}
-
-/// Creates a new invite link for a chat. Available for basic groups, supergroups, and channels. Requires administrator privileges and can_invite_users right in the chat
-class CreateChatInviteLink extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// Point in time (Unix timestamp) when the link will expire; pass 0 if never
-  final int expireDate;
-  /// The maximum number of chat members that can join the chat by the link simultaneously; 0-99999; pass 0 if not limited
-  final int memberLimit;
-
-  CreateChatInviteLink({
-    required this.chatId,
-    required this.expireDate,
-    required this.memberLimit,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::CreateChatInviteLink(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(expireDate.toString());
-    params.add(memberLimit.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'createChatInviteLink',
-    'chat_id': chatId,
-    'expire_date': expireDate,
-    'member_limit': memberLimit,
-  };
-
-  factory CreateChatInviteLink.fromJson(Map<String, dynamic> json) => CreateChatInviteLink(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    expireDate: (json['expire_date'] as int?) ?? 0,
-    memberLimit: (json['member_limit'] as int?) ?? 0,
-  );
-}
-
-/// Edits a non-primary invite link for a chat. Available for basic groups, supergroups, and channels. Requires administrator privileges and can_invite_users right in the chat for own links and owner privileges for other links
-class EditChatInviteLink extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// Invite link to be edited
-  final String inviteLink;
-  /// Point in time (Unix timestamp) when the link will expire; pass 0 if never
-  final int expireDate;
-  /// The maximum number of chat members that can join the chat by the link simultaneously; 0-99999; pass 0 if not limited
-  final int memberLimit;
-
-  EditChatInviteLink({
-    required this.chatId,
-    required this.inviteLink,
-    required this.expireDate,
-    required this.memberLimit,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::EditChatInviteLink(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(inviteLink.toString());
-    params.add(expireDate.toString());
-    params.add(memberLimit.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'editChatInviteLink',
-    'chat_id': chatId,
-    'invite_link': inviteLink,
-    'expire_date': expireDate,
-    'member_limit': memberLimit,
-  };
-
-  factory EditChatInviteLink.fromJson(Map<String, dynamic> json) => EditChatInviteLink(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    inviteLink: (json['invite_link'] as String?) ?? '',
-    expireDate: (json['expire_date'] as int?) ?? 0,
-    memberLimit: (json['member_limit'] as int?) ?? 0,
-  );
-}
-
-/// Returns information about an invite link. Requires administrator privileges and can_invite_users right in the chat to get own links and owner privileges to get other links
-class GetChatInviteLink extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// Invite link to get
-  final String inviteLink;
-
-  GetChatInviteLink({
-    required this.chatId,
-    required this.inviteLink,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetChatInviteLink(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(inviteLink.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getChatInviteLink',
-    'chat_id': chatId,
-    'invite_link': inviteLink,
-  };
-
-  factory GetChatInviteLink.fromJson(Map<String, dynamic> json) => GetChatInviteLink(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    inviteLink: (json['invite_link'] as String?) ?? '',
-  );
-}
-
-/// Returns list of chat administrators with number of their invite links. Requires owner privileges in the chat
-class GetChatInviteLinkCounts extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-
-  GetChatInviteLinkCounts({
-    required this.chatId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetChatInviteLinkCounts(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getChatInviteLinkCounts',
-    'chat_id': chatId,
-  };
-
-  factory GetChatInviteLinkCounts.fromJson(Map<String, dynamic> json) => GetChatInviteLinkCounts(
-    chatId: (json['chat_id'] as int?) ?? 0,
-  );
-}
-
-/// Returns invite links for a chat created by specified administrator. Requires administrator privileges and can_invite_users right in the chat to get own links and owner privileges to get other links
-class GetChatInviteLinks extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// User identifier of a chat administrator. Must be an identifier of the current user for non-owner
-  final int creatorUserId;
-  /// Pass true if revoked links needs to be returned instead of active or expired
-  final bool isRevoked;
-  /// Creation date of an invite link starting after which to return invite links; use 0 to get results from the beginning
-  final int offsetDate;
-  /// Invite link starting after which to return invite links; use empty string to get results from the beginning
-  final String offsetInviteLink;
-  /// The maximum number of invite links to return
-  final int limit;
-
-  GetChatInviteLinks({
-    required this.chatId,
-    required this.creatorUserId,
-    required this.isRevoked,
-    required this.offsetDate,
-    required this.offsetInviteLink,
-    required this.limit,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetChatInviteLinks(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(creatorUserId.toString());
-    params.add(isRevoked.toString());
-    params.add(offsetDate.toString());
-    params.add(offsetInviteLink.toString());
-    params.add(limit.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getChatInviteLinks',
-    'chat_id': chatId,
-    'creator_user_id': creatorUserId,
-    'is_revoked': isRevoked,
-    'offset_date': offsetDate,
-    'offset_invite_link': offsetInviteLink,
-    'limit': limit,
-  };
-
-  factory GetChatInviteLinks.fromJson(Map<String, dynamic> json) => GetChatInviteLinks(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    creatorUserId: (json['creator_user_id'] as int?) ?? 0,
-    isRevoked: (json['is_revoked'] as bool?) ?? false,
-    offsetDate: (json['offset_date'] as int?) ?? 0,
-    offsetInviteLink: (json['offset_invite_link'] as String?) ?? '',
-    limit: (json['limit'] as int?) ?? 0,
-  );
-}
-
-/// Returns chat members joined a chat by an invite link. Requires administrator privileges and can_invite_users right in the chat for own links and owner privileges for other links
-class GetChatInviteLinkMembers extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// Invite link for which to return chat members
-  final String inviteLink;
-  /// A chat member from which to return next chat members; use null to get results from the beginning
-  final o.ChatInviteLinkMember? offsetMember;
-  /// The maximum number of chat members to return
-  final int limit;
-
-  GetChatInviteLinkMembers({
-    required this.chatId,
-    required this.inviteLink,
-    required this.offsetMember,
-    required this.limit,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetChatInviteLinkMembers(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(inviteLink.toString());
-    params.add(offsetMember.toString());
-    params.add(limit.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getChatInviteLinkMembers',
-    'chat_id': chatId,
-    'invite_link': inviteLink,
-    'offset_member': offsetMember?.toJson(),
-    'limit': limit,
-  };
-
-  factory GetChatInviteLinkMembers.fromJson(Map<String, dynamic> json) => GetChatInviteLinkMembers(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    inviteLink: (json['invite_link'] as String?) ?? '',
-    offsetMember: b.TdBase.fromJson(json['offset_member']) as o.ChatInviteLinkMember?,
-    limit: (json['limit'] as int?) ?? 0,
-  );
-}
-
-/// Revokes invite link for a chat. Available for basic groups, supergroups, and channels. Requires administrator privileges and can_invite_users right in the chat for own links and owner privileges for other links.
-class RevokeChatInviteLink extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// Invite link to be revoked
-  final String inviteLink;
-
-  RevokeChatInviteLink({
-    required this.chatId,
-    required this.inviteLink,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::RevokeChatInviteLink(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(inviteLink.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'revokeChatInviteLink',
-    'chat_id': chatId,
-    'invite_link': inviteLink,
-  };
-
-  factory RevokeChatInviteLink.fromJson(Map<String, dynamic> json) => RevokeChatInviteLink(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    inviteLink: (json['invite_link'] as String?) ?? '',
-  );
-}
-
-/// Deletes revoked chat invite links. Requires administrator privileges and can_invite_users right in the chat for own links and owner privileges for other links
-class DeleteRevokedChatInviteLink extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// Invite link to revoke
-  final String inviteLink;
-
-  DeleteRevokedChatInviteLink({
-    required this.chatId,
-    required this.inviteLink,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::DeleteRevokedChatInviteLink(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(inviteLink.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'deleteRevokedChatInviteLink',
-    'chat_id': chatId,
-    'invite_link': inviteLink,
-  };
-
-  factory DeleteRevokedChatInviteLink.fromJson(Map<String, dynamic> json) => DeleteRevokedChatInviteLink(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    inviteLink: (json['invite_link'] as String?) ?? '',
-  );
-}
-
-/// Deletes all revoked chat invite links created by a given chat administrator. Requires administrator privileges and can_invite_users right in the chat for own links and owner privileges for other links
-class DeleteAllRevokedChatInviteLinks extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// User identifier of a chat administrator, which links will be deleted. Must be an identifier of the current user for non-owner
-  final int creatorUserId;
-
-  DeleteAllRevokedChatInviteLinks({
-    required this.chatId,
-    required this.creatorUserId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::DeleteAllRevokedChatInviteLinks(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(creatorUserId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'deleteAllRevokedChatInviteLinks',
-    'chat_id': chatId,
-    'creator_user_id': creatorUserId,
-  };
-
-  factory DeleteAllRevokedChatInviteLinks.fromJson(Map<String, dynamic> json) => DeleteAllRevokedChatInviteLinks(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    creatorUserId: (json['creator_user_id'] as int?) ?? 0,
   );
 }
 
 /// Checks the validity of an invite link for a chat and returns information about the corresponding chat
 class CheckChatInviteLink extends TdFunction {
-  /// Invite link to be checked; must have URL "t.me", "telegram.me", or "telegram.dog" and query beginning with "/joinchat/" or "/+"
+  /// Invite link to be checked; should begin with "https://t.me/joinchat/", "https://telegram.me/joinchat/", or "https://telegram.dog/joinchat/"
   final String inviteLink;
 
   CheckChatInviteLink({
@@ -8519,9 +7814,9 @@ class CheckChatInviteLink extends TdFunction {
   );
 }
 
-/// Uses an invite link to add the current user to the chat if possible
+/// Uses an invite link to add the current user to the chat if possible. The new member will not be added until the chat state has been synchronized with the server
 class JoinChatByInviteLink extends TdFunction {
-  /// Invite link to import; must have URL "t.me", "telegram.me", or "telegram.dog" and query beginning with "/joinchat/" or "/+"
+  /// Invite link to import; should begin with "https://t.me/joinchat/", "https://telegram.me/joinchat/", or "https://telegram.dog/joinchat/"
   final String inviteLink;
 
   JoinChatByInviteLink({
@@ -8819,882 +8114,6 @@ class SendCallDebugInformation extends TdFunction {
   factory SendCallDebugInformation.fromJson(Map<String, dynamic> json) => SendCallDebugInformation(
     callId: (json['call_id'] as int?) ?? 0,
     debugInformation: (json['debug_information'] as String?) ?? '',
-  );
-}
-
-/// Returns list of participant identifiers, which can be used to join voice chats in a chat
-class GetVoiceChatAvailableParticipants extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-
-  GetVoiceChatAvailableParticipants({
-    required this.chatId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetVoiceChatAvailableParticipants(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getVoiceChatAvailableParticipants',
-    'chat_id': chatId,
-  };
-
-  factory GetVoiceChatAvailableParticipants.fromJson(Map<String, dynamic> json) => GetVoiceChatAvailableParticipants(
-    chatId: (json['chat_id'] as int?) ?? 0,
-  );
-}
-
-/// Changes default participant identifier, which can be used to join voice chats in a chat
-class SetVoiceChatDefaultParticipant extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// Default group call participant identifier to join the voice chats
-  final a.MessageSender? defaultParticipantId;
-
-  SetVoiceChatDefaultParticipant({
-    required this.chatId,
-    required this.defaultParticipantId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::SetVoiceChatDefaultParticipant(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(defaultParticipantId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'setVoiceChatDefaultParticipant',
-    'chat_id': chatId,
-    'default_participant_id': defaultParticipantId?.toJson(),
-  };
-
-  factory SetVoiceChatDefaultParticipant.fromJson(Map<String, dynamic> json) => SetVoiceChatDefaultParticipant(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    defaultParticipantId: b.TdBase.fromJson(json['default_participant_id']) as a.MessageSender?,
-  );
-}
-
-/// Creates a voice chat (a group call bound to a chat). Available only for basic groups, supergroups and channels; requires can_manage_voice_chats rights
-class CreateVoiceChat extends TdFunction {
-  /// Chat identifier, in which the voice chat will be created
-  final int chatId;
-  /// Group call title; if empty, chat title will be used
-  final String title;
-  /// Point in time (Unix timestamp) when the group call is supposed to be started by an administrator; 0 to start the voice chat immediately. The date must be at least 10 seconds and at most 8 days in the future
-  final int startDate;
-
-  CreateVoiceChat({
-    required this.chatId,
-    required this.title,
-    required this.startDate,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::CreateVoiceChat(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(title.toString());
-    params.add(startDate.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'createVoiceChat',
-    'chat_id': chatId,
-    'title': title,
-    'start_date': startDate,
-  };
-
-  factory CreateVoiceChat.fromJson(Map<String, dynamic> json) => CreateVoiceChat(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    title: (json['title'] as String?) ?? '',
-    startDate: (json['start_date'] as int?) ?? 0,
-  );
-}
-
-/// Returns information about a group call
-class GetGroupCall extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-
-  GetGroupCall({
-    required this.groupCallId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetGroupCall(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getGroupCall',
-    'group_call_id': groupCallId,
-  };
-
-  factory GetGroupCall.fromJson(Map<String, dynamic> json) => GetGroupCall(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-  );
-}
-
-/// Starts a scheduled group call
-class StartScheduledGroupCall extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-
-  StartScheduledGroupCall({
-    required this.groupCallId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::StartScheduledGroupCall(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'startScheduledGroupCall',
-    'group_call_id': groupCallId,
-  };
-
-  factory StartScheduledGroupCall.fromJson(Map<String, dynamic> json) => StartScheduledGroupCall(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-  );
-}
-
-/// Toggles whether the current user will receive a notification when the group call will start; scheduled group calls only
-class ToggleGroupCallEnabledStartNotification extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-  /// New value of the enabled_start_notification setting
-  final bool enabledStartNotification;
-
-  ToggleGroupCallEnabledStartNotification({
-    required this.groupCallId,
-    required this.enabledStartNotification,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ToggleGroupCallEnabledStartNotification(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(enabledStartNotification.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'toggleGroupCallEnabledStartNotification',
-    'group_call_id': groupCallId,
-    'enabled_start_notification': enabledStartNotification,
-  };
-
-  factory ToggleGroupCallEnabledStartNotification.fromJson(Map<String, dynamic> json) => ToggleGroupCallEnabledStartNotification(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    enabledStartNotification: (json['enabled_start_notification'] as bool?) ?? false,
-  );
-}
-
-/// Joins an active group call
-class JoinGroupCall extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-  /// Identifier of a group call participant, which will be used to join the call; voice chats only
-  final a.MessageSender? participantId;
-  /// Group join payload; received from tgcalls
-  final o.GroupCallPayload? payload;
-  /// Caller synchronization source identifier; received from tgcalls
-  final int source;
-  /// True, if the user's microphone is muted
-  final bool isMuted;
-  /// If non-empty, invite hash to be used to join the group call without being muted by administrators
-  final String inviteHash;
-
-  JoinGroupCall({
-    required this.groupCallId,
-    required this.participantId,
-    required this.payload,
-    required this.source,
-    required this.isMuted,
-    required this.inviteHash,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::JoinGroupCall(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(participantId.toString());
-    params.add(payload.toString());
-    params.add(source.toString());
-    params.add(isMuted.toString());
-    params.add(inviteHash.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'joinGroupCall',
-    'group_call_id': groupCallId,
-    'participant_id': participantId?.toJson(),
-    'payload': payload?.toJson(),
-    'source': source,
-    'is_muted': isMuted,
-    'invite_hash': inviteHash,
-  };
-
-  factory JoinGroupCall.fromJson(Map<String, dynamic> json) => JoinGroupCall(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    payload: b.TdBase.fromJson(json['payload']) as o.GroupCallPayload?,
-    source: (json['source'] as int?) ?? 0,
-    isMuted: (json['is_muted'] as bool?) ?? false,
-    inviteHash: (json['invite_hash'] as String?) ?? '',
-  );
-}
-
-/// Sets group call title. Requires groupCall.can_be_managed group call flag
-class SetGroupCallTitle extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-  /// New group call title; 1-64 characters
-  final String title;
-
-  SetGroupCallTitle({
-    required this.groupCallId,
-    required this.title,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::SetGroupCallTitle(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(title.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'setGroupCallTitle',
-    'group_call_id': groupCallId,
-    'title': title,
-  };
-
-  factory SetGroupCallTitle.fromJson(Map<String, dynamic> json) => SetGroupCallTitle(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    title: (json['title'] as String?) ?? '',
-  );
-}
-
-/// Toggles whether new participants of a group call can be unmuted only by administrators of the group call. Requires groupCall.can_change_mute_new_participants group call flag
-class ToggleGroupCallMuteNewParticipants extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-  /// New value of the mute_new_participants setting
-  final bool muteNewParticipants;
-
-  ToggleGroupCallMuteNewParticipants({
-    required this.groupCallId,
-    required this.muteNewParticipants,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ToggleGroupCallMuteNewParticipants(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(muteNewParticipants.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'toggleGroupCallMuteNewParticipants',
-    'group_call_id': groupCallId,
-    'mute_new_participants': muteNewParticipants,
-  };
-
-  factory ToggleGroupCallMuteNewParticipants.fromJson(Map<String, dynamic> json) => ToggleGroupCallMuteNewParticipants(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    muteNewParticipants: (json['mute_new_participants'] as bool?) ?? false,
-  );
-}
-
-/// Revokes invite link for a group call. Requires groupCall.can_be_managed group call flag
-class RevokeGroupCallInviteLink extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-
-  RevokeGroupCallInviteLink({
-    required this.groupCallId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::RevokeGroupCallInviteLink(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'revokeGroupCallInviteLink',
-    'group_call_id': groupCallId,
-  };
-
-  factory RevokeGroupCallInviteLink.fromJson(Map<String, dynamic> json) => RevokeGroupCallInviteLink(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-  );
-}
-
-/// Invites users to an active group call. Sends a service message of type messageInviteToGroupCall for voice chats
-class InviteGroupCallParticipants extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-  /// User identifiers. At most 10 users can be invited simultaneously
-  final List<int> userIds;
-
-  InviteGroupCallParticipants({
-    required this.groupCallId,
-    required this.userIds,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::InviteGroupCallParticipants(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(userIds.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'inviteGroupCallParticipants',
-    'group_call_id': groupCallId,
-    'user_ids': userIds.map((_e1) => _e1).toList(growable: false),
-  };
-
-  factory InviteGroupCallParticipants.fromJson(Map<String, dynamic> json) => InviteGroupCallParticipants(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    userIds: json['user_ids'] == null ? <int>[] : (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
-  );
-}
-
-/// Returns invite link to a voice chat in a public chat
-class GetGroupCallInviteLink extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-  /// Pass true if the invite_link should contain an invite hash, passing which to joinGroupCall would allow the invited user to unmute themself. Requires groupCall.can_be_managed group call flag
-  final bool canSelfUnmute;
-
-  GetGroupCallInviteLink({
-    required this.groupCallId,
-    required this.canSelfUnmute,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetGroupCallInviteLink(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(canSelfUnmute.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getGroupCallInviteLink',
-    'group_call_id': groupCallId,
-    'can_self_unmute': canSelfUnmute,
-  };
-
-  factory GetGroupCallInviteLink.fromJson(Map<String, dynamic> json) => GetGroupCallInviteLink(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    canSelfUnmute: (json['can_self_unmute'] as bool?) ?? false,
-  );
-}
-
-/// Starts recording of an active group call. Requires groupCall.can_be_managed group call flag
-class StartGroupCallRecording extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-  /// Group call recording title; 0-64 characters
-  final String title;
-
-  StartGroupCallRecording({
-    required this.groupCallId,
-    required this.title,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::StartGroupCallRecording(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(title.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'startGroupCallRecording',
-    'group_call_id': groupCallId,
-    'title': title,
-  };
-
-  factory StartGroupCallRecording.fromJson(Map<String, dynamic> json) => StartGroupCallRecording(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    title: (json['title'] as String?) ?? '',
-  );
-}
-
-/// Ends recording of an active group call. Requires groupCall.can_be_managed group call flag
-class EndGroupCallRecording extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-
-  EndGroupCallRecording({
-    required this.groupCallId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::EndGroupCallRecording(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'endGroupCallRecording',
-    'group_call_id': groupCallId,
-  };
-
-  factory EndGroupCallRecording.fromJson(Map<String, dynamic> json) => EndGroupCallRecording(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-  );
-}
-
-/// Informs TDLib that a participant of an active group call speaking state has changed
-class SetGroupCallParticipantIsSpeaking extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-  /// Group call participant's synchronization source identifier, or 0 for the current user
-  final int source;
-  /// True, if the user is speaking
-  final bool isSpeaking;
-
-  SetGroupCallParticipantIsSpeaking({
-    required this.groupCallId,
-    required this.source,
-    required this.isSpeaking,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::SetGroupCallParticipantIsSpeaking(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(source.toString());
-    params.add(isSpeaking.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'setGroupCallParticipantIsSpeaking',
-    'group_call_id': groupCallId,
-    'source': source,
-    'is_speaking': isSpeaking,
-  };
-
-  factory SetGroupCallParticipantIsSpeaking.fromJson(Map<String, dynamic> json) => SetGroupCallParticipantIsSpeaking(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    source: (json['source'] as int?) ?? 0,
-    isSpeaking: (json['is_speaking'] as bool?) ?? false,
-  );
-}
-
-/// Toggles whether a participant of an active group call is muted, unmuted, or allowed to unmute themself
-class ToggleGroupCallParticipantIsMuted extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-  /// Participant identifier
-  final a.MessageSender? participantId;
-  /// Pass true if the user must be muted and false otherwise
-  final bool isMuted;
-
-  ToggleGroupCallParticipantIsMuted({
-    required this.groupCallId,
-    required this.participantId,
-    required this.isMuted,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ToggleGroupCallParticipantIsMuted(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(participantId.toString());
-    params.add(isMuted.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'toggleGroupCallParticipantIsMuted',
-    'group_call_id': groupCallId,
-    'participant_id': participantId?.toJson(),
-    'is_muted': isMuted,
-  };
-
-  factory ToggleGroupCallParticipantIsMuted.fromJson(Map<String, dynamic> json) => ToggleGroupCallParticipantIsMuted(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    isMuted: (json['is_muted'] as bool?) ?? false,
-  );
-}
-
-/// Changes volume level of a participant of an active group call. If the current user can manage the group call, then the participant's volume level will be changed for all users with default volume level
-class SetGroupCallParticipantVolumeLevel extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-  /// Participant identifier
-  final a.MessageSender? participantId;
-  /// New participant's volume level; 1-20000 in hundreds of percents
-  final int volumeLevel;
-
-  SetGroupCallParticipantVolumeLevel({
-    required this.groupCallId,
-    required this.participantId,
-    required this.volumeLevel,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::SetGroupCallParticipantVolumeLevel(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(participantId.toString());
-    params.add(volumeLevel.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'setGroupCallParticipantVolumeLevel',
-    'group_call_id': groupCallId,
-    'participant_id': participantId?.toJson(),
-    'volume_level': volumeLevel,
-  };
-
-  factory SetGroupCallParticipantVolumeLevel.fromJson(Map<String, dynamic> json) => SetGroupCallParticipantVolumeLevel(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    volumeLevel: (json['volume_level'] as int?) ?? 0,
-  );
-}
-
-/// Toggles whether a group call participant hand is rased
-class ToggleGroupCallParticipantIsHandRaised extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-  /// Participant identifier
-  final a.MessageSender? participantId;
-  /// Pass true if the user's hand should be raised. Only self hand can be raised. Requires groupCall.can_be_managed group call flag to lower other's hand
-  final bool isHandRaised;
-
-  ToggleGroupCallParticipantIsHandRaised({
-    required this.groupCallId,
-    required this.participantId,
-    required this.isHandRaised,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ToggleGroupCallParticipantIsHandRaised(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(participantId.toString());
-    params.add(isHandRaised.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'toggleGroupCallParticipantIsHandRaised',
-    'group_call_id': groupCallId,
-    'participant_id': participantId?.toJson(),
-    'is_hand_raised': isHandRaised,
-  };
-
-  factory ToggleGroupCallParticipantIsHandRaised.fromJson(Map<String, dynamic> json) => ToggleGroupCallParticipantIsHandRaised(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    isHandRaised: (json['is_hand_raised'] as bool?) ?? false,
-  );
-}
-
-/// Loads more participants of a group call. The loaded participants will be received through updates. Use the field groupCall.loaded_all_participants to check whether all participants has already been loaded
-class LoadGroupCallParticipants extends TdFunction {
-  /// Group call identifier. The group call must be previously received through getGroupCall and must be joined or being joined
-  final int groupCallId;
-  /// The maximum number of participants to load
-  final int limit;
-
-  LoadGroupCallParticipants({
-    required this.groupCallId,
-    required this.limit,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::LoadGroupCallParticipants(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(limit.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'loadGroupCallParticipants',
-    'group_call_id': groupCallId,
-    'limit': limit,
-  };
-
-  factory LoadGroupCallParticipants.fromJson(Map<String, dynamic> json) => LoadGroupCallParticipants(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    limit: (json['limit'] as int?) ?? 0,
-  );
-}
-
-/// Leaves a group call
-class LeaveGroupCall extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-
-  LeaveGroupCall({
-    required this.groupCallId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::LeaveGroupCall(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'leaveGroupCall',
-    'group_call_id': groupCallId,
-  };
-
-  factory LeaveGroupCall.fromJson(Map<String, dynamic> json) => LeaveGroupCall(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-  );
-}
-
-/// Discards a group call. Requires groupCall.can_be_managed
-class DiscardGroupCall extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-
-  DiscardGroupCall({
-    required this.groupCallId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::DiscardGroupCall(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'discardGroupCall',
-    'group_call_id': groupCallId,
-  };
-
-  factory DiscardGroupCall.fromJson(Map<String, dynamic> json) => DiscardGroupCall(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-  );
-}
-
-/// Returns a file with a segment of a group call stream in a modified OGG format
-class GetGroupCallStreamSegment extends TdFunction {
-  /// Group call identifier
-  final int groupCallId;
-  /// Point in time when the stream segment begins; Unix timestamp in milliseconds
-  final int timeOffset;
-  /// Segment duration scale; 0-1. Segment's duration is 1000/(2**scale) milliseconds
-  final int scale;
-
-  GetGroupCallStreamSegment({
-    required this.groupCallId,
-    required this.timeOffset,
-    required this.scale,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GetGroupCallStreamSegment(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(timeOffset.toString());
-    params.add(scale.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'getGroupCallStreamSegment',
-    'group_call_id': groupCallId,
-    'time_offset': timeOffset,
-    'scale': scale,
-  };
-
-  factory GetGroupCallStreamSegment.fromJson(Map<String, dynamic> json) => GetGroupCallStreamSegment(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    timeOffset: (json['time_offset'] as int?) ?? 0,
-    scale: (json['scale'] as int?) ?? 0,
   );
 }
 
@@ -10021,7 +8440,7 @@ class GetImportedContactCount extends TdFunction {
   );
 }
 
-/// Changes imported contacts using the list of contacts saved on the device. Imports newly added contacts and, if at least the file database is enabled, deletes recently deleted contacts.
+/// Changes imported contacts using the list of current user contacts saved on the device. Imports newly added contacts and, if at least the file database is enabled, deletes recently deleted contacts.
 class ChangeImportedContacts extends TdFunction {
   /// The new list of contacts, contact's vCard are ignored and are not imported
   final List<o.Contact?> contacts;
@@ -11791,7 +10210,7 @@ class SetSupergroupUsername extends TdFunction {
   );
 }
 
-/// Changes the sticker set of a supergroup; requires can_change_info administrator right
+/// Changes the sticker set of a supergroup; requires can_change_info rights
 class SetSupergroupStickerSet extends TdFunction {
   /// Identifier of the supergroup
   final int supergroupId;
@@ -11830,7 +10249,7 @@ class SetSupergroupStickerSet extends TdFunction {
   );
 }
 
-/// Toggles sender signatures messages sent in a channel; requires can_change_info administrator right
+/// Toggles sender signatures messages sent in a channel; requires can_change_info rights
 class ToggleSupergroupSignMessages extends TdFunction {
   /// Identifier of the channel
   final int supergroupId;
@@ -11869,7 +10288,7 @@ class ToggleSupergroupSignMessages extends TdFunction {
   );
 }
 
-/// Toggles whether the message history of a supergroup is available to new members; requires can_change_info administrator right
+/// Toggles whether the message history of a supergroup is available to new members; requires can_change_info rights
 class ToggleSupergroupIsAllHistoryAvailable extends TdFunction {
   /// The identifier of the supergroup
   final int supergroupId;
@@ -11905,39 +10324,6 @@ class ToggleSupergroupIsAllHistoryAvailable extends TdFunction {
   factory ToggleSupergroupIsAllHistoryAvailable.fromJson(Map<String, dynamic> json) => ToggleSupergroupIsAllHistoryAvailable(
     supergroupId: (json['supergroup_id'] as int?) ?? 0,
     isAllHistoryAvailable: (json['is_all_history_available'] as bool?) ?? false,
-  );
-}
-
-/// Upgrades supergroup to a broadcast group; requires owner privileges in the supergroup
-class ToggleSupergroupIsBroadcastGroup extends TdFunction {
-  /// Identifier of the supergroup
-  final int supergroupId;
-
-  ToggleSupergroupIsBroadcastGroup({
-    required this.supergroupId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ToggleSupergroupIsBroadcastGroup(';
-
-    // Params
-    final params = <String>[];
-    params.add(supergroupId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'toggleSupergroupIsBroadcastGroup',
-    'supergroup_id': supergroupId,
-  };
-
-  factory ToggleSupergroupIsBroadcastGroup.fromJson(Map<String, dynamic> json) => ToggleSupergroupIsBroadcastGroup(
-    supergroupId: (json['supergroup_id'] as int?) ?? 0,
   );
 }
 
@@ -12034,6 +10420,39 @@ class GetSupergroupMembers extends TdFunction {
     filter: b.TdBase.fromJson(json['filter']) as a.SupergroupMembersFilter?,
     offset: (json['offset'] as int?) ?? 0,
     limit: (json['limit'] as int?) ?? 0,
+  );
+}
+
+/// Deletes a supergroup or channel along with all messages in the corresponding chat. This will release the supergroup or channel username and remove all members; requires owner privileges in the supergroup or channel. Chats with more than 1000 members can't be deleted using this method
+class DeleteSupergroup extends TdFunction {
+  /// Identifier of the supergroup or channel
+  final int supergroupId;
+
+  DeleteSupergroup({
+    required this.supergroupId,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::DeleteSupergroup(';
+
+    // Params
+    final params = <String>[];
+    params.add(supergroupId.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'deleteSupergroup',
+    'supergroup_id': supergroupId,
+  };
+
+  factory DeleteSupergroup.fromJson(Map<String, dynamic> json) => DeleteSupergroup(
+    supergroupId: (json['supergroup_id'] as int?) ?? 0,
   );
 }
 
@@ -12139,13 +10558,10 @@ class GetPaymentForm extends TdFunction {
   final int chatId;
   /// Message identifier
   final int messageId;
-  /// Preferred payment form theme
-  final o.PaymentFormTheme? theme;
 
   GetPaymentForm({
     required this.chatId,
     required this.messageId,
-    required this.theme,
   });
 
   @override
@@ -12156,7 +10572,6 @@ class GetPaymentForm extends TdFunction {
     final params = <String>[];
     params.add(chatId.toString());
     params.add(messageId.toString());
-    params.add(theme.toString());
     s += params.join(', ');
 
     s += ')';
@@ -12168,13 +10583,11 @@ class GetPaymentForm extends TdFunction {
     '@type': 'getPaymentForm',
     'chat_id': chatId,
     'message_id': messageId,
-    'theme': theme?.toJson(),
   };
 
   factory GetPaymentForm.fromJson(Map<String, dynamic> json) => GetPaymentForm(
     chatId: (json['chat_id'] as int?) ?? 0,
     messageId: (json['message_id'] as int?) ?? 0,
-    theme: b.TdBase.fromJson(json['theme']) as o.PaymentFormTheme?,
   );
 }
 
@@ -12235,25 +10648,19 @@ class SendPaymentForm extends TdFunction {
   final int chatId;
   /// Message identifier
   final int messageId;
-  /// Payment form identifier returned by getPaymentForm
-  final int paymentFormId;
-  /// Identifier returned by validateOrderInfo, or an empty string
+  /// Identifier returned by ValidateOrderInfo, or an empty string
   final String orderInfoId;
   /// Identifier of a chosen shipping option, if applicable
   final String shippingOptionId;
   /// The credentials chosen by user for payment
   final a.InputCredentials? credentials;
-  /// Chosen by the user amount of tip in the smallest units of the currency
-  final int tipAmount;
 
   SendPaymentForm({
     required this.chatId,
     required this.messageId,
-    required this.paymentFormId,
     required this.orderInfoId,
     required this.shippingOptionId,
     required this.credentials,
-    required this.tipAmount,
   });
 
   @override
@@ -12264,11 +10671,9 @@ class SendPaymentForm extends TdFunction {
     final params = <String>[];
     params.add(chatId.toString());
     params.add(messageId.toString());
-    params.add(paymentFormId.toString());
     params.add(orderInfoId.toString());
     params.add(shippingOptionId.toString());
     params.add(credentials.toString());
-    params.add(tipAmount.toString());
     s += params.join(', ');
 
     s += ')';
@@ -12280,21 +10685,17 @@ class SendPaymentForm extends TdFunction {
     '@type': 'sendPaymentForm',
     'chat_id': chatId,
     'message_id': messageId,
-    'payment_form_id': paymentFormId.toString(),
     'order_info_id': orderInfoId,
     'shipping_option_id': shippingOptionId,
     'credentials': credentials?.toJson(),
-    'tip_amount': tipAmount,
   };
 
   factory SendPaymentForm.fromJson(Map<String, dynamic> json) => SendPaymentForm(
     chatId: (json['chat_id'] as int?) ?? 0,
     messageId: (json['message_id'] as int?) ?? 0,
-    paymentFormId: int.parse(json['payment_form_id'] ?? '0'),
     orderInfoId: (json['order_info_id'] as String?) ?? '',
     shippingOptionId: (json['shipping_option_id'] as String?) ?? '',
     credentials: b.TdBase.fromJson(json['credentials']) as a.InputCredentials?,
-    tipAmount: (json['tip_amount'] as int?) ?? 0,
   );
 }
 
@@ -13366,22 +11767,19 @@ class RemoveChatActionBar extends TdFunction {
   );
 }
 
-/// Reports a chat to the Telegram moderators. A chat can be reported only from the chat action bar, or if this is a private chat with a bot, a private chat with a user sharing their location, a supergroup, or a channel, since other chats can't be checked by moderators
+/// Reports a chat to the Telegram moderators. A chat can be reported only from the chat action bar, or if this is a private chats with a bot, a private chat with a user sharing their location, a supergroup, or a channel, since other chats can't be checked by moderators
 class ReportChat extends TdFunction {
   /// Chat identifier
   final int chatId;
-  /// Identifiers of reported messages, if any
-  final List<int> messageIds;
   /// The reason for reporting the chat
   final a.ChatReportReason? reason;
-  /// Additional report details; 0-1024 characters
-  final String text;
+  /// Identifiers of reported messages, if any
+  final List<int> messageIds;
 
   ReportChat({
     required this.chatId,
-    required this.messageIds,
     required this.reason,
-    required this.text,
+    required this.messageIds,
   });
 
   @override
@@ -13391,9 +11789,8 @@ class ReportChat extends TdFunction {
     // Params
     final params = <String>[];
     params.add(chatId.toString());
-    params.add(messageIds.toString());
     params.add(reason.toString());
-    params.add(text.toString());
+    params.add(messageIds.toString());
     s += params.join(', ');
 
     s += ')';
@@ -13404,67 +11801,14 @@ class ReportChat extends TdFunction {
   Map<String, dynamic> toJson() => {
     '@type': 'reportChat',
     'chat_id': chatId,
-    'message_ids': messageIds.map((_e1) => _e1).toList(growable: false),
     'reason': reason?.toJson(),
-    'text': text,
+    'message_ids': messageIds.map((_e1) => _e1).toList(growable: false),
   };
 
   factory ReportChat.fromJson(Map<String, dynamic> json) => ReportChat(
     chatId: (json['chat_id'] as int?) ?? 0,
+    reason: b.TdBase.fromJson(json['reason']) as a.ChatReportReason?,
     messageIds: json['message_ids'] == null ? <int>[] : (json['message_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
-    reason: b.TdBase.fromJson(json['reason']) as a.ChatReportReason?,
-    text: (json['text'] as String?) ?? '',
-  );
-}
-
-/// Reports a chat photo to the Telegram moderators. A chat photo can be reported only if this is a private chat with a bot, a private chat with a user sharing their location, a supergroup, or a channel, since other chats can't be checked by moderators
-class ReportChatPhoto extends TdFunction {
-  /// Chat identifier
-  final int chatId;
-  /// Identifier of the photo to report. Only full photos from chatPhoto can be reported
-  final int fileId;
-  /// The reason for reporting the chat photo
-  final a.ChatReportReason? reason;
-  /// Additional report details; 0-1024 characters
-  final String text;
-
-  ReportChatPhoto({
-    required this.chatId,
-    required this.fileId,
-    required this.reason,
-    required this.text,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ReportChatPhoto(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(fileId.toString());
-    params.add(reason.toString());
-    params.add(text.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'reportChatPhoto',
-    'chat_id': chatId,
-    'file_id': fileId,
-    'reason': reason?.toJson(),
-    'text': text,
-  };
-
-  factory ReportChatPhoto.fromJson(Map<String, dynamic> json) => ReportChatPhoto(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    fileId: (json['file_id'] as int?) ?? 0,
-    reason: b.TdBase.fromJson(json['reason']) as a.ChatReportReason?,
-    text: (json['text'] as String?) ?? '',
   );
 }
 
@@ -15192,7 +13536,7 @@ class GetCountries extends TdFunction {
   );
 }
 
-/// Uses the current IP address to find the current country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
+/// Uses current user IP address to find their country. Returns two-letter ISO 3166-1 alpha-2 country code. Can be called before authorization
 class GetCountryCode extends TdFunction {
   GetCountryCode();
 
@@ -15883,7 +14227,7 @@ class GetLogTagVerbosityLevel extends TdFunction {
 
 /// Adds a message to TDLib internal log. Can be called synchronously
 class AddLogMessage extends TdFunction {
-  /// The minimum verbosity level needed for the message to be logged; 0-1023
+  /// The minimum verbosity level needed for the message to be logged, 0-1023
   final int verbosityLevel;
   /// Text of a message to log
   final String text;

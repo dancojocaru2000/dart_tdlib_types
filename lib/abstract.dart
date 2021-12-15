@@ -824,31 +824,6 @@ abstract class MaskPosition extends b.TdBase {
 }
 
 /// 
-abstract class ClosedVectorPath extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.ClosedVectorPath, TResult>? isClosedVectorPath,
-    Func1<ClosedVectorPath, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.ClosedVectorPath) {
-      if (isClosedVectorPath != null) {
-        return isClosedVectorPath(this as o.ClosedVectorPath);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
 abstract class PollOption extends b.TdBase {
   TResult match<TResult>({
     Func1<o.PollOption, TResult>? isPollOption,
@@ -1965,181 +1940,6 @@ abstract class SupergroupMembersFilter extends b.TdBase {
 }
 
 /// 
-abstract class ChatInviteLink extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.ChatInviteLink, TResult>? isChatInviteLink,
-    Func1<ChatInviteLink, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.ChatInviteLink) {
-      if (isChatInviteLink != null) {
-        return isChatInviteLink(this as o.ChatInviteLink);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class ChatInviteLinks extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.ChatInviteLinks, TResult>? isChatInviteLinks,
-    Func1<ChatInviteLinks, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.ChatInviteLinks) {
-      if (isChatInviteLinks != null) {
-        return isChatInviteLinks(this as o.ChatInviteLinks);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class ChatInviteLinkCount extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.ChatInviteLinkCount, TResult>? isChatInviteLinkCount,
-    Func1<ChatInviteLinkCount, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.ChatInviteLinkCount) {
-      if (isChatInviteLinkCount != null) {
-        return isChatInviteLinkCount(this as o.ChatInviteLinkCount);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class ChatInviteLinkCounts extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.ChatInviteLinkCounts, TResult>? isChatInviteLinkCounts,
-    Func1<ChatInviteLinkCounts, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.ChatInviteLinkCounts) {
-      if (isChatInviteLinkCounts != null) {
-        return isChatInviteLinkCounts(this as o.ChatInviteLinkCounts);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class ChatInviteLinkMember extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.ChatInviteLinkMember, TResult>? isChatInviteLinkMember,
-    Func1<ChatInviteLinkMember, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.ChatInviteLinkMember) {
-      if (isChatInviteLinkMember != null) {
-        return isChatInviteLinkMember(this as o.ChatInviteLinkMember);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class ChatInviteLinkMembers extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.ChatInviteLinkMembers, TResult>? isChatInviteLinkMembers,
-    Func1<ChatInviteLinkMembers, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.ChatInviteLinkMembers) {
-      if (isChatInviteLinkMembers != null) {
-        return isChatInviteLinkMembers(this as o.ChatInviteLinkMembers);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class ChatInviteLinkInfo extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.ChatInviteLinkInfo, TResult>? isChatInviteLinkInfo,
-    Func1<ChatInviteLinkInfo, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.ChatInviteLinkInfo) {
-      if (isChatInviteLinkInfo != null) {
-        return isChatInviteLinkInfo(this as o.ChatInviteLinkInfo);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
 abstract class BasicGroup extends b.TdBase {
   TResult match<TResult>({
     Func1<o.BasicGroup, TResult>? isBasicGroup,
@@ -2373,7 +2173,6 @@ abstract class MessageForwardOrigin extends b.TdBase {
     Func1<o.MessageForwardOriginChat, TResult>? isMessageForwardOriginChat,
     Func1<o.MessageForwardOriginHiddenUser, TResult>? isMessageForwardOriginHiddenUser,
     Func1<o.MessageForwardOriginChannel, TResult>? isMessageForwardOriginChannel,
-    Func1<o.MessageForwardOriginMessageImport, TResult>? isMessageForwardOriginMessageImport,
     Func1<MessageForwardOrigin, TResult>? otherwise,
   }) {
     if (false) {} // ignore: dead_code
@@ -2404,14 +2203,6 @@ abstract class MessageForwardOrigin extends b.TdBase {
     else if (this is o.MessageForwardOriginChannel) {
       if (isMessageForwardOriginChannel != null) {
         return isMessageForwardOriginChannel(this as o.MessageForwardOriginChannel);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.MessageForwardOriginMessageImport) {
-      if (isMessageForwardOriginMessageImport != null) {
-        return isMessageForwardOriginMessageImport(this as o.MessageForwardOriginMessageImport);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -3009,31 +2800,6 @@ abstract class ChatPosition extends b.TdBase {
 }
 
 /// 
-abstract class VoiceChat extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.VoiceChat, TResult>? isVoiceChat,
-    Func1<VoiceChat, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.VoiceChat) {
-      if (isVoiceChat != null) {
-        return isVoiceChat(this as o.VoiceChat);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
 abstract class Chat extends b.TdBase {
   TResult match<TResult>({
     Func1<o.Chat, TResult>? isChat,
@@ -3133,6 +2899,56 @@ abstract class ChatsNearby extends b.TdBase {
   }
 }
 
+/// 
+abstract class ChatInviteLink extends b.TdBase {
+  TResult match<TResult>({
+    Func1<o.ChatInviteLink, TResult>? isChatInviteLink,
+    Func1<ChatInviteLink, TResult>? otherwise,
+  }) {
+    if (false) {} // ignore: dead_code
+    else if (this is o.ChatInviteLink) {
+      if (isChatInviteLink != null) {
+        return isChatInviteLink(this as o.ChatInviteLink);
+      }
+      else if (otherwise != null) {
+        return otherwise(this);
+      }
+    }
+    else if (otherwise != null) {
+      otherwise(this);
+    }
+    else if (TResult == null.runtimeType) {
+      return null as TResult;
+    }
+    throw MatchError();
+  }
+}
+
+/// 
+abstract class ChatInviteLinkInfo extends b.TdBase {
+  TResult match<TResult>({
+    Func1<o.ChatInviteLinkInfo, TResult>? isChatInviteLinkInfo,
+    Func1<ChatInviteLinkInfo, TResult>? otherwise,
+  }) {
+    if (false) {} // ignore: dead_code
+    else if (this is o.ChatInviteLinkInfo) {
+      if (isChatInviteLinkInfo != null) {
+        return isChatInviteLinkInfo(this as o.ChatInviteLinkInfo);
+      }
+      else if (otherwise != null) {
+        return otherwise(this);
+      }
+    }
+    else if (otherwise != null) {
+      otherwise(this);
+    }
+    else if (TResult == null.runtimeType) {
+      return null as TResult;
+    }
+    throw MatchError();
+  }
+}
+
 /// Describes a type of public chats
 abstract class PublicChatType extends b.TdBase {
   TResult match<TResult>({
@@ -3172,7 +2988,6 @@ abstract class ChatActionBar extends b.TdBase {
   TResult match<TResult>({
     Func1<o.ChatActionBarReportSpam, TResult>? isChatActionBarReportSpam,
     Func1<o.ChatActionBarReportUnrelatedLocation, TResult>? isChatActionBarReportUnrelatedLocation,
-    Func1<o.ChatActionBarInviteMembers, TResult>? isChatActionBarInviteMembers,
     Func1<o.ChatActionBarReportAddBlock, TResult>? isChatActionBarReportAddBlock,
     Func1<o.ChatActionBarAddContact, TResult>? isChatActionBarAddContact,
     Func1<o.ChatActionBarSharePhoneNumber, TResult>? isChatActionBarSharePhoneNumber,
@@ -3190,14 +3005,6 @@ abstract class ChatActionBar extends b.TdBase {
     else if (this is o.ChatActionBarReportUnrelatedLocation) {
       if (isChatActionBarReportUnrelatedLocation != null) {
         return isChatActionBarReportUnrelatedLocation(this as o.ChatActionBarReportUnrelatedLocation);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.ChatActionBarInviteMembers) {
-      if (isChatActionBarInviteMembers != null) {
-        return isChatActionBarInviteMembers(this as o.ChatActionBarInviteMembers);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -4491,8 +4298,8 @@ abstract class InputCredentials extends b.TdBase {
   TResult match<TResult>({
     Func1<o.InputCredentialsSaved, TResult>? isInputCredentialsSaved,
     Func1<o.InputCredentialsNew, TResult>? isInputCredentialsNew,
+    Func1<o.InputCredentialsAndroidPay, TResult>? isInputCredentialsAndroidPay,
     Func1<o.InputCredentialsApplePay, TResult>? isInputCredentialsApplePay,
-    Func1<o.InputCredentialsGooglePay, TResult>? isInputCredentialsGooglePay,
     Func1<InputCredentials, TResult>? otherwise,
   }) {
     if (false) {} // ignore: dead_code
@@ -4512,17 +4319,17 @@ abstract class InputCredentials extends b.TdBase {
         return otherwise(this);
       }
     }
-    else if (this is o.InputCredentialsApplePay) {
-      if (isInputCredentialsApplePay != null) {
-        return isInputCredentialsApplePay(this as o.InputCredentialsApplePay);
+    else if (this is o.InputCredentialsAndroidPay) {
+      if (isInputCredentialsAndroidPay != null) {
+        return isInputCredentialsAndroidPay(this as o.InputCredentialsAndroidPay);
       }
       else if (otherwise != null) {
         return otherwise(this);
       }
     }
-    else if (this is o.InputCredentialsGooglePay) {
-      if (isInputCredentialsGooglePay != null) {
-        return isInputCredentialsGooglePay(this as o.InputCredentialsGooglePay);
+    else if (this is o.InputCredentialsApplePay) {
+      if (isInputCredentialsApplePay != null) {
+        return isInputCredentialsApplePay(this as o.InputCredentialsApplePay);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -4548,31 +4355,6 @@ abstract class PaymentsProviderStripe extends b.TdBase {
     else if (this is o.PaymentsProviderStripe) {
       if (isPaymentsProviderStripe != null) {
         return isPaymentsProviderStripe(this as o.PaymentsProviderStripe);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class PaymentFormTheme extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.PaymentFormTheme, TResult>? isPaymentFormTheme,
-    Func1<PaymentFormTheme, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.PaymentFormTheme) {
-      if (isPaymentFormTheme != null) {
-        return isPaymentFormTheme(this as o.PaymentFormTheme);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -5703,10 +5485,6 @@ abstract class MessageContent extends b.TdBase {
     Func1<o.MessagePoll, TResult>? isMessagePoll,
     Func1<o.MessageInvoice, TResult>? isMessageInvoice,
     Func1<o.MessageCall, TResult>? isMessageCall,
-    Func1<o.MessageVoiceChatScheduled, TResult>? isMessageVoiceChatScheduled,
-    Func1<o.MessageVoiceChatStarted, TResult>? isMessageVoiceChatStarted,
-    Func1<o.MessageVoiceChatEnded, TResult>? isMessageVoiceChatEnded,
-    Func1<o.MessageInviteVoiceChatParticipants, TResult>? isMessageInviteVoiceChatParticipants,
     Func1<o.MessageBasicGroupChatCreate, TResult>? isMessageBasicGroupChatCreate,
     Func1<o.MessageSupergroupChatCreate, TResult>? isMessageSupergroupChatCreate,
     Func1<o.MessageChatChangeTitle, TResult>? isMessageChatChangeTitle,
@@ -5880,38 +5658,6 @@ abstract class MessageContent extends b.TdBase {
     else if (this is o.MessageCall) {
       if (isMessageCall != null) {
         return isMessageCall(this as o.MessageCall);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.MessageVoiceChatScheduled) {
-      if (isMessageVoiceChatScheduled != null) {
-        return isMessageVoiceChatScheduled(this as o.MessageVoiceChatScheduled);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.MessageVoiceChatStarted) {
-      if (isMessageVoiceChatStarted != null) {
-        return isMessageVoiceChatStarted(this as o.MessageVoiceChatStarted);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.MessageVoiceChatEnded) {
-      if (isMessageVoiceChatEnded != null) {
-        return isMessageVoiceChatEnded(this as o.MessageVoiceChatEnded);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.MessageInviteVoiceChatParticipants) {
-      if (isMessageInviteVoiceChatParticipants != null) {
-        return isMessageInviteVoiceChatParticipants(this as o.MessageInviteVoiceChatParticipants);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -7234,31 +6980,6 @@ abstract class CallId extends b.TdBase {
   }
 }
 
-/// 
-abstract class GroupCallId extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.GroupCallId, TResult>? isGroupCallId,
-    Func1<GroupCallId, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.GroupCallId) {
-      if (isGroupCallId != null) {
-        return isGroupCallId(this as o.GroupCallId);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
 /// Describes the current call state
 abstract class CallState extends b.TdBase {
   TResult match<TResult>({
@@ -7314,190 +7035,6 @@ abstract class CallState extends b.TdBase {
     else if (this is o.CallStateError) {
       if (isCallStateError != null) {
         return isCallStateError(this as o.CallStateError);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class GroupCallRecentSpeaker extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.GroupCallRecentSpeaker, TResult>? isGroupCallRecentSpeaker,
-    Func1<GroupCallRecentSpeaker, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.GroupCallRecentSpeaker) {
-      if (isGroupCallRecentSpeaker != null) {
-        return isGroupCallRecentSpeaker(this as o.GroupCallRecentSpeaker);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class GroupCall extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.GroupCall, TResult>? isGroupCall,
-    Func1<GroupCall, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.GroupCall) {
-      if (isGroupCall != null) {
-        return isGroupCall(this as o.GroupCall);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class GroupCallPayloadFingerprint extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.GroupCallPayloadFingerprint, TResult>? isGroupCallPayloadFingerprint,
-    Func1<GroupCallPayloadFingerprint, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.GroupCallPayloadFingerprint) {
-      if (isGroupCallPayloadFingerprint != null) {
-        return isGroupCallPayloadFingerprint(this as o.GroupCallPayloadFingerprint);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class GroupCallPayload extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.GroupCallPayload, TResult>? isGroupCallPayload,
-    Func1<GroupCallPayload, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.GroupCallPayload) {
-      if (isGroupCallPayload != null) {
-        return isGroupCallPayload(this as o.GroupCallPayload);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class GroupCallJoinResponseCandidate extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.GroupCallJoinResponseCandidate, TResult>? isGroupCallJoinResponseCandidate,
-    Func1<GroupCallJoinResponseCandidate, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.GroupCallJoinResponseCandidate) {
-      if (isGroupCallJoinResponseCandidate != null) {
-        return isGroupCallJoinResponseCandidate(this as o.GroupCallJoinResponseCandidate);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// Describes a group call join response
-abstract class GroupCallJoinResponse extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.GroupCallJoinResponseWebrtc, TResult>? isGroupCallJoinResponseWebrtc,
-    Func1<o.GroupCallJoinResponseStream, TResult>? isGroupCallJoinResponseStream,
-    Func1<GroupCallJoinResponse, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.GroupCallJoinResponseWebrtc) {
-      if (isGroupCallJoinResponseWebrtc != null) {
-        return isGroupCallJoinResponseWebrtc(this as o.GroupCallJoinResponseWebrtc);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.GroupCallJoinResponseStream) {
-      if (isGroupCallJoinResponseStream != null) {
-        return isGroupCallJoinResponseStream(this as o.GroupCallJoinResponseStream);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// 
-abstract class GroupCallParticipant extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.GroupCallParticipant, TResult>? isGroupCallParticipant,
-    Func1<GroupCallParticipant, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.GroupCallParticipant) {
-      if (isGroupCallParticipant != null) {
-        return isGroupCallParticipant(this as o.GroupCallParticipant);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -8194,7 +7731,6 @@ abstract class ChatEventAction extends b.TdBase {
     Func1<o.ChatEventMessagePinned, TResult>? isChatEventMessagePinned,
     Func1<o.ChatEventMessageUnpinned, TResult>? isChatEventMessageUnpinned,
     Func1<o.ChatEventMemberJoined, TResult>? isChatEventMemberJoined,
-    Func1<o.ChatEventMemberJoinedByInviteLink, TResult>? isChatEventMemberJoinedByInviteLink,
     Func1<o.ChatEventMemberLeft, TResult>? isChatEventMemberLeft,
     Func1<o.ChatEventMemberInvited, TResult>? isChatEventMemberInvited,
     Func1<o.ChatEventMemberPromoted, TResult>? isChatEventMemberPromoted,
@@ -8207,19 +7743,10 @@ abstract class ChatEventAction extends b.TdBase {
     Func1<o.ChatEventInvitesToggled, TResult>? isChatEventInvitesToggled,
     Func1<o.ChatEventLinkedChatChanged, TResult>? isChatEventLinkedChatChanged,
     Func1<o.ChatEventSlowModeDelayChanged, TResult>? isChatEventSlowModeDelayChanged,
-    Func1<o.ChatEventMessageTtlSettingChanged, TResult>? isChatEventMessageTtlSettingChanged,
     Func1<o.ChatEventSignMessagesToggled, TResult>? isChatEventSignMessagesToggled,
     Func1<o.ChatEventStickerSetChanged, TResult>? isChatEventStickerSetChanged,
     Func1<o.ChatEventLocationChanged, TResult>? isChatEventLocationChanged,
     Func1<o.ChatEventIsAllHistoryAvailableToggled, TResult>? isChatEventIsAllHistoryAvailableToggled,
-    Func1<o.ChatEventInviteLinkEdited, TResult>? isChatEventInviteLinkEdited,
-    Func1<o.ChatEventInviteLinkRevoked, TResult>? isChatEventInviteLinkRevoked,
-    Func1<o.ChatEventInviteLinkDeleted, TResult>? isChatEventInviteLinkDeleted,
-    Func1<o.ChatEventVoiceChatCreated, TResult>? isChatEventVoiceChatCreated,
-    Func1<o.ChatEventVoiceChatDiscarded, TResult>? isChatEventVoiceChatDiscarded,
-    Func1<o.ChatEventVoiceChatParticipantIsMutedToggled, TResult>? isChatEventVoiceChatParticipantIsMutedToggled,
-    Func1<o.ChatEventVoiceChatParticipantVolumeLevelChanged, TResult>? isChatEventVoiceChatParticipantVolumeLevelChanged,
-    Func1<o.ChatEventVoiceChatMuteNewParticipantsToggled, TResult>? isChatEventVoiceChatMuteNewParticipantsToggled,
     Func1<ChatEventAction, TResult>? otherwise,
   }) {
     if (false) {} // ignore: dead_code
@@ -8266,14 +7793,6 @@ abstract class ChatEventAction extends b.TdBase {
     else if (this is o.ChatEventMemberJoined) {
       if (isChatEventMemberJoined != null) {
         return isChatEventMemberJoined(this as o.ChatEventMemberJoined);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.ChatEventMemberJoinedByInviteLink) {
-      if (isChatEventMemberJoinedByInviteLink != null) {
-        return isChatEventMemberJoinedByInviteLink(this as o.ChatEventMemberJoinedByInviteLink);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -8375,14 +7894,6 @@ abstract class ChatEventAction extends b.TdBase {
         return otherwise(this);
       }
     }
-    else if (this is o.ChatEventMessageTtlSettingChanged) {
-      if (isChatEventMessageTtlSettingChanged != null) {
-        return isChatEventMessageTtlSettingChanged(this as o.ChatEventMessageTtlSettingChanged);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
     else if (this is o.ChatEventSignMessagesToggled) {
       if (isChatEventSignMessagesToggled != null) {
         return isChatEventSignMessagesToggled(this as o.ChatEventSignMessagesToggled);
@@ -8410,70 +7921,6 @@ abstract class ChatEventAction extends b.TdBase {
     else if (this is o.ChatEventIsAllHistoryAvailableToggled) {
       if (isChatEventIsAllHistoryAvailableToggled != null) {
         return isChatEventIsAllHistoryAvailableToggled(this as o.ChatEventIsAllHistoryAvailableToggled);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.ChatEventInviteLinkEdited) {
-      if (isChatEventInviteLinkEdited != null) {
-        return isChatEventInviteLinkEdited(this as o.ChatEventInviteLinkEdited);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.ChatEventInviteLinkRevoked) {
-      if (isChatEventInviteLinkRevoked != null) {
-        return isChatEventInviteLinkRevoked(this as o.ChatEventInviteLinkRevoked);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.ChatEventInviteLinkDeleted) {
-      if (isChatEventInviteLinkDeleted != null) {
-        return isChatEventInviteLinkDeleted(this as o.ChatEventInviteLinkDeleted);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.ChatEventVoiceChatCreated) {
-      if (isChatEventVoiceChatCreated != null) {
-        return isChatEventVoiceChatCreated(this as o.ChatEventVoiceChatCreated);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.ChatEventVoiceChatDiscarded) {
-      if (isChatEventVoiceChatDiscarded != null) {
-        return isChatEventVoiceChatDiscarded(this as o.ChatEventVoiceChatDiscarded);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.ChatEventVoiceChatParticipantIsMutedToggled) {
-      if (isChatEventVoiceChatParticipantIsMutedToggled != null) {
-        return isChatEventVoiceChatParticipantIsMutedToggled(this as o.ChatEventVoiceChatParticipantIsMutedToggled);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.ChatEventVoiceChatParticipantVolumeLevelChanged) {
-      if (isChatEventVoiceChatParticipantVolumeLevelChanged != null) {
-        return isChatEventVoiceChatParticipantVolumeLevelChanged(this as o.ChatEventVoiceChatParticipantVolumeLevelChanged);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.ChatEventVoiceChatMuteNewParticipantsToggled) {
-      if (isChatEventVoiceChatMuteNewParticipantsToggled != null) {
-        return isChatEventVoiceChatMuteNewParticipantsToggled(this as o.ChatEventVoiceChatMuteNewParticipantsToggled);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -9131,49 +8578,6 @@ abstract class CheckChatUsernameResult extends b.TdBase {
     else if (this is o.CheckChatUsernameResultPublicGroupsUnavailable) {
       if (isCheckChatUsernameResultPublicGroupsUnavailable != null) {
         return isCheckChatUsernameResultPublicGroupsUnavailable(this as o.CheckChatUsernameResultPublicGroupsUnavailable);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// Contains information about a file with messages exported from another app
-abstract class MessageFileType extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.MessageFileTypePrivate, TResult>? isMessageFileTypePrivate,
-    Func1<o.MessageFileTypeGroup, TResult>? isMessageFileTypeGroup,
-    Func1<o.MessageFileTypeUnknown, TResult>? isMessageFileTypeUnknown,
-    Func1<MessageFileType, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.MessageFileTypePrivate) {
-      if (isMessageFileTypePrivate != null) {
-        return isMessageFileTypePrivate(this as o.MessageFileTypePrivate);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.MessageFileTypeGroup) {
-      if (isMessageFileTypeGroup != null) {
-        return isMessageFileTypeGroup(this as o.MessageFileTypeGroup);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.MessageFileTypeUnknown) {
-      if (isMessageFileTypeUnknown != null) {
-        return isMessageFileTypeUnknown(this as o.MessageFileTypeUnknown);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -10075,7 +9479,6 @@ abstract class ChatReportReason extends b.TdBase {
     Func1<o.ChatReportReasonChildAbuse, TResult>? isChatReportReasonChildAbuse,
     Func1<o.ChatReportReasonCopyright, TResult>? isChatReportReasonCopyright,
     Func1<o.ChatReportReasonUnrelatedLocation, TResult>? isChatReportReasonUnrelatedLocation,
-    Func1<o.ChatReportReasonFake, TResult>? isChatReportReasonFake,
     Func1<o.ChatReportReasonCustom, TResult>? isChatReportReasonCustom,
     Func1<ChatReportReason, TResult>? otherwise,
   }) {
@@ -10123,14 +9526,6 @@ abstract class ChatReportReason extends b.TdBase {
     else if (this is o.ChatReportReasonUnrelatedLocation) {
       if (isChatReportReasonUnrelatedLocation != null) {
         return isChatReportReasonUnrelatedLocation(this as o.ChatReportReasonUnrelatedLocation);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.ChatReportReasonFake) {
-      if (isChatReportReasonFake != null) {
-        return isChatReportReasonFake(this as o.ChatReportReasonFake);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -10931,8 +10326,6 @@ abstract class SuggestedAction extends b.TdBase {
   TResult match<TResult>({
     Func1<o.SuggestedActionEnableArchiveAndMuteNewChats, TResult>? isSuggestedActionEnableArchiveAndMuteNewChats,
     Func1<o.SuggestedActionCheckPhoneNumber, TResult>? isSuggestedActionCheckPhoneNumber,
-    Func1<o.SuggestedActionSeeTicksHint, TResult>? isSuggestedActionSeeTicksHint,
-    Func1<o.SuggestedActionConvertToBroadcastGroup, TResult>? isSuggestedActionConvertToBroadcastGroup,
     Func1<SuggestedAction, TResult>? otherwise,
   }) {
     if (false) {} // ignore: dead_code
@@ -10947,22 +10340,6 @@ abstract class SuggestedAction extends b.TdBase {
     else if (this is o.SuggestedActionCheckPhoneNumber) {
       if (isSuggestedActionCheckPhoneNumber != null) {
         return isSuggestedActionCheckPhoneNumber(this as o.SuggestedActionCheckPhoneNumber);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.SuggestedActionSeeTicksHint) {
-      if (isSuggestedActionSeeTicksHint != null) {
-        return isSuggestedActionSeeTicksHint(this as o.SuggestedActionSeeTicksHint);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.SuggestedActionConvertToBroadcastGroup) {
-      if (isSuggestedActionConvertToBroadcastGroup != null) {
-        return isSuggestedActionConvertToBroadcastGroup(this as o.SuggestedActionConvertToBroadcastGroup);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -11491,65 +10868,6 @@ abstract class MessageStatistics extends b.TdBase {
   }
 }
 
-/// 
-abstract class Point extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.Point, TResult>? isPoint,
-    Func1<Point, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.Point) {
-      if (isPoint != null) {
-        return isPoint(this as o.Point);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
-/// Represents a vector path command
-abstract class VectorPathCommand extends b.TdBase {
-  TResult match<TResult>({
-    Func1<o.VectorPathCommandLine, TResult>? isVectorPathCommandLine,
-    Func1<o.VectorPathCommandCubicBezierCurve, TResult>? isVectorPathCommandCubicBezierCurve,
-    Func1<VectorPathCommand, TResult>? otherwise,
-  }) {
-    if (false) {} // ignore: dead_code
-    else if (this is o.VectorPathCommandLine) {
-      if (isVectorPathCommandLine != null) {
-        return isVectorPathCommandLine(this as o.VectorPathCommandLine);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.VectorPathCommandCubicBezierCurve) {
-      if (isVectorPathCommandCubicBezierCurve != null) {
-        return isVectorPathCommandCubicBezierCurve(this as o.VectorPathCommandCubicBezierCurve);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (otherwise != null) {
-      otherwise(this);
-    }
-    else if (TResult == null.runtimeType) {
-      return null as TResult;
-    }
-    throw MatchError();
-  }
-}
-
 /// Contains notifications about data changes
 abstract class Update extends b.TdBase {
   TResult match<TResult>({
@@ -11574,14 +10892,12 @@ abstract class Update extends b.TdBase {
     Func1<o.UpdateChatIsMarkedAsUnread, TResult>? isUpdateChatIsMarkedAsUnread,
     Func1<o.UpdateChatIsBlocked, TResult>? isUpdateChatIsBlocked,
     Func1<o.UpdateChatHasScheduledMessages, TResult>? isUpdateChatHasScheduledMessages,
-    Func1<o.UpdateChatVoiceChat, TResult>? isUpdateChatVoiceChat,
     Func1<o.UpdateChatDefaultDisableNotification, TResult>? isUpdateChatDefaultDisableNotification,
     Func1<o.UpdateChatReadInbox, TResult>? isUpdateChatReadInbox,
     Func1<o.UpdateChatReadOutbox, TResult>? isUpdateChatReadOutbox,
     Func1<o.UpdateChatUnreadMentionCount, TResult>? isUpdateChatUnreadMentionCount,
     Func1<o.UpdateChatNotificationSettings, TResult>? isUpdateChatNotificationSettings,
     Func1<o.UpdateScopeNotificationSettings, TResult>? isUpdateScopeNotificationSettings,
-    Func1<o.UpdateChatMessageTtlSetting, TResult>? isUpdateChatMessageTtlSetting,
     Func1<o.UpdateChatActionBar, TResult>? isUpdateChatActionBar,
     Func1<o.UpdateChatReplyMarkup, TResult>? isUpdateChatReplyMarkup,
     Func1<o.UpdateChatDraftMessage, TResult>? isUpdateChatDraftMessage,
@@ -11606,8 +10922,6 @@ abstract class Update extends b.TdBase {
     Func1<o.UpdateFileGenerationStart, TResult>? isUpdateFileGenerationStart,
     Func1<o.UpdateFileGenerationStop, TResult>? isUpdateFileGenerationStop,
     Func1<o.UpdateCall, TResult>? isUpdateCall,
-    Func1<o.UpdateGroupCall, TResult>? isUpdateGroupCall,
-    Func1<o.UpdateGroupCallParticipant, TResult>? isUpdateGroupCallParticipant,
     Func1<o.UpdateNewCallSignalingData, TResult>? isUpdateNewCallSignalingData,
     Func1<o.UpdateUserPrivacySettingRules, TResult>? isUpdateUserPrivacySettingRules,
     Func1<o.UpdateUnreadMessageCount, TResult>? isUpdateUnreadMessageCount,
@@ -11637,7 +10951,6 @@ abstract class Update extends b.TdBase {
     Func1<o.UpdateNewCustomQuery, TResult>? isUpdateNewCustomQuery,
     Func1<o.UpdatePoll, TResult>? isUpdatePoll,
     Func1<o.UpdatePollAnswer, TResult>? isUpdatePollAnswer,
-    Func1<o.UpdateChatMember, TResult>? isUpdateChatMember,
     Func1<Update, TResult>? otherwise,
   }) {
     if (false) {} // ignore: dead_code
@@ -11809,14 +11122,6 @@ abstract class Update extends b.TdBase {
         return otherwise(this);
       }
     }
-    else if (this is o.UpdateChatVoiceChat) {
-      if (isUpdateChatVoiceChat != null) {
-        return isUpdateChatVoiceChat(this as o.UpdateChatVoiceChat);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
     else if (this is o.UpdateChatDefaultDisableNotification) {
       if (isUpdateChatDefaultDisableNotification != null) {
         return isUpdateChatDefaultDisableNotification(this as o.UpdateChatDefaultDisableNotification);
@@ -11860,14 +11165,6 @@ abstract class Update extends b.TdBase {
     else if (this is o.UpdateScopeNotificationSettings) {
       if (isUpdateScopeNotificationSettings != null) {
         return isUpdateScopeNotificationSettings(this as o.UpdateScopeNotificationSettings);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.UpdateChatMessageTtlSetting) {
-      if (isUpdateChatMessageTtlSetting != null) {
-        return isUpdateChatMessageTtlSetting(this as o.UpdateChatMessageTtlSetting);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -12060,22 +11357,6 @@ abstract class Update extends b.TdBase {
     else if (this is o.UpdateCall) {
       if (isUpdateCall != null) {
         return isUpdateCall(this as o.UpdateCall);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.UpdateGroupCall) {
-      if (isUpdateGroupCall != null) {
-        return isUpdateGroupCall(this as o.UpdateGroupCall);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.UpdateGroupCallParticipant) {
-      if (isUpdateGroupCallParticipant != null) {
-        return isUpdateGroupCallParticipant(this as o.UpdateGroupCallParticipant);
       }
       else if (otherwise != null) {
         return otherwise(this);
@@ -12308,14 +11589,6 @@ abstract class Update extends b.TdBase {
     else if (this is o.UpdatePollAnswer) {
       if (isUpdatePollAnswer != null) {
         return isUpdatePollAnswer(this as o.UpdatePollAnswer);
-      }
-      else if (otherwise != null) {
-        return otherwise(this);
-      }
-    }
-    else if (this is o.UpdateChatMember) {
-      if (isUpdateChatMember != null) {
-        return isUpdateChatMember(this as o.UpdateChatMember);
       }
       else if (otherwise != null) {
         return otherwise(this);

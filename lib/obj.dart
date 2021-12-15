@@ -1812,46 +1812,13 @@ class MaskPosition extends a.MaskPosition {
   );
 }
 
-/// Represents a closed vector path. The path begins at the end point of the last command
-class ClosedVectorPath extends a.ClosedVectorPath {
-  /// List of vector path commands
-  final List<a.VectorPathCommand?> commands;
-
-  ClosedVectorPath({
-    required this.commands,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ClosedVectorPath(';
-
-    // Params
-    final params = <String>[];
-    params.add(commands.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'closedVectorPath',
-    'commands': commands.map((_e1) => _e1?.toJson()).toList(growable: false),
-  };
-
-  factory ClosedVectorPath.fromJson(Map<String, dynamic> json) => ClosedVectorPath(
-    commands: json['commands'] == null ? <a.VectorPathCommand?>[] : (json['commands'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as a.VectorPathCommand?)).toList(growable: false),
-  );
-}
-
 /// Describes one answer option of a poll
 class PollOption extends a.PollOption {
-  /// Option text; 1-100 characters
+  /// Option text, 1-100 characters
   final String text;
   /// Number of voters for this option, available only for closed or voted polls
   final int voterCount;
-  /// The percentage of votes for this option; 0-100
+  /// The percentage of votes for this option, 0-100
   final int votePercentage;
   /// True, if the option was chosen by the user
   final bool isChosen;
@@ -1939,7 +1906,7 @@ class PollTypeRegular extends a.PollType {
 class PollTypeQuiz extends a.PollType {
   /// 0-based identifier of the correct answer option; -1 for a yet unanswered poll
   final int correctOptionId;
-  /// Text that is shown when the user chooses an incorrect answer or taps on the lamp icon; 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
+  /// Text that is shown when the user chooses an incorrect answer or taps on the lamp icon, 0-200 characters with at most 2 line feeds; empty for a yet unanswered poll
   final FormattedText? explanation;
 
   PollTypeQuiz({
@@ -2248,8 +2215,6 @@ class Sticker extends a.Sticker {
   final bool isMask;
   /// Position where the mask should be placed; may be null
   final MaskPosition? maskPosition;
-  /// Sticker's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
-  final List<ClosedVectorPath?> outline;
   /// Sticker thumbnail in WEBP or JPEG format; may be null
   final Thumbnail? thumbnail;
   /// File containing the sticker
@@ -2263,7 +2228,6 @@ class Sticker extends a.Sticker {
     required this.isAnimated,
     required this.isMask,
     required this.maskPosition,
-    required this.outline,
     required this.thumbnail,
     required this.sticker,
   });
@@ -2281,7 +2245,6 @@ class Sticker extends a.Sticker {
     params.add(isAnimated.toString());
     params.add(isMask.toString());
     params.add(maskPosition.toString());
-    params.add(outline.toString());
     params.add(thumbnail.toString());
     params.add(sticker.toString());
     s += params.join(', ');
@@ -2300,7 +2263,6 @@ class Sticker extends a.Sticker {
     'is_animated': isAnimated,
     'is_mask': isMask,
     'mask_position': maskPosition?.toJson(),
-    'outline': outline.map((_e1) => _e1?.toJson()).toList(growable: false),
     'thumbnail': thumbnail?.toJson(),
     'sticker': sticker?.toJson(),
   };
@@ -2313,7 +2275,6 @@ class Sticker extends a.Sticker {
     isAnimated: (json['is_animated'] as bool?) ?? false,
     isMask: (json['is_mask'] as bool?) ?? false,
     maskPosition: b.TdBase.fromJson(json['mask_position']) as MaskPosition?,
-    outline: json['outline'] == null ? <ClosedVectorPath?>[] : (json['outline'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ClosedVectorPath?)).toList(growable: false),
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
     sticker: b.TdBase.fromJson(json['sticker']) as File?,
   );
@@ -2752,7 +2713,7 @@ class Game extends a.Game {
 class Poll extends a.Poll {
   /// Unique poll identifier
   final int id;
-  /// Poll question; 1-300 characters
+  /// Poll question, 1-300 characters
   final String question;
   /// List of poll answer options
   final List<PollOption?> options;
@@ -2843,8 +2804,6 @@ class ProfilePhoto extends a.ProfilePhoto {
   final File? small;
   /// A big (640x640) user profile photo. The file can be downloaded only before the photo is changed
   final File? big;
-  /// User profile photo minithumbnail; may be null
-  final Minithumbnail? minithumbnail;
   /// True, if the photo has animated variant
   final bool hasAnimation;
 
@@ -2852,7 +2811,6 @@ class ProfilePhoto extends a.ProfilePhoto {
     required this.id,
     required this.small,
     required this.big,
-    required this.minithumbnail,
     required this.hasAnimation,
   });
 
@@ -2865,7 +2823,6 @@ class ProfilePhoto extends a.ProfilePhoto {
     params.add(id.toString());
     params.add(small.toString());
     params.add(big.toString());
-    params.add(minithumbnail.toString());
     params.add(hasAnimation.toString());
     s += params.join(', ');
 
@@ -2879,7 +2836,6 @@ class ProfilePhoto extends a.ProfilePhoto {
     'id': id.toString(),
     'small': small?.toJson(),
     'big': big?.toJson(),
-    'minithumbnail': minithumbnail?.toJson(),
     'has_animation': hasAnimation,
   };
 
@@ -2887,7 +2843,6 @@ class ProfilePhoto extends a.ProfilePhoto {
     id: int.parse(json['id'] ?? '0'),
     small: b.TdBase.fromJson(json['small']) as File?,
     big: b.TdBase.fromJson(json['big']) as File?,
-    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
     hasAnimation: (json['has_animation'] as bool?) ?? false,
   );
 }
@@ -2898,15 +2853,12 @@ class ChatPhotoInfo extends a.ChatPhotoInfo {
   final File? small;
   /// A big (640x640) chat photo variant in JPEG format. The file can be downloaded only before the photo is changed
   final File? big;
-  /// Chat photo minithumbnail; may be null
-  final Minithumbnail? minithumbnail;
   /// True, if the photo has animated variant
   final bool hasAnimation;
 
   ChatPhotoInfo({
     required this.small,
     required this.big,
-    required this.minithumbnail,
     required this.hasAnimation,
   });
 
@@ -2918,7 +2870,6 @@ class ChatPhotoInfo extends a.ChatPhotoInfo {
     final params = <String>[];
     params.add(small.toString());
     params.add(big.toString());
-    params.add(minithumbnail.toString());
     params.add(hasAnimation.toString());
     s += params.join(', ');
 
@@ -2931,14 +2882,12 @@ class ChatPhotoInfo extends a.ChatPhotoInfo {
     '@type': 'chatPhotoInfo',
     'small': small?.toJson(),
     'big': big?.toJson(),
-    'minithumbnail': minithumbnail?.toJson(),
     'has_animation': hasAnimation,
   };
 
   factory ChatPhotoInfo.fromJson(Map<String, dynamic> json) => ChatPhotoInfo(
     small: b.TdBase.fromJson(json['small']) as File?,
     big: b.TdBase.fromJson(json['big']) as File?,
-    minithumbnail: b.TdBase.fromJson(json['minithumbnail']) as Minithumbnail?,
     hasAnimation: (json['has_animation'] as bool?) ?? false,
   );
 }
@@ -3335,7 +3284,7 @@ class ChatPhotos extends a.ChatPhotos {
 
 /// A previously used profile photo of the current user
 class InputChatPhotoPrevious extends a.InputChatPhoto {
-  /// Identifier of the current user's profile photo to reuse
+  /// Identifier of the profile photo to reuse
   final int chatPhotoId;
 
   InputChatPhotoPrevious({
@@ -3466,8 +3415,6 @@ class User extends a.User {
   final String restrictionReason;
   /// True, if many users reported this user as a scam
   final bool isScam;
-  /// True, if many users reported this user as a fake account
-  final bool isFake;
   /// If false, the user is inaccessible, and the only information known about the user is inside this class. It can't be passed to any method except GetUser
   final bool haveAccess;
   /// Type of the user
@@ -3489,7 +3436,6 @@ class User extends a.User {
     required this.isSupport,
     required this.restrictionReason,
     required this.isScam,
-    required this.isFake,
     required this.haveAccess,
     required this.type,
     required this.languageCode,
@@ -3514,7 +3460,6 @@ class User extends a.User {
     params.add(isSupport.toString());
     params.add(restrictionReason.toString());
     params.add(isScam.toString());
-    params.add(isFake.toString());
     params.add(haveAccess.toString());
     params.add(type.toString());
     params.add(languageCode.toString());
@@ -3540,7 +3485,6 @@ class User extends a.User {
     'is_support': isSupport,
     'restriction_reason': restrictionReason,
     'is_scam': isScam,
-    'is_fake': isFake,
     'have_access': haveAccess,
     'type': type?.toJson(),
     'language_code': languageCode,
@@ -3560,7 +3504,6 @@ class User extends a.User {
     isSupport: (json['is_support'] as bool?) ?? false,
     restrictionReason: (json['restriction_reason'] as String?) ?? '',
     isScam: (json['is_scam'] as bool?) ?? false,
-    isFake: (json['is_fake'] as bool?) ?? false,
     haveAccess: (json['have_access'] as bool?) ?? false,
     type: b.TdBase.fromJson(json['type']) as a.UserType?,
     languageCode: (json['language_code'] as String?) ?? '',
@@ -3891,14 +3834,12 @@ class ChatMemberStatusCreator extends a.ChatMemberStatus {
   );
 }
 
-/// The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, ban unprivileged members, and manage voice chats. In supergroups and channels, there are more detailed options for administrator privileges
+/// The user is a member of a chat and has some additional privileges. In basic groups, administrators can edit and delete messages sent by others, add new members, and ban unprivileged members. In supergroups and channels, there are more detailed options for administrator privileges
 class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
   /// A custom title of the administrator; 0-16 characters without emojis; applicable to supergroups only
   final String customTitle;
   /// True, if the current user can edit the administrator privileges for the called user
   final bool canBeEdited;
-  /// True, if the administrator can get chat event log, get chat statistics, get message statistics in channels, get channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other privilege; applicable to supergroups and channels only
-  final bool canManageChat;
   /// True, if the administrator can change the chat title, photo, and other settings
   final bool canChangeInfo;
   /// True, if the administrator can create channel posts; applicable to channels only
@@ -3911,19 +3852,16 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
   final bool canInviteUsers;
   /// True, if the administrator can restrict, ban, or unban chat members
   final bool canRestrictMembers;
-  /// True, if the administrator can pin messages; applicable to basic groups and supergroups only
+  /// True, if the administrator can pin messages; applicable to groups only
   final bool canPinMessages;
   /// True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that were directly or indirectly promoted by them
   final bool canPromoteMembers;
-  /// True, if the administrator can manage voice chats
-  final bool canManageVoiceChats;
   /// True, if the administrator isn't shown in the chat member list and sends messages anonymously; applicable to supergroups only
   final bool isAnonymous;
 
   ChatMemberStatusAdministrator({
     required this.customTitle,
     required this.canBeEdited,
-    required this.canManageChat,
     required this.canChangeInfo,
     required this.canPostMessages,
     required this.canEditMessages,
@@ -3932,7 +3870,6 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
     required this.canRestrictMembers,
     required this.canPinMessages,
     required this.canPromoteMembers,
-    required this.canManageVoiceChats,
     required this.isAnonymous,
   });
 
@@ -3944,7 +3881,6 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
     final params = <String>[];
     params.add(customTitle.toString());
     params.add(canBeEdited.toString());
-    params.add(canManageChat.toString());
     params.add(canChangeInfo.toString());
     params.add(canPostMessages.toString());
     params.add(canEditMessages.toString());
@@ -3953,7 +3889,6 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
     params.add(canRestrictMembers.toString());
     params.add(canPinMessages.toString());
     params.add(canPromoteMembers.toString());
-    params.add(canManageVoiceChats.toString());
     params.add(isAnonymous.toString());
     s += params.join(', ');
 
@@ -3966,7 +3901,6 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
     '@type': 'chatMemberStatusAdministrator',
     'custom_title': customTitle,
     'can_be_edited': canBeEdited,
-    'can_manage_chat': canManageChat,
     'can_change_info': canChangeInfo,
     'can_post_messages': canPostMessages,
     'can_edit_messages': canEditMessages,
@@ -3975,14 +3909,12 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
     'can_restrict_members': canRestrictMembers,
     'can_pin_messages': canPinMessages,
     'can_promote_members': canPromoteMembers,
-    'can_manage_voice_chats': canManageVoiceChats,
     'is_anonymous': isAnonymous,
   };
 
   factory ChatMemberStatusAdministrator.fromJson(Map<String, dynamic> json) => ChatMemberStatusAdministrator(
     customTitle: (json['custom_title'] as String?) ?? '',
     canBeEdited: (json['can_be_edited'] as bool?) ?? false,
-    canManageChat: (json['can_manage_chat'] as bool?) ?? false,
     canChangeInfo: (json['can_change_info'] as bool?) ?? false,
     canPostMessages: (json['can_post_messages'] as bool?) ?? false,
     canEditMessages: (json['can_edit_messages'] as bool?) ?? false,
@@ -3991,7 +3923,6 @@ class ChatMemberStatusAdministrator extends a.ChatMemberStatus {
     canRestrictMembers: (json['can_restrict_members'] as bool?) ?? false,
     canPinMessages: (json['can_pin_messages'] as bool?) ?? false,
     canPromoteMembers: (json['can_promote_members'] as bool?) ?? false,
-    canManageVoiceChats: (json['can_manage_voice_chats'] as bool?) ?? false,
     isAnonymous: (json['is_anonymous'] as bool?) ?? false,
   );
 }
@@ -4066,7 +3997,7 @@ class ChatMemberStatusRestricted extends a.ChatMemberStatus {
   );
 }
 
-/// The user or the chat is not a chat member
+/// The user is not a chat member
 class ChatMemberStatusLeft extends a.ChatMemberStatus {
   ChatMemberStatusLeft();
 
@@ -4091,9 +4022,9 @@ class ChatMemberStatusLeft extends a.ChatMemberStatus {
   );
 }
 
-/// The user or the chat was banned (and hence is not a member of the chat). Implies the user can't return to the chat, view messages, or be used as a participant identifier to join a voice chat of the chat
+/// The user was banned (and hence is not a member of the chat). Implies the user can't return to the chat or view messages
 class ChatMemberStatusBanned extends a.ChatMemberStatus {
-  /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Always 0 in basic groups
+  /// Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever
   final int bannedUntilDate;
 
   ChatMemberStatusBanned({
@@ -4124,10 +4055,10 @@ class ChatMemberStatusBanned extends a.ChatMemberStatus {
   );
 }
 
-/// Information about a user or a chat as a member of another chat
+/// A user with information about joining/leaving a chat
 class ChatMember extends a.ChatMember {
-  /// Identifier of the chat member. Currently, other chats can be only Left or Banned. Only supergroups and channels can have other chats as Left or Banned members and these chats must be supergroups or channels
-  final a.MessageSender? memberId;
+  /// User identifier of the chat member
+  final int userId;
   /// Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
   final int inviterUserId;
   /// Point in time (Unix timestamp) when the user joined the chat
@@ -4138,7 +4069,7 @@ class ChatMember extends a.ChatMember {
   final BotInfo? botInfo;
 
   ChatMember({
-    required this.memberId,
+    required this.userId,
     required this.inviterUserId,
     required this.joinedChatDate,
     required this.status,
@@ -4151,7 +4082,7 @@ class ChatMember extends a.ChatMember {
 
     // Params
     final params = <String>[];
-    params.add(memberId.toString());
+    params.add(userId.toString());
     params.add(inviterUserId.toString());
     params.add(joinedChatDate.toString());
     params.add(status.toString());
@@ -4165,7 +4096,7 @@ class ChatMember extends a.ChatMember {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatMember',
-    'member_id': memberId?.toJson(),
+    'user_id': userId,
     'inviter_user_id': inviterUserId,
     'joined_chat_date': joinedChatDate,
     'status': status?.toJson(),
@@ -4173,7 +4104,7 @@ class ChatMember extends a.ChatMember {
   };
 
   factory ChatMember.fromJson(Map<String, dynamic> json) => ChatMember(
-    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
+    userId: (json['user_id'] as int?) ?? 0,
     inviterUserId: (json['inviter_user_id'] as int?) ?? 0,
     joinedChatDate: (json['joined_chat_date'] as int?) ?? 0,
     status: b.TdBase.fromJson(json['status']) as a.ChatMemberStatus?,
@@ -4649,357 +4580,6 @@ class SupergroupMembersFilterBots extends a.SupergroupMembersFilter {
   );
 }
 
-/// Contains a chat invite link
-class ChatInviteLink extends a.ChatInviteLink {
-  /// Chat invite link
-  final String inviteLink;
-  /// User identifier of an administrator created the link
-  final int creatorUserId;
-  /// Point in time (Unix timestamp) when the link was created
-  final int date;
-  /// Point in time (Unix timestamp) when the link was last edited; 0 if never or unknown
-  final int editDate;
-  /// Point in time (Unix timestamp) when the link will expire; 0 if never
-  final int expireDate;
-  /// The maximum number of members, which can join the chat using the link simultaneously; 0 if not limited
-  final int memberLimit;
-  /// Number of chat members, which joined the chat using the link
-  final int memberCount;
-  /// True, if the link is primary. Primary invite link can't have expire date or usage limit. There is exactly one primary invite link for each administrator with can_invite_users right at a given time
-  final bool isPrimary;
-  /// True, if the link was revoked
-  final bool isRevoked;
-
-  ChatInviteLink({
-    required this.inviteLink,
-    required this.creatorUserId,
-    required this.date,
-    required this.editDate,
-    required this.expireDate,
-    required this.memberLimit,
-    required this.memberCount,
-    required this.isPrimary,
-    required this.isRevoked,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatInviteLink(';
-
-    // Params
-    final params = <String>[];
-    params.add(inviteLink.toString());
-    params.add(creatorUserId.toString());
-    params.add(date.toString());
-    params.add(editDate.toString());
-    params.add(expireDate.toString());
-    params.add(memberLimit.toString());
-    params.add(memberCount.toString());
-    params.add(isPrimary.toString());
-    params.add(isRevoked.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatInviteLink',
-    'invite_link': inviteLink,
-    'creator_user_id': creatorUserId,
-    'date': date,
-    'edit_date': editDate,
-    'expire_date': expireDate,
-    'member_limit': memberLimit,
-    'member_count': memberCount,
-    'is_primary': isPrimary,
-    'is_revoked': isRevoked,
-  };
-
-  factory ChatInviteLink.fromJson(Map<String, dynamic> json) => ChatInviteLink(
-    inviteLink: (json['invite_link'] as String?) ?? '',
-    creatorUserId: (json['creator_user_id'] as int?) ?? 0,
-    date: (json['date'] as int?) ?? 0,
-    editDate: (json['edit_date'] as int?) ?? 0,
-    expireDate: (json['expire_date'] as int?) ?? 0,
-    memberLimit: (json['member_limit'] as int?) ?? 0,
-    memberCount: (json['member_count'] as int?) ?? 0,
-    isPrimary: (json['is_primary'] as bool?) ?? false,
-    isRevoked: (json['is_revoked'] as bool?) ?? false,
-  );
-}
-
-/// Contains a list of chat invite links
-class ChatInviteLinks extends a.ChatInviteLinks {
-  /// Approximate total count of chat invite links found
-  final int totalCount;
-  /// List of invite links
-  final List<ChatInviteLink?> inviteLinks;
-
-  ChatInviteLinks({
-    required this.totalCount,
-    required this.inviteLinks,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatInviteLinks(';
-
-    // Params
-    final params = <String>[];
-    params.add(totalCount.toString());
-    params.add(inviteLinks.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatInviteLinks',
-    'total_count': totalCount,
-    'invite_links': inviteLinks.map((_e1) => _e1?.toJson()).toList(growable: false),
-  };
-
-  factory ChatInviteLinks.fromJson(Map<String, dynamic> json) => ChatInviteLinks(
-    totalCount: (json['total_count'] as int?) ?? 0,
-    inviteLinks: json['invite_links'] == null ? <ChatInviteLink?>[] : (json['invite_links'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatInviteLink?)).toList(growable: false),
-  );
-}
-
-/// Describes a chat administrator with a number of active and revoked chat invite links
-class ChatInviteLinkCount extends a.ChatInviteLinkCount {
-  /// Administrator's user identifier
-  final int userId;
-  /// Number of active invite links
-  final int inviteLinkCount;
-  /// Number of revoked invite links
-  final int revokedInviteLinkCount;
-
-  ChatInviteLinkCount({
-    required this.userId,
-    required this.inviteLinkCount,
-    required this.revokedInviteLinkCount,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatInviteLinkCount(';
-
-    // Params
-    final params = <String>[];
-    params.add(userId.toString());
-    params.add(inviteLinkCount.toString());
-    params.add(revokedInviteLinkCount.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatInviteLinkCount',
-    'user_id': userId,
-    'invite_link_count': inviteLinkCount,
-    'revoked_invite_link_count': revokedInviteLinkCount,
-  };
-
-  factory ChatInviteLinkCount.fromJson(Map<String, dynamic> json) => ChatInviteLinkCount(
-    userId: (json['user_id'] as int?) ?? 0,
-    inviteLinkCount: (json['invite_link_count'] as int?) ?? 0,
-    revokedInviteLinkCount: (json['revoked_invite_link_count'] as int?) ?? 0,
-  );
-}
-
-/// Contains a list of chat invite link counts
-class ChatInviteLinkCounts extends a.ChatInviteLinkCounts {
-  /// List of invite linkcounts
-  final List<ChatInviteLinkCount?> inviteLinkCounts;
-
-  ChatInviteLinkCounts({
-    required this.inviteLinkCounts,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatInviteLinkCounts(';
-
-    // Params
-    final params = <String>[];
-    params.add(inviteLinkCounts.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatInviteLinkCounts',
-    'invite_link_counts': inviteLinkCounts.map((_e1) => _e1?.toJson()).toList(growable: false),
-  };
-
-  factory ChatInviteLinkCounts.fromJson(Map<String, dynamic> json) => ChatInviteLinkCounts(
-    inviteLinkCounts: json['invite_link_counts'] == null ? <ChatInviteLinkCount?>[] : (json['invite_link_counts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatInviteLinkCount?)).toList(growable: false),
-  );
-}
-
-/// Describes a chat member joined a chat by an invite link
-class ChatInviteLinkMember extends a.ChatInviteLinkMember {
-  /// User identifier
-  final int userId;
-  /// Point in time (Unix timestamp) when the user joined the chat
-  final int joinedChatDate;
-
-  ChatInviteLinkMember({
-    required this.userId,
-    required this.joinedChatDate,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatInviteLinkMember(';
-
-    // Params
-    final params = <String>[];
-    params.add(userId.toString());
-    params.add(joinedChatDate.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatInviteLinkMember',
-    'user_id': userId,
-    'joined_chat_date': joinedChatDate,
-  };
-
-  factory ChatInviteLinkMember.fromJson(Map<String, dynamic> json) => ChatInviteLinkMember(
-    userId: (json['user_id'] as int?) ?? 0,
-    joinedChatDate: (json['joined_chat_date'] as int?) ?? 0,
-  );
-}
-
-/// Contains a list of chat members joined a chat by an invite link
-class ChatInviteLinkMembers extends a.ChatInviteLinkMembers {
-  /// Approximate total count of chat members found
-  final int totalCount;
-  /// List of chat members, joined a chat by an invite link
-  final List<ChatInviteLinkMember?> members;
-
-  ChatInviteLinkMembers({
-    required this.totalCount,
-    required this.members,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatInviteLinkMembers(';
-
-    // Params
-    final params = <String>[];
-    params.add(totalCount.toString());
-    params.add(members.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatInviteLinkMembers',
-    'total_count': totalCount,
-    'members': members.map((_e1) => _e1?.toJson()).toList(growable: false),
-  };
-
-  factory ChatInviteLinkMembers.fromJson(Map<String, dynamic> json) => ChatInviteLinkMembers(
-    totalCount: (json['total_count'] as int?) ?? 0,
-    members: json['members'] == null ? <ChatInviteLinkMember?>[] : (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatInviteLinkMember?)).toList(growable: false),
-  );
-}
-
-/// Contains information about a chat invite link
-class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
-  /// Chat identifier of the invite link; 0 if the user has no access to the chat before joining
-  final int chatId;
-  /// If non-zero, the amount of time for which read access to the chat will remain available, in seconds
-  final int accessibleFor;
-  /// Contains information about the type of the chat
-  final a.ChatType? type;
-  /// Title of the chat
-  final String title;
-  /// Chat photo; may be null
-  final ChatPhotoInfo? photo;
-  /// Number of members in the chat
-  final int memberCount;
-  /// User identifiers of some chat members that may be known to the current user
-  final List<int> memberUserIds;
-  /// True, if the chat is a public supergroup or channel, i.e. it has a username or it is a location-based supergroup
-  final bool isPublic;
-
-  ChatInviteLinkInfo({
-    required this.chatId,
-    required this.accessibleFor,
-    required this.type,
-    required this.title,
-    required this.photo,
-    required this.memberCount,
-    required this.memberUserIds,
-    required this.isPublic,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatInviteLinkInfo(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(accessibleFor.toString());
-    params.add(type.toString());
-    params.add(title.toString());
-    params.add(photo.toString());
-    params.add(memberCount.toString());
-    params.add(memberUserIds.toString());
-    params.add(isPublic.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatInviteLinkInfo',
-    'chat_id': chatId,
-    'accessible_for': accessibleFor,
-    'type': type?.toJson(),
-    'title': title,
-    'photo': photo?.toJson(),
-    'member_count': memberCount,
-    'member_user_ids': memberUserIds.map((_e1) => _e1).toList(growable: false),
-    'is_public': isPublic,
-  };
-
-  factory ChatInviteLinkInfo.fromJson(Map<String, dynamic> json) => ChatInviteLinkInfo(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    accessibleFor: (json['accessible_for'] as int?) ?? 0,
-    type: b.TdBase.fromJson(json['type']) as a.ChatType?,
-    title: (json['title'] as String?) ?? '',
-    photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
-    memberCount: (json['member_count'] as int?) ?? 0,
-    memberUserIds: json['member_user_ids'] == null ? <int>[] : (json['member_user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
-    isPublic: (json['is_public'] as bool?) ?? false,
-  );
-}
-
 /// Represents a basic group of 0-200 users (must be upgraded to a supergroup to accommodate more than 200 users)
 class BasicGroup extends a.BasicGroup {
   /// Group identifier
@@ -5061,14 +4641,14 @@ class BasicGroup extends a.BasicGroup {
 class BasicGroupFullInfo extends a.BasicGroupFullInfo {
   /// Chat photo; may be null
   final ChatPhoto? photo;
-  /// Group description. Updated only after the basic group is opened
+  /// Group description
   final String description;
   /// User identifier of the creator of the group; 0 if unknown
   final int creatorUserId;
   /// Group members
   final List<ChatMember?> members;
-  /// Primary invite link for this group; may be null. For chat administrators with can_invite_users right only. Updated only after the basic group is opened
-  final ChatInviteLink? inviteLink;
+  /// Invite link for this group; available only after it has been generated at least once and only for the group creator
+  final String inviteLink;
 
   BasicGroupFullInfo({
     required this.photo,
@@ -5102,7 +4682,7 @@ class BasicGroupFullInfo extends a.BasicGroupFullInfo {
     'description': description,
     'creator_user_id': creatorUserId,
     'members': members.map((_e1) => _e1?.toJson()).toList(growable: false),
-    'invite_link': inviteLink?.toJson(),
+    'invite_link': inviteLink,
   };
 
   factory BasicGroupFullInfo.fromJson(Map<String, dynamic> json) => BasicGroupFullInfo(
@@ -5110,7 +4690,7 @@ class BasicGroupFullInfo extends a.BasicGroupFullInfo {
     description: (json['description'] as String?) ?? '',
     creatorUserId: (json['creator_user_id'] as int?) ?? 0,
     members: json['members'] == null ? <ChatMember?>[] : (json['members'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ChatMember?)).toList(growable: false),
-    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
+    inviteLink: (json['invite_link'] as String?) ?? '',
   );
 }
 
@@ -5136,16 +4716,12 @@ class Supergroup extends a.Supergroup {
   final bool isSlowModeEnabled;
   /// True, if the supergroup is a channel
   final bool isChannel;
-  /// True, if the supergroup is a broadcast group, i.e. only administrators can send messages and there is no limit on number of members
-  final bool isBroadcastGroup;
   /// True, if the supergroup or channel is verified
   final bool isVerified;
   /// If non-empty, contains a human-readable description of the reason why access to this supergroup or channel must be restricted
   final String restrictionReason;
-  /// True, if many users reported this supergroup or channel as a scam
+  /// True, if many users reported this supergroup as a scam
   final bool isScam;
-  /// True, if many users reported this supergroup or channel as a fake account
-  final bool isFake;
 
   Supergroup({
     required this.id,
@@ -5158,11 +4734,9 @@ class Supergroup extends a.Supergroup {
     required this.signMessages,
     required this.isSlowModeEnabled,
     required this.isChannel,
-    required this.isBroadcastGroup,
     required this.isVerified,
     required this.restrictionReason,
     required this.isScam,
-    required this.isFake,
   });
 
   @override
@@ -5181,11 +4755,9 @@ class Supergroup extends a.Supergroup {
     params.add(signMessages.toString());
     params.add(isSlowModeEnabled.toString());
     params.add(isChannel.toString());
-    params.add(isBroadcastGroup.toString());
     params.add(isVerified.toString());
     params.add(restrictionReason.toString());
     params.add(isScam.toString());
-    params.add(isFake.toString());
     s += params.join(', ');
 
     s += ')';
@@ -5205,11 +4777,9 @@ class Supergroup extends a.Supergroup {
     'sign_messages': signMessages,
     'is_slow_mode_enabled': isSlowModeEnabled,
     'is_channel': isChannel,
-    'is_broadcast_group': isBroadcastGroup,
     'is_verified': isVerified,
     'restriction_reason': restrictionReason,
     'is_scam': isScam,
-    'is_fake': isFake,
   };
 
   factory Supergroup.fromJson(Map<String, dynamic> json) => Supergroup(
@@ -5223,11 +4793,9 @@ class Supergroup extends a.Supergroup {
     signMessages: (json['sign_messages'] as bool?) ?? false,
     isSlowModeEnabled: (json['is_slow_mode_enabled'] as bool?) ?? false,
     isChannel: (json['is_channel'] as bool?) ?? false,
-    isBroadcastGroup: (json['is_broadcast_group'] as bool?) ?? false,
     isVerified: (json['is_verified'] as bool?) ?? false,
     restrictionReason: (json['restriction_reason'] as String?) ?? '',
     isScam: (json['is_scam'] as bool?) ?? false,
-    isFake: (json['is_fake'] as bool?) ?? false,
   );
 }
 
@@ -5267,8 +4835,8 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
   final int stickerSetId;
   /// Location to which the supergroup is connected; may be null
   final ChatLocation? location;
-  /// Primary invite link for this chat; may be null. For chat administrators with can_invite_users right only
-  final ChatInviteLink? inviteLink;
+  /// Invite link for this chat
+  final String inviteLink;
   /// Identifier of the basic group from which supergroup was upgraded; 0 if none
   final int upgradedFromBasicGroupId;
   /// Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
@@ -5349,7 +4917,7 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
     'is_all_history_available': isAllHistoryAvailable,
     'sticker_set_id': stickerSetId.toString(),
     'location': location?.toJson(),
-    'invite_link': inviteLink?.toJson(),
+    'invite_link': inviteLink,
     'upgraded_from_basic_group_id': upgradedFromBasicGroupId,
     'upgraded_from_max_message_id': upgradedFromMaxMessageId,
   };
@@ -5372,7 +4940,7 @@ class SupergroupFullInfo extends a.SupergroupFullInfo {
     isAllHistoryAvailable: (json['is_all_history_available'] as bool?) ?? false,
     stickerSetId: int.parse(json['sticker_set_id'] ?? '0'),
     location: b.TdBase.fromJson(json['location']) as ChatLocation?,
-    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
+    inviteLink: (json['invite_link'] as String?) ?? '',
     upgradedFromBasicGroupId: (json['upgraded_from_basic_group_id'] as int?) ?? 0,
     upgradedFromMaxMessageId: (json['upgraded_from_max_message_id'] as int?) ?? 0,
   );
@@ -5463,6 +5031,8 @@ class SecretChat extends a.SecretChat {
   final a.SecretChatState? state;
   /// True, if the chat was created by the current user; otherwise false
   final bool isOutbound;
+  /// Current message Time To Live setting (self-destruct timer) for the chat, in seconds
+  final int ttl;
   /// Hash of the currently used key for comparison with the hash of the chat partner's key. This is a string of 36 little-endian bytes, which must be split into groups of 2 bits, each denoting a pixel of one of 4 colors FFFFFF, D5E6F3, 2D5775, and 2F99C9.
   final Uint8List keyHash;
   /// Secret chat layer; determines features supported by the chat partner's application. Video notes are supported if the layer >= 66; nested text entities and underline and strikethrough entities are supported if the layer >= 101
@@ -5473,6 +5043,7 @@ class SecretChat extends a.SecretChat {
     required this.userId,
     required this.state,
     required this.isOutbound,
+    required this.ttl,
     required this.keyHash,
     required this.layer,
   });
@@ -5487,6 +5058,7 @@ class SecretChat extends a.SecretChat {
     params.add(userId.toString());
     params.add(state.toString());
     params.add(isOutbound.toString());
+    params.add(ttl.toString());
     params.add(keyHash.toString());
     params.add(layer.toString());
     s += params.join(', ');
@@ -5502,6 +5074,7 @@ class SecretChat extends a.SecretChat {
     'user_id': userId,
     'state': state?.toJson(),
     'is_outbound': isOutbound,
+    'ttl': ttl,
     'key_hash': base64.encode(keyHash),
     'layer': layer,
   };
@@ -5511,6 +5084,7 @@ class SecretChat extends a.SecretChat {
     userId: (json['user_id'] as int?) ?? 0,
     state: b.TdBase.fromJson(json['state']) as a.SecretChatState?,
     isOutbound: (json['is_outbound'] as bool?) ?? false,
+    ttl: (json['ttl'] as int?) ?? 0,
     keyHash: json['key_hash'] == null ? Uint8List(0) : base64.decode(json['key_hash']),
     layer: (json['layer'] as int?) ?? 0,
   );
@@ -5768,39 +5342,6 @@ class MessageForwardOriginChannel extends a.MessageForwardOrigin {
     chatId: (json['chat_id'] as int?) ?? 0,
     messageId: (json['message_id'] as int?) ?? 0,
     authorSignature: (json['author_signature'] as String?) ?? '',
-  );
-}
-
-/// The message was imported from an exported message history
-class MessageForwardOriginMessageImport extends a.MessageForwardOrigin {
-  /// Name of the sender
-  final String senderName;
-
-  MessageForwardOriginMessageImport({
-    required this.senderName,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::MessageForwardOriginMessageImport(';
-
-    // Params
-    final params = <String>[];
-    params.add(senderName.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'messageForwardOriginMessageImport',
-    'sender_name': senderName,
-  };
-
-  factory MessageForwardOriginMessageImport.fromJson(Map<String, dynamic> json) => MessageForwardOriginMessageImport(
-    senderName: (json['sender_name'] as String?) ?? '',
   );
 }
 
@@ -6093,7 +5634,7 @@ class Message extends a.Message {
   final int viaBotUserId;
   /// For channel posts and anonymous group messages, optional author signature
   final String authorSignature;
-  /// Unique identifier of an album this message belongs to. Only audios, documents, photos and videos can be grouped together in albums
+  /// Unique identifier of an album this message belongs to. Only photos and videos can be grouped together in albums
   final int mediaAlbumId;
   /// If non-empty, contains a human-readable description of the reason why access to this message must be restricted
   final String restrictionReason;
@@ -7191,51 +6732,6 @@ class ChatPosition extends a.ChatPosition {
   );
 }
 
-/// Describes a voice chat
-class VoiceChat extends a.VoiceChat {
-  /// Group call identifier of an active voice chat; 0 if none. Full informationa about the voice chat can be received through the method getGroupCall
-  final int groupCallId;
-  /// True, if the voice chat has participants
-  final bool hasParticipants;
-  /// Default group call participant identifier to join the voice chat; may be null
-  final a.MessageSender? defaultParticipantId;
-
-  VoiceChat({
-    required this.groupCallId,
-    required this.hasParticipants,
-    required this.defaultParticipantId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::VoiceChat(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(hasParticipants.toString());
-    params.add(defaultParticipantId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'voiceChat',
-    'group_call_id': groupCallId,
-    'has_participants': hasParticipants,
-    'default_participant_id': defaultParticipantId?.toJson(),
-  };
-
-  factory VoiceChat.fromJson(Map<String, dynamic> json) => VoiceChat(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    hasParticipants: (json['has_participants'] as bool?) ?? false,
-    defaultParticipantId: b.TdBase.fromJson(json['default_participant_id']) as a.MessageSender?,
-  );
-}
-
 /// A chat. (Can be a private chat, basic group, supergroup, or secret chat)
 class Chat extends a.Chat {
   /// Chat unique identifier
@@ -7262,7 +6758,7 @@ class Chat extends a.Chat {
   final bool canBeDeletedOnlyForSelf;
   /// True, if the chat messages can be deleted for all users
   final bool canBeDeletedForAllUsers;
-  /// True, if the chat can be reported to Telegram moderators through reportChat or reportChatPhoto
+  /// True, if the chat can be reported to Telegram moderators through reportChat
   final bool canBeReported;
   /// Default value of the disable_notification parameter, used when a message is sent to the chat
   final bool defaultDisableNotification;
@@ -7276,12 +6772,8 @@ class Chat extends a.Chat {
   final int unreadMentionCount;
   /// Notification settings for this chat
   final ChatNotificationSettings? notificationSettings;
-  /// Current message Time To Live setting (self-destruct timer) for the chat; 0 if not defined. TTL is counted from the time message or its content is viewed in secret chats and from the send date in other chats
-  final int messageTtlSetting;
   /// Describes actions which should be possible to do through a chat action bar; may be null
   final a.ChatActionBar? actionBar;
-  /// Contains information about voice chat of the chat
-  final VoiceChat? voiceChat;
   /// Identifier of the message from which reply markup needs to be used; 0 if there is no default custom reply markup in the chat
   final int replyMarkupMessageId;
   /// A draft of a message in the chat; may be null
@@ -7309,9 +6801,7 @@ class Chat extends a.Chat {
     required this.lastReadOutboxMessageId,
     required this.unreadMentionCount,
     required this.notificationSettings,
-    required this.messageTtlSetting,
     required this.actionBar,
-    required this.voiceChat,
     required this.replyMarkupMessageId,
     required this.draftMessage,
     required this.clientData,
@@ -7342,9 +6832,7 @@ class Chat extends a.Chat {
     params.add(lastReadOutboxMessageId.toString());
     params.add(unreadMentionCount.toString());
     params.add(notificationSettings.toString());
-    params.add(messageTtlSetting.toString());
     params.add(actionBar.toString());
-    params.add(voiceChat.toString());
     params.add(replyMarkupMessageId.toString());
     params.add(draftMessage.toString());
     params.add(clientData.toString());
@@ -7376,9 +6864,7 @@ class Chat extends a.Chat {
     'last_read_outbox_message_id': lastReadOutboxMessageId,
     'unread_mention_count': unreadMentionCount,
     'notification_settings': notificationSettings?.toJson(),
-    'message_ttl_setting': messageTtlSetting,
     'action_bar': actionBar?.toJson(),
-    'voice_chat': voiceChat?.toJson(),
     'reply_markup_message_id': replyMarkupMessageId,
     'draft_message': draftMessage?.toJson(),
     'client_data': clientData,
@@ -7404,9 +6890,7 @@ class Chat extends a.Chat {
     lastReadOutboxMessageId: (json['last_read_outbox_message_id'] as int?) ?? 0,
     unreadMentionCount: (json['unread_mention_count'] as int?) ?? 0,
     notificationSettings: b.TdBase.fromJson(json['notification_settings']) as ChatNotificationSettings?,
-    messageTtlSetting: (json['message_ttl_setting'] as int?) ?? 0,
     actionBar: b.TdBase.fromJson(json['action_bar']) as a.ChatActionBar?,
-    voiceChat: b.TdBase.fromJson(json['voice_chat']) as VoiceChat?,
     replyMarkupMessageId: (json['reply_markup_message_id'] as int?) ?? 0,
     draftMessage: b.TdBase.fromJson(json['draft_message']) as DraftMessage?,
     clientData: (json['client_data'] as String?) ?? '',
@@ -7530,6 +7014,114 @@ class ChatsNearby extends a.ChatsNearby {
   );
 }
 
+/// Contains a chat invite link
+class ChatInviteLink extends a.ChatInviteLink {
+  /// Chat invite link
+  final String inviteLink;
+
+  ChatInviteLink({
+    required this.inviteLink,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ChatInviteLink(';
+
+    // Params
+    final params = <String>[];
+    params.add(inviteLink.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'chatInviteLink',
+    'invite_link': inviteLink,
+  };
+
+  factory ChatInviteLink.fromJson(Map<String, dynamic> json) => ChatInviteLink(
+    inviteLink: (json['invite_link'] as String?) ?? '',
+  );
+}
+
+/// Contains information about a chat invite link
+class ChatInviteLinkInfo extends a.ChatInviteLinkInfo {
+  /// Chat identifier of the invite link; 0 if the user has no access to the chat before joining
+  final int chatId;
+  /// If non-zero, the amount of time for which read access to the chat will remain available, in seconds
+  final int accessibleFor;
+  /// Contains information about the type of the chat
+  final a.ChatType? type;
+  /// Title of the chat
+  final String title;
+  /// Chat photo; may be null
+  final ChatPhotoInfo? photo;
+  /// Number of members in the chat
+  final int memberCount;
+  /// User identifiers of some chat members that may be known to the current user
+  final List<int> memberUserIds;
+  /// True, if the chat is a public supergroup or channel, i.e. it has a username or it is a location-based supergroup
+  final bool isPublic;
+
+  ChatInviteLinkInfo({
+    required this.chatId,
+    required this.accessibleFor,
+    required this.type,
+    required this.title,
+    required this.photo,
+    required this.memberCount,
+    required this.memberUserIds,
+    required this.isPublic,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::ChatInviteLinkInfo(';
+
+    // Params
+    final params = <String>[];
+    params.add(chatId.toString());
+    params.add(accessibleFor.toString());
+    params.add(type.toString());
+    params.add(title.toString());
+    params.add(photo.toString());
+    params.add(memberCount.toString());
+    params.add(memberUserIds.toString());
+    params.add(isPublic.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'chatInviteLinkInfo',
+    'chat_id': chatId,
+    'accessible_for': accessibleFor,
+    'type': type?.toJson(),
+    'title': title,
+    'photo': photo?.toJson(),
+    'member_count': memberCount,
+    'member_user_ids': memberUserIds.map((_e1) => _e1).toList(growable: false),
+    'is_public': isPublic,
+  };
+
+  factory ChatInviteLinkInfo.fromJson(Map<String, dynamic> json) => ChatInviteLinkInfo(
+    chatId: (json['chat_id'] as int?) ?? 0,
+    accessibleFor: (json['accessible_for'] as int?) ?? 0,
+    type: b.TdBase.fromJson(json['type']) as a.ChatType?,
+    title: (json['title'] as String?) ?? '',
+    photo: b.TdBase.fromJson(json['photo']) as ChatPhotoInfo?,
+    memberCount: (json['member_count'] as int?) ?? 0,
+    memberUserIds: json['member_user_ids'] == null ? <int>[] : (json['member_user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
+    isPublic: (json['is_public'] as bool?) ?? false,
+  );
+}
+
 /// The chat is public, because it has username
 class PublicChatTypeHasUsername extends a.PublicChatType {
   PublicChatTypeHasUsername();
@@ -7635,31 +7227,6 @@ class ChatActionBarReportUnrelatedLocation extends a.ChatActionBar {
   };
 
   factory ChatActionBarReportUnrelatedLocation.fromJson(Map<String, dynamic> json) => ChatActionBarReportUnrelatedLocation(
-  );
-}
-
-/// The chat is a recently created group chat, to which new members can be invited
-class ChatActionBarInviteMembers extends a.ChatActionBar {
-  ChatActionBarInviteMembers();
-
-  @override
-  String toString() {
-    var s = 'td::ChatActionBarInviteMembers(';
-
-    // Params
-    final params = <String>[];
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatActionBarInviteMembers',
-  };
-
-  factory ChatActionBarInviteMembers.fromJson(Map<String, dynamic> json) => ChatActionBarInviteMembers(
   );
 }
 
@@ -7938,7 +7505,7 @@ class InlineKeyboardButtonTypeUrl extends a.InlineKeyboardButtonType {
   );
 }
 
-/// A button that opens a specified URL and automatically authorize the current user if allowed to do so
+/// A button that opens a specified URL and automatically logs in in current user if they allowed to do that
 class InlineKeyboardButtonTypeLoginUrl extends a.InlineKeyboardButtonType {
   /// An HTTP URL to open
   final String url;
@@ -11122,7 +10689,7 @@ class Address extends a.Address {
 class LabeledPricePart extends a.LabeledPricePart {
   /// Label for this portion of the product price
   final String label;
-  /// Currency amount in the smallest units of the currency
+  /// Currency amount in minimal quantity of the currency
   final int amount;
 
   LabeledPricePart({
@@ -11163,10 +10730,6 @@ class Invoice extends a.Invoice {
   final String currency;
   /// A list of objects used to calculate the total price of the product
   final List<LabeledPricePart?> priceParts;
-  /// The maximum allowed amount of tip in the smallest units of the currency
-  final int maxTipAmount;
-  /// Suggested amounts of tip in the smallest units of the currency
-  final List<int> suggestedTipAmounts;
   /// True, if the payment is a test payment
   final bool isTest;
   /// True, if the user's name is needed for payment
@@ -11187,8 +10750,6 @@ class Invoice extends a.Invoice {
   Invoice({
     required this.currency,
     required this.priceParts,
-    required this.maxTipAmount,
-    required this.suggestedTipAmounts,
     required this.isTest,
     required this.needName,
     required this.needPhoneNumber,
@@ -11207,8 +10768,6 @@ class Invoice extends a.Invoice {
     final params = <String>[];
     params.add(currency.toString());
     params.add(priceParts.toString());
-    params.add(maxTipAmount.toString());
-    params.add(suggestedTipAmounts.toString());
     params.add(isTest.toString());
     params.add(needName.toString());
     params.add(needPhoneNumber.toString());
@@ -11228,8 +10787,6 @@ class Invoice extends a.Invoice {
     '@type': 'invoice',
     'currency': currency,
     'price_parts': priceParts.map((_e1) => _e1?.toJson()).toList(growable: false),
-    'max_tip_amount': maxTipAmount,
-    'suggested_tip_amounts': suggestedTipAmounts.map((_e1) => _e1).toList(growable: false),
     'is_test': isTest,
     'need_name': needName,
     'need_phone_number': needPhoneNumber,
@@ -11243,8 +10800,6 @@ class Invoice extends a.Invoice {
   factory Invoice.fromJson(Map<String, dynamic> json) => Invoice(
     currency: (json['currency'] as String?) ?? '',
     priceParts: json['price_parts'] == null ? <LabeledPricePart?>[] : (json['price_parts'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as LabeledPricePart?)).toList(growable: false),
-    maxTipAmount: (json['max_tip_amount'] as int?) ?? 0,
-    suggestedTipAmounts: json['suggested_tip_amounts'] == null ? <int>[] : (json['suggested_tip_amounts'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
     isTest: (json['is_test'] as bool?) ?? false,
     needName: (json['need_name'] as bool?) ?? false,
     needPhoneNumber: (json['need_phone_number'] as bool?) ?? false,
@@ -11463,6 +11018,39 @@ class InputCredentialsNew extends a.InputCredentials {
   );
 }
 
+/// Applies if a user enters new credentials using Android Pay
+class InputCredentialsAndroidPay extends a.InputCredentials {
+  /// JSON-encoded data with the credential identifier
+  final String data;
+
+  InputCredentialsAndroidPay({
+    required this.data,
+  });
+
+  @override
+  String toString() {
+    var s = 'td::InputCredentialsAndroidPay(';
+
+    // Params
+    final params = <String>[];
+    params.add(data.toString());
+    s += params.join(', ');
+
+    s += ')';
+
+    return s;
+  }
+  @override
+  Map<String, dynamic> toJson() => {
+    '@type': 'inputCredentialsAndroidPay',
+    'data': data,
+  };
+
+  factory InputCredentialsAndroidPay.fromJson(Map<String, dynamic> json) => InputCredentialsAndroidPay(
+    data: (json['data'] as String?) ?? '',
+  );
+}
+
 /// Applies if a user enters new credentials using Apple Pay
 class InputCredentialsApplePay extends a.InputCredentials {
   /// JSON-encoded data with the credential identifier
@@ -11492,39 +11080,6 @@ class InputCredentialsApplePay extends a.InputCredentials {
   };
 
   factory InputCredentialsApplePay.fromJson(Map<String, dynamic> json) => InputCredentialsApplePay(
-    data: (json['data'] as String?) ?? '',
-  );
-}
-
-/// Applies if a user enters new credentials using Google Pay
-class InputCredentialsGooglePay extends a.InputCredentials {
-  /// JSON-encoded data with the credential identifier
-  final String data;
-
-  InputCredentialsGooglePay({
-    required this.data,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::InputCredentialsGooglePay(';
-
-    // Params
-    final params = <String>[];
-    params.add(data.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'inputCredentialsGooglePay',
-    'data': data,
-  };
-
-  factory InputCredentialsGooglePay.fromJson(Map<String, dynamic> json) => InputCredentialsGooglePay(
     data: (json['data'] as String?) ?? '',
   );
 }
@@ -11580,81 +11135,12 @@ class PaymentsProviderStripe extends a.PaymentsProviderStripe {
   );
 }
 
-/// Theme colors for a payment form
-class PaymentFormTheme extends a.PaymentFormTheme {
-  /// A color of the payment form background in the RGB24 format
-  final int backgroundColor;
-  /// A color of text in the RGB24 format
-  final int textColor;
-  /// A color of hints in the RGB24 format
-  final int hintColor;
-  /// A color of links in the RGB24 format
-  final int linkColor;
-  /// A color of thebuttons in the RGB24 format
-  final int buttonColor;
-  /// A color of text on the buttons in the RGB24 format
-  final int buttonTextColor;
-
-  PaymentFormTheme({
-    required this.backgroundColor,
-    required this.textColor,
-    required this.hintColor,
-    required this.linkColor,
-    required this.buttonColor,
-    required this.buttonTextColor,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::PaymentFormTheme(';
-
-    // Params
-    final params = <String>[];
-    params.add(backgroundColor.toString());
-    params.add(textColor.toString());
-    params.add(hintColor.toString());
-    params.add(linkColor.toString());
-    params.add(buttonColor.toString());
-    params.add(buttonTextColor.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'paymentFormTheme',
-    'background_color': backgroundColor,
-    'text_color': textColor,
-    'hint_color': hintColor,
-    'link_color': linkColor,
-    'button_color': buttonColor,
-    'button_text_color': buttonTextColor,
-  };
-
-  factory PaymentFormTheme.fromJson(Map<String, dynamic> json) => PaymentFormTheme(
-    backgroundColor: (json['background_color'] as int?) ?? 0,
-    textColor: (json['text_color'] as int?) ?? 0,
-    hintColor: (json['hint_color'] as int?) ?? 0,
-    linkColor: (json['link_color'] as int?) ?? 0,
-    buttonColor: (json['button_color'] as int?) ?? 0,
-    buttonTextColor: (json['button_text_color'] as int?) ?? 0,
-  );
-}
-
 /// Contains information about an invoice payment form
 class PaymentForm extends a.PaymentForm {
-  /// The payment form identifier
-  final int id;
   /// Full information of the invoice
   final Invoice? invoice;
   /// Payment form URL
   final String url;
-  /// User identifier of the seller bot
-  final int sellerBotUserId;
-  /// User identifier of the payment provider bot
-  final int paymentsProviderUserId;
   /// Contains information about the payment provider, if available, to support it natively without the need for opening the URL; may be null
   final PaymentsProviderStripe? paymentsProvider;
   /// Saved server-side order information; may be null
@@ -11667,11 +11153,8 @@ class PaymentForm extends a.PaymentForm {
   final bool needPassword;
 
   PaymentForm({
-    required this.id,
     required this.invoice,
     required this.url,
-    required this.sellerBotUserId,
-    required this.paymentsProviderUserId,
     required this.paymentsProvider,
     required this.savedOrderInfo,
     required this.savedCredentials,
@@ -11685,11 +11168,8 @@ class PaymentForm extends a.PaymentForm {
 
     // Params
     final params = <String>[];
-    params.add(id.toString());
     params.add(invoice.toString());
     params.add(url.toString());
-    params.add(sellerBotUserId.toString());
-    params.add(paymentsProviderUserId.toString());
     params.add(paymentsProvider.toString());
     params.add(savedOrderInfo.toString());
     params.add(savedCredentials.toString());
@@ -11704,11 +11184,8 @@ class PaymentForm extends a.PaymentForm {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'paymentForm',
-    'id': id.toString(),
     'invoice': invoice?.toJson(),
     'url': url,
-    'seller_bot_user_id': sellerBotUserId,
-    'payments_provider_user_id': paymentsProviderUserId,
     'payments_provider': paymentsProvider?.toJson(),
     'saved_order_info': savedOrderInfo?.toJson(),
     'saved_credentials': savedCredentials?.toJson(),
@@ -11717,11 +11194,8 @@ class PaymentForm extends a.PaymentForm {
   };
 
   factory PaymentForm.fromJson(Map<String, dynamic> json) => PaymentForm(
-    id: int.parse(json['id'] ?? '0'),
     invoice: b.TdBase.fromJson(json['invoice']) as Invoice?,
     url: (json['url'] as String?) ?? '',
-    sellerBotUserId: (json['seller_bot_user_id'] as int?) ?? 0,
-    paymentsProviderUserId: (json['payments_provider_user_id'] as int?) ?? 0,
     paymentsProvider: b.TdBase.fromJson(json['payments_provider']) as PaymentsProviderStripe?,
     savedOrderInfo: b.TdBase.fromJson(json['saved_order_info']) as OrderInfo?,
     savedCredentials: b.TdBase.fromJson(json['saved_credentials']) as SavedCredentials?,
@@ -11810,41 +11284,26 @@ class PaymentResult extends a.PaymentResult {
 
 /// Contains information about a successful payment
 class PaymentReceipt extends a.PaymentReceipt {
-  /// Product title
-  final String title;
-  /// Product description
-  final String description;
-  /// Product photo; may be null
-  final Photo? photo;
   /// Point in time (Unix timestamp) when the payment was made
   final int date;
-  /// User identifier of the seller bot
-  final int sellerBotUserId;
   /// User identifier of the payment provider bot
   final int paymentsProviderUserId;
   /// Contains information about the invoice
   final Invoice? invoice;
-  /// Order information; may be null
+  /// Contains order information; may be null
   final OrderInfo? orderInfo;
   /// Chosen shipping option; may be null
   final ShippingOption? shippingOption;
-  /// Title of the saved credentials chosen by the buyer
+  /// Title of the saved credentials
   final String credentialsTitle;
-  /// The amount of tip chosen by the buyer in the smallest units of the currency
-  final int tipAmount;
 
   PaymentReceipt({
-    required this.title,
-    required this.description,
-    required this.photo,
     required this.date,
-    required this.sellerBotUserId,
     required this.paymentsProviderUserId,
     required this.invoice,
     required this.orderInfo,
     required this.shippingOption,
     required this.credentialsTitle,
-    required this.tipAmount,
   });
 
   @override
@@ -11853,17 +11312,12 @@ class PaymentReceipt extends a.PaymentReceipt {
 
     // Params
     final params = <String>[];
-    params.add(title.toString());
-    params.add(description.toString());
-    params.add(photo.toString());
     params.add(date.toString());
-    params.add(sellerBotUserId.toString());
     params.add(paymentsProviderUserId.toString());
     params.add(invoice.toString());
     params.add(orderInfo.toString());
     params.add(shippingOption.toString());
     params.add(credentialsTitle.toString());
-    params.add(tipAmount.toString());
     s += params.join(', ');
 
     s += ')';
@@ -11873,31 +11327,21 @@ class PaymentReceipt extends a.PaymentReceipt {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'paymentReceipt',
-    'title': title,
-    'description': description,
-    'photo': photo?.toJson(),
     'date': date,
-    'seller_bot_user_id': sellerBotUserId,
     'payments_provider_user_id': paymentsProviderUserId,
     'invoice': invoice?.toJson(),
     'order_info': orderInfo?.toJson(),
     'shipping_option': shippingOption?.toJson(),
     'credentials_title': credentialsTitle,
-    'tip_amount': tipAmount,
   };
 
   factory PaymentReceipt.fromJson(Map<String, dynamic> json) => PaymentReceipt(
-    title: (json['title'] as String?) ?? '',
-    description: (json['description'] as String?) ?? '',
-    photo: b.TdBase.fromJson(json['photo']) as Photo?,
     date: (json['date'] as int?) ?? 0,
-    sellerBotUserId: (json['seller_bot_user_id'] as int?) ?? 0,
     paymentsProviderUserId: (json['payments_provider_user_id'] as int?) ?? 0,
     invoice: b.TdBase.fromJson(json['invoice']) as Invoice?,
     orderInfo: b.TdBase.fromJson(json['order_info']) as OrderInfo?,
     shippingOption: b.TdBase.fromJson(json['shipping_option']) as ShippingOption?,
     credentialsTitle: (json['credentials_title'] as String?) ?? '',
-    tipAmount: (json['tip_amount'] as int?) ?? 0,
   );
 }
 
@@ -12267,11 +11711,11 @@ class PassportElementTypeEmailAddress extends a.PassportElementType {
 
 /// Represents a date according to the Gregorian calendar
 class Date extends a.Date {
-  /// Day of the month; 1-31
+  /// Day of the month, 1-31
   final int day;
-  /// Month; 1-12
+  /// Month, 1-12
   final int month;
-  /// Year; 1-9999
+  /// Year, 1-9999
   final int year;
 
   Date({
@@ -15109,7 +14553,7 @@ class MessageInvoice extends a.MessageContent {
   final Photo? photo;
   /// Currency for the product price
   final String currency;
-  /// Product total price in the smallest units of the currency
+  /// Product total price in the minimal quantity of the currency
   final int totalAmount;
   /// Unique invoice bot start_parameter. To share an invoice use the URL https://t.me/{bot_username}?start={start_parameter}
   final String startParameter;
@@ -15222,150 +14666,6 @@ class MessageCall extends a.MessageContent {
     isVideo: (json['is_video'] as bool?) ?? false,
     discardReason: b.TdBase.fromJson(json['discard_reason']) as a.CallDiscardReason?,
     duration: (json['duration'] as int?) ?? 0,
-  );
-}
-
-/// A new voice chat was scheduled
-class MessageVoiceChatScheduled extends a.MessageContent {
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
-  final int groupCallId;
-  /// Point in time (Unix timestamp) when the group call is supposed to be started by an administrator
-  final int startDate;
-
-  MessageVoiceChatScheduled({
-    required this.groupCallId,
-    required this.startDate,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::MessageVoiceChatScheduled(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(startDate.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'messageVoiceChatScheduled',
-    'group_call_id': groupCallId,
-    'start_date': startDate,
-  };
-
-  factory MessageVoiceChatScheduled.fromJson(Map<String, dynamic> json) => MessageVoiceChatScheduled(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    startDate: (json['start_date'] as int?) ?? 0,
-  );
-}
-
-/// A newly created voice chat
-class MessageVoiceChatStarted extends a.MessageContent {
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
-  final int groupCallId;
-
-  MessageVoiceChatStarted({
-    required this.groupCallId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::MessageVoiceChatStarted(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'messageVoiceChatStarted',
-    'group_call_id': groupCallId,
-  };
-
-  factory MessageVoiceChatStarted.fromJson(Map<String, dynamic> json) => MessageVoiceChatStarted(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-  );
-}
-
-/// A message with information about an ended voice chat
-class MessageVoiceChatEnded extends a.MessageContent {
-  /// Call duration
-  final int duration;
-
-  MessageVoiceChatEnded({
-    required this.duration,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::MessageVoiceChatEnded(';
-
-    // Params
-    final params = <String>[];
-    params.add(duration.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'messageVoiceChatEnded',
-    'duration': duration,
-  };
-
-  factory MessageVoiceChatEnded.fromJson(Map<String, dynamic> json) => MessageVoiceChatEnded(
-    duration: (json['duration'] as int?) ?? 0,
-  );
-}
-
-/// A message with information about an invite to a voice chat
-class MessageInviteVoiceChatParticipants extends a.MessageContent {
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
-  final int groupCallId;
-  /// Invited user identifiers
-  final List<int> userIds;
-
-  MessageInviteVoiceChatParticipants({
-    required this.groupCallId,
-    required this.userIds,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::MessageInviteVoiceChatParticipants(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(userIds.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'messageInviteVoiceChatParticipants',
-    'group_call_id': groupCallId,
-    'user_ids': userIds.map((_e1) => _e1).toList(growable: false),
-  };
-
-  factory MessageInviteVoiceChatParticipants.fromJson(Map<String, dynamic> json) => MessageInviteVoiceChatParticipants(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    userIds: json['user_ids'] == null ? <int>[] : (json['user_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
   );
 }
 
@@ -15753,9 +15053,9 @@ class MessageScreenshotTaken extends a.MessageContent {
   );
 }
 
-/// The TTL (Time To Live) setting for messages in the chat has been changed
+/// The TTL (Time To Live) setting messages in a secret chat has been changed
 class MessageChatSetTtl extends a.MessageContent {
-  /// New message TTL setting
+  /// New TTL
   final int ttl;
 
   MessageChatSetTtl({
@@ -15866,17 +15166,14 @@ class MessageGameScore extends a.MessageContent {
 
 /// A payment has been completed
 class MessagePaymentSuccessful extends a.MessageContent {
-  /// Identifier of the chat, containing the corresponding invoice message; 0 if unknown
-  final int invoiceChatId;
   /// Identifier of the message with the corresponding invoice; can be an identifier of a deleted message
   final int invoiceMessageId;
   /// Currency for the price of the product
   final String currency;
-  /// Total price for the product, in the smallest units of the currency
+  /// Total price for the product, in the minimal quantity of the currency
   final int totalAmount;
 
   MessagePaymentSuccessful({
-    required this.invoiceChatId,
     required this.invoiceMessageId,
     required this.currency,
     required this.totalAmount,
@@ -15888,7 +15185,6 @@ class MessagePaymentSuccessful extends a.MessageContent {
 
     // Params
     final params = <String>[];
-    params.add(invoiceChatId.toString());
     params.add(invoiceMessageId.toString());
     params.add(currency.toString());
     params.add(totalAmount.toString());
@@ -15901,14 +15197,12 @@ class MessagePaymentSuccessful extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messagePaymentSuccessful',
-    'invoice_chat_id': invoiceChatId,
     'invoice_message_id': invoiceMessageId,
     'currency': currency,
     'total_amount': totalAmount,
   };
 
   factory MessagePaymentSuccessful.fromJson(Map<String, dynamic> json) => MessagePaymentSuccessful(
-    invoiceChatId: (json['invoice_chat_id'] as int?) ?? 0,
     invoiceMessageId: (json['invoice_message_id'] as int?) ?? 0,
     currency: (json['currency'] as String?) ?? '',
     totalAmount: (json['total_amount'] as int?) ?? 0,
@@ -15917,9 +15211,11 @@ class MessagePaymentSuccessful extends a.MessageContent {
 
 /// A payment has been completed; for bots only
 class MessagePaymentSuccessfulBot extends a.MessageContent {
+  /// Identifier of the message with the corresponding invoice; can be an identifier of a deleted message
+  final int invoiceMessageId;
   /// Currency for price of the product
   final String currency;
-  /// Total price for the product, in the smallest units of the currency
+  /// Total price for the product, in the minimal quantity of the currency
   final int totalAmount;
   /// Invoice payload
   final Uint8List invoicePayload;
@@ -15933,6 +15229,7 @@ class MessagePaymentSuccessfulBot extends a.MessageContent {
   final String providerPaymentChargeId;
 
   MessagePaymentSuccessfulBot({
+    required this.invoiceMessageId,
     required this.currency,
     required this.totalAmount,
     required this.invoicePayload,
@@ -15948,6 +15245,7 @@ class MessagePaymentSuccessfulBot extends a.MessageContent {
 
     // Params
     final params = <String>[];
+    params.add(invoiceMessageId.toString());
     params.add(currency.toString());
     params.add(totalAmount.toString());
     params.add(invoicePayload.toString());
@@ -15964,6 +15262,7 @@ class MessagePaymentSuccessfulBot extends a.MessageContent {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'messagePaymentSuccessfulBot',
+    'invoice_message_id': invoiceMessageId,
     'currency': currency,
     'total_amount': totalAmount,
     'invoice_payload': base64.encode(invoicePayload),
@@ -15974,6 +15273,7 @@ class MessagePaymentSuccessfulBot extends a.MessageContent {
   };
 
   factory MessagePaymentSuccessfulBot.fromJson(Map<String, dynamic> json) => MessagePaymentSuccessfulBot(
+    invoiceMessageId: (json['invoice_message_id'] as int?) ?? 0,
     currency: (json['currency'] as String?) ?? '',
     totalAmount: (json['total_amount'] as int?) ?? 0,
     invoicePayload: json['invoice_payload'] == null ? Uint8List(0) : base64.decode(json['invoice_payload']),
@@ -16781,7 +16081,7 @@ class MessageSendOptions extends a.MessageSendOptions {
   );
 }
 
-/// Options to be used when a message content is copied without a link to the original message. Service messages and messageInvoice can't be copied
+/// Options to be used when a message content is copied without a link to the original message
 class MessageCopyOptions extends a.MessageCopyOptions {
   /// True, if content of the message needs to be copied without a link to the original message. Always true if the message is forwarded to a secret chat
   final bool sendCopy;
@@ -17133,15 +16433,12 @@ class InputMessageSticker extends a.InputMessageContent {
   final int width;
   /// Sticker height
   final int height;
-  /// Emoji used to choose the sticker
-  final String emoji;
 
   InputMessageSticker({
     required this.sticker,
     required this.thumbnail,
     required this.width,
     required this.height,
-    required this.emoji,
   });
 
   @override
@@ -17154,7 +16451,6 @@ class InputMessageSticker extends a.InputMessageContent {
     params.add(thumbnail.toString());
     params.add(width.toString());
     params.add(height.toString());
-    params.add(emoji.toString());
     s += params.join(', ');
 
     s += ')';
@@ -17168,7 +16464,6 @@ class InputMessageSticker extends a.InputMessageContent {
     'thumbnail': thumbnail?.toJson(),
     'width': width,
     'height': height,
-    'emoji': emoji,
   };
 
   factory InputMessageSticker.fromJson(Map<String, dynamic> json) => InputMessageSticker(
@@ -17176,7 +16471,6 @@ class InputMessageSticker extends a.InputMessageContent {
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as InputThumbnail?,
     width: (json['width'] as int?) ?? 0,
     height: (json['height'] as int?) ?? 0,
-    emoji: (json['emoji'] as String?) ?? '',
   );
 }
 
@@ -17558,7 +16852,7 @@ class InputMessageGame extends a.InputMessageContent {
   );
 }
 
-/// A message with an invoice; can be used only by bots
+/// A message with an invoice; can be used only by bots and only in private chats
 class InputMessageInvoice extends a.InputMessageContent {
   /// Invoice
   final Invoice? invoice;
@@ -17580,7 +16874,7 @@ class InputMessageInvoice extends a.InputMessageContent {
   final String providerToken;
   /// JSON-encoded data about the invoice, which will be shared with the payment provider
   final String providerData;
-  /// Unique invoice bot deep link parameter for the generation of this invoice. If empty, it would be possible to pay directly from forwards of the invoice message
+  /// Unique invoice bot start_parameter for the generation of this invoice
   final String startParameter;
 
   InputMessageInvoice({
@@ -17653,7 +16947,7 @@ class InputMessageInvoice extends a.InputMessageContent {
 
 /// A message with a poll. Polls can't be sent to secret chats. Polls can be sent only to a private chat with a bot
 class InputMessagePoll extends a.InputMessageContent {
-  /// Poll question; 1-255 characters (up to 300 characters for bots)
+  /// Poll question, 1-255 characters (up to 300 characters for bots)
   final String question;
   /// List of poll answer options, 2-10 strings 1-100 characters each
   final List<String> options;
@@ -18828,8 +18122,6 @@ class StickerSet extends a.StickerSet {
   final String name;
   /// Sticker set thumbnail in WEBP or TGS format with width and height 100; may be null. The file can be downloaded only before the thumbnail is changed
   final Thumbnail? thumbnail;
-  /// Sticker set thumbnail's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
-  final List<ClosedVectorPath?> thumbnailOutline;
   /// True, if the sticker set has been installed by the current user
   final bool isInstalled;
   /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
@@ -18852,7 +18144,6 @@ class StickerSet extends a.StickerSet {
     required this.title,
     required this.name,
     required this.thumbnail,
-    required this.thumbnailOutline,
     required this.isInstalled,
     required this.isArchived,
     required this.isOfficial,
@@ -18873,7 +18164,6 @@ class StickerSet extends a.StickerSet {
     params.add(title.toString());
     params.add(name.toString());
     params.add(thumbnail.toString());
-    params.add(thumbnailOutline.toString());
     params.add(isInstalled.toString());
     params.add(isArchived.toString());
     params.add(isOfficial.toString());
@@ -18895,7 +18185,6 @@ class StickerSet extends a.StickerSet {
     'title': title,
     'name': name,
     'thumbnail': thumbnail?.toJson(),
-    'thumbnail_outline': thumbnailOutline.map((_e1) => _e1?.toJson()).toList(growable: false),
     'is_installed': isInstalled,
     'is_archived': isArchived,
     'is_official': isOfficial,
@@ -18911,7 +18200,6 @@ class StickerSet extends a.StickerSet {
     title: (json['title'] as String?) ?? '',
     name: (json['name'] as String?) ?? '',
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
-    thumbnailOutline: json['thumbnail_outline'] == null ? <ClosedVectorPath?>[] : (json['thumbnail_outline'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ClosedVectorPath?)).toList(growable: false),
     isInstalled: (json['is_installed'] as bool?) ?? false,
     isArchived: (json['is_archived'] as bool?) ?? false,
     isOfficial: (json['is_official'] as bool?) ?? false,
@@ -18933,9 +18221,7 @@ class StickerSetInfo extends a.StickerSetInfo {
   final String name;
   /// Sticker set thumbnail in WEBP or TGS format with width and height 100; may be null
   final Thumbnail? thumbnail;
-  /// Sticker set thumbnail's outline represented as a list of closed vector paths; may be empty. The coordinate system origin is in the upper-left corner
-  final List<ClosedVectorPath?> thumbnailOutline;
-  /// True, if the sticker set has been installed by the current user
+  /// True, if the sticker set has been installed by current user
   final bool isInstalled;
   /// True, if the sticker set has been archived. A sticker set can't be installed and archived simultaneously
   final bool isArchived;
@@ -18957,7 +18243,6 @@ class StickerSetInfo extends a.StickerSetInfo {
     required this.title,
     required this.name,
     required this.thumbnail,
-    required this.thumbnailOutline,
     required this.isInstalled,
     required this.isArchived,
     required this.isOfficial,
@@ -18978,7 +18263,6 @@ class StickerSetInfo extends a.StickerSetInfo {
     params.add(title.toString());
     params.add(name.toString());
     params.add(thumbnail.toString());
-    params.add(thumbnailOutline.toString());
     params.add(isInstalled.toString());
     params.add(isArchived.toString());
     params.add(isOfficial.toString());
@@ -19000,7 +18284,6 @@ class StickerSetInfo extends a.StickerSetInfo {
     'title': title,
     'name': name,
     'thumbnail': thumbnail?.toJson(),
-    'thumbnail_outline': thumbnailOutline.map((_e1) => _e1?.toJson()).toList(growable: false),
     'is_installed': isInstalled,
     'is_archived': isArchived,
     'is_official': isOfficial,
@@ -19016,7 +18299,6 @@ class StickerSetInfo extends a.StickerSetInfo {
     title: (json['title'] as String?) ?? '',
     name: (json['name'] as String?) ?? '',
     thumbnail: b.TdBase.fromJson(json['thumbnail']) as Thumbnail?,
-    thumbnailOutline: json['thumbnail_outline'] == null ? <ClosedVectorPath?>[] : (json['thumbnail_outline'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as ClosedVectorPath?)).toList(growable: false),
     isInstalled: (json['is_installed'] as bool?) ?? false,
     isArchived: (json['is_archived'] as bool?) ?? false,
     isOfficial: (json['is_official'] as bool?) ?? false,
@@ -19202,7 +18484,7 @@ class CallProtocol extends a.CallProtocol {
   final int minLayer;
   /// The maximum supported API layer; use 65
   final int maxLayer;
-  /// List of supported tgcalls versions
+  /// List of supported libtgvoip versions
   final List<String> libraryVersions;
 
   CallProtocol({
@@ -19419,39 +18701,6 @@ class CallId extends a.CallId {
   };
 
   factory CallId.fromJson(Map<String, dynamic> json) => CallId(
-    id: (json['id'] as int?) ?? 0,
-  );
-}
-
-/// Contains the group call identifier
-class GroupCallId extends a.GroupCallId {
-  /// Group call identifier
-  final int id;
-
-  GroupCallId({
-    required this.id,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GroupCallId(';
-
-    // Params
-    final params = <String>[];
-    params.add(id.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'groupCallId',
-    'id': id,
-  };
-
-  factory GroupCallId.fromJson(Map<String, dynamic> json) => GroupCallId(
     id: (json['id'] as int?) ?? 0,
   );
 }
@@ -19683,538 +18932,6 @@ class CallStateError extends a.CallState {
 
   factory CallStateError.fromJson(Map<String, dynamic> json) => CallStateError(
     error: b.TdBase.fromJson(json['error']) as Error?,
-  );
-}
-
-/// Describes a recently speaking participant in a group call
-class GroupCallRecentSpeaker extends a.GroupCallRecentSpeaker {
-  /// Group call participant identifier
-  final a.MessageSender? participantId;
-  /// True, is the user has spoken recently
-  final bool isSpeaking;
-
-  GroupCallRecentSpeaker({
-    required this.participantId,
-    required this.isSpeaking,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GroupCallRecentSpeaker(';
-
-    // Params
-    final params = <String>[];
-    params.add(participantId.toString());
-    params.add(isSpeaking.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'groupCallRecentSpeaker',
-    'participant_id': participantId?.toJson(),
-    'is_speaking': isSpeaking,
-  };
-
-  factory GroupCallRecentSpeaker.fromJson(Map<String, dynamic> json) => GroupCallRecentSpeaker(
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    isSpeaking: (json['is_speaking'] as bool?) ?? false,
-  );
-}
-
-/// Describes a group call
-class GroupCall extends a.GroupCall {
-  /// Group call identifier
-  final int id;
-  /// Group call title
-  final String title;
-  /// Point in time (Unix timestamp) when the group call is supposed to be started by an administrator; 0 if it is already active or was ended
-  final int scheduledStartDate;
-  /// True, if the group call is scheduled and the current user will receive a notification when the group call will start
-  final bool enabledStartNotification;
-  /// True, if the call is active
-  final bool isActive;
-  /// True, if the call is joined
-  final bool isJoined;
-  /// True, if user was kicked from the call because of network loss and the call needs to be rejoined
-  final bool needRejoin;
-  /// True, if the current user can manage the group call
-  final bool canBeManaged;
-  /// Number of participants in the group call
-  final int participantCount;
-  /// True, if all group call participants are loaded
-  final bool loadedAllParticipants;
-  /// Recently speaking users in the group call
-  final List<GroupCallRecentSpeaker?> recentSpeakers;
-  /// True, if only group call administrators can unmute new participants
-  final bool muteNewParticipants;
-  /// True, if the current user can enable or disable mute_new_participants setting
-  final bool canChangeMuteNewParticipants;
-  /// Duration of the ongoing group call recording, in seconds; 0 if none. An updateGroupCall update is not triggered when value of this field changes, but the same recording goes on
-  final int recordDuration;
-  /// Call duration; for ended calls only
-  final int duration;
-
-  GroupCall({
-    required this.id,
-    required this.title,
-    required this.scheduledStartDate,
-    required this.enabledStartNotification,
-    required this.isActive,
-    required this.isJoined,
-    required this.needRejoin,
-    required this.canBeManaged,
-    required this.participantCount,
-    required this.loadedAllParticipants,
-    required this.recentSpeakers,
-    required this.muteNewParticipants,
-    required this.canChangeMuteNewParticipants,
-    required this.recordDuration,
-    required this.duration,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GroupCall(';
-
-    // Params
-    final params = <String>[];
-    params.add(id.toString());
-    params.add(title.toString());
-    params.add(scheduledStartDate.toString());
-    params.add(enabledStartNotification.toString());
-    params.add(isActive.toString());
-    params.add(isJoined.toString());
-    params.add(needRejoin.toString());
-    params.add(canBeManaged.toString());
-    params.add(participantCount.toString());
-    params.add(loadedAllParticipants.toString());
-    params.add(recentSpeakers.toString());
-    params.add(muteNewParticipants.toString());
-    params.add(canChangeMuteNewParticipants.toString());
-    params.add(recordDuration.toString());
-    params.add(duration.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'groupCall',
-    'id': id,
-    'title': title,
-    'scheduled_start_date': scheduledStartDate,
-    'enabled_start_notification': enabledStartNotification,
-    'is_active': isActive,
-    'is_joined': isJoined,
-    'need_rejoin': needRejoin,
-    'can_be_managed': canBeManaged,
-    'participant_count': participantCount,
-    'loaded_all_participants': loadedAllParticipants,
-    'recent_speakers': recentSpeakers.map((_e1) => _e1?.toJson()).toList(growable: false),
-    'mute_new_participants': muteNewParticipants,
-    'can_change_mute_new_participants': canChangeMuteNewParticipants,
-    'record_duration': recordDuration,
-    'duration': duration,
-  };
-
-  factory GroupCall.fromJson(Map<String, dynamic> json) => GroupCall(
-    id: (json['id'] as int?) ?? 0,
-    title: (json['title'] as String?) ?? '',
-    scheduledStartDate: (json['scheduled_start_date'] as int?) ?? 0,
-    enabledStartNotification: (json['enabled_start_notification'] as bool?) ?? false,
-    isActive: (json['is_active'] as bool?) ?? false,
-    isJoined: (json['is_joined'] as bool?) ?? false,
-    needRejoin: (json['need_rejoin'] as bool?) ?? false,
-    canBeManaged: (json['can_be_managed'] as bool?) ?? false,
-    participantCount: (json['participant_count'] as int?) ?? 0,
-    loadedAllParticipants: (json['loaded_all_participants'] as bool?) ?? false,
-    recentSpeakers: json['recent_speakers'] == null ? <GroupCallRecentSpeaker?>[] : (json['recent_speakers'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallRecentSpeaker?)).toList(growable: false),
-    muteNewParticipants: (json['mute_new_participants'] as bool?) ?? false,
-    canChangeMuteNewParticipants: (json['can_change_mute_new_participants'] as bool?) ?? false,
-    recordDuration: (json['record_duration'] as int?) ?? 0,
-    duration: (json['duration'] as int?) ?? 0,
-  );
-}
-
-/// Describes a payload fingerprint for interaction with tgcalls
-class GroupCallPayloadFingerprint extends a.GroupCallPayloadFingerprint {
-  /// Value of the field hash
-  final String hash;
-  /// Value of the field setup
-  final String setup;
-  /// Value of the field fingerprint
-  final String fingerprint;
-
-  GroupCallPayloadFingerprint({
-    required this.hash,
-    required this.setup,
-    required this.fingerprint,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GroupCallPayloadFingerprint(';
-
-    // Params
-    final params = <String>[];
-    params.add(hash.toString());
-    params.add(setup.toString());
-    params.add(fingerprint.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'groupCallPayloadFingerprint',
-    'hash': hash,
-    'setup': setup,
-    'fingerprint': fingerprint,
-  };
-
-  factory GroupCallPayloadFingerprint.fromJson(Map<String, dynamic> json) => GroupCallPayloadFingerprint(
-    hash: (json['hash'] as String?) ?? '',
-    setup: (json['setup'] as String?) ?? '',
-    fingerprint: (json['fingerprint'] as String?) ?? '',
-  );
-}
-
-/// Describes a payload for interaction with tgcalls
-class GroupCallPayload extends a.GroupCallPayload {
-  /// Value of the field ufrag
-  final String ufrag;
-  /// Value of the field pwd
-  final String pwd;
-  /// The list of fingerprints
-  final List<GroupCallPayloadFingerprint?> fingerprints;
-
-  GroupCallPayload({
-    required this.ufrag,
-    required this.pwd,
-    required this.fingerprints,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GroupCallPayload(';
-
-    // Params
-    final params = <String>[];
-    params.add(ufrag.toString());
-    params.add(pwd.toString());
-    params.add(fingerprints.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'groupCallPayload',
-    'ufrag': ufrag,
-    'pwd': pwd,
-    'fingerprints': fingerprints.map((_e1) => _e1?.toJson()).toList(growable: false),
-  };
-
-  factory GroupCallPayload.fromJson(Map<String, dynamic> json) => GroupCallPayload(
-    ufrag: (json['ufrag'] as String?) ?? '',
-    pwd: (json['pwd'] as String?) ?? '',
-    fingerprints: json['fingerprints'] == null ? <GroupCallPayloadFingerprint?>[] : (json['fingerprints'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallPayloadFingerprint?)).toList(growable: false),
-  );
-}
-
-/// Describes a join response candidate for interaction with tgcalls
-class GroupCallJoinResponseCandidate extends a.GroupCallJoinResponseCandidate {
-  /// Value of the field port
-  final String port;
-  /// Value of the field protocol
-  final String protocol;
-  /// Value of the field network
-  final String network;
-  /// Value of the field generation
-  final String generation;
-  /// Value of the field id
-  final String id;
-  /// Value of the field component
-  final String component;
-  /// Value of the field foundation
-  final String foundation;
-  /// Value of the field priority
-  final String priority;
-  /// Value of the field ip
-  final String ip;
-  /// Value of the field type
-  final String type;
-  /// Value of the field tcp_type
-  final String tcpType;
-  /// Value of the field rel_addr
-  final String relAddr;
-  /// Value of the field rel_port
-  final String relPort;
-
-  GroupCallJoinResponseCandidate({
-    required this.port,
-    required this.protocol,
-    required this.network,
-    required this.generation,
-    required this.id,
-    required this.component,
-    required this.foundation,
-    required this.priority,
-    required this.ip,
-    required this.type,
-    required this.tcpType,
-    required this.relAddr,
-    required this.relPort,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GroupCallJoinResponseCandidate(';
-
-    // Params
-    final params = <String>[];
-    params.add(port.toString());
-    params.add(protocol.toString());
-    params.add(network.toString());
-    params.add(generation.toString());
-    params.add(id.toString());
-    params.add(component.toString());
-    params.add(foundation.toString());
-    params.add(priority.toString());
-    params.add(ip.toString());
-    params.add(type.toString());
-    params.add(tcpType.toString());
-    params.add(relAddr.toString());
-    params.add(relPort.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'groupCallJoinResponseCandidate',
-    'port': port,
-    'protocol': protocol,
-    'network': network,
-    'generation': generation,
-    'id': id,
-    'component': component,
-    'foundation': foundation,
-    'priority': priority,
-    'ip': ip,
-    'type': type,
-    'tcp_type': tcpType,
-    'rel_addr': relAddr,
-    'rel_port': relPort,
-  };
-
-  factory GroupCallJoinResponseCandidate.fromJson(Map<String, dynamic> json) => GroupCallJoinResponseCandidate(
-    port: (json['port'] as String?) ?? '',
-    protocol: (json['protocol'] as String?) ?? '',
-    network: (json['network'] as String?) ?? '',
-    generation: (json['generation'] as String?) ?? '',
-    id: (json['id'] as String?) ?? '',
-    component: (json['component'] as String?) ?? '',
-    foundation: (json['foundation'] as String?) ?? '',
-    priority: (json['priority'] as String?) ?? '',
-    ip: (json['ip'] as String?) ?? '',
-    type: (json['type'] as String?) ?? '',
-    tcpType: (json['tcp_type'] as String?) ?? '',
-    relAddr: (json['rel_addr'] as String?) ?? '',
-    relPort: (json['rel_port'] as String?) ?? '',
-  );
-}
-
-/// Contains data needed to join the group call with WebRTC
-class GroupCallJoinResponseWebrtc extends a.GroupCallJoinResponse {
-  /// Group call payload to pass to tgcalls
-  final GroupCallPayload? payload;
-  /// Join response candidates to pass to tgcalls
-  final List<GroupCallJoinResponseCandidate?> candidates;
-
-  GroupCallJoinResponseWebrtc({
-    required this.payload,
-    required this.candidates,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GroupCallJoinResponseWebrtc(';
-
-    // Params
-    final params = <String>[];
-    params.add(payload.toString());
-    params.add(candidates.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'groupCallJoinResponseWebrtc',
-    'payload': payload?.toJson(),
-    'candidates': candidates.map((_e1) => _e1?.toJson()).toList(growable: false),
-  };
-
-  factory GroupCallJoinResponseWebrtc.fromJson(Map<String, dynamic> json) => GroupCallJoinResponseWebrtc(
-    payload: b.TdBase.fromJson(json['payload']) as GroupCallPayload?,
-    candidates: json['candidates'] == null ? <GroupCallJoinResponseCandidate?>[] : (json['candidates'] as List<dynamic>).map((e) => (b.TdBase.fromJson(e) as GroupCallJoinResponseCandidate?)).toList(growable: false),
-  );
-}
-
-/// Describes that group call needs to be joined as a stream
-class GroupCallJoinResponseStream extends a.GroupCallJoinResponse {
-  GroupCallJoinResponseStream();
-
-  @override
-  String toString() {
-    var s = 'td::GroupCallJoinResponseStream(';
-
-    // Params
-    final params = <String>[];
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'groupCallJoinResponseStream',
-  };
-
-  factory GroupCallJoinResponseStream.fromJson(Map<String, dynamic> json) => GroupCallJoinResponseStream(
-  );
-}
-
-/// Represents a group call participant
-class GroupCallParticipant extends a.GroupCallParticipant {
-  /// Identifier of the group call participant
-  final a.MessageSender? participantId;
-  /// User's synchronization source
-  final int source;
-  /// The participant user's bio or the participant chat's description
-  final String bio;
-  /// True, if the participant is the current user
-  final bool isCurrentUser;
-  /// True, if the participant is speaking as set by setGroupCallParticipantIsSpeaking
-  final bool isSpeaking;
-  /// True, if the participant hand is raised
-  final bool isHandRaised;
-  /// True, if the current user can mute the participant for all other group call participants
-  final bool canBeMutedForAllUsers;
-  /// True, if the current user can allow the participant to unmute themself or unmute the participant (if the participant is the current user)
-  final bool canBeUnmutedForAllUsers;
-  /// True, if the current user can mute the participant only for self
-  final bool canBeMutedForCurrentUser;
-  /// True, if the current user can unmute the participant for self
-  final bool canBeUnmutedForCurrentUser;
-  /// True, if the participant is muted for all users
-  final bool isMutedForAllUsers;
-  /// True, if the participant is muted for the current user
-  final bool isMutedForCurrentUser;
-  /// True, if the participant is muted for all users, but can unmute themself
-  final bool canUnmuteSelf;
-  /// Participant's volume level; 1-20000 in hundreds of percents
-  final int volumeLevel;
-  /// User's order in the group call participant list. Orders must be compared lexicographically. The bigger is order, the higher is user in the list. If order is empty, the user must be removed from the participant list
-  final String order;
-
-  GroupCallParticipant({
-    required this.participantId,
-    required this.source,
-    required this.bio,
-    required this.isCurrentUser,
-    required this.isSpeaking,
-    required this.isHandRaised,
-    required this.canBeMutedForAllUsers,
-    required this.canBeUnmutedForAllUsers,
-    required this.canBeMutedForCurrentUser,
-    required this.canBeUnmutedForCurrentUser,
-    required this.isMutedForAllUsers,
-    required this.isMutedForCurrentUser,
-    required this.canUnmuteSelf,
-    required this.volumeLevel,
-    required this.order,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::GroupCallParticipant(';
-
-    // Params
-    final params = <String>[];
-    params.add(participantId.toString());
-    params.add(source.toString());
-    params.add(bio.toString());
-    params.add(isCurrentUser.toString());
-    params.add(isSpeaking.toString());
-    params.add(isHandRaised.toString());
-    params.add(canBeMutedForAllUsers.toString());
-    params.add(canBeUnmutedForAllUsers.toString());
-    params.add(canBeMutedForCurrentUser.toString());
-    params.add(canBeUnmutedForCurrentUser.toString());
-    params.add(isMutedForAllUsers.toString());
-    params.add(isMutedForCurrentUser.toString());
-    params.add(canUnmuteSelf.toString());
-    params.add(volumeLevel.toString());
-    params.add(order.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'groupCallParticipant',
-    'participant_id': participantId?.toJson(),
-    'source': source,
-    'bio': bio,
-    'is_current_user': isCurrentUser,
-    'is_speaking': isSpeaking,
-    'is_hand_raised': isHandRaised,
-    'can_be_muted_for_all_users': canBeMutedForAllUsers,
-    'can_be_unmuted_for_all_users': canBeUnmutedForAllUsers,
-    'can_be_muted_for_current_user': canBeMutedForCurrentUser,
-    'can_be_unmuted_for_current_user': canBeUnmutedForCurrentUser,
-    'is_muted_for_all_users': isMutedForAllUsers,
-    'is_muted_for_current_user': isMutedForCurrentUser,
-    'can_unmute_self': canUnmuteSelf,
-    'volume_level': volumeLevel,
-    'order': order,
-  };
-
-  factory GroupCallParticipant.fromJson(Map<String, dynamic> json) => GroupCallParticipant(
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    source: (json['source'] as int?) ?? 0,
-    bio: (json['bio'] as String?) ?? '',
-    isCurrentUser: (json['is_current_user'] as bool?) ?? false,
-    isSpeaking: (json['is_speaking'] as bool?) ?? false,
-    isHandRaised: (json['is_hand_raised'] as bool?) ?? false,
-    canBeMutedForAllUsers: (json['can_be_muted_for_all_users'] as bool?) ?? false,
-    canBeUnmutedForAllUsers: (json['can_be_unmuted_for_all_users'] as bool?) ?? false,
-    canBeMutedForCurrentUser: (json['can_be_muted_for_current_user'] as bool?) ?? false,
-    canBeUnmutedForCurrentUser: (json['can_be_unmuted_for_current_user'] as bool?) ?? false,
-    isMutedForAllUsers: (json['is_muted_for_all_users'] as bool?) ?? false,
-    isMutedForCurrentUser: (json['is_muted_for_current_user'] as bool?) ?? false,
-    canUnmuteSelf: (json['can_unmute_self'] as bool?) ?? false,
-    volumeLevel: (json['volume_level'] as int?) ?? 0,
-    order: (json['order'] as String?) ?? '',
   );
 }
 
@@ -20762,7 +19479,7 @@ class InputInlineQueryResultAnimation extends a.InputInlineQueryResult {
   final int videoHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageAnimation, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAnimation, InputMessageLocation, InputMessageVenue or InputMessageContact
   final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultAnimation({
@@ -20853,7 +19570,7 @@ class InputInlineQueryResultArticle extends a.InputInlineQueryResult {
   final int thumbnailHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
   final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultArticle({
@@ -20934,7 +19651,7 @@ class InputInlineQueryResultAudio extends a.InputInlineQueryResult {
   final int audioDuration;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageAudio, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageAudio, InputMessageLocation, InputMessageVenue or InputMessageContact
   final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultAudio({
@@ -21003,7 +19720,7 @@ class InputInlineQueryResultContact extends a.InputInlineQueryResult {
   final int thumbnailHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
   final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultContact({
@@ -21078,7 +19795,7 @@ class InputInlineQueryResultDocument extends a.InputInlineQueryResult {
   final int thumbnailHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageDocument, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageDocument, InputMessageLocation, InputMessageVenue or InputMessageContact
   final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultDocument({
@@ -21208,7 +19925,7 @@ class InputInlineQueryResultLocation extends a.InputInlineQueryResult {
   final int thumbnailHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
   final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultLocation({
@@ -21289,7 +20006,7 @@ class InputInlineQueryResultPhoto extends a.InputInlineQueryResult {
   final int photoHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessagePhoto, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessagePhoto, InputMessageLocation, InputMessageVenue or InputMessageContact
   final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultPhoto({
@@ -21366,7 +20083,7 @@ class InputInlineQueryResultSticker extends a.InputInlineQueryResult {
   final int stickerHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageSticker, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: InputMessageText, inputMessageSticker, InputMessageLocation, InputMessageVenue or InputMessageContact
   final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultSticker({
@@ -21435,7 +20152,7 @@ class InputInlineQueryResultVenue extends a.InputInlineQueryResult {
   final int thumbnailHeight;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageLocation, InputMessageVenue or InputMessageContact
   final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultVenue({
@@ -21512,7 +20229,7 @@ class InputInlineQueryResultVideo extends a.InputInlineQueryResult {
   final int videoDuration;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVideo, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVideo, InputMessageLocation, InputMessageVenue or InputMessageContact
   final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultVideo({
@@ -21595,7 +20312,7 @@ class InputInlineQueryResultVoiceNote extends a.InputInlineQueryResult {
   final int voiceNoteDuration;
   /// The message reply markup. Must be of type replyMarkupInlineKeyboard or null
   final a.ReplyMarkup? replyMarkup;
-  /// The content of the message to be sent. Must be one of the following types: inputMessageText, inputMessageVoiceNote, inputMessageInvoice, inputMessageLocation, inputMessageVenue or inputMessageContact
+  /// The content of the message to be sent. Must be one of the following types: InputMessageText, InputMessageVoiceNote, InputMessageLocation, InputMessageVenue or InputMessageContact
   final a.InputMessageContent? inputMessageContent;
 
   InputInlineQueryResultVoiceNote({
@@ -22724,39 +21441,6 @@ class ChatEventMemberJoined extends a.ChatEventAction {
   );
 }
 
-/// A new member joined the chat by an invite link
-class ChatEventMemberJoinedByInviteLink extends a.ChatEventAction {
-  /// Invite link used to join the chat
-  final ChatInviteLink? inviteLink;
-
-  ChatEventMemberJoinedByInviteLink({
-    required this.inviteLink,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatEventMemberJoinedByInviteLink(';
-
-    // Params
-    final params = <String>[];
-    params.add(inviteLink.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatEventMemberJoinedByInviteLink',
-    'invite_link': inviteLink?.toJson(),
-  };
-
-  factory ChatEventMemberJoinedByInviteLink.fromJson(Map<String, dynamic> json) => ChatEventMemberJoinedByInviteLink(
-    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
-  );
-}
-
 /// A member left the chat
 class ChatEventMemberLeft extends a.ChatEventAction {
   ChatEventMemberLeft();
@@ -22823,7 +21507,7 @@ class ChatEventMemberInvited extends a.ChatEventAction {
 
 /// A chat member has gained/lost administrator status, or the list of their administrator privileges has changed
 class ChatEventMemberPromoted extends a.ChatEventAction {
-  /// Affected chat member user identifier
+  /// Chat member user identifier
   final int userId;
   /// Previous status of the chat member
   final a.ChatMemberStatus? oldStatus;
@@ -22868,15 +21552,15 @@ class ChatEventMemberPromoted extends a.ChatEventAction {
 
 /// A chat member was restricted/unrestricted or banned/unbanned, or the list of their restrictions has changed
 class ChatEventMemberRestricted extends a.ChatEventAction {
-  /// Affected chat member identifier
-  final a.MessageSender? memberId;
+  /// Chat member user identifier
+  final int userId;
   /// Previous status of the chat member
   final a.ChatMemberStatus? oldStatus;
   /// New status of the chat member
   final a.ChatMemberStatus? newStatus;
 
   ChatEventMemberRestricted({
-    required this.memberId,
+    required this.userId,
     required this.oldStatus,
     required this.newStatus,
   });
@@ -22887,7 +21571,7 @@ class ChatEventMemberRestricted extends a.ChatEventAction {
 
     // Params
     final params = <String>[];
-    params.add(memberId.toString());
+    params.add(userId.toString());
     params.add(oldStatus.toString());
     params.add(newStatus.toString());
     s += params.join(', ');
@@ -22899,13 +21583,13 @@ class ChatEventMemberRestricted extends a.ChatEventAction {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatEventMemberRestricted',
-    'member_id': memberId?.toJson(),
+    'user_id': userId,
     'old_status': oldStatus?.toJson(),
     'new_status': newStatus?.toJson(),
   };
 
   factory ChatEventMemberRestricted.fromJson(Map<String, dynamic> json) => ChatEventMemberRestricted(
-    memberId: b.TdBase.fromJson(json['member_id']) as a.MessageSender?,
+    userId: (json['user_id'] as int?) ?? 0,
     oldStatus: b.TdBase.fromJson(json['old_status']) as a.ChatMemberStatus?,
     newStatus: b.TdBase.fromJson(json['new_status']) as a.ChatMemberStatus?,
   );
@@ -23217,45 +21901,6 @@ class ChatEventSlowModeDelayChanged extends a.ChatEventAction {
   );
 }
 
-/// The message TTL setting was changed
-class ChatEventMessageTtlSettingChanged extends a.ChatEventAction {
-  /// Previous value of message_ttl_setting
-  final int oldMessageTtlSetting;
-  /// New value of message_ttl_setting
-  final int newMessageTtlSetting;
-
-  ChatEventMessageTtlSettingChanged({
-    required this.oldMessageTtlSetting,
-    required this.newMessageTtlSetting,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatEventMessageTtlSettingChanged(';
-
-    // Params
-    final params = <String>[];
-    params.add(oldMessageTtlSetting.toString());
-    params.add(newMessageTtlSetting.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatEventMessageTtlSettingChanged',
-    'old_message_ttl_setting': oldMessageTtlSetting,
-    'new_message_ttl_setting': newMessageTtlSetting,
-  };
-
-  factory ChatEventMessageTtlSettingChanged.fromJson(Map<String, dynamic> json) => ChatEventMessageTtlSettingChanged(
-    oldMessageTtlSetting: (json['old_message_ttl_setting'] as int?) ?? 0,
-    newMessageTtlSetting: (json['new_message_ttl_setting'] as int?) ?? 0,
-  );
-}
-
 /// The sign_messages setting of a channel was toggled
 class ChatEventSignMessagesToggled extends a.ChatEventAction {
   /// New value of sign_messages
@@ -23400,288 +22045,6 @@ class ChatEventIsAllHistoryAvailableToggled extends a.ChatEventAction {
   );
 }
 
-/// A chat invite link was edited
-class ChatEventInviteLinkEdited extends a.ChatEventAction {
-  /// Previous information about the invite link
-  final ChatInviteLink? oldInviteLink;
-  /// New information about the invite link
-  final ChatInviteLink? newInviteLink;
-
-  ChatEventInviteLinkEdited({
-    required this.oldInviteLink,
-    required this.newInviteLink,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatEventInviteLinkEdited(';
-
-    // Params
-    final params = <String>[];
-    params.add(oldInviteLink.toString());
-    params.add(newInviteLink.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatEventInviteLinkEdited',
-    'old_invite_link': oldInviteLink?.toJson(),
-    'new_invite_link': newInviteLink?.toJson(),
-  };
-
-  factory ChatEventInviteLinkEdited.fromJson(Map<String, dynamic> json) => ChatEventInviteLinkEdited(
-    oldInviteLink: b.TdBase.fromJson(json['old_invite_link']) as ChatInviteLink?,
-    newInviteLink: b.TdBase.fromJson(json['new_invite_link']) as ChatInviteLink?,
-  );
-}
-
-/// A chat invite link was revoked
-class ChatEventInviteLinkRevoked extends a.ChatEventAction {
-  /// The invite link
-  final ChatInviteLink? inviteLink;
-
-  ChatEventInviteLinkRevoked({
-    required this.inviteLink,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatEventInviteLinkRevoked(';
-
-    // Params
-    final params = <String>[];
-    params.add(inviteLink.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatEventInviteLinkRevoked',
-    'invite_link': inviteLink?.toJson(),
-  };
-
-  factory ChatEventInviteLinkRevoked.fromJson(Map<String, dynamic> json) => ChatEventInviteLinkRevoked(
-    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
-  );
-}
-
-/// A revoked chat invite link was deleted
-class ChatEventInviteLinkDeleted extends a.ChatEventAction {
-  /// The invite link
-  final ChatInviteLink? inviteLink;
-
-  ChatEventInviteLinkDeleted({
-    required this.inviteLink,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatEventInviteLinkDeleted(';
-
-    // Params
-    final params = <String>[];
-    params.add(inviteLink.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatEventInviteLinkDeleted',
-    'invite_link': inviteLink?.toJson(),
-  };
-
-  factory ChatEventInviteLinkDeleted.fromJson(Map<String, dynamic> json) => ChatEventInviteLinkDeleted(
-    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
-  );
-}
-
-/// A voice chat was created
-class ChatEventVoiceChatCreated extends a.ChatEventAction {
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
-  final int groupCallId;
-
-  ChatEventVoiceChatCreated({
-    required this.groupCallId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatEventVoiceChatCreated(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatEventVoiceChatCreated',
-    'group_call_id': groupCallId,
-  };
-
-  factory ChatEventVoiceChatCreated.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatCreated(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-  );
-}
-
-/// A voice chat was discarded
-class ChatEventVoiceChatDiscarded extends a.ChatEventAction {
-  /// Identifier of the voice chat. The voice chat can be received through the method getGroupCall
-  final int groupCallId;
-
-  ChatEventVoiceChatDiscarded({
-    required this.groupCallId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatEventVoiceChatDiscarded(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatEventVoiceChatDiscarded',
-    'group_call_id': groupCallId,
-  };
-
-  factory ChatEventVoiceChatDiscarded.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatDiscarded(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-  );
-}
-
-/// A voice chat participant was muted or unmuted
-class ChatEventVoiceChatParticipantIsMutedToggled extends a.ChatEventAction {
-  /// Identifier of the affected group call participant
-  final a.MessageSender? participantId;
-  /// New value of is_muted
-  final bool isMuted;
-
-  ChatEventVoiceChatParticipantIsMutedToggled({
-    required this.participantId,
-    required this.isMuted,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatEventVoiceChatParticipantIsMutedToggled(';
-
-    // Params
-    final params = <String>[];
-    params.add(participantId.toString());
-    params.add(isMuted.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatEventVoiceChatParticipantIsMutedToggled',
-    'participant_id': participantId?.toJson(),
-    'is_muted': isMuted,
-  };
-
-  factory ChatEventVoiceChatParticipantIsMutedToggled.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatParticipantIsMutedToggled(
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    isMuted: (json['is_muted'] as bool?) ?? false,
-  );
-}
-
-/// A voice chat participant volume level was changed
-class ChatEventVoiceChatParticipantVolumeLevelChanged extends a.ChatEventAction {
-  /// Identifier of the affected group call participant
-  final a.MessageSender? participantId;
-  /// New value of volume_level; 1-20000 in hundreds of percents
-  final int volumeLevel;
-
-  ChatEventVoiceChatParticipantVolumeLevelChanged({
-    required this.participantId,
-    required this.volumeLevel,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatEventVoiceChatParticipantVolumeLevelChanged(';
-
-    // Params
-    final params = <String>[];
-    params.add(participantId.toString());
-    params.add(volumeLevel.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatEventVoiceChatParticipantVolumeLevelChanged',
-    'participant_id': participantId?.toJson(),
-    'volume_level': volumeLevel,
-  };
-
-  factory ChatEventVoiceChatParticipantVolumeLevelChanged.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatParticipantVolumeLevelChanged(
-    participantId: b.TdBase.fromJson(json['participant_id']) as a.MessageSender?,
-    volumeLevel: (json['volume_level'] as int?) ?? 0,
-  );
-}
-
-/// The mute_new_participants setting of a voice chat was toggled
-class ChatEventVoiceChatMuteNewParticipantsToggled extends a.ChatEventAction {
-  /// New value of the mute_new_participants setting
-  final bool muteNewParticipants;
-
-  ChatEventVoiceChatMuteNewParticipantsToggled({
-    required this.muteNewParticipants,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::ChatEventVoiceChatMuteNewParticipantsToggled(';
-
-    // Params
-    final params = <String>[];
-    params.add(muteNewParticipants.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatEventVoiceChatMuteNewParticipantsToggled',
-    'mute_new_participants': muteNewParticipants,
-  };
-
-  factory ChatEventVoiceChatMuteNewParticipantsToggled.fromJson(Map<String, dynamic> json) => ChatEventVoiceChatMuteNewParticipantsToggled(
-    muteNewParticipants: (json['mute_new_participants'] as bool?) ?? false,
-  );
-}
-
 /// Represents a chat event
 class ChatEvent extends a.ChatEvent {
   /// Chat event identifier
@@ -23788,10 +22151,6 @@ class ChatEventLogFilters extends a.ChatEventLogFilters {
   final bool infoChanges;
   /// True, if changes in chat settings should be returned
   final bool settingChanges;
-  /// True, if changes to invite links should be returned
-  final bool inviteLinkChanges;
-  /// True, if voice chat actions should be returned
-  final bool voiceChatChanges;
 
   ChatEventLogFilters({
     required this.messageEdits,
@@ -23804,8 +22163,6 @@ class ChatEventLogFilters extends a.ChatEventLogFilters {
     required this.memberRestrictions,
     required this.infoChanges,
     required this.settingChanges,
-    required this.inviteLinkChanges,
-    required this.voiceChatChanges,
   });
 
   @override
@@ -23824,8 +22181,6 @@ class ChatEventLogFilters extends a.ChatEventLogFilters {
     params.add(memberRestrictions.toString());
     params.add(infoChanges.toString());
     params.add(settingChanges.toString());
-    params.add(inviteLinkChanges.toString());
-    params.add(voiceChatChanges.toString());
     s += params.join(', ');
 
     s += ')';
@@ -23845,8 +22200,6 @@ class ChatEventLogFilters extends a.ChatEventLogFilters {
     'member_restrictions': memberRestrictions,
     'info_changes': infoChanges,
     'setting_changes': settingChanges,
-    'invite_link_changes': inviteLinkChanges,
-    'voice_chat_changes': voiceChatChanges,
   };
 
   factory ChatEventLogFilters.fromJson(Map<String, dynamic> json) => ChatEventLogFilters(
@@ -23860,8 +22213,6 @@ class ChatEventLogFilters extends a.ChatEventLogFilters {
     memberRestrictions: (json['member_restrictions'] as bool?) ?? false,
     infoChanges: (json['info_changes'] as bool?) ?? false,
     settingChanges: (json['setting_changes'] as bool?) ?? false,
-    inviteLinkChanges: (json['invite_link_changes'] as bool?) ?? false,
-    voiceChatChanges: (json['voice_chat_changes'] as bool?) ?? false,
   );
 }
 
@@ -24749,7 +23100,7 @@ class BackgroundTypeWallpaper extends a.BackgroundType {
 class BackgroundTypePattern extends a.BackgroundType {
   /// Description of the background fill
   final a.BackgroundFill? fill;
-  /// Intensity of the pattern when it is shown above the filled background; 0-100
+  /// Intensity of the pattern when it is shown above the filled background, 0-100
   final int intensity;
   /// True, if the background needs to be slightly moved when device is tilted
   final bool isMoving;
@@ -25256,97 +23607,6 @@ class CheckChatUsernameResultPublicGroupsUnavailable extends a.CheckChatUsername
   };
 
   factory CheckChatUsernameResultPublicGroupsUnavailable.fromJson(Map<String, dynamic> json) => CheckChatUsernameResultPublicGroupsUnavailable(
-  );
-}
-
-/// The messages was exported from a private chat
-class MessageFileTypePrivate extends a.MessageFileType {
-  /// Name of the other party; may be empty if unrecognized
-  final String name;
-
-  MessageFileTypePrivate({
-    required this.name,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::MessageFileTypePrivate(';
-
-    // Params
-    final params = <String>[];
-    params.add(name.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'messageFileTypePrivate',
-    'name': name,
-  };
-
-  factory MessageFileTypePrivate.fromJson(Map<String, dynamic> json) => MessageFileTypePrivate(
-    name: (json['name'] as String?) ?? '',
-  );
-}
-
-/// The messages was exported from a group chat
-class MessageFileTypeGroup extends a.MessageFileType {
-  /// Title of the group chat; may be empty if unrecognized
-  final String title;
-
-  MessageFileTypeGroup({
-    required this.title,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::MessageFileTypeGroup(';
-
-    // Params
-    final params = <String>[];
-    params.add(title.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'messageFileTypeGroup',
-    'title': title,
-  };
-
-  factory MessageFileTypeGroup.fromJson(Map<String, dynamic> json) => MessageFileTypeGroup(
-    title: (json['title'] as String?) ?? '',
-  );
-}
-
-/// The messages was exported from a chat of unknown type
-class MessageFileTypeUnknown extends a.MessageFileType {
-  MessageFileTypeUnknown();
-
-  @override
-  String toString() {
-    var s = 'td::MessageFileTypeUnknown(';
-
-    // Params
-    final params = <String>[];
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'messageFileTypeUnknown',
-  };
-
-  factory MessageFileTypeUnknown.fromJson(Map<String, dynamic> json) => MessageFileTypeUnknown(
   );
 }
 
@@ -27975,34 +26235,14 @@ class ChatReportReasonUnrelatedLocation extends a.ChatReportReason {
   );
 }
 
-/// The chat represents a fake account
-class ChatReportReasonFake extends a.ChatReportReason {
-  ChatReportReasonFake();
-
-  @override
-  String toString() {
-    var s = 'td::ChatReportReasonFake(';
-
-    // Params
-    final params = <String>[];
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'chatReportReasonFake',
-  };
-
-  factory ChatReportReasonFake.fromJson(Map<String, dynamic> json) => ChatReportReasonFake(
-  );
-}
-
 /// A custom reason provided by the user
 class ChatReportReasonCustom extends a.ChatReportReason {
-  ChatReportReasonCustom();
+  /// Report text
+  final String text;
+
+  ChatReportReasonCustom({
+    required this.text,
+  });
 
   @override
   String toString() {
@@ -28010,6 +26250,7 @@ class ChatReportReasonCustom extends a.ChatReportReason {
 
     // Params
     final params = <String>[];
+    params.add(text.toString());
     s += params.join(', ');
 
     s += ')';
@@ -28019,9 +26260,11 @@ class ChatReportReasonCustom extends a.ChatReportReason {
   @override
   Map<String, dynamic> toJson() => {
     '@type': 'chatReportReasonCustom',
+    'text': text,
   };
 
   factory ChatReportReasonCustom.fromJson(Map<String, dynamic> json) => ChatReportReasonCustom(
+    text: (json['text'] as String?) ?? '',
   );
 }
 
@@ -29725,64 +27968,6 @@ class SuggestedActionCheckPhoneNumber extends a.SuggestedAction {
   );
 }
 
-/// Suggests the user to see a hint about meaning of one and two ticks on sent message
-class SuggestedActionSeeTicksHint extends a.SuggestedAction {
-  SuggestedActionSeeTicksHint();
-
-  @override
-  String toString() {
-    var s = 'td::SuggestedActionSeeTicksHint(';
-
-    // Params
-    final params = <String>[];
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'suggestedActionSeeTicksHint',
-  };
-
-  factory SuggestedActionSeeTicksHint.fromJson(Map<String, dynamic> json) => SuggestedActionSeeTicksHint(
-  );
-}
-
-/// Suggests the user to convert specified supergroup to a broadcast group
-class SuggestedActionConvertToBroadcastGroup extends a.SuggestedAction {
-  /// Supergroup identifier
-  final int supergroupId;
-
-  SuggestedActionConvertToBroadcastGroup({
-    required this.supergroupId,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::SuggestedActionConvertToBroadcastGroup(';
-
-    // Params
-    final params = <String>[];
-    params.add(supergroupId.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'suggestedActionConvertToBroadcastGroup',
-    'supergroup_id': supergroupId,
-  };
-
-  factory SuggestedActionConvertToBroadcastGroup.fromJson(Map<String, dynamic> json) => SuggestedActionConvertToBroadcastGroup(
-    supergroupId: (json['supergroup_id'] as int?) ?? 0,
-  );
-}
-
 /// Contains a counter
 class Count extends a.Count {
   /// Count
@@ -30918,123 +29103,6 @@ class MessageStatistics extends a.MessageStatistics {
   );
 }
 
-/// A point on a Cartesian plane
-class Point extends a.Point {
-  /// The point's first coordinate
-  final double x;
-  /// The point's second coordinate
-  final double y;
-
-  Point({
-    required this.x,
-    required this.y,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::Point(';
-
-    // Params
-    final params = <String>[];
-    params.add(x.toString());
-    params.add(y.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'point',
-    'x': x,
-    'y': y,
-  };
-
-  factory Point.fromJson(Map<String, dynamic> json) => Point(
-    x: (json['x'] as double?) ?? 0,
-    y: (json['y'] as double?) ?? 0,
-  );
-}
-
-/// A straight line to a given point
-class VectorPathCommandLine extends a.VectorPathCommand {
-  /// The end point of the straight line
-  final Point? endPoint;
-
-  VectorPathCommandLine({
-    required this.endPoint,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::VectorPathCommandLine(';
-
-    // Params
-    final params = <String>[];
-    params.add(endPoint.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'vectorPathCommandLine',
-    'end_point': endPoint?.toJson(),
-  };
-
-  factory VectorPathCommandLine.fromJson(Map<String, dynamic> json) => VectorPathCommandLine(
-    endPoint: b.TdBase.fromJson(json['end_point']) as Point?,
-  );
-}
-
-/// A cubic Bézier curve to a given point
-class VectorPathCommandCubicBezierCurve extends a.VectorPathCommand {
-  /// The start control point of the curve
-  final Point? startControlPoint;
-  /// The end control point of the curve
-  final Point? endControlPoint;
-  /// The end point of the curve
-  final Point? endPoint;
-
-  VectorPathCommandCubicBezierCurve({
-    required this.startControlPoint,
-    required this.endControlPoint,
-    required this.endPoint,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::VectorPathCommandCubicBezierCurve(';
-
-    // Params
-    final params = <String>[];
-    params.add(startControlPoint.toString());
-    params.add(endControlPoint.toString());
-    params.add(endPoint.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'vectorPathCommandCubicBezierCurve',
-    'start_control_point': startControlPoint?.toJson(),
-    'end_control_point': endControlPoint?.toJson(),
-    'end_point': endPoint?.toJson(),
-  };
-
-  factory VectorPathCommandCubicBezierCurve.fromJson(Map<String, dynamic> json) => VectorPathCommandCubicBezierCurve(
-    startControlPoint: b.TdBase.fromJson(json['start_control_point']) as Point?,
-    endControlPoint: b.TdBase.fromJson(json['end_control_point']) as Point?,
-    endPoint: b.TdBase.fromJson(json['end_point']) as Point?,
-  );
-}
-
 /// The user authorization state has changed
 class UpdateAuthorizationState extends a.Update {
   /// New authorization state
@@ -31890,45 +29958,6 @@ class UpdateChatHasScheduledMessages extends a.Update {
   );
 }
 
-/// A chat voice chat state has changed
-class UpdateChatVoiceChat extends a.Update {
-  /// Chat identifier
-  final int chatId;
-  /// New value of voice_chat
-  final VoiceChat? voiceChat;
-
-  UpdateChatVoiceChat({
-    required this.chatId,
-    required this.voiceChat,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::UpdateChatVoiceChat(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(voiceChat.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'updateChatVoiceChat',
-    'chat_id': chatId,
-    'voice_chat': voiceChat?.toJson(),
-  };
-
-  factory UpdateChatVoiceChat.fromJson(Map<String, dynamic> json) => UpdateChatVoiceChat(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    voiceChat: b.TdBase.fromJson(json['voice_chat']) as VoiceChat?,
-  );
-}
-
 /// The value of the default disable_notification parameter, used when a message is sent to the chat, was changed
 class UpdateChatDefaultDisableNotification extends a.Update {
   /// Chat identifier
@@ -32166,45 +30195,6 @@ class UpdateScopeNotificationSettings extends a.Update {
   factory UpdateScopeNotificationSettings.fromJson(Map<String, dynamic> json) => UpdateScopeNotificationSettings(
     scope: b.TdBase.fromJson(json['scope']) as a.NotificationSettingsScope?,
     notificationSettings: b.TdBase.fromJson(json['notification_settings']) as ScopeNotificationSettings?,
-  );
-}
-
-/// The message Time To Live setting for a chat was changed
-class UpdateChatMessageTtlSetting extends a.Update {
-  /// Chat identifier
-  final int chatId;
-  /// New value of message_ttl_setting
-  final int messageTtlSetting;
-
-  UpdateChatMessageTtlSetting({
-    required this.chatId,
-    required this.messageTtlSetting,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::UpdateChatMessageTtlSetting(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(messageTtlSetting.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'updateChatMessageTtlSetting',
-    'chat_id': chatId,
-    'message_ttl_setting': messageTtlSetting,
-  };
-
-  factory UpdateChatMessageTtlSetting.fromJson(Map<String, dynamic> json) => UpdateChatMessageTtlSetting(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    messageTtlSetting: (json['message_ttl_setting'] as int?) ?? 0,
   );
 }
 
@@ -33168,78 +31158,6 @@ class UpdateCall extends a.Update {
   );
 }
 
-/// Information about a group call was updated
-class UpdateGroupCall extends a.Update {
-  /// New data about a group call
-  final GroupCall? groupCall;
-
-  UpdateGroupCall({
-    required this.groupCall,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::UpdateGroupCall(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCall.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'updateGroupCall',
-    'group_call': groupCall?.toJson(),
-  };
-
-  factory UpdateGroupCall.fromJson(Map<String, dynamic> json) => UpdateGroupCall(
-    groupCall: b.TdBase.fromJson(json['group_call']) as GroupCall?,
-  );
-}
-
-/// Information about a group call participant was changed. The updates are sent only after the group call is received through getGroupCall and only if the call is joined or being joined
-class UpdateGroupCallParticipant extends a.Update {
-  /// Identifier of group call
-  final int groupCallId;
-  /// New data about a participant
-  final GroupCallParticipant? participant;
-
-  UpdateGroupCallParticipant({
-    required this.groupCallId,
-    required this.participant,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::UpdateGroupCallParticipant(';
-
-    // Params
-    final params = <String>[];
-    params.add(groupCallId.toString());
-    params.add(participant.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'updateGroupCallParticipant',
-    'group_call_id': groupCallId,
-    'participant': participant?.toJson(),
-  };
-
-  factory UpdateGroupCallParticipant.fromJson(Map<String, dynamic> json) => UpdateGroupCallParticipant(
-    groupCallId: (json['group_call_id'] as int?) ?? 0,
-    participant: b.TdBase.fromJson(json['participant']) as GroupCallParticipant?,
-  );
-}
-
 /// New call signaling data arrived
 class UpdateNewCallSignalingData extends a.Update {
   /// The call identifier
@@ -33983,8 +31901,6 @@ class UpdateNewInlineQuery extends a.Update {
   final int senderUserId;
   /// User location; may be null
   final Location? userLocation;
-  /// Contains information about the type of the chat, from which the query originated; may be null if unknown
-  final a.ChatType? chatType;
   /// Text of the query
   final String query;
   /// Offset of the first entry to return
@@ -33994,7 +31910,6 @@ class UpdateNewInlineQuery extends a.Update {
     required this.id,
     required this.senderUserId,
     required this.userLocation,
-    required this.chatType,
     required this.query,
     required this.offset,
   });
@@ -34008,7 +31923,6 @@ class UpdateNewInlineQuery extends a.Update {
     params.add(id.toString());
     params.add(senderUserId.toString());
     params.add(userLocation.toString());
-    params.add(chatType.toString());
     params.add(query.toString());
     params.add(offset.toString());
     s += params.join(', ');
@@ -34023,7 +31937,6 @@ class UpdateNewInlineQuery extends a.Update {
     'id': id.toString(),
     'sender_user_id': senderUserId,
     'user_location': userLocation?.toJson(),
-    'chat_type': chatType?.toJson(),
     'query': query,
     'offset': offset,
   };
@@ -34032,7 +31945,6 @@ class UpdateNewInlineQuery extends a.Update {
     id: int.parse(json['id'] ?? '0'),
     senderUserId: (json['sender_user_id'] as int?) ?? 0,
     userLocation: b.TdBase.fromJson(json['user_location']) as Location?,
-    chatType: b.TdBase.fromJson(json['chat_type']) as a.ChatType?,
     query: (json['query'] as String?) ?? '',
     offset: (json['offset'] as String?) ?? '',
   );
@@ -34274,7 +32186,7 @@ class UpdateNewPreCheckoutQuery extends a.Update {
   final int senderUserId;
   /// Currency for the product price
   final String currency;
-  /// Total price for the product, in the smallest units of the currency
+  /// Total price for the product, in the minimal quantity of the currency
   final int totalAmount;
   /// Invoice payload
   final Uint8List invoicePayload;
@@ -34488,69 +32400,6 @@ class UpdatePollAnswer extends a.Update {
     pollId: int.parse(json['poll_id'] ?? '0'),
     userId: (json['user_id'] as int?) ?? 0,
     optionIds: json['option_ids'] == null ? <int>[] : (json['option_ids'] as List<dynamic>).map((e) => ((e as int?) ?? 0)).toList(growable: false),
-  );
-}
-
-/// User rights changed in a chat; for bots only
-class UpdateChatMember extends a.Update {
-  /// Chat identifier
-  final int chatId;
-  /// Identifier of the user, changing the rights
-  final int actorUserId;
-  /// Point in time (Unix timestamp) when the user rights was changed
-  final int date;
-  /// If user has joined the chat using an invite link, the invite link; may be null
-  final ChatInviteLink? inviteLink;
-  /// Previous chat member
-  final ChatMember? oldChatMember;
-  /// New chat member
-  final ChatMember? newChatMember;
-
-  UpdateChatMember({
-    required this.chatId,
-    required this.actorUserId,
-    required this.date,
-    required this.inviteLink,
-    required this.oldChatMember,
-    required this.newChatMember,
-  });
-
-  @override
-  String toString() {
-    var s = 'td::UpdateChatMember(';
-
-    // Params
-    final params = <String>[];
-    params.add(chatId.toString());
-    params.add(actorUserId.toString());
-    params.add(date.toString());
-    params.add(inviteLink.toString());
-    params.add(oldChatMember.toString());
-    params.add(newChatMember.toString());
-    s += params.join(', ');
-
-    s += ')';
-
-    return s;
-  }
-  @override
-  Map<String, dynamic> toJson() => {
-    '@type': 'updateChatMember',
-    'chat_id': chatId,
-    'actor_user_id': actorUserId,
-    'date': date,
-    'invite_link': inviteLink?.toJson(),
-    'old_chat_member': oldChatMember?.toJson(),
-    'new_chat_member': newChatMember?.toJson(),
-  };
-
-  factory UpdateChatMember.fromJson(Map<String, dynamic> json) => UpdateChatMember(
-    chatId: (json['chat_id'] as int?) ?? 0,
-    actorUserId: (json['actor_user_id'] as int?) ?? 0,
-    date: (json['date'] as int?) ?? 0,
-    inviteLink: b.TdBase.fromJson(json['invite_link']) as ChatInviteLink?,
-    oldChatMember: b.TdBase.fromJson(json['old_chat_member']) as ChatMember?,
-    newChatMember: b.TdBase.fromJson(json['new_chat_member']) as ChatMember?,
   );
 }
 
